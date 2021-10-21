@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>SoHAPPy &mdash; SoHAPPy 0.0 documentation</title>
+  <title>Python Module Index &mdash; SoHAPPy 0.0 documentation</title>
   
 
   
@@ -44,7 +44,13 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="introduction.html" /> 
+ 
+
+    <script>
+      DOCUMENTATION_OPTIONS.COLLAPSE_INDEX = true;
+    </script>
+
+
 </head>
 
 <body class="wy-body-for-nav">
@@ -58,7 +64,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> SoHAPPy
+            <a href="index.html" class="icon icon-home"> SoHAPPy
           
 
           
@@ -136,7 +142,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">SoHAPPy</a>
+          <a href="index.html">SoHAPPy</a>
         
       </nav>
 
@@ -167,16 +173,12 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>SoHAPPy</li>
+      <li>Python Module Index</li>
     
     
       <li class="wy-breadcrumbs-aside">
-        
-          
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-          
         
       </li>
     
@@ -188,109 +190,128 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
 
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
+   <h1>Python Module Index</h1>
 
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
+   <div class="modindex-jumpbox">
+   <a href="#cap-a"><strong>a</strong></a> | 
+   <a href="#cap-g"><strong>g</strong></a> | 
+   <a href="#cap-i"><strong>i</strong></a> | 
+   <a href="#cap-m"><strong>m</strong></a> | 
+   <a href="#cap-o"><strong>o</strong></a> | 
+   <a href="#cap-s"><strong>s</strong></a> | 
+   <a href="#cap-t"><strong>t</strong></a> | 
+   <a href="#cap-v"><strong>v</strong></a>
+   </div>
 
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="sohappy">
-<h1>SoHAPPy<a class="headerlink" href="#sohappy" title="Permalink to this headline">¶</a></h1>
-<p><em>Simulation of High-energy Astrophysics Process detection in Python</em></p>
-<p><cite>SoHAPPy</cite> computes the response of <a class="reference external" href="https://www.cta-observatory.org">CTA</a> to a population of astrophysical objects
--initially GRBs- described in <em>fits</em> or <em>yaml</em> files in the simplest cases.
-Each object is a set of time slices with their respective spectral model.
-The object position is assumed to be known with an uncertainty below the instrument precision.</p>
-<p><cite>SoHAPPy</cite> handles the visibility from a start (trigger) date.
-Its main output are either a summary <em>csv</em> file with the characterisitics of the detection (significance and position in the sky) and individual output files allowing a time and spectral analysis. Both output files can be analysed thanks to dedicated python notebooks.</p>
-<p>The SoHAPPy project started mid 2019.
-Check the <a class="reference external" href="https://github.com/tstolarczyk/SoHAPPy">gihub repository</a> for the latest improvements.</p>
-<div class="section" id="more-on-sohappy">
-<h2>More on SoHAPPy<a class="headerlink" href="#more-on-sohappy" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="montecarlo.html">Monte Carlo</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">Analyzing a single object</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html#dataset-plotting">Dataset plotting</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Dataset tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html#utilities">Utilities</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer.html">Todo list</a></li>
-</ul>
-</div>
-<p class="rubric">References
-[tot] toto</p>
-</div>
-<div class="section" id="producing-the-documentation">
-<h2>Producing the documentation<a class="headerlink" href="#producing-the-documentation" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>See a <a class="reference external" href="http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html">RST syntax tutorial</a></p></li>
-<li><dl class="simple">
-<dt>From the docs SOHAPPy folder, execute:</dt><dd><ul>
-<li><p>windows : .\make.bat html</p></li>
-<li><p>Linux : make html</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</div>
-</div>
+   <table class="indextable modindextable">
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-a"><td></td><td>
+       <strong>a</strong></td><td></td></tr>
+     <tr>
+       <td><img src="_static/minus.png" class="toggler"
+              id="toggle-1" style="display: none" alt="-" /></td>
+       <td>
+       <code class="xref">analysis</code></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="population_analysis.html#module-analysis.population.init"><code class="xref">analysis.population.init</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="population_analysis.html#module-analysis.population.pop_plot"><code class="xref">analysis.population.pop_plot</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="population_analysis.html#module-analysis.population.setup"><code class="xref">analysis.population.setup</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-g"><td></td><td>
+       <strong>g</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="grb.html#module-grb"><code class="xref">grb</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="grb.html#module-grb_plot"><code class="xref">grb_plot</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-i"><td></td><td>
+       <strong>i</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="irf.html#module-irf"><code class="xref">irf</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-m"><td></td><td>
+       <strong>m</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="montecarlo.html#module-mcsim"><code class="xref">mcsim</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="montecarlo.html#module-mcsim_config"><code class="xref">mcsim_config</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="montecarlo.html#module-mcsim_plot"><code class="xref">mcsim_plot</code></a></td><td>
+       <em></em></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="montecarlo.html#module-mcsim_res"><code class="xref">mcsim_res</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-o"><td></td><td>
+       <strong>o</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="time_slice.html#module-obs_slice"><code class="xref">obs_slice</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-s"><td></td><td>
+       <strong>s</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="sohappy.html#module-SoHAPPy"><code class="xref">SoHAPPy</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-t"><td></td><td>
+       <strong>t</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="time_slice.html#module-timeslot"><code class="xref">timeslot</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-v"><td></td><td>
+       <strong>v</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="visibility.html#module-visibility"><code class="xref">visibility</code></a></td><td>
+       <em></em></td></tr>
+   </table>
 
 
            </div>
            
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
 
   <hr/>
 

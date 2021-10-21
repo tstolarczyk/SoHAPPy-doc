@@ -1,0 +1,6 @@
+energy_and_time_packed
+======================
+
+.. currentmodule:: grb_plot
+
+.. autofunction:: energy_and_time_packed

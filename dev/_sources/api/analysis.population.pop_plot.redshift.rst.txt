@@ -1,0 +1,6 @@
+redshift
+========
+
+.. currentmodule:: analysis.population.pop_plot
+
+.. autofunction:: redshift

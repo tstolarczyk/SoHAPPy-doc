@@ -1,0 +1,617 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Configuration file &mdash; SoHAPPy 0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Instrument response functions" href="irf.html" />
+    <link rel="prev" title="get_delay" href="api/SoHAPPy.get_delay.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> SoHAPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#events-to-be-processed">Events to be processed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simulation-and-analysis">Simulation and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visibility">visibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#special-simulation-actions">Special simulation actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#special-output-actions">Special output actions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="montecarlo.html">Monte Carlo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">Analyzing a single object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source_analysis.html#dataset-plotting">Dataset plotting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Dataset tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#utilities">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Todo list</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SoHAPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Configuration file</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/configuration.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="configuration-file">
+<h1>Configuration file<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h1>
+<p>The following parameters are stored into the <em>config.yaml</em> file.</p>
+<div class="section" id="events-to-be-processed">
+<h2>Events to be processed<a class="headerlink" href="#events-to-be-processed" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ifirst</p></td>
+<td><p>1</p></td>
+<td><p>the first GRB file to be processed</p></td>
+</tr>
+<tr class="row-odd"><td><p>ngrb</p></td>
+<td><p>None</p></td>
+<td><div class="line-block">
+<div class="line">Number of GRB to be processed</div>
+<div class="line">If 1, special actions are taken</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="simulation-and-analysis">
+<h2>Simulation and analysis<a class="headerlink" href="#simulation-and-analysis" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>niter</p></td>
+<td><p>1</p></td>
+<td><p>Number of Monte Carlo trials</p></td>
+</tr>
+<tr class="row-odd"><td><p>method</p></td>
+<td><p>0</p></td>
+<td><p>Not used (detection method)</p></td>
+</tr>
+<tr class="row-even"><td><p>obs_point</p></td>
+<td><p>“end”</p></td>
+<td><p>Observation position in the time slice</p></td>
+</tr>
+<tr class="row-odd"><td><p>seed</p></td>
+<td><p>2021</p></td>
+<td><p>Choose ‘random-seed’ to randomize</p></td>
+</tr>
+<tr class="row-even"><td><p>do_fluctuate</p></td>
+<td><p>False</p></td>
+<td><p>Statistical fluctuations are enabled</p></td>
+</tr>
+<tr class="row-odd"><td><p>do_accelerate</p></td>
+<td><p>True</p></td>
+<td><div class="line-block">
+<div class="line">When True, the simulation is stopped if</div>
+<div class="line">none of the first trials in the limit</div>
+<div class="line">of 1 - det_level have reached the minimal</div>
+<div class="line">significance. In a simulation with 100</div>
+<div class="line">trials requesting a 3 sigma detection in</div>
+<div class="line">90% of the iterations, the simulation will</div>
+<div class="line">be stopped after 10 iterations*</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>EBLmodel</p></td>
+<td><p>“dominguez”</p></td>
+<td><div class="line-block">
+<div class="line">Extragalactic Background Light model as</div>
+<div class="line">defined in gammapy or ‘built-in’</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>arrays</p></td>
+<td><dl class="simple">
+<dt>{“North”:”FullArray”,</dt><dd><p>“South”:”FullArray”}</p>
+</dd>
+</dl>
+</td>
+<td><p>Indicate the IRF subarrays in each site</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="visibility">
+<h2>visibility<a class="headerlink" href="#visibility" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>depth</p></td>
+<td><p>3</p></td>
+<td><p>Max. number of nights</p></td>
+</tr>
+<tr class="row-odd"><td><p>skip</p></td>
+<td><p>0</p></td>
+<td><p>Number of first nights to be skipped</p></td>
+</tr>
+<tr class="row-even"><td><p>altmin</p></td>
+<td><p>24*u.deg</p></td>
+<td><p>Minimum altitude</p></td>
+</tr>
+<tr class="row-odd"><td><p>altmoon</p></td>
+<td><p>-0.25*u.deg (horizon)</p></td>
+<td><p>Moon maximum altitude</p></td>
+</tr>
+<tr class="row-even"><td><p>moondist</p></td>
+<td><p>30*u.deg</p></td>
+<td><p>Moon minimal distance</p></td>
+</tr>
+<tr class="row-odd"><td><p>moonlight</p></td>
+<td><p>0.6</p></td>
+<td><p>Moon maximum brigthness</p></td>
+</tr>
+<tr class="row-even"><td><p>dtslew</p></td>
+<td><dl class="simple">
+<dt>{“North”:30*u.s,</dt><dd><p>“South”:30*u.s}</p>
+</dd>
+</dl>
+</td>
+<td><p>Maximum slewing time delay</p></td>
+</tr>
+<tr class="row-odd"><td><p>fixslew</p></td>
+<td><p>True</p></td>
+<td><p>If False generate a random delay &lt; dtslew</p></td>
+</tr>
+<tr class="row-even"><td><p>dtswift</p></td>
+<td><p>77*u.s</p></td>
+<td><div class="line-block">
+<div class="line">Fixed SWIFT latency**:</div>
+<div class="line">- minimum : 12 s;</div>
+<div class="line">- mean value : 77 s;</div>
+<div class="line">- median : 34 s;</div>
+<div class="line">- 65% of GRBs have delays &lt; 52 s;</div>
+<div class="line">- 90% of GRBs have delays &lt; 130 s.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>fixswift</p></td>
+<td><p>True</p></td>
+<td><div class="line-block">
+<div class="line">If False, the latency is generated from</div>
+<div class="line">real data file (see below)</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>swiftfile</p></td>
+<td><div class="line-block">
+<div class="line">../input/swift/</div>
+<div class="line">Swift_delay_times.txt</div>
+</div>
+</td>
+<td><p>Swift latency file</p></td>
+</tr>
+<tr class="row-odd"><td><p>vis_cmp</p></td>
+<td><p>True</p></td>
+<td><p>If True, visibility is computed on the fly</p></td>
+</tr>
+<tr class="row-even"><td><p>vis_dir</p></td>
+<td><p>None</p></td>
+<td><p>If defined, visibility are read from folder</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="special-simulation-actions">
+<h2>Special simulation actions<a class="headerlink" href="#special-simulation-actions" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>test_prompt</p></td>
+<td><p>False</p></td>
+<td><p>If True test prompt alone (experimental)</p></td>
+</tr>
+<tr class="row-odd"><td><p>use_afterglow</p></td>
+<td><p>False</p></td>
+<td><div class="line-block">
+<div class="line">Prompt characteritics from the afterglow</div>
+<div class="line">with same id.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>signal_to_zero</p></td>
+<td><p>False</p></td>
+<td><p>Keep only background, set signal to zero</p></td>
+</tr>
+<tr class="row-odd"><td><p>fixed_zenith</p></td>
+<td><p>None</p></td>
+<td><p>If a value (“20*u.deg”) freeze zenith in IRF</p></td>
+</tr>
+<tr class="row-even"><td><p>magnify</p></td>
+<td><p>1</p></td>
+<td><p>Multiplicative factor of the flux, for tests</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>dbg</p></td>
+<td><p>0</p></td>
+<td><p>From 0 to 3, increasingly verbosy</p></td>
+</tr>
+<tr class="row-odd"><td><p>silent</p></td>
+<td><p>False</p></td>
+<td><p>If True, nothing on screen (output to log)</p></td>
+</tr>
+<tr class="row-even"><td colspan="3"><p><strong>INPUT</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>grb_dir</p></td>
+<td><p>None</p></td>
+<td><p>Folder hosting the GRB files</p></td>
+</tr>
+<tr class="row-even"><td><p>irf_dir</p></td>
+<td><p>None</p></td>
+<td><p>IRF folder (specific subfolder organisation)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="output">
+<h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>res_dir</p></td>
+<td><p>../output</p></td>
+<td><p>The output folder</p></td>
+</tr>
+<tr class="row-odd"><td><p>datafile</p></td>
+<td><p>“data.txt”</p></td>
+<td><p>Population study main output file</p></td>
+</tr>
+<tr class="row-even"><td><p>logfile</p></td>
+<td><p>“analysis.log”</p></td>
+<td><p>Text file with results, status and warning</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="special-output-actions">
+<h2>Special output actions<a class="headerlink" href="#special-output-actions" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>save_simu</p></td>
+<td><p>False</p></td>
+<td><p>Simulation saved to file for offline use</p></td>
+</tr>
+<tr class="row-odd"><td><p>save_dataset</p></td>
+<td><p>False</p></td>
+<td><p>Not implemented (save datasets)</p></td>
+</tr>
+<tr class="row-even"><td><p>save_grb</p></td>
+<td><p>False</p></td>
+<td><p>GRB class saved to disk -&gt; use grb.py main</p></td>
+</tr>
+<tr class="row-odd"><td><p>write_slices</p></td>
+<td><p>False</p></td>
+<td><p>Store detailed information on slices if True</p></td>
+</tr>
+<tr class="row-even"><td><p>remove_tarred</p></td>
+<td><p>False</p></td>
+<td><div class="line-block">
+<div class="line">Remove tarred files, otherwise keep for</div>
+<div class="line">faster access</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>(*) Note that this bias he resulting popualtion since it articiially deplete the max significance population below the minimum required (e.g. 3 sigma).</p>
+<p>(**) M. Grazia Bernardini, private communication, February 28th, 2020</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="irf.html" class="btn btn-neutral float-right" title="Instrument response functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api/SoHAPPy.get_delay.html" class="btn btn-neutral float-left" title="get_delay" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Th. Stolarczyk.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

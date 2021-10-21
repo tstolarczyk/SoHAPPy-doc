@@ -1,0 +1,814 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>grb &mdash; SoHAPPy 0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../montecarlo.html">Monte Carlo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source_analysis.html">Analyzing a single object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source_analysis.html#dataset-plotting">Dataset plotting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Dataset tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html#utilities">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Todo list</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>grb</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for grb</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the classes and tools to handle a GRB object, i.e.</span>
+<span class="sd">a collection of lightcurve bins for each of which is given an energy spectrum,</span>
+<span class="sd">and information on site location.</span>
+
+<span class="sd">Created on Tue Jan 22 11:41:34 2019</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># import yaml</span>
+<span class="c1"># from yaml import CLoader as Loader</span>
+<span class="c1">#from glob import glob</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">astropy</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span>         <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span>   <span class="nn">astropy.table</span>         <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span>   <span class="nn">astropy.io</span>            <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">from</span>   <span class="nn">astropy.time</span>          <span class="kn">import</span> <span class="n">Time</span>
+<span class="kn">from</span>   <span class="nn">astropy.coordinates</span>   <span class="kn">import</span> <span class="n">SkyCoord</span>
+<span class="kn">from</span>   <span class="nn">astropy.coordinates</span>   <span class="kn">import</span> <span class="n">AltAz</span>
+
+<span class="kn">from</span> <span class="nn">visibility</span> <span class="kn">import</span> <span class="n">Visibility</span>
+
+<span class="kn">import</span> <span class="nn">gammapy</span>
+<span class="k">if</span> <span class="n">gammapy</span><span class="o">.</span><span class="n">__version__</span> <span class="o">==</span> <span class="s2">&quot;0.17&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">Absorption</span><span class="p">,</span> <span class="n">AbsorbedSpectralModel</span>
+<span class="k">else</span><span class="p">:</span> <span class="c1">#0.18.2</span>
+    <span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">EBLAbsorptionNormSpectralModel</span>
+     
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">TemplateSpectralModel</span>
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">PointSpatialModel</span>
+
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GammaRayBurst&quot;</span><span class="p">,</span><span class="s2">&quot;GRBDummy&quot;</span><span class="p">]</span>
+
+<span class="c1">###############################################################################</span>
+<div class="viewcode-block" id="GRBDummy"><a class="viewcode-back" href="../api/grb.GRBDummy.html#grb.GRBDummy">[docs]</a><span class="k">class</span> <span class="nc">GRBDummy</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A list of obaservation times and an integrated flux at each point</span>
+<span class="sd">    Useful for slice merging tests or prototype for e.g. Fermi extrapolated</span>
+<span class="sd">    spectra.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tmin</span> <span class="o">=</span> <span class="mi">6</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="n">tmax</span> <span class="o">=</span> <span class="mi">54</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="n">nbin</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tmeas</span> <span class="o">=</span> <span class="n">tmeas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flux</span>  <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;1/(GeV cm2 s)&quot;</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">tmeas</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">suppress</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Points measured at  : &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">tmeas</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Flux                : &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+<div class="viewcode-block" id="GRBDummy.plot"><a class="viewcode-back" href="../api/grb.GRBDummy.html#grb.GRBDummy.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ax</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmeas</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">)</span></div></div>
+
+<span class="c1">###############################################################################</span>
+<div class="viewcode-block" id="GammaRayBurst"><a class="viewcode-back" href="../api/grb.GammaRayBurst.html#grb.GammaRayBurst">[docs]</a><span class="k">class</span> <span class="nc">GammaRayBurst</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store GRB properties</span>
+
+<span class="sd">    The GRB information is read from files.</span>
+<span class="sd">    A GRB is composed of several parameters among which, a name, a redshift,</span>
+<span class="sd">    a position in the sky, a visibility window, measurement points at which</span>
+<span class="sd">    an energy spectrum is given.</span>
+<span class="sd">    Each energy spectrum is given as a series of flux measurements but is then</span>
+<span class="sd">    stored as an interpolated spectrum (i.e. the energy bin width has a modest</span>
+<span class="sd">    importance).</span>
+<span class="sd">    The GRB properties like z, Eiso are generated in the population synthesis</span>
+<span class="sd">    (G. Ghirlanda) and they connect the afterglow and prompt emission together</span>
+<span class="sd">    (Other parameters like the magnetic field are independent in the two</span>
+<span class="sd">    models).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ebl_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This initializes a default GRB.</span>
+<span class="sd">        The default visibility has been put by hand for backward compatibility</span>
+<span class="sd">        with the old file format and definitions where it was assumed that the</span>
+<span class="sd">        GRB was seen without any delay. The dummy GRB is visible in North and</span>
+<span class="sd">        South (inspired form GRB 289 in Lara&#39;s 1000 GRB files)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ebl_model : string, optional</span>
+<span class="sd">            A normalized name of an EBL abosrtpion model (e.g. &quot;dominguez&quot;)</span>
+<span class="sd">            from the list available in Gammapy. The default is None.</span>
+<span class="sd">        z : Dimensionnles quantity, optional</span>
+<span class="sd">            The GRB default redshift. The default is 0*u.dimensionless_unscaled.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;dummy&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z</span>    <span class="o">=</span> <span class="n">z</span>
+
+        <span class="c1"># Initialise absorption</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ebl_model</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ebl_model</span> <span class="o">!=</span> <span class="s2">&quot;built-in&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">gammapy</span><span class="o">.</span><span class="n">__version__</span> <span class="o">==</span> <span class="s2">&quot;0.17&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eblabs</span> <span class="o">=</span> <span class="n">Absorption</span><span class="o">.</span><span class="n">read_builtin</span><span class="p">(</span><span class="n">ebl_model</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># 0.18.2</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eblabs</span> <span class="o">=</span> <span class="n">EBLAbsorptionNormSpectralModel</span><span class="o">.</span><span class="n">read_builtin</span><span class="p">(</span><span class="n">ebl_model</span><span class="p">,</span> 
+                                                                          <span class="n">redshift</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eblabs</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1">#print(&quot; EBL absorption not defined or built-in&quot;)</span>
+
+        <span class="c1"># GRB properties - Dummy default values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radec</span>    <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span><span class="o">-</span><span class="mi">15</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s1">&#39;icrs&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Eiso</span>     <span class="o">=</span> <span class="mf">0.</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Epeak</span>    <span class="o">=</span> <span class="mf">0.</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">keV</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t90</span>      <span class="o">=</span> <span class="mf">0.</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">G0H</span>      <span class="o">=</span> <span class="mf">0.</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">G0W</span>      <span class="o">=</span> <span class="mf">0.</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FluxPeak</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_le</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_he</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+
+        <span class="c1"># GRB detection positions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">site_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">]</span> <span class="c1"># Put it somewhere else !</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">site</span>      <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="s1">&#39;Roque de los Muchachos&#39;</span><span class="p">,</span>
+                          <span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="s1">&#39;Paranal&#39;</span><span class="p">}</span>
+        <span class="c1"># self.pos_site  = {&quot;North&quot;:site_xyz[&quot;CTA&quot;][&quot;North&quot;], </span>
+        <span class="c1">#                   &quot;South&quot;:site_xyz[&quot;CTA&quot;][&quot;South&quot;]}</span>
+
+        <span class="c1"># GRB alert received</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_trig</span>   <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="s1">&#39;2000-01-01 02:00:00&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s1">&#39;utc&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Flux table - Flux at a series of points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Eval</span>           <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tval</span>           <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fluxval</span>        <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;1 / (cm2 GeV s)&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Visibility (requires GRB points interavl)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span>  <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="n">Visibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;North&quot;</span><span class="p">),</span>
+                      <span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="n">Visibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">)</span>
+                                          <span class="p">}</span>
+        <span class="c1"># GRB spectral and spatial model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spectra</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Gammapy models (one per t slice)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">spatial</span> <span class="o">=</span> <span class="n">PointSpatialModel</span><span class="p">(</span><span class="n">lon_0</span><span class="o">=</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span><span class="n">lat_0</span><span class="o">=</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+
+    <span class="c1">###########################################################################</span>
+<div class="viewcode-block" id="GammaRayBurst.from_fits"><a class="viewcode-back" href="../api/grb.GammaRayBurst.html#grb.GammaRayBurst.from_fits">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_fits</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">ebl</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">newis</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">magnify</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fluxes are given for a series of (t,E) values</span>
+<span class="sd">        So far no flux is given beyond the last point.</span>
+
+<span class="sd">        The spectrum is stored as a table, TableModel, that takes as an input</span>
+<span class="sd">        a series of flux values as a function of the energy.</span>
+<span class="sd">        The model will return values interpolated in log-space with</span>
+<span class="sd">        math::`scipy.interpolate.interp1d`, returning zero for energies</span>
+<span class="sd">        outside of the limits of the provided energy array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cls : GammaRayBurst class</span>
+<span class="sd">            GammaRayBurst class instance</span>
+<span class="sd">        filename : STRING</span>
+<span class="sd">            GRB input file name</span>
+<span class="sd">        ebl : STRING, optional</span>
+<span class="sd">            The EBL absorption model considered. If ebl is &quot;built-in&quot;, uses</span>
+<span class="sd">            the absorbed specrum from the data.</span>
+<span class="sd">        magnify : float, optional</span>
+<span class="sd">            Flux multiplicative factor for tests. Default is 1</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A GammaRayBurst instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Open files and get header and data</span>
+        <span class="n">hdul</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">hdr</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+        
+        <span class="bp">cls</span> <span class="o">=</span> <span class="n">GammaRayBurst</span><span class="p">(</span><span class="n">ebl_model</span><span class="o">=</span><span class="n">ebl</span><span class="p">,</span><span class="n">z</span><span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">])</span> <span class="c1"># constructor</span>
+        
+        <span class="bp">cls</span><span class="o">.</span><span class="n">z</span>    <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span>
+        
+        <span class="bp">cls</span><span class="o">.</span><span class="n">radec</span>    <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;RA&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                                <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;DEC&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                                <span class="n">frame</span><span class="o">=</span><span class="s1">&#39;icrs&#39;</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">Eiso</span>     <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;EISO&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">Epeak</span>    <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;EPEAK&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">keV</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">t90</span>      <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;Duration&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">G0H</span>      <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;G0H&#39;</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">G0W</span>      <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;G0W&#39;</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">Fluxpeak</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;PHFLUX&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;ph.cm-2.s-1&quot;</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">gamma_le</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;LOWSP&#39;</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">gamma_he</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;HIGHSP&#39;</span><span class="p">]</span>
+
+        <span class="c1"># GRB trigger time</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">t_trig</span>   <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;GRBJD&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">day</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;jd&quot;</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span>
+
+        <span class="c1">### Energies, times and fluxes ---</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">Eval</span>     <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">,</span><span class="n">hdu</span><span class="o">=</span><span class="mi">2</span><span class="p">)[</span><span class="s2">&quot;Energies (afterglow)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">tval</span>     <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">,</span><span class="n">hdu</span><span class="o">=</span><span class="mi">3</span><span class="p">)[</span><span class="s2">&quot;Times (afterglow)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ebl</span> <span class="o">==</span> <span class="s2">&quot;built-in&quot;</span><span class="p">):</span>
+            <span class="n">flux</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">,</span><span class="n">hdu</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flux</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">,</span><span class="n">hdu</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="c1">### Visibilities --- includes tval span</span>
+        <span class="c1"># One should consider not reading the default and go directly to new</span>
+        <span class="c1"># visibilities</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">from_fits</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hdr</span><span class="p">,</span> <span class="n">hdul</span><span class="p">,</span><span class="n">hdu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;North&quot;</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">from_fits</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hdr</span><span class="p">,</span> <span class="n">hdul</span><span class="p">,</span><span class="n">hdu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;South&quot;</span><span class="p">)</span>
+
+        <span class="c1">#flux_unit    = u.Unit(flux.meta[&quot;UNITS&quot;])/u.Unit(&quot;ph&quot;) # Removes ph</span>
+        <span class="c1"># flux_unit    = u.Unit(flux.meta[&quot;UNITS&quot;]) # Removes ph</span>
+        <span class="n">flux_unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;1/(cm2 GeV s)&quot;</span><span class="p">)</span>
+
+        <span class="n">icol_t</span>       <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">flux</span><span class="o">.</span><span class="n">colnames</span><span class="p">)</span>          <span class="c1"># column number - time</span>
+        <span class="n">jrow_E</span>       <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">flux</span><span class="p">[</span><span class="n">flux</span><span class="o">.</span><span class="n">colnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="c1"># row number</span>
+
+        <span class="c1"># Note the transposition from flux to fluxval</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">fluxval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span> <span class="p">(</span><span class="n">icol_t</span><span class="p">,</span><span class="n">jrow_E</span><span class="p">)</span> <span class="p">)</span><span class="o">*</span><span class="n">flux_unit</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">icol_t</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">jrow_E</span><span class="p">):</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">fluxval</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">magnify</span><span class="o">*</span> <span class="n">flux</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">flux_unit</span> <span class="c1"># transp!</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">tval</span><span class="p">):</span>
+            
+            <span class="c1"># Note that TableModel makes an interpolation</span>
+            <span class="c1"># Following a question on the Slack gammapy channel on</span>
+            <span class="c1"># November 27th, and the answer by Axel Donath:</span>
+            <span class="c1"># The foloowing statemetn later in the code gave an error</span>
+            <span class="c1"># (dlist_onoff is a collection of Dataset)</span>
+            <span class="c1"># dlist_onoff.write(datapath,prefix=&quot;cls&quot;,overwrite=True)</span>
+            <span class="c1"># gives:</span>
+            <span class="c1"># ...\gammapy\modeling\models\spectral.py&quot;, line 989, in to_dict</span>
+            <span class="c1"># &quot;data&quot;: self.energy.data.tolist(),</span>
+            <span class="c1"># NotImplementedError: memoryview: unsupported format &gt;f</span>
+            <span class="c1"># This error comes from the fact that the energy list as to be</span>
+            <span class="c1"># explicitely passed as a float as done below:</span>
+            <span class="c1">#    cls.Eval.astype(float)</span>
+            <span class="c1"># (A Quantity is passed as requested but the underlying numpy</span>
+            <span class="c1"># dtype is not supported by energy.data.tolist()</span>
+            
+            <span class="k">if</span> <span class="n">gammapy</span><span class="o">.</span><span class="n">__version__</span> <span class="o">==</span> <span class="s2">&quot;0.17&quot;</span><span class="p">:</span>
+                <span class="n">tab</span> <span class="o">=</span> <span class="n">TemplateSpectralModel</span><span class="p">(</span><span class="n">energy</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Eval</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span>
+                                            <span class="n">values</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fluxval</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                            <span class="n">norm</span>   <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span>
+                                            <span class="n">interp_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;values_scale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">})</span>
+                
+                <span class="k">if</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">eblabs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ebl</span> <span class="o">!=</span> <span class="s2">&quot;built-in&quot;</span><span class="p">):</span>
+                    <span class="n">model</span> <span class="o">=</span> <span class="n">AbsorbedSpectralModel</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span><span class="bp">cls</span><span class="o">.</span><span class="n">eblabs</span><span class="p">,</span><span class="bp">cls</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">model</span> <span class="o">=</span> <span class="n">tab</span>
+                    
+            <span class="k">else</span><span class="p">:</span> <span class="c1">#0.18.2</span>
+                <span class="n">tab</span> <span class="o">=</span> <span class="n">TemplateSpectralModel</span><span class="p">(</span><span class="n">energy</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Eval</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span>
+                                            <span class="n">values</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fluxval</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                            <span class="n">interp_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;values_scale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">})</span>  
+                
+                <span class="k">if</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">eblabs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ebl</span> <span class="o">!=</span> <span class="s2">&quot;built-in&quot;</span><span class="p">):</span>
+                    <span class="n">model</span> <span class="o">=</span> <span class="n">tab</span><span class="o">*</span><span class="bp">cls</span><span class="o">.</span><span class="n">eblabs</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">model</span> <span class="o">=</span> <span class="n">tab</span>
+                    
+            <span class="bp">cls</span><span class="o">.</span><span class="n">spectra</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="n">hdul</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">cls</span></div>
+    
+    <span class="c1">###########################################################################</span>
+<div class="viewcode-block" id="GammaRayBurst.from_yaml"><a class="viewcode-back" href="../api/grb.GammaRayBurst.html#grb.GammaRayBurst.from_yaml">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_yaml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ebl</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">magnify</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A GammaRayBurst instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="n">z</span>      <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="n">GammaRayBurst</span><span class="p">(</span><span class="n">ebl_model</span><span class="o">=</span><span class="n">ebl</span><span class="p">,</span><span class="n">z</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="c1"># This calls the constructor</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="n">name</span>     <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">radec</span>    <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;ra&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;dec&quot;</span><span class="p">],</span> <span class="n">frame</span><span class="o">=</span><span class="s1">&#39;icrs&#39;</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">Eiso</span>     <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Eiso&quot;</span><span class="p">])</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">Epeak</span>    <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Epeak&#39;</span><span class="p">])</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">t90</span>      <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;t90&#39;</span><span class="p">])</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">G0H</span>      <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;G0H&#39;</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">G0W</span>      <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;G0W&#39;</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">Fluxpeak</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Fluxpeak&#39;</span><span class="p">])</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">gamma_le</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gamma_le&#39;</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">gamma_he</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gamma_he&#39;</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">t_trig</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;t_trig&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;datetime&quot;</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span>
+
+        <span class="c1">### Energies, times and fluxes ---</span>
+        <span class="n">Emin</span>     <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Emin&quot;</span><span class="p">])</span>
+        <span class="n">Emax</span>     <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Emax&quot;</span><span class="p">])</span>
+        <span class="n">tmin</span>     <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;tmin&quot;</span><span class="p">])</span>
+        <span class="n">tmax</span>     <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;tmax&quot;</span><span class="p">])</span>
+        <span class="n">ntbin</span>    <span class="o">=</span>  <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ntbin&quot;</span><span class="p">]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">Eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">Emin</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">Emax</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">Emin</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">])</span><span class="o">*</span><span class="n">Emin</span><span class="o">.</span><span class="n">unit</span>
+
+        <span class="k">if</span> <span class="n">ntbin</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">tval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">tmin</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                                   <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">tmax</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                                   <span class="n">ntbin</span><span class="p">)</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># A single wtime window</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">tval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">tmin</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">tmax</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">tmin</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">])</span><span class="o">*</span><span class="n">tmin</span><span class="o">.</span><span class="n">unit</span>
+
+        <span class="n">flux_unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;1/(cm2 GeV s)&quot;</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">fluxval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">tval</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">Eval</span><span class="p">))</span> <span class="p">)</span><span class="o">*</span><span class="n">flux_unit</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">tval</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">E</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">Eval</span><span class="p">):</span>
+                <span class="n">dnde</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;K&quot;</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">E</span><span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;E0&quot;</span><span class="p">])</span><span class="o">**-</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]</span>
+                                 <span class="o">*</span><span class="p">(</span><span class="n">t</span><span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;t0&quot;</span><span class="p">])</span><span class="o">**-</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">])</span>
+                <span class="c1">#print(i,j,dnde)</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">fluxval</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">magnify</span><span class="o">*</span> <span class="n">dnde</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">flux_unit</span><span class="p">)</span>
+
+        <span class="c1">### Visibilities --- includes tval span</span>
+        <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">]:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span>  <span class="o">=</span> <span class="n">Visibility</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">loc</span><span class="p">)</span>
+            <span class="c1"># Recomputing done in the main</span>
+            <span class="c1"># cls.vis[loc].compute(debug=False)</span>
+
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">tval</span><span class="p">):</span>
+            <span class="c1"># Note that TableModel makes an interpolation</span>
+            <span class="c1"># Following a question on the Slack gammapy channel on</span>
+            <span class="c1"># November 27th, and the answer by Axel Donath:</span>
+            <span class="c1"># The foloowing statemetn later in the code gave an error</span>
+            <span class="c1"># (dlist_onoff is a collection of Dataset)</span>
+            <span class="c1"># dlist_onoff.write(datapath,prefix=&quot;cls&quot;,overwrite=True)</span>
+            <span class="c1"># gives:</span>
+            <span class="c1"># ...\gammapy\modeling\models\spectral.py&quot;, line 989, in to_dict</span>
+            <span class="c1"># &quot;data&quot;: self.energy.data.tolist(),</span>
+            <span class="c1"># NotImplementedError: memoryview: unsupported format &gt;f</span>
+            <span class="c1"># This error comes from the fact that the energy list as to be</span>
+            <span class="c1"># explicitely passed as a float as done below:</span>
+            <span class="c1">#    cls.Eval.astype(float)</span>
+            <span class="c1"># (A Quantity is passed as requested but the underlying numpy</span>
+            <span class="c1"># dtype is not supported by energy.data.tolist()</span>
+            <span class="n">tab</span> <span class="o">=</span> <span class="n">TemplateSpectralModel</span><span class="p">(</span><span class="n">energy</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">Eval</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span>
+                                          <span class="n">values</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fluxval</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                          <span class="n">interp_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;values_scale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">})</span>  
+                
+            <span class="k">if</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">eblabs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ebl</span> <span class="o">!=</span> <span class="s2">&quot;built-in&quot;</span><span class="p">):</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">tab</span><span class="o">*</span><span class="bp">cls</span><span class="o">.</span><span class="n">eblabs</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">model</span> <span class="o">=</span> <span class="n">tab</span>
+
+            <span class="bp">cls</span><span class="o">.</span><span class="n">spectra</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span></div>
+
+    <span class="c1">###########################################################################</span>
+<div class="viewcode-block" id="GammaRayBurst.read_prompt"><a class="viewcode-back" href="../api/grb.GammaRayBurst.html#grb.GammaRayBurst.read_prompt">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_prompt</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">glow</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ebl</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span><span class="p">,</span> <span class="n">magnify</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read prompt data froma file and associate it to the afterglow</span>
+<span class="sd">        information if requested (or keep the default from the constructor</span>
+<span class="sd">        otherwise)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cls : GammaRayBurst</span>
+<span class="sd">            Class intance</span>
+<span class="sd">        filename : String</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        glow : boolean, optional</span>
+<span class="sd">            If defined, the Prompt characteritics are obatined from the</span>
+<span class="sd">            afterglow with same id. The default is None.</span>
+<span class="sd">        ebl : string, optional</span>
+<span class="sd">            The name of an EBL absoprtion model in the Gammapy data.</span>
+<span class="sd">            The default is None.</span>
+<span class="sd">        z : float, optional</span>
+<span class="sd">            GRB redshift. The default is 0*u.dimensionless_unscaled.</span>
+<span class="sd">        magnify : float, optional</span>
+<span class="sd">            Flux multiplicative factor for tests. Default is 1</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        grb : GammaRayBurst</span>
+<span class="sd">            A GammaRayBurst instance</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">glow</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">grb</span> <span class="o">=</span> <span class="n">glow</span> <span class="c1"># Copy afterglow parameters</span>
+            <span class="c1">#grb.z = 0</span>
+            <span class="c1"># Flux table - Flux at a series of points</span>
+            <span class="n">grb</span><span class="o">.</span><span class="n">Eval</span>           <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span>
+            <span class="n">grb</span><span class="o">.</span><span class="n">tval</span>           <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+            <span class="n">grb</span><span class="o">.</span><span class="n">fluxval</span>        <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;1 / (cm2 GeV s)&quot;</span><span class="p">)</span>
+            <span class="n">grb</span><span class="o">.</span><span class="n">spectra</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Gammapy models (one per t slice)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">grb</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">ebl_model</span> <span class="o">=</span> <span class="n">ebl</span><span class="p">,</span><span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">)</span> <span class="c1"># This calls the constructor</span>
+
+        <span class="n">hdul</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="n">grb</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span>
+
+        <span class="c1"># Energies, times and fluxes</span>
+        <span class="n">grb</span><span class="o">.</span><span class="n">Eval</span>     <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">,</span><span class="n">hdu</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="s2">&quot;energy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span>
+        <span class="n">grb</span><span class="o">.</span><span class="n">tval</span>     <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">,</span><span class="n">hdu</span><span class="o">=</span><span class="mi">2</span><span class="p">)[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+        <span class="n">flux</span>         <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">,</span><span class="n">hdu</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">flux_unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;1/(cm2 TeV s)&quot;</span><span class="p">)</span>
+
+        <span class="n">icol_t</span>       <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">flux</span><span class="o">.</span><span class="n">colnames</span><span class="p">)</span>          <span class="c1"># column number - time</span>
+        <span class="n">jrow_E</span>       <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">flux</span><span class="p">[</span><span class="n">flux</span><span class="o">.</span><span class="n">colnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="c1"># row number</span>
+
+        <span class="c1"># Note the transposition from flux to fluxval</span>
+        <span class="n">grb</span><span class="o">.</span><span class="n">fluxval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span> <span class="p">(</span><span class="n">icol_t</span><span class="p">,</span><span class="n">jrow_E</span><span class="p">)</span> <span class="p">)</span><span class="o">*</span><span class="n">flux_unit</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">icol_t</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">jrow_E</span><span class="p">):</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">flux</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">f</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="c1"># print(i,j,f)</span>
+                    <span class="n">f</span> <span class="o">=</span><span class="mi">0</span> <span class="c1"># Correct a bug in event #172 - to be removed</span>
+                <span class="n">grb</span><span class="o">.</span><span class="n">fluxval</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">magnify</span><span class="o">*</span><span class="n">f</span><span class="o">*</span><span class="n">flux_unit</span> <span class="c1"># transp!</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">grb</span><span class="o">.</span><span class="n">tval</span><span class="p">):</span>
+            <span class="c1"># Note that TableModel makes an interpolation</span>
+            <span class="n">tab</span> <span class="o">=</span> <span class="n">TemplateSpectralModel</span><span class="p">(</span><span class="n">energy</span>  <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">Eval</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span>
+                                         <span class="n">values</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">fluxval</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                         <span class="n">norm</span>   <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span>
+                                         <span class="n">interp_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;values_scale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">})</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">grb</span><span class="o">.</span><span class="n">eblabs</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ebl</span> <span class="o">!=</span> <span class="s2">&quot;built-in&quot;</span><span class="p">):</span>
+                <span class="n">absmodel</span> <span class="o">=</span> <span class="n">AbsorbedSpectralModel</span><span class="p">(</span><span class="n">spectral_model</span> <span class="o">=</span> <span class="n">tab</span><span class="p">,</span>
+                                                 <span class="n">absorption</span>    <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">eblabs</span><span class="p">,</span>
+                                                 <span class="n">parameter</span>     <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+                <span class="n">grb</span><span class="o">.</span><span class="n">spectra</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">absmodel</span><span class="p">)</span>
+
+        <span class="n">hdul</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">grb</span></div>
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="GammaRayBurst.write"><a class="viewcode-back" href="../api/grb.GammaRayBurst.html#grb.GammaRayBurst.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+        <span class="kn">import</span> <span class="nn">pickle</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;.bin&quot;</span><span class="p">)</span>
+        <span class="n">outfile</span>  <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">outfile</span><span class="p">)</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">debug</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; GRB saved to : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="GammaRayBurst.altaz"><a class="viewcode-back" href="../api/grb.GammaRayBurst.html#grb.GammaRayBurst.altaz">[docs]</a>    <span class="k">def</span> <span class="nf">altaz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">dt</span><span class="o">=</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get altitude azimuth for the GRB at a given site at GRB time t (s)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        location : string</span>
+<span class="sd">            Either North or South</span>
+<span class="sd">        time : Quantity (time)</span>
+<span class="sd">            The time elapsed since the trigger time</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        altaz : astropy.coordinates.AltAz</span>
+<span class="sd">            The GRB poistion in the sky at the given time and site</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">astropy</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">Quantity</span><span class="p">):</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Time has to be a quantity (weird behaviour otherwise&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+            <span class="n">altaz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radec</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="n">AltAz</span><span class="p">(</span><span class="n">obstime</span>  <span class="o">=</span> <span class="n">dt</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_trig</span><span class="p">,</span>
+                                                  <span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span><span class="o">.</span><span class="n">site</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">altaz</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Printout the GRB properties &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+            <span class="n">ttrig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_trig</span><span class="o">.</span><span class="n">datetime</span>
+
+        <span class="c1"># After glow duration</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s2">&quot;==================================================================</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s2">&quot;===                             </span><span class="si">{:10s}</span><span class="s2">                     ===</span><span class="se">\n</span><span class="s2">&quot;</span>\
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s2">&quot;==================================================================</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  RA, DEC       : </span><span class="si">{:6.2f}</span><span class="s1"> </span><span class="si">{:6.2f}</span><span class="se">\n</span><span class="s1">&#39;</span>\
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radec</span><span class="o">.</span><span class="n">ra</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radec</span><span class="o">.</span><span class="n">dec</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  Redshift      : </span><span class="si">{:6.2f}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  Eiso          : </span><span class="si">{:6.2e}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Eiso</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  Epeak         : </span><span class="si">{:6.2f}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Epeak</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  t90           : </span><span class="si">{:6.2f}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t90</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  G0H / G0W     : </span><span class="si">{:6.2f}</span><span class="s1"> / </span><span class="si">{:6.2f}</span><span class="se">\n</span><span class="s1">&#39;</span> \
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">G0H</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">G0W</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  Flux peak     : </span><span class="si">{:6.2f}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Fluxpeak</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  gamma LE / HE : </span><span class="si">{:6.2f}</span><span class="s1"> / </span><span class="si">{:6.2f}</span><span class="se">\n</span><span class="s1">&#39;</span> \
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_le</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_he</span><span class="p">)</span>
+
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  t_trig        : </span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ttrig</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  Duration      : </span><span class="si">{:6.2f}</span><span class="s1"> </span><span class="si">{:10.2f}</span><span class="se">\n</span><span class="s1">&#39;</span> \
+            <span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">d</span><span class="p">),</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">))</span>
+        <span class="c1"># txt += &#39;  Bins : E, t, dt    : {:4d} {:4d} {:4d} \n&#39; \</span>
+        <span class="c1"># .format(len(self.Eval), len(self.tval), len(self.time_interval))</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="s1">&#39;  Bins : E, t   : </span><span class="si">{:4d}</span><span class="s1"> </span><span class="si">{:4d}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span> \
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Eval</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tval</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">txt</span></div>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A standalone function to read a GRB and make various tests</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">from</span>   <span class="nn">utilities</span> <span class="kn">import</span> <span class="n">Log</span>
+
+    <span class="kn">from</span> <span class="nn">SoHAPPy</span> <span class="kn">import</span> <span class="n">get_grb_fromfile</span>
+    <span class="kn">import</span> <span class="nn">grb_plot</span> <span class="k">as</span> <span class="nn">gplt</span>
+
+    <span class="n">dbg</span>      <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">ngrb</span>     <span class="o">=</span> <span class="mi">1</span> <span class="c1"># 250</span>
+    <span class="n">ifirst</span>   <span class="o">=</span> <span class="mi">343</span>
+    <span class="c1"># ifirst = [&quot;190829A&quot;]</span>
+
+    <span class="n">save_grb</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># (False) GRB saved to disk -&gt; use grb.py main</span>
+    <span class="n">res_dir</span>  <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+
+    <span class="n">log_filename</span>    <span class="o">=</span> <span class="n">res_dir</span>  <span class="o">+</span> <span class="s2">&quot;/grb.log&quot;</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">Log</span><span class="p">(</span><span class="n">name</span>  <span class="o">=</span> <span class="n">log_filename</span><span class="p">,</span><span class="n">talk</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># GRB list to be analysed</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ifirst</span><span class="p">)</span><span class="o">!=</span><span class="nb">list</span><span class="p">:</span>
+        <span class="n">grblist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ifirst</span><span class="p">,</span> <span class="n">ifirst</span> <span class="o">+</span> <span class="n">ngrb</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">grblist</span> <span class="o">=</span> <span class="n">ifirst</span>
+
+    <span class="c1">## Test dummy GRB</span>
+    <span class="c1"># grb = GammaRayBurst()</span>
+    <span class="c1"># print(grb)</span>
+    <span class="c1"># for loc in [&quot;North&quot;, &quot;South&quot;]:</span>
+    <span class="c1">#     print(grb.vis[loc].print(log=log))</span>
+
+    <span class="c1"># Loop over GRB list</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">grblist</span><span class="p">:</span>
+
+        <span class="n">grb</span> <span class="o">=</span> <span class="n">get_grb_fromfile</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">log</span><span class="o">=</span><span class="n">log</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">grb</span><span class="p">)</span>
+        <span class="n">gplt</span><span class="o">.</span><span class="n">spectra</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span><span class="n">opt</span><span class="o">=</span><span class="s2">&quot;Packed&quot;</span><span class="p">)</span>
+        <span class="n">gplt</span><span class="o">.</span><span class="n">visibility_plot</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span><span class="s2">&quot;North&quot;</span><span class="p">)</span>
+        <span class="n">gplt</span><span class="o">.</span><span class="n">visibility_plot</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span><span class="s2">&quot;South&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">save_grb</span><span class="p">):</span> <span class="n">grb</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">res_dir</span><span class="p">)</span> <span class="c1"># Save GRB if requested</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Th. Stolarczyk.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

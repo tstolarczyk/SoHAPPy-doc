@@ -1,0 +1,25 @@
+GammaRayBurst
+=============
+
+.. currentmodule:: grb
+
+.. autoclass:: GammaRayBurst
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~GammaRayBurst.altaz
+      ~GammaRayBurst.from_fits
+      ~GammaRayBurst.from_yaml
+      ~GammaRayBurst.read_prompt
+      ~GammaRayBurst.write
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: altaz
+   .. automethod:: from_fits
+   .. automethod:: from_yaml
+   .. automethod:: read_prompt
+   .. automethod:: write

@@ -1,0 +1,6 @@
+pause
+=====
+
+.. currentmodule:: mcsim_plot
+
+.. autofunction:: pause

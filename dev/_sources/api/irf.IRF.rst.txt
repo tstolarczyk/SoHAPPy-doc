@@ -1,0 +1,23 @@
+IRF
+===
+
+.. currentmodule:: irf
+
+.. autoclass:: IRF
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~IRF.containment_plot
+      ~IRF.find_best_keys
+      ~IRF.from_observation
+      ~IRF.print
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: containment_plot
+   .. automethod:: find_best_keys
+   .. automethod:: from_observation
+   .. automethod:: print

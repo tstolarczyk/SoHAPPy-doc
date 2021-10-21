@@ -1,0 +1,6 @@
+result
+======
+
+.. currentmodule:: mcsim_res
+
+.. autofunction:: result

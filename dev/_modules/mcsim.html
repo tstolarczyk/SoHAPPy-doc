@@ -1,0 +1,1034 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>mcsim &mdash; SoHAPPy 0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../montecarlo.html">Monte Carlo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source_analysis.html">Analyzing a single object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source_analysis.html#dataset-plotting">Dataset plotting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Dataset tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html#utilities">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Todo list</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>mcsim</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mcsim</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Thu Sep  5 11:22:11 2019</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
+<span class="kn">from</span> <span class="nn">regions</span> <span class="kn">import</span> <span class="n">CircleSkyRegion</span>
+
+<span class="kn">import</span> <span class="nn">mcsim_config</span> <span class="k">as</span> <span class="nn">mcf</span>
+
+<span class="kn">from</span> <span class="nn">dataset_tools</span> <span class="kn">import</span> <span class="n">check_dataset</span>
+
+<span class="c1"># Avoid deprecation Astropy warnings in gammapy.maps</span>
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">SkyModel</span>
+<span class="kn">from</span> <span class="nn">gammapy.utils.random</span> <span class="kn">import</span> <span class="n">get_random_state</span>
+<span class="kn">from</span> <span class="nn">gammapy.stats</span> <span class="kn">import</span> <span class="n">WStatCountsStatistic</span>
+<span class="kn">from</span> <span class="nn">gammapy.maps</span> <span class="kn">import</span> <span class="n">RegionNDMap</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">gammapy</span>
+
+<span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">gammapy.data</span> <span class="kn">import</span> <span class="n">Observation</span>
+
+    <span class="kn">from</span> <span class="nn">gammapy.datasets</span> <span class="kn">import</span> <span class="n">SpectrumDataset</span>
+    <span class="kn">from</span> <span class="nn">gammapy.makers</span>   <span class="kn">import</span> <span class="n">SpectrumDatasetMaker</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MonteCarlo&#39;</span><span class="p">]</span>
+
+<span class="c1">###############################################################################</span>
+<div class="viewcode-block" id="MonteCarlo"><a class="viewcode-back" href="../api/mcsim.MonteCarlo.html#mcsim.MonteCarlo">[docs]</a><span class="k">class</span> <span class="nc">MonteCarlo</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class handles a GRB simulation and analysis, either on one of the two</span>
+<span class="sd">    sites, or simultaneously on the two sites.</span>
+<span class="sd">    It requires the following additionnal modules :</span>
+<span class="sd">    - mcsim_config, that contains a certain number of analysis parameters</span>
+<span class="sd">    (e.g. detection level)</span>
+<span class="sd">    - mcsim_res : dump the results on screen and in a csv file.</span>
+<span class="sd">    - mcsim_plot : display plots related to the analysis for each event.</span>
+<span class="sd">    It makes an aperture photometry analysis of a GRB and is particulary suited</span>
+<span class="sd">    to a population studies.</span>
+<span class="sd">    The extraction of the energy spectrum is done through standalone notebooks</span>
+<span class="sd">    from the save simulation for individual GRBs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">###------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">niter</span>  <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="n">method</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                 <span class="n">debug</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                 <span class="n">fluctuate</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                 <span class="n">nosignal</span>  <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">seed</span> <span class="o">=</span> <span class="s1">&#39;random-seed&#39;</span><span class="p">,</span>
+                 <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize class members to default values</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        niter : Integer, optional</span>
+<span class="sd">            Number of Monte carlo iterations. The default is 1.</span>
+<span class="sd">        method : integer, optional</span>
+<span class="sd">            Aperture photometry if 0, energy on-off if 1. The default is 0.</span>
+<span class="sd">        debug : Boolean, optional</span>
+<span class="sd">            If True, verbosy mode. The default is 0.</span>
+<span class="sd">        fluctuate : Boolean, optional</span>
+<span class="sd">            If false, generate one simulation with no fluctuation.</span>
+<span class="sd">            The default is True.</span>
+<span class="sd">        nosignal: Boolean, optional</span>
+<span class="sd">            If True force signal to stricly zero. Default is False.</span>
+<span class="sd">        seed : String or integer, optional</span>
+<span class="sd">            The value of the seed to obtain the random state. Using a fix</span>
+<span class="sd">            number will have as consequence to have, for all GRB, the same</span>
+<span class="sd">            fluctuations generated along the trials.</span>
+<span class="sd">            This can systematically bias the fractio of iteration reaching 3</span>
+<span class="sd">            sigma in the first trials, and make the acceleration option</span>
+<span class="sd">            inoperant. It is also very dangerous if he number of iteration</span>
+<span class="sd">            is low.The default is &#39;random-seed&#39;</span>
+<span class="sd">        name : String, optional</span>
+<span class="sd">            Name of the simulation (usually related to the GRB name and the</span>
+<span class="sd">            site). The default is &quot;Unknown&quot;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dbg</span>       <span class="o">=</span> <span class="n">debug</span>
+
+        <span class="c1"># Input parameters and objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">niter</span>     <span class="o">=</span> <span class="n">niter</span>     <span class="c1"># Number of trials</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method</span>    <span class="o">=</span> <span class="n">method</span>    <span class="c1"># Analysis method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fluctuate</span> <span class="o">=</span> <span class="n">fluctuate</span> <span class="c1"># Poisson fluctuate the count numbers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nosignal</span>  <span class="o">=</span> <span class="n">nosignal</span>  <span class="c1"># Force signal count to zero</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>      <span class="o">=</span> <span class="kc">None</span>      <span class="c1"># The time slot (slices) of this simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span>      <span class="o">=</span> <span class="n">name</span>
+
+        <span class="c1"># The random state is reinitialised here and would lead to the</span>
+        <span class="c1"># same sequence for all GRB if the seed is a fixed number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rnd_state</span> <span class="o">=</span>  <span class="n">get_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="c1"># Data set list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dset_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Not a Datasets object, just my own list so far</span>
+
+        <span class="c1"># list of simulations (one per slice)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulations</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># For gammapy 0.12 compatibility</span>
+
+        <span class="c1"># Significance over simulations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_smax_list</span>  <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Slice indices to get back the time/ altaz</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smax_list</span>     <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of max. significances along trials</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_smax_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of excess counts at max. signif.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_smax_list</span>  <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of background counts at max. signif.</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_3s_list</span>    <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Slice indices ot get back the time/altaz</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_3s_list</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of excess</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_3s_list</span>    <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of background</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detect_3s</span>     <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Number of trials 3 sigma was reached</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_5s_list</span>    <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Slice indices to get back the time/altaz</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_5s_list</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of excess</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_5s_list</span>    <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of background</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detect_5s</span>     <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Number of trials 5 sigma was reached</span>
+
+        <span class="c1"># Mean sigma versus time - one value per time slice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_std</span>  <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Slice number with error or warning</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">err_slice</span>  <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># useful ?&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mctime</span> <span class="o">=</span> <span class="mf">0.00</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">err</span>    <span class="o">=</span> <span class="o">-</span><span class="mi">999</span> <span class="c1"># error code : default, simulation is not completed</span>
+
+        <span class="k">return</span>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="MonteCarlo.run"><a class="viewcode-back" href="../api/mcsim.MonteCarlo.html#mcsim.MonteCarlo.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slot</span><span class="p">,</span> <span class="n">boost</span>    <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">savedset</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="n">dump_dir</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run simulations of the current grb, for a given hemisphere.</span>
+<span class="sd">        A simulation correspond to a series of observations corresponding</span>
+<span class="sd">        to the GRB time slices.</span>
+<span class="sd">        This performs an aperure photometry analysis, and is particularly</span>
+<span class="sd">        suitable for a population analyis.</span>
+
+<span class="sd">        Compute and store :</span>
+<span class="sd">            * Significance values for all slices in the trials;</span>
+<span class="sd">            * Maximum significance reached for the GRB;</span>
+<span class="sd">            * Time of maximum siginificance, number of excess and background events;</span>
+<span class="sd">            * Time to reach 3 or 5 sigma, number of excess and background events.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        slot : Slot object</span>
+<span class="sd">            A colection of time slices to be analysed</span>
+<span class="sd">        boost : Boolen, optional</span>
+<span class="sd">            If True, skip simulations if the first are not detected.</span>
+<span class="sd">            The default is True.</span>
+<span class="sd">        savedset : Boolean, optional</span>
+<span class="sd">            If True, save the dataset to disk. The default is False.</span>
+<span class="sd">        dump_dir : String, optional</span>
+<span class="sd">            If defined, will dump information on problematic slices to a text file.</span>
+<span class="sd">            The default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">slot</span>   <span class="o">=</span> <span class="n">slot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mctime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="c1"># Starts chronometer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">err</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter</span> <span class="c1"># GRB visible, simul. ought to be complete</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">boost</span><span class="p">):</span> <span class="n">abort_test</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Abortion test not yet performed</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">abort_test</span>  <span class="o">=</span> <span class="kc">True</span>   <span class="c1"># Abortion test supposed already performed</span>
+
+        <span class="c1"># Prepare to dump the slices if requested and an anomaly was found</span>
+        <span class="k">if</span> <span class="n">dump_dir</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">fslice</span><span class="p">,</span> <span class="n">dump_name</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dump_slices</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="nb">dir</span><span class="o">=</span><span class="n">dump_dir</span><span class="p">)</span>
+            <span class="n">dump</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1">### Create list of Datasets,and get counts,one for all</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dset_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_dataset_list</span><span class="p">()</span>
+
+        <span class="c1">###############################################</span>
+        <span class="c1">### Monte Carlo iterations</span>
+        <span class="c1">###############################################</span>
+        <span class="n">sigma_sum_t</span>   <span class="o">=</span> <span class="mi">0</span>           <span class="c1"># Compute mean and std of sig for slices</span>
+        <span class="n">sigma2_sum_t</span>  <span class="o">=</span> <span class="mi">0</span>           <span class="c1">#     &quot;          &quot;</span>
+
+        <span class="n">iMC</span><span class="o">=</span><span class="mi">1</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">iMC</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">iMC</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">iMC</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">iMC</span> <span class="o">==</span><span class="mi">1</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="s2">&quot;: &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span><span class="n">iMC</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span> <span class="c1">### Aperture photometry</span>
+                <span class="p">(</span><span class="n">sigma_t</span><span class="p">,</span> <span class="n">non_t</span><span class="p">,</span> <span class="n">noff_t</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aperture_photometry</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Unrecognised analysis method&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Acummulate sum and sum**2 for mean / error in each slice</span>
+            <span class="n">sigma_sum_t</span>  <span class="o">+=</span> <span class="n">sigma_t</span>
+            <span class="n">sigma2_sum_t</span> <span class="o">+=</span> <span class="n">sigma_t</span><span class="o">**</span><span class="mi">2</span>
+
+
+            <span class="c1"># Dump slice stat if requested</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">dump_dir</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span> <span class="c1"># dump slices to track problems</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dump_slices</span><span class="p">(</span><span class="n">iMC</span>  <span class="o">=</span> <span class="n">iMC</span><span class="p">,</span>
+                                          <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">non_t</span><span class="p">,</span><span class="n">noff_t</span><span class="p">,</span><span class="n">sigma_t</span><span class="p">],</span>
+                                          <span class="n">file</span> <span class="o">=</span> <span class="n">fslice</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">dump</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span> <span class="n">dump</span><span class="o">=</span> <span class="n">status</span> <span class="c1"># If True, dump unchanged</span>
+
+            <span class="c1"># Update statistics</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fill_stat</span><span class="p">(</span><span class="n">sigma_t</span><span class="p">,</span> <span class="n">non_t</span><span class="p">,</span> <span class="n">noff_t</span><span class="p">)</span> <span class="c1"># Update stat list</span>
+
+            <span class="c1"># In case 3 signma is not reached in the first 10% of the trials</span>
+            <span class="c1"># then the 90% CL can not be reached.</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">abort_test</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+                 <span class="k">if</span> <span class="p">(</span><span class="n">iMC</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">niter</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">mcf</span><span class="o">.</span><span class="n">det_level</span><span class="p">):</span>
+                     <span class="n">abort_test</span> <span class="o">=</span> <span class="kc">True</span>
+                     <span class="c1"># If 3 sigma is not reached in the first trials,</span>
+                     <span class="c1"># the CL will not be reached - stop simulation</span>
+                     <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">detect_3s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">err</span> <span class="o">=</span> <span class="n">iMC</span>
+                         <span class="k">break</span>
+
+            <span class="n">iMC</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1"># End of MC loop</span>
+
+        <span class="c1"># Close special file for slice dumping</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dump_dir</span> <span class="o">!=</span><span class="kc">None</span><span class="p">)</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dump_slices</span><span class="p">(</span><span class="n">phase</span><span class="o">=</span> <span class="s2">&quot;close&quot;</span><span class="p">,</span>
+                             <span class="n">dump</span> <span class="o">=</span> <span class="n">dump</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">dump_name</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">fslice</span><span class="p">)</span>
+
+        <span class="c1"># Timing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mctime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mctime</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mctime</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter</span>
+
+        <span class="c1">### Mean values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span> <span class="o">=</span> <span class="n">sigma_sum_t</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">niter</span>
+        <span class="n">sigma2_mean</span>     <span class="o">=</span> <span class="n">sigma2_sum_t</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">niter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_std</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2_mean</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="MonteCarlo.aperture_photometry"><a class="viewcode-back" href="../api/mcsim.MonteCarlo.html#mcsim.MonteCarlo.aperture_photometry">[docs]</a>    <span class="k">def</span> <span class="nf">aperture_photometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform an aperture photometry simulation and analysis.</span>
+<span class="sd">        The counts are summed-up over enegy from the SpectrumDataset object</span>
+<span class="sd">        list (The SpectrumDatasetOnOff objects are not created).</span>
+<span class="sd">        The siginificance is computed under the assmption of a measured</span>
+<span class="sd">        background, i.e. with possble fluctuation.</span>
+<span class="sd">        Note that WStatCountsStatistic returns a significance with the</span>
+<span class="sd">        sign of the excess (negative excess give negative significance).</span>
+<span class="sd">        If the count number is not fluctuated, the excess can only be</span>
+<span class="sd">        positive since it is obtained from a physical flux. Excess at zero</span>
+<span class="sd">        gives a significance at zeo.</span>
+
+<span class="sd">        More on the various statistics here :</span>
+<span class="sd">            https://docs.gammapy.org/0.17/stats/fit_statistics.html</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sigma : numpy array, float</span>
+<span class="sd">            One significance per time slice</span>
+<span class="sd">        nxs : numpy array, float</span>
+<span class="sd">            One excess count per time slice</span>
+<span class="sd">        nbck : numy array, float</span>
+<span class="sd">            One background count per time slice</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">sigma_vs_time</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># nxs   = []</span>
+        <span class="c1"># nbck  = []</span>
+        <span class="n">non_vs_time</span>  <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">noff_vs_time</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">non</span>  <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">noff</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">sig</span>  <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">ns</span>   <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">nb</span>   <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># for debuging</span>
+
+        <span class="c1"># cumulate on and off counts along slices</span>
+        <span class="k">for</span> <span class="n">ds_site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dset_list</span><span class="p">:</span>
+
+            <span class="c1"># Cumulate on and off counts from potentially several sites</span>
+            <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">ds_site</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">gammapy</span><span class="o">.</span><span class="n">__version__</span> <span class="o">==</span> <span class="s2">&quot;0.17&quot;</span><span class="p">:</span>
+                    <span class="n">ns</span>   <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">npred_sig</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                    <span class="n">nb</span>   <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span> <span class="c1"># 0.18.2</span>
+                    <span class="n">ns</span>   <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                    <span class="n">nb</span>   <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">npred_background</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nosignal</span><span class="p">:</span> <span class="n">ns</span> <span class="o">=</span> <span class="mi">0</span>
+                                    
+                <span class="n">non</span>  <span class="o">+=</span> <span class="p">(</span><span class="n">ns</span><span class="o">+</span><span class="n">nb</span><span class="p">)</span>
+                <span class="n">noff</span> <span class="o">+=</span> <span class="p">(</span><span class="n">nb</span><span class="o">/</span><span class="n">mcf</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
+                
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dbg</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">header</span><span class="p">:</span> <span class="nb">print</span><span class="p">()</span>
+                    <span class="n">header</span> <span class="o">=</span> <span class="n">check_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span>
+                                           <span class="n">deeper</span>      <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                           <span class="n">masked</span>      <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                           <span class="n">show_header</span> <span class="o">=</span> <span class="n">header</span><span class="p">)</span>
+
+            <span class="c1"># Fluctuate (summed site if required)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fluctuate</span><span class="p">):</span>
+                <span class="n">non</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnd_state</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">non</span><span class="p">)</span>
+                <span class="n">noff</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnd_state</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">noff</span><span class="p">)</span>
+
+            <span class="c1"># Compute significance and background/excess counts</span>
+
+            <span class="n">wstat</span> <span class="o">=</span> <span class="n">WStatCountsStatistic</span><span class="p">(</span><span class="n">n_on</span>  <span class="o">=</span> <span class="n">non</span><span class="p">,</span>
+                                         <span class="n">n_off</span> <span class="o">=</span> <span class="n">noff</span><span class="p">,</span>
+                                         <span class="n">alpha</span> <span class="o">=</span> <span class="n">mcf</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">gammapy</span><span class="o">.</span><span class="n">__version__</span> <span class="o">==</span> <span class="s2">&quot;0.17&quot;</span><span class="p">:</span>
+                <span class="n">sig</span> <span class="o">=</span>  <span class="n">wstat</span><span class="o">.</span><span class="n">significance</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># This is sigma*sign(nxs)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># 0.18.2</span>
+                <span class="n">sig</span> <span class="o">=</span>  <span class="n">wstat</span><span class="o">.</span><span class="n">sqrt_ts</span> <span class="c1"># ? check</span>
+                
+            <span class="c1"># Much faster to append list than arrays</span>
+            <span class="c1"># Array appending create a new object</span>
+            <span class="n">sigma_vs_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+            <span class="n">non_vs_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">non</span><span class="p">)</span>
+            <span class="n">noff_vs_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">noff</span><span class="p">)</span>
+            <span class="c1"># nxs.append(ns)</span>
+            <span class="c1"># nbck.append(nb)</span>
+
+            <span class="c1"># End of loop over slices / datasets</span>
+
+        <span class="c1"># Access to arrays is much faster than access to lists</span>
+        <span class="n">sigma_vs_time</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sigma_vs_time</span><span class="p">)</span>
+        <span class="n">non_vs_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">non_vs_time</span><span class="p">)</span>
+        <span class="n">noff_vs_time</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">noff_vs_time</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">sigma_vs_time</span><span class="p">,</span> <span class="n">non_vs_time</span><span class="p">,</span> <span class="n">noff_vs_time</span><span class="p">)</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="MonteCarlo.create_dataset_list"><a class="viewcode-back" href="../api/mcsim.MonteCarlo.html#mcsim.MonteCarlo.create_dataset_list">[docs]</a>    <span class="k">def</span> <span class="nf">create_dataset_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the dataset list as a list of list to handle more than one</span>
+<span class="sd">        irf per slice (GRB seen on both sites).</span>
+
+<span class="sd">        The pointing, center of the field of view, is the same for all time</span>
+<span class="sd">        slices as it is considered that the GRB is constantly followed within</span>
+<span class="sd">        the pre-computed visibililty window. The pointing is displaced compared</span>
+<span class="sd">        to the GRB position by a distance mc.offset, a value</span>
+<span class="sd">        choosen to give enough space to have 1/mcf.alpha off regions of radius</span>
+<span class="sd">        mcf.on_size, the detection area.</span>
+<span class="sd">        The detection areas, on and off regions, have a size independent of</span>
+<span class="sd">        the energy, but the effective area and background are mofified to take</span>
+<span class="sd">        into account the PSF evolution with energy (see the irf module).</span>
+
+<span class="sd">        The datasets are defined with the same true and reconstructed enegy</span>
+<span class="sd">        axes so that counts can be added bin per bin. Differences in threshold</span>
+<span class="sd">        due to different IRF are taken into account by masking some bins</span>
+<span class="sd">        (the mask at a certain energy value cancel the whole bin it belongs to,</span>
+<span class="sd">        see the irf module for more explanations)</span>
+
+<span class="sd">        A word on masking</span>
+<span class="sd">        =================</span>
+<span class="sd">        Direct masking is not made available to users in Gammapy 0.17:</span>
+<span class="sd">        It is possible to mask on effective area criteria (minimum value),</span>
+<span class="sd">        or data counts (counts.geom.energy_mask)</span>
+<span class="sd">        The direct masking on energy is made as shown below, as a result of</span>
+<span class="sd">        discussions with Gammapy developpers on the Gammapy slack channel</span>
+<span class="sd">        (Nov. 2nd, 2020).</span>
+<span class="sd">        Note that the mask_safe is not considered in the printout or peek</span>
+<span class="sd">        functions and has to be obtained by hand (Could be corrected in</span>
+<span class="sd">        further versions): this is implemented in the check_dataset SoHAPPy</span>
+<span class="sd">        function.</span>
+
+<span class="sd">        Discussion on masking binning with A. Donath, dec. 3rd, 2020</span>
+<span class="sd">        ------------------------------------------------------------</span>
+<span class="sd">        Applying a mask (Emin, Emax) is simply cancelling the data of the</span>
+<span class="sd">        energy axis bins outside the mask. Even partially covered bins are</span>
+<span class="sd">        lost (e.g. bins (E1,E2) with E1&lt;Emin&lt;E2 ).</span>
+<span class="sd">        There could have been a partial recovery of the data (i.e. keeping</span>
+<span class="sd">        the counts or flux between Emin and E2, but this is not</span>
+<span class="sd">        what has been chosen.</span>
+<span class="sd">        The influence of this becomes small if Energy bin sizes are small</span>
+<span class="sd">        enough. However small bins size can give low statititics</span>
+<span class="sd">        A. Donath says it is not a problem as long as the statitical</span>
+<span class="sd">        computation is done properly : this is in fact approaching the</span>
+<span class="sd">        unbinned likelihood case. Only for flux points computation, e.g.</span>
+<span class="sd">        to get a significant point at high energies, bin should have enough</span>
+<span class="sd">        statistics. This can be done since v0.18.2 using</span>
+<span class="sd">        SpectrumDatasetOnOff.resample_energy_axis() to re-group the data</span>
+<span class="sd">        before model fitting</span>
+
+<span class="sd">        A word on stacking</span>
+<span class="sd">        ==================</span>
+<span class="sd">        In order to be stacked, datasets should be based on the same</span>
+<span class="sd">        energy axis, which is indeed implemented in SoHAPPy.</span>
+<span class="sd">        Two observation have usually different IRfs, and in particular energy</span>
+<span class="sd">        thresholds. The thresholds are take into account by masking, as</span>
+<span class="sd">        mentionned aboce.</span>
+<span class="sd">        Stacking in gammapy is intended to merge observations that were to</span>
+<span class="sd">        large in data volue to be handled together, and or to sum-up</span>
+<span class="sd">        consecutive observations of the same object. Stacking 2 observations</span>
+<span class="sd">        results in a longer observation with the same model, in particular the</span>
+<span class="sd">        same zspectral model, with an observation livetime being the sum of the</span>
+<span class="sd">        two initial observation livetime. It is not intended to sum-ip two</span>
+<span class="sd">        observations done at the same time, with the same livetime.</span>
+<span class="sd">        As a consequence the gammapy stacking cannot be used to &quot;merge&quot;</span>
+<span class="sd">        the simultaneous observations of two sites. This would result in a</span>
+<span class="sd">        livetime larger than the simultaneous observations and would therefore</span>
+<span class="sd">        shift the observation times in the consecutive time slices.</span>
+<span class="sd">        There was a tentative to modify this in reducing the livetime</span>
+<span class="sd">        ds_stacked.livetime /= 2, and multiplying the attached spectrum by 2</span>
+<span class="sd">        to keep the predicted count number coherent. But this causes problems</span>
+<span class="sd">        later in the analysis.</span>
+<span class="sd">        As a consequence, it is chosen to keep track of each observation</span>
+<span class="sd">        identity, having a dataset for each time slice on a given site, and</span>
+<span class="sd">        two datasets for slice in common on two sites (or more).</span>
+<span class="sd">        The aperture photometry nalysis then simply adds-up the cont numbers</span>
+<span class="sd">        from the two sites, whereas the spectrum extraction handles the</span>
+<span class="sd">        situation outside the simulation code, in a separate notebook.</span>
+
+<span class="sd">        Saving datasets</span>
+<span class="sd">        ===============</span>
+<span class="sd">        The choice made here is to save the simulation to disk as a bin file</span>
+<span class="sd">        which has the advantage to have all information saved.</span>
+<span class="sd">        An alternative is to save the dataset list only.</span>
+
+<span class="sd">        Discussion on the  slack channel with A. Donath (Nov. 27th, 2020)</span>
+<span class="sd">        -----------------------------------------------------------------</span>
+<span class="sd">        For writing datasets in the present use-case there is a bit</span>
+<span class="sd">        more bookkeeping to do, so that you can read back the model and</span>
+<span class="sd">        datasets correctly. Here is a minimal example:</span>
+<span class="sd">        &lt;code&gt;</span>
+<span class="sd">        from gammapy.datasets import SpectrumDatasetOnOff, Datasets</span>
+<span class="sd">        from gammapy.modeling.models import PowerLawSpectralModel, SkyModel</span>
+
+<span class="sd">        path = &quot;$GAMMAPY_DATA/joint-crab/spectra/hess/&quot;</span>
+
+<span class="sd">        obs_1 = SpectrumDatasetOnOff.from_ogip_files(path + &quot;pha_obs23523.fits&quot;)</span>
+<span class="sd">        obs_2 = SpectrumDatasetOnOff.from_ogip_files(path + &quot;pha_obs23592.fits&quot;)</span>
+
+<span class="sd">        model_1 = SkyModel(PowerLawSpectralModel(), name=&quot;model-1&quot;, datasets_names=[obs_1.name])</span>
+<span class="sd">        model_2 = SkyModel(PowerLawSpectralModel(), name=&quot;model-2&quot;, datasets_names=[obs_2.name])</span>
+<span class="sd">        obs_1.models = [model_1]</span>
+<span class="sd">        obs_2.models = [model_2]</span>
+<span class="sd">        datasets = Datasets([obs_1, obs_2])</span>
+
+<span class="sd">        datasets.write(&quot;test&quot;, prefix=&quot;test&quot;, overwrite=True)</span>
+<span class="sd">        &lt;/code&gt;</span>
+
+<span class="sd">        This was something that we started to refactor in v0.17 and are</span>
+<span class="sd">        still improving. So you have the possibility to “assign” models to</span>
+<span class="sd">        datasets in a declarative way using the dataset_names keyword.</span>
+<span class="sd">        The resulting YAML file looks like:</span>
+<span class="sd">        components:</span>
+
+<span class="sd">        &lt;code&gt;</span>
+<span class="sd">        -   name: model-1</span>
+<span class="sd">            type: SkyModel</span>
+<span class="sd">            spectral:</span>
+<span class="sd">                type: PowerLawSpectralModel</span>
+<span class="sd">                parameters:</span>
+<span class="sd">                - {name: index, value: 2.0, unit: &#39;&#39;, min: .nan, max: .nan, frozen: false,</span>
+<span class="sd">                    error: 0}</span>
+<span class="sd">                - {name: amplitude, value: 1.0e-12, unit: cm-2 s-1 TeV-1, min: .nan, max: .nan,</span>
+<span class="sd">                    frozen: false, error: 0}</span>
+<span class="sd">                - {name: reference, value: 1.0, unit: TeV, min: .nan, max: .nan, frozen: true,</span>
+<span class="sd">                    error: 0}</span>
+<span class="sd">            datasets_names: [&#39;23523&#39;]</span>
+<span class="sd">        -   name: model-2</span>
+<span class="sd">            type: SkyModel</span>
+<span class="sd">            spectral:</span>
+<span class="sd">                type: PowerLawSpectralModel</span>
+<span class="sd">                parameters:</span>
+<span class="sd">                - {name: index, value: 2.0, unit: &#39;&#39;, min: .nan, max: .nan, frozen: false,</span>
+<span class="sd">                    error: 0}</span>
+<span class="sd">                - {name: amplitude, value: 1.0e-12, unit: cm-2 s-1 TeV-1, min: .nan, max: .nan,</span>
+<span class="sd">                    frozen: false, error: 0}</span>
+<span class="sd">                - {name: reference, value: 1.0, unit: TeV, min: .nan, max: .nan, frozen: true,</span>
+<span class="sd">                    error: 0}</span>
+<span class="sd">            datasets_names: [&#39;23592&#39;]</span>
+<span class="sd">        covariance: test/test_models_covariance.dat</span>
+<span class="sd">        &lt;/code&gt;</span>
+
+<span class="sd">        So explicitly mentions for each model component the dataset it is</span>
+<span class="sd">        assigned to. I think without defining dataset_names the information</span>
+<span class="sd">        will not be present in the output YAML file and when reading back the</span>
+<span class="sd">        data and model, the assignment is not correct anymore.</span>
+<span class="sd">        We will add more documentation on this “global” model handling soon.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        debug : Boolean, optional</span>
+<span class="sd">            If True, verbose mode. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dset_list : Numpy array of Dataset objects</span>
+<span class="sd">            A list of datasets (not a collection like a Datasets.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">dset_list</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">aslice</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">:</span>
+
+            <span class="c1"># Note: the spectrum is related to the slice, not the site</span>
+            <span class="n">spec</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="n">aslice</span><span class="o">.</span><span class="n">fid</span><span class="p">()]</span>
+            <span class="n">name</span>  <span class="o">=</span> <span class="s2">&quot;Spec&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">aslice</span><span class="o">.</span><span class="n">fid</span><span class="p">())</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">SkyModel</span><span class="p">(</span><span class="n">spectral_model</span> <span class="o">=</span> <span class="n">spec</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">)</span>
+
+            <span class="c1"># The reference time and duration of the observation</span>
+            <span class="c1"># Note that this is the start of the slice</span>
+            <span class="c1"># Not necessarilty the point at which the flux and altitude</span>
+            <span class="c1"># are evaluated</span>
+            <span class="n">tref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span> <span class="o">+</span> <span class="n">aslice</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span> <span class="c1"># start of slice</span>
+            <span class="n">dt</span>   <span class="o">=</span> <span class="n">aslice</span><span class="o">.</span><span class="n">ts2</span><span class="p">()</span> <span class="o">-</span> <span class="n">aslice</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span>
+
+            <span class="c1"># Each slice can have more than one IRF since it can be observed</span>
+            <span class="c1"># from both sites in some cases.</span>
+            <span class="c1"># Two independent datasets are created</span>
+            <span class="n">dset_site</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">ip</span><span class="p">,</span> <span class="n">perf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">aslice</span><span class="o">.</span><span class="n">irf</span><span class="p">()):</span>
+
+                <span class="n">on_size</span> <span class="o">=</span> <span class="n">mcf</span><span class="o">.</span><span class="n">on_size</span><span class="p">[</span><span class="n">perf</span><span class="o">.</span><span class="n">subarray</span><span class="p">]</span>
+                <span class="n">offset</span>  <span class="o">=</span> <span class="n">mcf</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="n">perf</span><span class="o">.</span><span class="n">subarray</span><span class="p">]</span>
+                <span class="c1"># The on-region is on the GRB</span>
+                <span class="n">on_region</span> <span class="o">=</span> <span class="n">CircleSkyRegion</span><span class="p">(</span><span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">radec</span><span class="p">,</span>
+                                            <span class="n">radius</span> <span class="o">=</span> <span class="n">on_size</span><span class="p">)</span>
+                <span class="c1"># Create the observation - The pointing is not on the GRB</span>
+                <span class="n">on_ptg</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">radec</span><span class="o">.</span><span class="n">ra</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">radec</span><span class="o">.</span><span class="n">dec</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s2">&quot;icrs&quot;</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span> <span class="c1"># because of t_trig</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+                    <span class="n">obs</span> <span class="o">=</span> <span class="n">Observation</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">obs_id</span>   <span class="o">=</span> <span class="n">aslice</span><span class="o">.</span><span class="n">idt</span><span class="p">(),</span>
+                                             <span class="n">pointing</span> <span class="o">=</span> <span class="n">on_ptg</span><span class="p">,</span>
+                                             <span class="n">livetime</span> <span class="o">=</span> <span class="n">dt</span><span class="p">,</span>
+                                             <span class="n">irfs</span>     <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">irf</span><span class="p">,</span>
+                                             <span class="n">deadtime_fraction</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                             <span class="n">reference_time</span> <span class="o">=</span> <span class="n">tref</span><span class="p">)</span>
+
+                <span class="c1"># Create dataset - correct for containment - add model</span>
+                <span class="n">ds_name</span>  <span class="o">=</span> <span class="n">aslice</span><span class="o">.</span><span class="n">site</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">aslice</span><span class="o">.</span><span class="n">idt</span><span class="p">())</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
+                
+                <span class="k">if</span> <span class="n">gammapy</span><span class="o">.</span><span class="n">__version__</span><span class="o">==</span> <span class="s2">&quot;0.17&quot;</span><span class="p">:</span>
+                    <span class="n">e_reco</span> <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">ereco</span><span class="o">.</span><span class="n">edges</span>
+                    <span class="n">e_true</span> <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">etrue</span><span class="o">.</span><span class="n">edges</span>
+                <span class="k">else</span><span class="p">:</span> <span class="c1"># 0.18.2</span>
+                    <span class="n">e_reco</span> <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">ereco</span>
+                    <span class="n">e_true</span> <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">etrue</span>
+                    
+                <span class="n">ds_empty</span> <span class="o">=</span> <span class="n">SpectrumDataset</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">e_reco</span> <span class="o">=</span> <span class="n">e_reco</span><span class="p">,</span>
+                                                  <span class="n">e_true</span> <span class="o">=</span> <span class="n">e_true</span><span class="p">,</span>
+                                                  <span class="n">region</span> <span class="o">=</span> <span class="n">on_region</span><span class="p">,</span>
+                                                  <span class="n">name</span>   <span class="o">=</span> <span class="n">ds_name</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">gammapy</span><span class="o">.</span><span class="n">__version__</span> <span class="o">==</span> <span class="s2">&quot;0.17&quot;</span><span class="p">:</span>
+                    <span class="n">maker</span> <span class="o">=</span> <span class="n">SpectrumDatasetMaker</span><span class="p">(</span>
+                            <span class="n">selection</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;aeff&quot;</span><span class="p">,</span> <span class="s2">&quot;edisp&quot;</span><span class="p">,</span> <span class="s2">&quot;background&quot;</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span> <span class="c1">#0.18.2</span>
+                    <span class="n">maker</span> <span class="o">=</span> <span class="n">SpectrumDatasetMaker</span><span class="p">(</span>
+                            <span class="n">selection</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;exposure&quot;</span><span class="p">,</span> <span class="s2">&quot;background&quot;</span><span class="p">,</span><span class="s2">&quot;edisp&quot;</span><span class="p">])</span>  
+                    
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">maker</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ds_empty</span><span class="p">,</span> <span class="n">obs</span><span class="p">)</span>
+
+                <span class="c1"># In Gammapy 0.17, it is mandatory to change the effective</span>
+                <span class="c1"># area before the mpdel is set, since once the model is set it</span>
+                <span class="c1"># cannot be changed anymore.</span>
+                <span class="c1"># This feature (bug) was discussed in Gammapy issue #3016 on</span>
+                <span class="c1"># Sept 2020.</span>
+                <span class="k">if</span> <span class="n">gammapy</span><span class="o">.</span><span class="n">__version__</span><span class="o">==</span> <span class="s2">&quot;0.17&quot;</span><span class="p">:</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">aeff</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">data</span>  <span class="o">*=</span> <span class="n">mcf</span><span class="o">.</span><span class="n">containment</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span> <span class="o">*=</span> <span class="n">perf</span><span class="o">.</span><span class="n">factor</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">models</span>           <span class="o">=</span> <span class="n">model</span>
+                    <span class="n">mask</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">energy_mask</span><span class="p">(</span><span class="n">emin</span> <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">ereco_min</span><span class="p">,</span>
+                                                         <span class="n">emax</span> <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">ereco_max</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span> <span class="c1">#0.18.2</span>
+                    <span class="c1"># ds.exposure.data   *= mcf.containment</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">exposure</span>   <span class="o">*=</span> <span class="n">mcf</span><span class="o">.</span><span class="n">containment</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span> <span class="o">*=</span> <span class="n">perf</span><span class="o">.</span><span class="n">factor</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">models</span>           <span class="o">=</span> <span class="n">model</span>
+                    <span class="n">mask</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">energy_mask</span><span class="p">(</span><span class="n">energy_min</span> <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">ereco_min</span><span class="p">,</span>
+                                                         <span class="n">energy_max</span> <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">ereco_max</span><span class="p">)</span>
+                    
+                <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">data</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span> <span class="o">=</span> <span class="n">RegionNDMap</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">geom</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+
+                <span class="n">dset_site</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+            <span class="n">dset_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dset_site</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dset_list</span><span class="p">)</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="MonteCarlo.fill_stat"><a class="viewcode-back" href="../api/mcsim.MonteCarlo.html#mcsim.MonteCarlo.fill_stat">[docs]</a>    <span class="k">def</span> <span class="nf">fill_stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sigma</span><span class="p">,</span> <span class="n">non</span><span class="p">,</span> <span class="n">noff</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the statistics and handle the exceptions of the current MC</span>
+<span class="sd">        simulation</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sigma : numpy array, float</span>
+<span class="sd">            One siginificance per time slice</span>
+<span class="sd">        nxs : numpy array, float</span>
+<span class="sd">            One excess count per time slice</span>
+<span class="sd">        nbck : numy array, float</span>
+<span class="sd">            One background counter per time slice</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">nb</span>  <span class="o">=</span> <span class="n">mcf</span><span class="o">.</span><span class="n">alpha</span><span class="o">*</span><span class="n">noff</span>
+        <span class="n">nex</span>  <span class="o">=</span> <span class="n">non</span> <span class="o">-</span> <span class="n">nb</span>
+        
+        <span class="c1">### Find maximum - cannot be a slice with non or noff below limit</span>
+        <span class="n">sigmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span> <span class="c1"># Returns Nan only if all are Nan</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">sigmax</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; All sigma values are Nan !!! &quot;</span><span class="p">)</span>
+            <span class="n">maxidx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">sigmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">999</span>
+            <span class="n">nexmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">nbmax</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">maxidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanargmax</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span> <span class="c1"># If sigma is nan, it would be the max !</span>
+            <span class="n">nexmax</span> <span class="o">=</span> <span class="n">nex</span><span class="p">[</span><span class="n">maxidx</span><span class="p">]</span>
+            <span class="n">nbmax</span>  <span class="o">=</span> <span class="n">nb</span><span class="p">[</span><span class="n">maxidx</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_smax_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">maxidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smax_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sigmax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_smax_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nexmax</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_smax_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nbmax</span><span class="p">)</span>
+
+        <span class="c1"># Find where 3 sigma is reached</span>
+        <span class="n">nex_3s</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">nb_3s</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">id_3s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">sigma</span><span class="o">&gt;=</span><span class="mi">3</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># This ignore Nan values</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">id_3s</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">id_3s</span>  <span class="o">=</span> <span class="n">id_3s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># First one</span>
+            <span class="n">nex_3s</span> <span class="o">=</span> <span class="n">nex</span><span class="p">[</span><span class="n">id_3s</span><span class="p">]</span>
+            <span class="n">nb_3s</span>  <span class="o">=</span> <span class="n">nb</span><span class="p">[</span><span class="n">id_3s</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id_3s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">id_3s</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">detect_3s</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_3s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nex_3s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_3s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nb_3s</span><span class="p">)</span>
+
+        <span class="c1"># Find where 5 sigma is reached</span>
+        <span class="n">nex_5s</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">nb_5s</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">id_5s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">sigma</span><span class="o">&gt;=</span><span class="mi">5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># This ignore Nan values</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">id_5s</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">id_5s</span>  <span class="o">=</span> <span class="n">id_5s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># First one</span>
+            <span class="n">nex_5s</span> <span class="o">=</span> <span class="n">nex</span><span class="p">[</span><span class="n">id_5s</span><span class="p">]</span>
+            <span class="n">nb_5s</span>  <span class="o">=</span> <span class="n">nb</span><span class="p">[</span><span class="n">id_5s</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id_5s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">id_5s</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">detect_5s</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_5s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nex_5s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_5s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nb_5s</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dbg</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &gt;&gt;&gt; t_smax = </span><span class="si">{:8.2f}</span><span class="s2">, (</span><span class="si">{:5.2f}</span><span class="s2"> sigma at slice </span><span class="si">{:2d}</span><span class="s2">)&quot;</span>
+                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="n">maxidx</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">(),</span>
+                          <span class="n">sigma</span><span class="p">[</span><span class="n">maxidx</span><span class="p">],</span>
+                          <span class="n">maxidx</span><span class="p">),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">id_3s</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - 3s at t3s = </span><span class="si">{:8.2f}</span><span class="s2"> at slice </span><span class="si">{:2d}</span><span class="s2">)&quot;</span>
+                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="n">id_3s</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">(),</span><span class="n">id_3s</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - 3s not reached&quot;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="MonteCarlo.dump_slices"><a class="viewcode-back" href="../api/mcsim.MonteCarlo.html#mcsim.MonteCarlo.dump_slices">[docs]</a>    <span class="k">def</span> <span class="nf">dump_slices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print out the list of on and off counts and the corresponding</span>
+<span class="sd">        Li &amp; Ma value. If non and off are less than a minimum value</span>
+<span class="sd">        return a True status flag for further actions.</span>
+<span class="sd">        This function ca nbe used to dump all slices (just changing the</span>
+<span class="sd">        nLiMamin value to a very large value)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        phase : String, optional</span>
+<span class="sd">            Select the phase among &quot;open&quot;, &quot;close&quot;, or by default writing.</span>
+<span class="sd">            The default is None.</span>
+
+<span class="sd">        **kwargs : TYPE</span>
+<span class="sd">            Extra arguments for each of the phases.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">phase</span><span class="o">==</span> <span class="s2">&quot;open&quot;</span><span class="p">:</span>
+            <span class="c1"># Open output file</span>
+            <span class="n">name</span>  <span class="o">=</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">site</span><span class="o">+</span><span class="s2">&quot;_slices.txt&quot;</span>
+            <span class="n">name</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;dir&quot;</span><span class="p">]</span><span class="o">+</span><span class="n">name</span>
+            <span class="n">fslice</span>  <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:9s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;iMC / dt&quot;</span><span class="p">),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">file</span> <span class="o">=</span> <span class="n">fslice</span><span class="p">)</span>
+            <span class="kn">import</span> <span class="nn">astropy.</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+            <span class="n">dt_cumul</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">:</span>
+                <span class="n">dt_cumul</span> <span class="o">+=</span> <span class="n">s</span><span class="o">.</span><span class="n">ts2</span><span class="p">()</span><span class="o">-</span><span class="n">s</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:12.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dt_cumul</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">file</span> <span class="o">=</span> <span class="n">fslice</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">fslice</span><span class="p">)</span> <span class="c1"># Line feed</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   ---&quot;</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="s2">&quot; opened - header written&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">fslice</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">phase</span><span class="o">==</span><span class="s2">&quot;close&quot;</span><span class="p">:</span>
+            <span class="c1"># Close output file - delete file if no anomalues were found</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   --- Slice file closed&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;dump&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="c1"># If no anaomaly detected ever, delete file</span>
+                <span class="kn">import</span> <span class="nn">os</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   --- No anomaly - file deleted&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># Print slice features</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">fslice</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">]</span>
+            <span class="p">[</span><span class="n">non</span><span class="p">,</span><span class="n">noff</span><span class="p">,</span><span class="n">sigma</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Check if non or noff below limit</span>
+            <span class="n">badon</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span> <span class="n">non</span> <span class="o">&lt;</span> <span class="n">mcf</span><span class="o">.</span><span class="n">nLiMamin</span><span class="p">)</span>
+            <span class="n">badoff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">noff</span> <span class="o">&lt;</span> <span class="n">mcf</span><span class="o">.</span><span class="n">nLiMamin</span><span class="p">)</span>
+
+            <span class="c1"># If an anomaly is found, the status become true, the file will</span>
+            <span class="c1"># not be deleted, and the anomalous event is written out</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">non</span><span class="p">[</span><span class="n">badon</span><span class="p">])</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">noff</span><span class="p">[</span><span class="n">badoff</span><span class="p">])</span> <span class="p">:</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># will dump</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">err_slice</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">badon</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="n">badoff</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;non&quot;</span><span class="p">,</span> <span class="s2">&quot;noff&quot;</span><span class="p">,</span><span class="s2">&quot;sigma&quot;</span><span class="p">]:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:3d}</span><span class="s2"> </span><span class="si">{:5s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;iMC&quot;</span><span class="p">],</span><span class="n">name</span><span class="p">),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                      <span class="n">file</span> <span class="o">=</span> <span class="n">fslice</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:14.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">file</span> <span class="o">=</span> <span class="n">fslice</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">fslice</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">status</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="MonteCarlo.write"><a class="viewcode-back" href="../api/mcsim.MonteCarlo.html#mcsim.MonteCarlo.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the present class to disk for further use in particular a</span>
+<span class="sd">        E-dependt on-off analysis</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : string, optional</span>
+<span class="sd">            Output file name. The default is &quot;None&quot;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;None&quot;</span><span class="p">):</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Output file not defined)&quot;</span><span class="p">)</span>
+
+        <span class="n">outfile</span>  <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">outfile</span><span class="p">)</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="kn">from</span> <span class="nn">utilities</span> <span class="kn">import</span> <span class="n">success</span>
+        <span class="n">success</span><span class="p">(</span><span class="s2">&quot; Saving simulation to file : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+        <span class="k">return</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Th. Stolarczyk.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

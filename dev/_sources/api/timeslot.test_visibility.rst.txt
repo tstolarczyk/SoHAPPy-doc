@@ -1,0 +1,6 @@
+test_visibility
+===============
+
+.. currentmodule:: timeslot
+
+.. autofunction:: test_visibility

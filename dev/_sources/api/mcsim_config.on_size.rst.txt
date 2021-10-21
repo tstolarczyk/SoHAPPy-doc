@@ -1,0 +1,6 @@
+on_size
+=======
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: on_size

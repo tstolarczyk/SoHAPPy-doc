@@ -1,0 +1,6 @@
+offset
+======
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: offset

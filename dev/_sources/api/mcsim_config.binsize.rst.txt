@@ -1,0 +1,6 @@
+binsize
+=======
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: binsize

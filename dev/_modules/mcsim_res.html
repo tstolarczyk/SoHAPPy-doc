@@ -1,0 +1,618 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>mcsim_res &mdash; SoHAPPy 0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../montecarlo.html">Monte Carlo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source_analysis.html">Analyzing a single object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source_analysis.html#dataset-plotting">Dataset plotting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Dataset tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html#utilities">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Todo list</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>mcsim_res</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mcsim_res</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Thu Sep  5 11:22:11 2019</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">import</span> <span class="nn">mcsim_config</span> <span class="k">as</span> <span class="nn">mcf</span>
+<span class="c1">#from utilities import warning, failure, success, highlight,banner</span>
+
+<span class="c1">###########################################################################</span>
+<div class="viewcode-block" id="welcome"><a class="viewcode-back" href="../api/mcsim_res.welcome.html#mcsim_res.welcome">[docs]</a><span class="k">def</span> <span class="nf">welcome</span><span class="p">(</span><span class="n">subarray</span><span class="p">,</span><span class="n">log</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="s2">&quot;+================================================================+&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="s2">&quot;||                     LAUNCHING SIMULATION                     ||&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">banner</span><span class="p">(</span><span class="s2">&quot;+================================================================+&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   Detection level    : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mcf</span><span class="o">.</span><span class="n">det_level</span><span class="p">))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   on/off regions     : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mcf</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   FOV                : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mcf</span><span class="o">.</span><span class="n">fov</span><span class="p">))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   On-region size     : N: </span><span class="si">{:5}</span><span class="s2"> -  S: </span><span class="si">{:5}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mcf</span><span class="o">.</span><span class="n">on_size</span><span class="p">[</span><span class="n">subarray</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]],</span>
+                                                       <span class="n">mcf</span><span class="o">.</span><span class="n">on_size</span><span class="p">[</span><span class="n">subarray</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]]))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   Offset from center : N: </span><span class="si">{:5}</span><span class="s2"> -  S: </span><span class="si">{:5}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mcf</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="n">subarray</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]],</span>
+                                                       <span class="n">mcf</span><span class="o">.</span><span class="n">offset</span><span class="p">[</span><span class="n">subarray</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]]))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   Eff. area cont.    : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mcf</span><span class="o">.</span><span class="n">containment</span><span class="p">))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   Min on/off counts  : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mcf</span><span class="o">.</span><span class="n">nLiMamin</span><span class="p">))</span>
+    <span class="c1">#log.prt(&quot;   Bin size           : {}&quot;.format(mcf.binsize))</span>
+
+    <span class="k">return</span></div>
+<span class="c1">###########################################################################</span>
+<div class="viewcode-block" id="mean_values"><a class="viewcode-back" href="../api/mcsim_res.mean_values.html#mcsim_res.mean_values">[docs]</a><span class="k">def</span> <span class="nf">mean_values</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="n">idlist</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract mean values and RMS from the index list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t_det</span><span class="p">,</span> <span class="n">e_t_det</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,)</span>
+    <span class="n">alt_det</span><span class="p">,</span> <span class="n">e_alt_det</span><span class="p">,</span> <span class="n">az_det</span><span class="p">,</span> <span class="n">e_az_det</span>  <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idlist</span><span class="p">)):</span>
+        <span class="n">t_unit</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span><span class="o">.</span><span class="n">unit</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idlist</span>
+             <span class="k">if</span> <span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">t_det</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span><span class="n">t_unit</span>
+        <span class="n">e_t_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>  <span class="o">*</span><span class="n">t_unit</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">site</span> <span class="o">!=</span> <span class="s2">&quot;Both&quot;</span><span class="p">):</span>
+            <span class="n">altaz</span> <span class="o">=</span>  <span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">altaz</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">t</span><span class="o">*</span><span class="n">t_unit</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">site</span><span class="p">)</span>
+
+            <span class="n">alt</span> <span class="o">=</span> <span class="n">altaz</span><span class="o">.</span><span class="n">alt</span>
+            <span class="n">alt_det</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">alt</span><span class="p">)</span>
+            <span class="n">e_alt_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">alt</span><span class="p">)</span>
+
+            <span class="n">az</span> <span class="o">=</span> <span class="n">altaz</span><span class="o">.</span><span class="n">az</span>
+            <span class="n">az_det</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
+            <span class="n">e_az_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
+
+    <span class="k">return</span>  <span class="n">t_det</span><span class="p">,</span> <span class="n">e_t_det</span><span class="p">,</span> <span class="n">alt_det</span><span class="p">,</span> <span class="n">e_alt_det</span><span class="p">,</span> <span class="n">az_det</span><span class="p">,</span> <span class="n">e_az_det</span></div>
+
+<span class="c1">###########################################################################</span>
+<div class="viewcode-block" id="result"><a class="viewcode-back" href="../api/mcsim_res.result.html#mcsim_res.result">[docs]</a><span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span><span class="n">grb</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">pop</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print out results. If only one GRB is simulated, store the present mc class </span>
+<span class="sd">    on disks for further investigation.</span>
+
+<span class="sd">    Keywords:</span>
+<span class="sd">    - name  : source name (10s)</span>
+<span class="sd">    - eiso  : Eiso (8.2e)</span>
+<span class="sd">    - epeak : Epeak (8.2e)</span>
+<span class="sd">    - t90   : t90 (8.2f)</span>
+<span class="sd">    - G0H   : G0H (6.2f)</span>
+<span class="sd">    - G0W   : G0W (6.2f)</span>
+<span class="sd">    - Fpeak : fluxpeak  (8.2e)</span>
+<span class="sd">    - gamle : gamma_le (5.2f)</span>
+<span class="sd">    - gamhe : gamma_he (5.2f)</span>
+<span class="sd">    - z     : Redshift (5.2f)</span>
+<span class="sd">    - site  : South, North, Both (5s)</span>
+<span class="sd">    - ra    : Right ascension of the source (6.2f)</span>
+<span class="sd">    - dec   : Declination of the source (6.2f)</span>
+<span class="sd">    - ttrig : Trigger date (mjd) (15s)</span>
+<span class="sd">    - t1    : Observ. start since trigger (s) (9.2f) (incl. slewing time)</span>
+<span class="sd">    - t2    : Observ. stop since trigger (s) (9.2f)</span>
+<span class="sd">    - alt1  : Altitude at t1 (deg) (5.2f)</span>
+<span class="sd">    - alt2  : Altitude at t2 (deg) (5.2f)</span>
+<span class="sd">    - az1   : Azimuth at t1 (deg) (6.2f)</span>
+<span class="sd">    - az2   : Azimuth at t2 (deg) (6.2f)</span>
+<span class="sd">    - nt    : Number of time bins in analysis (3d)</span>
+<span class="sd">    - dof   : Number of degree of freedom in analysis (0=on-off) (3d)</span>
+<span class="sd">    - sigmx : Mean maximum significance reached (7.1f)</span>
+<span class="sd">    - nexmx : Mean number of excess counts at sigmx (10.1f)</span>
+<span class="sd">    - enexmx: Error on mean number of excess counts at sigmx (10.1f)</span>
+<span class="sd">    - nbmx  : Mean number of background counts at sigmx (10.1f)</span>
+<span class="sd">    - enbmx : Error on mean number of background counts at sigmx (10.1f)</span>
+<span class="sd">    - tmx   : Mean time at sigmx (discrete, related tot time binning) (9.2f)</span>
+<span class="sd">    - altmx : Mean altitude at sigmx (deg) (5.2f)</span>
+<span class="sd">    - azmx  : Mean azimuth at sigmx (deg) (6.2f)</span>
+<span class="sd">    - etmx  : Error on mean time at sigmx (discrete, related tot time binning) (9.2f)</span>
+<span class="sd">    - ealtmx: Error on mean altitude at sigmx (deg) (5.2f)</span>
+<span class="sd">    - eazmx : Error on mean azimuth at sigmx (deg) (6.2f)</span>
+<span class="sd">    - nex3s : Mean number of excess counts at 3 sigma (8.1f)</span>
+<span class="sd">    - enex3s: Error on mean number of excess counts at 3 sigma (8.1f)</span>
+<span class="sd">    - nb3s  : Mean number of background counts at 3 sigma (8.1f)</span>
+<span class="sd">    - enb3s : Error on mean number of background counts at 3 sigma (8.1f)</span>
+<span class="sd">    - t3s   : Mean time at 3 sigma (discrete, related tot time binning) (9.2f)</span>
+<span class="sd">    - alt3s : Mean altitude at 3 sigma (deg) (5.2f)</span>
+<span class="sd">    - az3s  : Mean azimuth at 3 sigma  (deg) (6.2f)</span>
+<span class="sd">    - et3s  : Error on mean time at 3 sigma (related to time binning) (9.2f)</span>
+<span class="sd">    - ealt3s: Error on mean altitude at 3 sigma (deg) (5.2f)</span>
+<span class="sd">    - eaz3s : Error on mean azimuth at 3 sigma  (deg) (6.2f)</span>
+<span class="sd">    - d3s   : Number of trials above 3 sigma (4d)</span>
+<span class="sd">    - nex5s : Mean number of excess counts at 5 sigma (8.1f)</span>
+<span class="sd">    - enex5s: Error on mean number of excess counts at 5 sigma (8.1f)</span>
+<span class="sd">    - nb5s  : Mean number of background counts at 5 sigma (8.1f)</span>
+<span class="sd">    - enb5s : Error on mean number of background counts at 5 sigma (8.1f)</span>
+<span class="sd">    - t5s   : Mean time at 5 sigma (discrete, related tot time binning) (9.2f)</span>
+<span class="sd">    - alt5s : Mean altitude at 5 sigma (deg) (5.2f)</span>
+<span class="sd">    - az5s  : Mean azimuth at 5 sigma  (deg) (6.2f)</span>
+<span class="sd">    - et5s  : Error on nean time at 5 sigma (related to time binning) (9.2f)</span>
+<span class="sd">    - ealt5s: Error on mean altitude at 5 sigma (deg) (5.2f)</span>
+<span class="sd">    - eaz5s : Error on mean azimuth at 5 sigma  (deg) (6.2f)</span>
+<span class="sd">    - d5s   : Number of trials above 5 sigma (4d)</span>
+<span class="sd">    - mct   : computing time per trial (ms) (5.2f)</span>
+<span class="sd">    - err   : general error code (4d)</span>
+<span class="sd">    - err_slice : list of slices for which an error or a warning is reported</span>
+
+<span class="sd">    Error codes (err):</span>
+<span class="sd">    * If positive, give the time slice at which the simulation was stopped. </span>
+<span class="sd">    A complete simulation has err = number of trials requested.</span>
+<span class="sd">    * If negative:</span>
+<span class="sd">    - 1n : simulations completed but errors reported in n trials</span>
+<span class="sd">    - 999 : simulation not done (GRB not visible)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">###----------------------------</span>
+    <span class="c1">### General status message</span>
+    <span class="c1">###----------------------------</span>
+    <span class="k">if</span>  <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">err</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+--------------+-------------------------------------------------+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;| Status       |  ===&gt; &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">failure</span><span class="p">(</span><span class="s2">&quot;Simulation not possible (GRB not visible)&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; |&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+--------------+-------------------------------------------------+&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">err</span><span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">mc</span><span class="o">.</span><span class="n">err</span> <span class="o">!=</span> <span class="n">mc</span><span class="o">.</span><span class="n">niter</span><span class="p">):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">+--------------+-------------------------------------------------+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;| Status       |  ===&gt; &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">failure</span><span class="p">(</span><span class="s2">&quot;Simulation was aborted at trial </span><span class="si">{:&gt;3d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">err</span><span class="p">),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;       |&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+--------------+-------------------------------------------------+&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">err</span> <span class="o">==</span> <span class="n">mc</span><span class="o">.</span><span class="n">niter</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">detect_5s</span><span class="o">/</span><span class="n">mc</span><span class="o">.</span><span class="n">niter</span> <span class="o">&gt;=</span> <span class="n">mcf</span><span class="o">.</span><span class="n">det_level</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;5 sigma detected&quot;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">detect_3s</span><span class="o">/</span><span class="n">mc</span><span class="o">.</span><span class="n">niter</span> <span class="o">&gt;=</span> <span class="n">mcf</span><span class="o">.</span><span class="n">det_level</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;3 sigma detected&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;NOT detected    &quot;</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">+--------------+-------------------------------------------------+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;| Status       |  ===&gt; &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;                          |&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+--------------+-------------------------------------------------+&quot;</span><span class="p">)</span>
+
+    <span class="c1">###-----------------------------------------</span>
+    <span class="c1">### Compute results if everything went well</span>
+    <span class="c1">###-----------------------------------------</span>
+    
+    <span class="c1"># If no simulation slot, set default dummy values</span>
+    <span class="n">tstart</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+    <span class="n">tstop</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+    <span class="n">ntbins</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">alt_start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+    <span class="n">alt_stop</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+    <span class="n">az_start</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+    <span class="n">az_stop</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>    
+    
+    <span class="n">smax_mean</span><span class="p">,</span> <span class="n">e_smax</span><span class="p">,</span> <span class="n">nex_smax</span><span class="p">,</span> <span class="n">e_nex_smax</span><span class="p">,</span> <span class="n">nb_smax</span><span class="p">,</span> <span class="n">e_nb_smax</span><span class="o">=</span> <span class="mi">6</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+    <span class="n">tmx</span><span class="p">,</span> <span class="n">e_tmx</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,)</span>
+    <span class="n">altmx</span><span class="p">,</span> <span class="n">e_altmx</span><span class="p">,</span> <span class="n">azmx</span><span class="p">,</span> <span class="n">e_azmx</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,)</span>
+
+    <span class="n">nex3s</span><span class="p">,</span> <span class="n">e_nex3s</span><span class="p">,</span> <span class="n">nb3s</span><span class="p">,</span> <span class="n">e_nb3s</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+    <span class="n">t3s</span><span class="p">,</span><span class="n">e_t3s</span>                    <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,)</span>
+    <span class="n">alt3s</span><span class="p">,</span><span class="n">e_alt3s</span><span class="p">,</span><span class="n">az3s</span><span class="p">,</span> <span class="n">e_az3s</span>   <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,)</span>
+
+    <span class="n">nex5s</span><span class="p">,</span> <span class="n">e_nex5s</span><span class="p">,</span> <span class="n">nb5s</span><span class="p">,</span> <span class="n">e_nb5s</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span>
+    <span class="n">t5s</span><span class="p">,</span><span class="n">e_t5s</span>                    <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,)</span>
+    <span class="n">alt5s</span><span class="p">,</span><span class="n">e_alt5s</span><span class="p">,</span><span class="n">az5s</span><span class="p">,</span> <span class="n">e_az5s</span>   <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,)</span>
+    
+    <span class="k">if</span> <span class="n">mc</span><span class="o">.</span><span class="n">slot</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># Even if no detection, some data exist</span>
+        <span class="n">tstart</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">tstart</span>
+        <span class="n">tstop</span>  <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">tstop</span>
+        <span class="n">ntbins</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">)</span>
+    
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">site</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">loc</span> <span class="o">==</span> <span class="s2">&quot;North&quot;</span> <span class="ow">or</span> <span class="n">loc</span> <span class="o">==</span> <span class="s2">&quot;South&quot;</span><span class="p">):</span> <span class="c1"># Remained undefined if &quot;Both&quot;</span>
+            <span class="n">altaz</span> <span class="o">=</span> <span class="p">[</span><span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">altaz</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">tstart</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">),</span>
+                     <span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">altaz</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">tstop</span><span class="p">,</span>  <span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">)]</span>
+            <span class="n">alt_start</span> <span class="o">=</span> <span class="n">altaz</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">alt</span>
+            <span class="n">alt_stop</span> <span class="o">=</span> <span class="n">altaz</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">alt</span>
+            <span class="n">az_start</span> <span class="o">=</span> <span class="n">altaz</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">az</span>
+            <span class="n">az_stop</span> <span class="o">=</span> <span class="n">altaz</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">az</span>    
+
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Window : </span><span class="si">{:6.2f}</span><span class="s2"> - </span><span class="si">{:6.2f}</span><span class="s2"> * Delay: </span><span class="si">{:6.2f}</span><span class="s2"> * </span><span class="si">{:3d}</span><span class="s2"> slices&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tstart</span><span class="p">,</span><span class="n">tstop</span><span class="p">,</span><span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">delay</span><span class="p">,</span><span class="n">ntbins</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+----------------------------------------------------------------+&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">err</span> <span class="o">==</span> <span class="n">mc</span><span class="o">.</span><span class="n">niter</span><span class="p">):</span>
+
+        <span class="c1">#log.prt(&quot;+--------------+-------------------------------------------------+&quot;)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="s2">&quot;  RESULTS      :              </span><span class="si">{:&lt;10s}</span><span class="s2">&quot;</span>
+                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="c1">#log.prt(&quot;+--------------+-------------------------------------------------+&quot;)</span>
+
+
+        <span class="c1"># Max significance is reached</span>
+        <span class="n">smax_mean</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">smax_list</span><span class="p">)</span>
+        <span class="n">e_smax</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">smax_list</span><span class="p">)</span>
+        <span class="n">nex_smax</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">nex_smax_list</span><span class="p">)</span>
+        <span class="n">e_nex_smax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">nex_smax_list</span><span class="p">)</span>
+        <span class="n">nb_smax</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">nb_smax_list</span><span class="p">)</span>
+        <span class="n">e_nb_smax</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">nb_smax_list</span><span class="p">)</span>
+
+        <span class="n">tmx</span><span class="p">,</span><span class="n">e_tmx</span><span class="p">,</span><span class="n">altmx</span><span class="p">,</span><span class="n">e_altmx</span><span class="p">,</span><span class="n">azmx</span><span class="p">,</span> <span class="n">e_azmx</span> <span class="o">=</span> <span class="n">mean_values</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span><span class="n">mc</span><span class="o">.</span><span class="n">id_smax_list</span><span class="p">)</span>
+
+        <span class="c1">### 3 sigma</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">id_3s_list</span><span class="p">)):</span>
+            <span class="n">nex</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">mc</span><span class="o">.</span><span class="n">nex_3s_list</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">nb</span>  <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">mc</span><span class="o">.</span><span class="n">nb_3s_list</span>  <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">nex3s</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nex</span><span class="p">)</span>
+            <span class="n">e_nex3s</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nex</span><span class="p">)</span>
+            <span class="n">nb3s</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+            <span class="n">e_nb3s</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+
+        <span class="n">t3s</span><span class="p">,</span><span class="n">e_t3s</span><span class="p">,</span><span class="n">alt3s</span><span class="p">,</span><span class="n">e_alt3s</span><span class="p">,</span><span class="n">az3s</span><span class="p">,</span> <span class="n">e_az3s</span> <span class="o">=</span> <span class="n">mean_values</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span><span class="n">mc</span><span class="o">.</span><span class="n">id_3s_list</span><span class="p">)</span>
+
+        <span class="c1">### 5 sigma</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">id_5s_list</span><span class="p">)):</span>
+            <span class="n">nex</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">mc</span><span class="o">.</span><span class="n">nex_5s_list</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">nb</span>  <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">mc</span><span class="o">.</span><span class="n">nb_5s_list</span>  <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">nex5s</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nex</span><span class="p">)</span>
+            <span class="n">e_nex5s</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nex</span><span class="p">)</span>
+            <span class="n">nb5s</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+            <span class="n">e_nb5s</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+
+        <span class="n">t5s</span><span class="p">,</span><span class="n">e_t5s</span><span class="p">,</span><span class="n">alt5s</span><span class="p">,</span><span class="n">e_alt5s</span><span class="p">,</span><span class="n">az5s</span><span class="p">,</span> <span class="n">e_az5s</span> <span class="o">=</span> <span class="n">mean_values</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span><span class="n">mc</span><span class="o">.</span><span class="n">id_5s_list</span><span class="p">)</span>
+
+        <span class="c1">### Simplify err_slices if too long (remove duplicated slice id)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">niter</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">):</span>
+            <span class="n">mc</span><span class="o">.</span><span class="n">err_slice</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">err_slice</span><span class="p">))</span>
+
+        <span class="c1">###----------------------------</span>
+        <span class="c1">### Dump results</span>
+        <span class="c1">###----------------------------</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+----------------------------------------------------------------+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;  Max. sigma           = </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">smax_mean</span><span class="p">,</span><span class="n">e_smax</span><span class="p">))</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;                  time = </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2"> </span><span class="si">{:5s}</span><span class="s2">&quot;</span>
+               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">e_tmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">tmx</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;                  alt. = </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2"> </span><span class="si">{:5s}</span><span class="s2">&quot;</span>
+               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">altmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">e_altmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">altmx</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;                   az. = </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2"> </span><span class="si">{:5s}</span><span class="s2">&quot;</span>
+               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">azmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">e_azmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">azmx</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;           S, B counts = </span><span class="si">{:&gt;8.1f}</span><span class="s2"> </span><span class="si">{:0.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nex_smax</span><span class="p">,</span><span class="n">nb_smax</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;        on, off counts = </span><span class="si">{:&gt;8.1f}</span><span class="s2"> </span><span class="si">{:0.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nex_smax</span><span class="o">+</span><span class="n">nb_smax</span><span class="p">,</span><span class="n">nb_smax</span><span class="o">/</span><span class="n">mcf</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+----------------------------------------------------------------+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;                           3 sig                   5 sig&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+----------------------------------------------------------------+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Time (</span><span class="si">{:3s}</span><span class="s2">)     = </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2">  </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t3s</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">t3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">e_t3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                <span class="n">t5s</span><span class="o">.</span><span class="n">value</span> <span class="p">,</span> <span class="n">e_t5s</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Alt.(</span><span class="si">{:3s}</span><span class="s2">)      = </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2">  </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">alt3s</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span><span class="n">alt3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">e_alt3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                 <span class="n">alt5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">e_alt5s</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Az.(</span><span class="si">{:3s}</span><span class="s2">)       = </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2">  </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">az3s</span><span class="o">.</span><span class="n">unit</span> <span class="p">,</span> <span class="n">az3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">e_az3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                  <span class="n">az5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">e_az5s</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Det. level (%) =  </span><span class="si">{:&gt;8.2f}</span><span class="s2">                </span><span class="si">{:&gt;8.2f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">mc</span><span class="o">.</span><span class="n">detect_3s</span><span class="o">/</span><span class="n">mc</span><span class="o">.</span><span class="n">niter</span><span class="p">,</span><span class="mi">100</span><span class="o">*</span><span class="n">mc</span><span class="o">.</span><span class="n">detect_5s</span><span class="o">/</span><span class="n">mc</span><span class="o">.</span><span class="n">niter</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; S, B           = </span><span class="si">{:&gt;8.1f}</span><span class="s2">, </span><span class="si">{:&lt;8.1f}</span><span class="s2">      </span><span class="si">{:&gt;8.1f}</span><span class="s2">, </span><span class="si">{:&lt;8.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nex3s</span><span class="p">,</span><span class="n">nb3s</span><span class="p">,</span><span class="n">nex5s</span><span class="p">,</span><span class="n">nb5s</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; On, Off        = </span><span class="si">{:&gt;8.1f}</span><span class="s2">, </span><span class="si">{:&lt;8.1f}</span><span class="s2">      </span><span class="si">{:&gt;8.1f}</span><span class="s2">, </span><span class="si">{:&lt;8.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nex3s</span><span class="o">+</span><span class="n">nb3s</span><span class="p">,</span><span class="n">nb3s</span><span class="o">/</span><span class="n">mcf</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span><span class="n">nex5s</span><span class="o">+</span><span class="n">nb5s</span><span class="p">,</span><span class="n">nb5s</span><span class="o">/</span><span class="n">mcf</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:&gt;}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;SoHAPPy!&quot;</span><span class="p">))</span>
+
+    <span class="c1">###----------------------------</span>
+    <span class="c1">### Define dictionnary</span>
+    <span class="c1">###----------------------------</span>
+    <span class="c1"># Note : grb = mc.slot.grb would avoid having grb passed in the function</span>
+    <span class="c1"># but unvisble have no slot defined</span>
+    <span class="c1"># Solution : do not print out unviible GRB ? But then output data file will</span>
+    <span class="c1">#  have mmissing lines for some GRB</span>
+    <span class="n">records</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>                      <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;10s&quot;</span>   <span class="p">},</span>
+            <span class="s2">&quot;Eiso&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">Eiso</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>                <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.2e&quot;</span>  <span class="p">},</span>
+            <span class="s2">&quot;Epeak&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">Epeak</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>               <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.2e&quot;</span>  <span class="p">},</span>
+            <span class="s2">&quot;t90&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">t90</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>                 <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.2f&quot;</span>  <span class="p">},</span>
+            <span class="s2">&quot;G0H&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">G0H</span><span class="p">,</span>                       <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span>  <span class="p">},</span>
+            <span class="s2">&quot;G0W&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">G0W</span><span class="p">,</span>                       <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span>  <span class="p">},</span>
+            <span class="s2">&quot;Fpeak&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">Fluxpeak</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>            <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.2e&quot;</span>  <span class="p">},</span>
+            <span class="s2">&quot;gamle&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">gamma_le</span><span class="p">,</span>                  <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.2e&quot;</span>  <span class="p">},</span>
+            <span class="s2">&quot;gamhe&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">gamma_he</span><span class="p">,</span>                  <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.2e&quot;</span>  <span class="p">},</span>
+            <span class="s2">&quot;z&quot;</span>        <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>                         <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;5.2f&quot;</span>  <span class="p">},</span>
+            <span class="s2">&quot;site&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">mc</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="n">mc</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:],</span> <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;5s&quot;</span>  <span class="p">},</span>
+            <span class="s2">&quot;ra&quot;</span>       <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">radec</span><span class="o">.</span><span class="n">ra</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>  <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;dec&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">radec</span><span class="o">.</span><span class="n">dec</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;ttrig&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span><span class="o">.</span><span class="n">mjd</span><span class="p">,</span>      <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;15.8f&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;t1&quot;</span>       <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">tstart</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>      <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;9.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;t2&quot;</span>       <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">tstop</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>       <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;9.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;alt1&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">alt_start</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>   <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;5.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;alt2&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">alt_stop</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;5.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;az1&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">az_start</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;az2&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">az_stop</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>     <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;nt&quot;</span>       <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">ntbins</span><span class="p">,</span>            <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;3d&quot;</span>   <span class="p">},</span>
+            <span class="s2">&quot;dof&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">mc</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;3d&quot;</span>   <span class="p">},</span>
+            <span class="s2">&quot;sigmx&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">smax_mean</span><span class="p">,</span>  <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;7.1f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;esigmx&quot;</span>   <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_smax</span><span class="p">,</span>     <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;7.1f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;nexmx&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">nex_smax</span><span class="p">,</span>   <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;10.1f&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;enexmx&quot;</span>   <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_nex_smax</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;10.1f&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;nbmx&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">nb_smax</span><span class="p">,</span>    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;10.1f&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;enbmx&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_nb_smax</span><span class="p">,</span>  <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;10.1f&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;tmx&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">tmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;9.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;etmx&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_tmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>      <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;9.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;altmx&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">altmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>      <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;5.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;ealtmx&quot;</span>   <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_altmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;azmx&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">azmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>       <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;eazmx&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_azmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>     <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;nex3s&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">nex3s</span><span class="p">,</span>         <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.1f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;enex3s&quot;</span>   <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_nex3s</span><span class="p">,</span>       <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.1f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;nb3s&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">nb3s</span><span class="p">,</span>          <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.1f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;enb3s&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_nb3s</span><span class="p">,</span>        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.1f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;t3s&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">t3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>           <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;9.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;et3s&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_t3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>         <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;9.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;alt3s&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">alt3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>         <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;5.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;ealt3s&quot;</span>   <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_alt3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>       <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;az3s&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">az3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>          <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;eaz3s&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_az3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;d3s&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">mc</span><span class="o">.</span><span class="n">detect_3s</span><span class="p">,</span>  <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;4d&quot;</span>   <span class="p">},</span>
+            <span class="s2">&quot;nex5s&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">nex5s</span><span class="p">,</span>         <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.1f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;enex5s&quot;</span>   <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_nex5s</span><span class="p">,</span>       <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.1f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;nb5s&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">nb5s</span><span class="p">,</span>          <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.1f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;enb5s&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_nb5s</span><span class="p">,</span>        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;8.1f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;t5s&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">t5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>           <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;9.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;et5s&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_t5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>         <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;9.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;alt5s&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">alt5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>         <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;5.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;ealt5s&quot;</span>   <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_alt5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>       <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;az5s&quot;</span>     <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">az5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>          <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;eaz5s&quot;</span>    <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">e_az5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;6.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;d5s&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">mc</span><span class="o">.</span><span class="n">detect_5s</span><span class="p">,</span>              <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;4d&quot;</span>   <span class="p">},</span>
+            <span class="s2">&quot;mct&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="o">*</span><span class="n">mc</span><span class="o">.</span><span class="n">mctime</span><span class="p">,</span>      <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;5.2f&quot;</span> <span class="p">},</span>
+            <span class="s2">&quot;err&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">mc</span><span class="o">.</span><span class="n">err</span><span class="p">,</span>                    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;4d&quot;</span>   <span class="p">},</span>
+            <span class="s2">&quot;err_slice&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="s1">&#39;&quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">err_slice</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>      <span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="c1">###--------------------------------------</span>
+    <span class="c1">### Dump dictionnary into population file</span>
+    <span class="c1">###--------------------------------------</span>
+    <span class="c1"># Even if simulation was not performed or aborted</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">pop</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">header</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="c1"># Print header the first time</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
+                <span class="c1"># Get format from the dictionnary</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># remove type</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="c1"># Get dot position</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">pos</span><span class="o">&gt;=</span> <span class="mi">0</span><span class="p">):</span> <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="p">[:</span><span class="n">pos</span><span class="p">]</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="n">f</span> <span class="o">+</span><span class="s2">&quot;s&quot;</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;{:</span><span class="si">{}</span><span class="s2">}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">f</span><span class="p">),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">pop</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">pop</span><span class="p">)</span>
+
+
+            <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;{:</span><span class="si">{}</span><span class="s2">}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">]),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">pop</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">pop</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Th. Stolarczyk.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

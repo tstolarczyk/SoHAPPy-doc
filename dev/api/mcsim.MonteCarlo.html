@@ -1,0 +1,504 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>MonteCarlo &mdash; SoHAPPy 0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="alpha" href="mcsim_config.alpha.html" />
+    <link rel="prev" title="Monte Carlo" href="../montecarlo.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../montecarlo.html">Monte Carlo</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../montecarlo.html#module-mcsim">mcsim Module</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../montecarlo.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">MonteCarlo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../montecarlo.html#module-mcsim_config">mcsim_config Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../montecarlo.html#module-mcsim_res">mcsim_res Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../montecarlo.html#module-mcsim_plot">mcsim_plot Module</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source_analysis.html">Analyzing a single object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source_analysis.html#dataset-plotting">Dataset plotting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Dataset tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html#utilities">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Todo list</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../montecarlo.html">Monte Carlo</a> &raquo;</li>
+        
+      <li>MonteCarlo</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/mcsim.MonteCarlo.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="montecarlo">
+<h1>MonteCarlo<a class="headerlink" href="#montecarlo" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">mcsim.</span></span><span class="sig-name descname"><span class="pre">MonteCarlo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluctuate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nosignal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'random-seed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Unknown'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcsim.html#MonteCarlo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class handles a GRB simulation and analysis, either on one of the two
+sites, or simultaneously on the two sites.
+It requires the following additionnal modules :
+- mcsim_config, that contains a certain number of analysis parameters
+(e.g. detection level)
+- mcsim_res : dump the results on screen and in a csv file.
+- mcsim_plot : display plots related to the analysis for each event.
+It makes an aperture photometry analysis of a GRB and is particulary suited
+to a population studies.
+The extraction of the energy spectrum is done through standalone notebooks
+from the save simulation for individual GRBs.</p>
+<p class="rubric">Methods Summary</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mcsim.MonteCarlo.aperture_photometry" title="mcsim.MonteCarlo.aperture_photometry"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aperture_photometry</span></code></a>()</p></td>
+<td><p>Perform an aperture photometry simulation and analysis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mcsim.MonteCarlo.create_dataset_list" title="mcsim.MonteCarlo.create_dataset_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dataset_list</span></code></a>()</p></td>
+<td><p>Create the dataset list as a list of list to handle more than one irf per slice (GRB seen on both sites).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mcsim.MonteCarlo.dump_slices" title="mcsim.MonteCarlo.dump_slices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dump_slices</span></code></a>([phase])</p></td>
+<td><p>Print out the list of on and off counts and the corresponding Li &amp; Ma value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mcsim.MonteCarlo.fill_stat" title="mcsim.MonteCarlo.fill_stat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill_stat</span></code></a>(sigma, non, noff)</p></td>
+<td><p>Get the statistics and handle the exceptions of the current MC simulation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mcsim.MonteCarlo.run" title="mcsim.MonteCarlo.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(slot[, boost, savedset, dump_dir])</p></td>
+<td><p>Run simulations of the current grb, for a given hemisphere.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mcsim.MonteCarlo.write" title="mcsim.MonteCarlo.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>([filename])</p></td>
+<td><p>Save the present class to disk for further use in particular a E-dependt on-off analysis</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.aperture_photometry">
+<span class="sig-name descname"><span class="pre">aperture_photometry</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcsim.html#MonteCarlo.aperture_photometry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.aperture_photometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform an aperture photometry simulation and analysis.
+The counts are summed-up over enegy from the SpectrumDataset object
+list (The SpectrumDatasetOnOff objects are not created).
+The siginificance is computed under the assmption of a measured
+background, i.e. with possble fluctuation.
+Note that WStatCountsStatistic returns a significance with the
+sign of the excess (negative excess give negative significance).
+If the count number is not fluctuated, the excess can only be
+positive since it is obtained from a physical flux. Excess at zero
+gives a significance at zeo.</p>
+<dl class="simple">
+<dt>More on the various statistics here :</dt><dd><p><a class="reference external" href="https://docs.gammapy.org/0.17/stats/fit_statistics.html">https://docs.gammapy.org/0.17/stats/fit_statistics.html</a></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>sigma</strong><span class="classifier">numpy array, float</span></dt><dd><p>One significance per time slice</p>
+</dd>
+<dt><strong>nxs</strong><span class="classifier">numpy array, float</span></dt><dd><p>One excess count per time slice</p>
+</dd>
+<dt><strong>nbck</strong><span class="classifier">numy array, float</span></dt><dd><p>One background count per time slice</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.create_dataset_list">
+<span class="sig-name descname"><span class="pre">create_dataset_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcsim.html#MonteCarlo.create_dataset_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.create_dataset_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the dataset list as a list of list to handle more than one
+irf per slice (GRB seen on both sites).</p>
+<p>The pointing, center of the field of view, is the same for all time
+slices as it is considered that the GRB is constantly followed within
+the pre-computed visibililty window. The pointing is displaced compared
+to the GRB position by a distance mc.offset, a value
+choosen to give enough space to have 1/mcf.alpha off regions of radius
+mcf.on_size, the detection area.
+The detection areas, on and off regions, have a size independent of
+the energy, but the effective area and background are mofified to take
+into account the PSF evolution with energy (see the irf module).</p>
+<p>The datasets are defined with the same true and reconstructed enegy
+axes so that counts can be added bin per bin. Differences in threshold
+due to different IRF are taken into account by masking some bins
+(the mask at a certain energy value cancel the whole bin it belongs to,
+see the irf module for more explanations)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>debug</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, verbose mode. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dset_list</strong><span class="classifier">Numpy array of Dataset objects</span></dt><dd><p>A list of datasets (not a collection like a Datasets.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.dump_slices">
+<span class="sig-name descname"><span class="pre">dump_slices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcsim.html#MonteCarlo.dump_slices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.dump_slices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print out the list of on and off counts and the corresponding
+Li &amp; Ma value. If non and off are less than a minimum value
+return a True status flag for further actions.
+This function ca nbe used to dump all slices (just changing the
+nLiMamin value to a very large value)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>phase</strong><span class="classifier">String, optional</span></dt><dd><p>Select the phase among “open”, “close”, or by default writing.
+The default is None.</p>
+</dd>
+<dt><strong>**kwargs</strong><span class="classifier">TYPE</span></dt><dd><p>Extra arguments for each of the phases.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>TYPE</dt><dd><p>DESCRIPTION.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.fill_stat">
+<span class="sig-name descname"><span class="pre">fill_stat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">non</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcsim.html#MonteCarlo.fill_stat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.fill_stat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the statistics and handle the exceptions of the current MC
+simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>sigma</strong><span class="classifier">numpy array, float</span></dt><dd><p>One siginificance per time slice</p>
+</dd>
+<dt><strong>nxs</strong><span class="classifier">numpy array, float</span></dt><dd><p>One excess count per time slice</p>
+</dd>
+<dt><strong>nbck</strong><span class="classifier">numy array, float</span></dt><dd><p>One background counter per time slice</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savedset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dump_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcsim.html#MonteCarlo.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run simulations of the current grb, for a given hemisphere.
+A simulation correspond to a series of observations corresponding
+to the GRB time slices.
+This performs an aperure photometry analysis, and is particularly
+suitable for a population analyis.</p>
+<dl class="simple">
+<dt>Compute and store :</dt><dd><ul class="simple">
+<li><p>Significance values for all slices in the trials;</p></li>
+<li><p>Maximum significance reached for the GRB;</p></li>
+<li><p>Time of maximum siginificance, number of excess and background events;</p></li>
+<li><p>Time to reach 3 or 5 sigma, number of excess and background events.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>slot</strong><span class="classifier">Slot object</span></dt><dd><p>A colection of time slices to be analysed</p>
+</dd>
+<dt><strong>boost</strong><span class="classifier">Boolen, optional</span></dt><dd><p>If True, skip simulations if the first are not detected.
+The default is True.</p>
+</dd>
+<dt><strong>savedset</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, save the dataset to disk. The default is False.</p>
+</dd>
+<dt><strong>dump_dir</strong><span class="classifier">String, optional</span></dt><dd><p>If defined, will dump information on problematic slices to a text file.
+The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'None'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcsim.html#MonteCarlo.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the present class to disk for further use in particular a
+E-dependt on-off analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">string, optional</span></dt><dd><p>Output file name. The default is “None”.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="mcsim_config.alpha.html" class="btn btn-neutral float-right" title="alpha" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../montecarlo.html" class="btn btn-neutral float-left" title="Monte Carlo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Th. Stolarczyk.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

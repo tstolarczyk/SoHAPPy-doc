@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Astrophysical objects (GRB) &mdash; SoHAPPy 0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="GammaRayBurst" href="api/grb.GammaRayBurst.html" />
+    <link rel="prev" title="Input file format" href="file_format.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> SoHAPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Astrophysical objects (GRB)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-grb">grb Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/grb.GammaRayBurst.html">GammaRayBurst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/grb.GRBDummy.html">GRBDummy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-grb_plot">grb_plot Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.energy_and_time_packed.html">energy_and_time_packed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.spectra.html">spectra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.energy_over_timeslices.html">energy_over_timeslices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.time_over_energyband.html">time_over_energyband</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.energy_and_time_2d.html">energy_and_time_2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.animated_spectra.html">animated_spectra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.visibility_plot.html">visibility_plot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="montecarlo.html">Monte Carlo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">Analyzing a single object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source_analysis.html#dataset-plotting">Dataset plotting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Dataset tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html#utilities">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Todo list</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SoHAPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Astrophysical objects (GRB)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/grb.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="astrophysical-objects-grb">
+<h1>Astrophysical objects (GRB)<a class="headerlink" href="#astrophysical-objects-grb" title="Permalink to this headline">¶</a></h1>
+<p>The input files contain a series of flux measurement at certain energies for a series of time slices. This files also give the position, the redshift, some physical information and the default visibility over one night for a minimal altitude of 10 degrees (this visibility can be recomputed, see later).Alternatively the object can described as  energy and time powerlaws in extranl yaml file that will be used to generate energy spectra and time slices.</p>
+<p>The source information is handled by the <cite>~grb.GammaRayBurst</cite> class in the <code class="docutils literal notranslate"><span class="pre">grb.py</span></code> module.
+Each <code class="docutils literal notranslate"><span class="pre">GammaRayburst</span></code> object carries a list in time of <em>WRONG</em> <code class="docutils literal notranslate"><span class="pre">AbsorbedSpectralModel</span></code> models obtained from template models, which are interpolation of the initial flux points after applying a given EBL absorption.
+Alternatively the initial file can contain already absorbed spectra (in that case the model as to be declared “built-in” in ana_congif.py).</p>
+<p>To each object are attached the visibilities at each site (typically North and South for CTA). They are used to compute the time slot used for the simulmation and analysis.</p>
+<p>The grb_plot.py modules contains the fucntions displaying the grb charcateristics, including the visibility windows.</p>
+<div class="section" id="module-grb">
+<span id="grb-module"></span><h2>grb Module<a class="headerlink" href="#module-grb" title="Permalink to this headline">¶</a></h2>
+<p>This module contains the classes and tools to handle a GRB object, i.e.
+a collection of lightcurve bins for each of which is given an energy spectrum,
+and information on site location.</p>
+<p>Created on Tue Jan 22 11:41:34 2019</p>
+<p>&#64;author: Stolar</p>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/grb.GammaRayBurst.html#grb.GammaRayBurst" title="grb.GammaRayBurst"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GammaRayBurst</span></code></a>([ebl_model, z])</p></td>
+<td><p>Class to store GRB properties</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/grb.GRBDummy.html#grb.GRBDummy" title="grb.GRBDummy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GRBDummy</span></code></a>([tmin, tmax, nbin, beta])</p></td>
+<td><p>A list of obaservation times and an integrated flux at each point Useful for slice merging tests or prototype for e.g.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-grb_plot">
+<span id="grb-plot-module"></span><h2>grb_plot Module<a class="headerlink" href="#module-grb_plot" title="Permalink to this headline">¶</a></h2>
+<p>Created on Tue Jan 22 11:41:34 2019</p>
+<p>&#64;author: Stolar</p>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/grb_plot.energy_and_time_packed.html#grb_plot.energy_and_time_packed" title="grb_plot.energy_and_time_packed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_and_time_packed</span></code></a>(grb)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/grb_plot.spectra.html#grb_plot.spectra" title="grb_plot.spectra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectra</span></code></a>(grb[, opt])</p></td>
+<td><p>Plot time evolution (lightcurve) and energy spectra</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/grb_plot.energy_over_timeslices.html#grb_plot.energy_over_timeslices" title="grb_plot.energy_over_timeslices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_over_timeslices</span></code></a>(grb)</p></td>
+<td><p>Plot E spectra along the time bins.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/grb_plot.time_over_energyband.html#grb_plot.time_over_energyband" title="grb_plot.time_over_energyband"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_over_energyband</span></code></a>(grb)</p></td>
+<td><p>Plot t spectra along the E bins - E bin number is fixed :-)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/grb_plot.energy_and_time_2d.html#grb_plot.energy_and_time_2d" title="grb_plot.energy_and_time_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_and_time_2d</span></code></a>(grb)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/grb_plot.animated_spectra.html#grb_plot.animated_spectra" title="grb_plot.animated_spectra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">animated_spectra</span></code></a>(grb[, emin, emax, savefig, ...])</p></td>
+<td><p>Create a gif animation of time slices,</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/grb_plot.visibility_plot.html#grb_plot.visibility_plot" title="grb_plot.visibility_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visibility_plot</span></code></a>(grb[, loc, moon, ax, ...])</p></td>
+<td><p>Plot the night, above-the-horizon and visibility periods, the altitude evolution with time as well as a lightcurve for a fixed reference energy.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="api/grb.GammaRayBurst.html" class="btn btn-neutral float-right" title="GammaRayBurst" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="file_format.html" class="btn btn-neutral float-left" title="Input file format" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Th. Stolarczyk.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

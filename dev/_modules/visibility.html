@@ -1,0 +1,1267 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>visibility &mdash; SoHAPPy 0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                dev
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../montecarlo.html">Monte Carlo</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source_analysis.html">Analyzing a single object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../source_analysis.html#dataset-plotting">Dataset plotting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Dataset tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html#utilities">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Todo list</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>visibility</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for visibility</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Tue Aug  4 13:17:27 2020</span>
+
+<span class="sd">This module is organised around the :class:`visibility` class.</span>
+<span class="sd">It combines the rise, set and night (twilight) windows, and apply the moon veto</span>
+<span class="sd">window to the GRB data window (defined by the two extreme GRB time of the</span>
+<span class="sd">data points) to produce the visibility windows for a given GRB on a given site.</span>
+<span class="sd">It can also be used to check that the ones given by default are in agreement</span>
+<span class="sd">for the default horizon value (10 degrees) and for the nights found within</span>
+<span class="sd">24 hours.</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span>   <span class="nn">astropy.time</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="kn">from</span>   <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">AltAz</span><span class="p">,</span> <span class="n">get_moon</span>
+<span class="kn">from</span>   <span class="nn">astropy.table</span>         <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span>   <span class="nn">astropy.coordinates</span>   <span class="kn">import</span> <span class="n">EarthLocation</span><span class="p">,</span> <span class="n">Angle</span>
+
+<span class="kn">from</span>   <span class="nn">astroplan</span> <span class="kn">import</span> <span class="n">Observer</span><span class="p">,</span> <span class="n">FixedTarget</span><span class="p">,</span> <span class="n">moon_illumination</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="c1">### Site poisitions</span>
+<span class="n">site_xyz</span> <span class="o">=</span> <span class="p">{</span> 
+    <span class="s2">&quot;CTA&quot;</span><span class="p">:</span>
+         <span class="p">{</span> <span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="n">EarthLocation</span><span class="o">.</span><span class="n">from_geocentric</span><span class="p">(</span> <span class="nb">float</span><span class="p">(</span><span class="mf">5327448.9957829</span><span class="p">),</span>
+                                                   <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="mf">1718665.73869569</span><span class="p">),</span>
+                                                   <span class="nb">float</span><span class="p">(</span><span class="mf">3051566.90295403</span><span class="p">),</span>
+                                                   <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">),</span>
+           <span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="n">EarthLocation</span><span class="o">.</span><span class="n">from_geocentric</span><span class="p">(</span> <span class="nb">float</span><span class="p">(</span><span class="mf">1946404.34103884</span><span class="p">),</span>
+                                                   <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="mf">5467644.29079852</span><span class="p">),</span>
+                                                   <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="mf">2642728.20144425</span><span class="p">),</span>
+                                                   <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">)</span>
+           <span class="c1"># Requires to have an internet connection</span>
+           <span class="c1"># Get all possible sites with : EarthLocation.get_site_names()</span>
+           <span class="c1"># &quot;North&quot;: EarthLocation.of_site(&#39;Roque de los Muchachos&#39;),</span>
+           <span class="c1"># &quot;South&quot;: EarthLocation.of_site(&#39;Paranal Observatory&#39;)</span>
+           <span class="c1"># Values taken from Maria Grazia Bernardini (July 28, 2020)</span>
+           <span class="c1"># &quot;North&quot;: EarthLocation.from_geocentric( 5327285.09211954,</span>
+           <span class="c1">#                                        -1718777.11250295,</span>
+           <span class="c1">#                                         3051786.7327476,</span>
+           <span class="c1">#                                         unit=&quot;m&quot;),</span>
+           <span class="c1"># &quot;South&quot;: EarthLocation.from_geocentric(1946635.7979987,</span>
+           <span class="c1">#                                       -5467633.94561753,</span>
+           <span class="c1">#                                       -2642498.5212285,</span>
+           <span class="c1">#                                        unit=&quot;m&quot;)   </span>
+           <span class="c1"># Alternative :</span>
+           <span class="c1"># &quot;North&quot;: EarthLocation.from_geodetic(&#39;342.1184&#39;,</span>
+           <span class="c1">#                                       &#39;28.7606&#39;,2326.* u.meter)</span>
+           <span class="c1"># &quot;South&quot;: EarthLocation.from_geodetic(&#39;289.5972&#39;,</span>
+           <span class="c1">#                                      &#39;-24.6253&#39;,2635.* u.meter)</span>
+         <span class="p">},</span>
+         
+  <span class="c1"># from default values in</span>
+  <span class="c1"># https://www.mpi-hd.mpg.de/hfm/HESS/pages/home/visibility/</span>
+  <span class="c1"># Warning : use CTA-North for virtual HESS North</span>
+  <span class="s2">&quot;HESS&quot;</span><span class="p">:</span>
+        <span class="p">{</span> <span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="n">EarthLocation</span><span class="o">.</span><span class="n">from_geocentric</span><span class="p">(</span> <span class="nb">float</span><span class="p">(</span><span class="mf">5327448.9957829</span><span class="p">),</span>
+                                                   <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="mf">1718665.73869569</span><span class="p">),</span>
+                                                   <span class="nb">float</span><span class="p">(</span><span class="mf">3051566.90295403</span><span class="p">),</span>
+                                                   <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">),</span>
+          <span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="n">EarthLocation</span><span class="o">.</span><span class="n">from_geodetic</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="n">Angle</span><span class="p">(</span><span class="s1">&#39;-23d16m18.0s&#39;</span><span class="p">),</span>
+                                      <span class="n">lon</span><span class="o">=</span><span class="n">Angle</span><span class="p">(</span><span class="s1">&#39;16d30m0.0s&#39;</span><span class="p">),</span>
+                                      <span class="n">height</span><span class="o">=</span><span class="mi">1800</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+        <span class="p">}</span>
+ <span class="p">}</span>
+
+
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Visibility&quot;</span><span class="p">]</span>
+<span class="c1">###------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">Df</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a time in Julian day format if the argument is finite</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;jd&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+<span class="c1">###------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">Dp</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a time in ISO format if the argument is an astropy </span>
+<span class="sd">    :class:`Time`, and if not returns the argument (unchanged).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">Time</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">iso</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="c1">###############################################################################</span>
+<div class="viewcode-block" id="Visibility"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility">[docs]</a><span class="k">class</span> <span class="nc">Visibility</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class defines the visibility periods for a given GRB and a certain</span>
+<span class="sd">    site (North or South).</span>
+<span class="sd">    It can be called to update the default visibilities given with the GRB data</span>
+<span class="sd">    file, in particular to modify the minimum altitude for a source to be</span>
+<span class="sd">    decently detectable.</span>
+<span class="sd">    The method, :class:`check` is used to compare the visibility</span>
+<span class="sd">    windows with the one given by default in the GRB file or any other</span>
+<span class="sd">    pre-loaded visibility.</span>
+
+<span class="sd">    Excerpt from the astroplan documentation:</span>
+<span class="sd">        </span>
+<span class="sd">    * Moonrise is defined as the instant when, in the eastern sky, under ideal meteorological conditions, with standard refraction of the Moon&#39;s rays, the upper edge of the Moon&#39;s disk is coincident with an ideal horizon.</span>
+
+<span class="sd">    * Moonset is defined as the instant when, in the western sky, under ideal meteorological conditions, with standard refraction of the Moon&#39;s rays, the upper edge of the Moon&#39;s disk is coincident with an ideal horizon.</span>
+
+<span class="sd">    The Moon angular diameter varies between 29.3 to 34.1 arcminutes </span>
+<span class="sd">    (Wikipedia), namely 0.488 and 0.568 degree. The rise time is when the moon is below the horizon at a negative angle half of these values, respectively -0.244 and -0.284 degree</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">grb</span><span class="p">,</span><span class="n">loc</span><span class="p">,</span><span class="n">observatory</span><span class="o">=</span><span class="s2">&quot;CTA&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Visibility constructor. The members follow the elements of the</span>
+<span class="sd">        original default visibility files.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        grb : GammaRayBurst instance</span>
+<span class="sd">            The objetc to which the visibility will be attached</span>
+<span class="sd">        loc : String</span>
+<span class="sd">            Site (North or Souht)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span>  <span class="o">=</span> <span class="s2">&quot;init&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">site</span>    <span class="o">=</span> <span class="n">site_xyz</span><span class="p">[</span><span class="n">observatory</span><span class="p">][</span><span class="n">loc</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span>  <span class="o">=</span> <span class="n">FixedTarget</span><span class="p">(</span><span class="n">coord</span><span class="o">=</span><span class="n">grb</span><span class="o">.</span><span class="n">radec</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">grb</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tstart</span>  <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tstop</span>   <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span> <span class="o">+</span> <span class="n">grb</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span>    <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">loc</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">depth</span>   <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">altmin</span>  <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># GRB Minimal allowed altitude</span>
+
+        <span class="c1"># Visible any moment of the year from the site</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span>         <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># Visible any moment within the 24h after the trigger from the site</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis_tonight</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># Visible at the moment of the GRB trigger</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis_prompt</span>  <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Visible above min. alt. - list of pair</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_true</span>     <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tstop</span><span class="p">]]</span>
+
+        <span class="c1"># Astronomical twilight - list of pair</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_twilight</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tstop</span><span class="p">]]</span>
+
+        <span class="c1"># Rise and set of the target - list of pair</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_event</span>    <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">tstop</span><span class="p">]]</span>  
+
+        <span class="c1"># Nights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_night</span>  <span class="o">=</span> <span class="p">[[]]</span>
+
+        <span class="c1"># Moon period veto - Default is no veto</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moon_maxalt</span>     <span class="o">=</span> <span class="mi">90</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Maximal allowed altitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moon_mindist</span>    <span class="o">=</span>  <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Minimum distance to source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moon_maxlight</span>   <span class="o">=</span>  <span class="mi">1</span>       <span class="c1"># Maximum allowed brightness</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_moon_up</span>       <span class="o">=</span> <span class="p">[[]]</span> <span class="c1"># Altitude exceeds moon_maxalt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moon_too_bright</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Moon brigthness above threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moon_too_close</span>  <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Moon distance too small</span>
+
+        <span class="k">return</span>
+    
+    <span class="c1">###-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.from_fits"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.from_fits">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_fits</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">grb</span><span class="p">,</span> <span class="n">hdr</span><span class="p">,</span> <span class="n">hdul</span><span class="p">,</span> <span class="n">hdu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Default visibility from input file.</span>
+<span class="sd">        </span>
+<span class="sd">        * The start and stop dates are searched during 24h after the trigger and correspond to the first visibility interval.</span>
+<span class="sd">        </span>
+<span class="sd">        * Does not report a second visibility interval during 24h, that should be possible only if the target is promptly visible (about 15% of the targets)</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        grb : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        hdr : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        hdul : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        hdu : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is 1.</span>
+<span class="sd">        loc : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is &quot;None&quot;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="n">Visibility</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span><span class="n">loc</span><span class="p">)</span>  <span class="c1"># This calls the constructor</span>
+
+        <span class="n">vis</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">,</span><span class="n">hdu</span><span class="o">=</span><span class="n">hdu</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">loc</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">data</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;jd&quot;</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">loc</span> <span class="o">==</span> <span class="s2">&quot;North&quot;</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span> <span class="p">[</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="p">]</span> <span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">loc</span> <span class="o">==</span> <span class="s2">&quot;South&quot;</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span> <span class="p">[</span> <span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="p">]</span> <span class="p">]</span>
+
+         <span class="c1"># Visibility has been computed with this minimum altitude</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">loc</span> <span class="o">==</span> <span class="s2">&quot;North&quot;</span><span class="p">):</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">vis</span>          <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;V_N_ANYT&#39;</span><span class="p">]</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">vis_tonight</span>  <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;V_N_TNG&#39;</span><span class="p">]</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">vis_prompt</span>   <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;V_N_PR&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">loc</span> <span class="o">==</span> <span class="s2">&quot;South&quot;</span><span class="p">):</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">vis</span>          <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;V_S_ANYT&#39;</span><span class="p">]</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">vis_tonight</span>  <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;V_S_TNG&#39;</span><span class="p">]</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">vis_prompt</span>   <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;V_S_PR&#39;</span><span class="p">]</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="n">altmin</span>     <span class="o">=</span> <span class="n">vis</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;MIN_ALT&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Minimum altitude</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">t_true</span>     <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;True&quot;</span><span class="p">],</span><span class="n">loc</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">t_twilight</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;Twilight&quot;</span><span class="p">],</span><span class="n">loc</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">t_event</span>    <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;Event&quot;</span><span class="p">],</span><span class="n">loc</span><span class="p">)</span>
+
+        <span class="c1">#print(self.grb.name,&quot; : visibility read for &quot;,loc)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span></div>
+
+    <span class="c1">###-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.compute"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.compute">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">grb</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> 
+                    <span class="n">observatory</span> <span class="o">=</span> <span class="s2">&quot;CTA&quot;</span><span class="p">,</span>
+                    <span class="n">altmin</span>      <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                    <span class="n">altmoon</span>     <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                    <span class="n">moondist</span>    <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span>
+                    <span class="n">moonlight</span>   <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="n">depth</span>       <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="n">skip</span>        <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="n">npt</span>         <span class="o">=</span> <span class="mi">150</span><span class="p">,</span>
+                    <span class="n">force_vis</span>   <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="n">debug</span>       <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the visibility periods for a given GRB and site. This constructor takes as arguments a grb (:class:&#39;GammaRayBurst`) and a location (string), and all the parameters required for the computation.</span>
+<span class="sd">    </span>
+<span class="sd">        Note that all time variables are expressed in Julian days (to use `sort`) an are then copied as :class:`Time` objects later into the class variables.</span>
+<span class="sd">    </span>
+<span class="sd">        The algorithm is the following:</span>
+<span class="sd">    </span>
+<span class="sd">            1. Build periods for:</span>
+<span class="sd">                * Nights (*t_night*), and check if trigger occurs during night (*is_night*);</span>
+<span class="sd">                * Potential moon vetoes (*t_moon_alt_veto*) due to the Moon above the defined horizon (*altmoon*);</span>
+<span class="sd">                * Check (*True*, *False*) whether these Moon veto periods are kept by the moon brightness and distance to the source (*moonlight_veto*). If this is the case, keep the corresponding moon veto period in *t_moon_veto* otherwise discard the period. In order to have all Moon period kept (i.e. veto is valid as soon as Moon is above *altmoon*), *moondist* should be maximised (veto at any distance) and *moonlight* should be minimised (even if no moonligt, veto is valid);</span>
+<span class="sd">                * Above horizon (*t_above*) and whether the object is above the horizon (*altmin*) at trigger time.</span>
+<span class="sd">        </span>
+<span class="sd">            2. Put all *start* and *stop* of all these periods in a list, sort the list, resulting in a series of ordered “ticks”.</span>
+<span class="sd">            3. For each consecutive tick pairs in the list:</span>
+<span class="sd">                * Compute the mean time (middle of the a tick pair)</span>
+<span class="sd">                * Check if that time belongs to one of the *night*, *above*, or *bright* (i.e. in the available data interval) intervals and not to any  *moon* interval. If so get True, otherwise False.</span>
+<span class="sd">       </span>
+<span class="sd">            4. For each of the tick pairs compute the Boolean `visible = bright and dark and above and moon` and get the visibility windows when True.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        altmin : float, optional</span>
+<span class="sd">            Minimum altitude. The default is 10*u.deg.</span>
+<span class="sd">        depth : Quantity Time, optional</span>
+<span class="sd">            Depth up to which time windows are search for (at least one day). The default is 3 days, and the reference time is the start of the visibility window (i.e. the window end can be beyond the depth)    </span>
+<span class="sd">        end : integer, optional</span>
+<span class="sd">            Defines the crietria to accept a visibility window within the depth. If 0, the window has to start before depth, if 1 it has to stop before depth.</span>
+<span class="sd">        npt : integer, optional</span>
+<span class="sd">            Number of grid points for horizon crossing. The default is 150.</span>
+<span class="sd">        debug : bool, optional</span>
+<span class="sd">            Print additional comments at excecution time if True .The default is False.</span>
+
+<span class="sd">  </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">cls</span> <span class="o">=</span> <span class="n">Visibility</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span><span class="n">loc</span><span class="p">,</span><span class="n">observatory</span><span class="o">=</span><span class="n">observatory</span><span class="p">)</span>  <span class="c1"># This calls the constructor</span>
+        
+        <span class="c1">###---------------------------------------------------</span>
+        <span class="k">def</span> <span class="nf">valid</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">tslices</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tslices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span> <span class="k">return</span> <span class="kc">False</span> <span class="c1"># No slice !</span>
+            <span class="n">ok</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">slices</span> <span class="ow">in</span> <span class="n">tslices</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">t0</span> <span class="o">&gt;=</span> <span class="n">slices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">t0</span> <span class="o">&lt;=</span> <span class="n">slices</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">ok</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span> <span class="n">ok</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="n">ok</span>
+        <span class="c1">###---------------------------------------------------</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="n">depth</span>     <span class="o">=</span> <span class="n">depth</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">altmin</span>    <span class="o">=</span> <span class="n">altmin</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="n">moon_maxalt</span>   <span class="o">=</span> <span class="n">altmoon</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">moon_mindist</span>  <span class="o">=</span> <span class="n">moondist</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">moon_maxlight</span> <span class="o">=</span> <span class="n">moonlight</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="n">status</span>    <span class="o">=</span> <span class="s2">&quot;Updated&quot;</span>
+
+        <span class="n">obs</span>  <span class="o">=</span> <span class="n">Observer</span><span class="p">(</span><span class="n">location</span>  <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">site</span><span class="p">,</span>
+                        <span class="n">name</span>      <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">timezone</span>  <span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span>
+
+        <span class="c1">### Find the nights  ---</span>
+        <span class="k">if</span> <span class="n">force_vis</span><span class="p">:</span> 
+            <span class="n">t_night</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">cls</span><span class="o">.</span><span class="n">tstart</span><span class="o">.</span><span class="n">jd</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">tstop</span><span class="o">.</span><span class="n">jd</span><span class="p">]]</span>
+            <span class="n">is_night</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">is_night</span><span class="p">,</span> <span class="n">t_night</span>  <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">nights</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="n">skip</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="n">npt</span><span class="p">)</span>
+
+        <span class="c1">### MOON VETOES (high enough, close enough, bright enough) ---</span>
+        <span class="k">if</span> <span class="n">force_vis</span><span class="p">:</span>
+            <span class="n">t_moon_alt_veto</span> <span class="o">=</span> <span class="p">[[]]</span>
+            <span class="n">t_moon_veto</span> <span class="o">=</span> <span class="p">[[]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t_moon_alt_veto</span>    <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">moon_alt_veto</span><span class="p">(</span><span class="n">obs</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="n">npt</span><span class="p">)</span>
+            <span class="n">t_moon_veto</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">t_moon_alt_veto</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">too_bright</span><span class="p">,</span> <span class="n">too_close</span><span class="p">)</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">moonlight_veto</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">moon_too_bright</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">too_bright</span><span class="p">)</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">moon_too_close</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">too_close</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">too_bright</span> <span class="ow">or</span> <span class="n">too_close</span><span class="p">:</span> <span class="n">t_moon_veto</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_moon_veto</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">t_moon_veto</span> <span class="o">=</span> <span class="p">[[]]</span>
+
+        <span class="c1">### HORIZON ---</span>
+        <span class="p">(</span><span class="n">high</span><span class="p">,</span> <span class="n">t_above</span><span class="p">)</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">horizon</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+        <span class="c1"># Prompt appears above horizon during night</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">high</span> <span class="ow">and</span> <span class="n">is_night</span><span class="p">):</span> <span class="bp">cls</span><span class="o">.</span><span class="n">vis_prompt</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Now prepare the ticks from all the intervals</span>
+        <span class="n">ticks</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">tstart</span><span class="o">.</span><span class="n">jd</span><span class="p">]</span> <span class="c1"># ,cls.tstop.jd] is night end</span>
+
+        <span class="c1"># Restrict the  windows to the last night end or the GRB data length</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">tstop</span> <span class="o">&lt;</span> <span class="n">Df</span><span class="p">(</span><span class="n">t_night</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="c1"># The GRB data stop before the ned of last night</span>
+            <span class="c1"># print(&quot; &gt;&gt;&gt;&gt; Analysis shortened by lack of data&quot;)</span>
+            <span class="n">ticks</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">cls</span><span class="o">.</span><span class="n">tstop</span><span class="o">.</span><span class="n">jd</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Set the end at last night for convenience</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">tstop</span> <span class="o">=</span> <span class="n">Df</span><span class="p">(</span><span class="n">t_night</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">t_night</span>       <span class="p">:</span> <span class="n">ticks</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">elt</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">t_above</span>       <span class="p">:</span> <span class="n">ticks</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">elt</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">t_moon_veto</span>   <span class="p">:</span> <span class="n">ticks</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">elt</span><span class="p">)</span>
+
+        <span class="n">ticks</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span> <span class="c1"># Requires numerical values -&gt; all times are in jd</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">debug</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ticks : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ticks</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:10s}</span><span class="s2"> </span><span class="si">{:&lt;23s}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">Df</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">iso</span><span class="p">))</span>
+
+        <span class="c1"># Loop over slices and check visibility</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">debug</span><span class="p">):</span> <span class="c1"># Header</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; </span><span class="si">{:&lt;23s}</span><span class="s2">   </span><span class="si">{:&lt;23s}</span><span class="s2"> </span><span class="si">{:&gt;10s}</span><span class="s2"> </span><span class="si">{:&gt;6s}</span><span class="s2"> </span><span class="si">{:&gt;6s}</span><span class="s2"> </span><span class="si">{:&gt;6s}</span><span class="s2"> </span><span class="si">{:&gt;6s}</span><span class="s2">&quot;</span>
+                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;T1&quot;</span><span class="p">,</span> <span class="s2">&quot;T2&quot;</span><span class="p">,</span> <span class="s2">&quot;bright&quot;</span><span class="p">,</span> <span class="s2">&quot;dark&quot;</span><span class="p">,</span> <span class="s2">&quot;above&quot;</span><span class="p">,</span> <span class="s2">&quot;moon.&quot;</span><span class="p">,</span><span class="s2">&quot;vis.&quot;</span><span class="p">))</span>
+
+        <span class="n">t_vis</span>   <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">ticks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">t2</span> <span class="o">=</span> <span class="n">ticks</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">tmid</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">t1</span><span class="o">+</span><span class="n">t2</span><span class="p">)</span>
+            <span class="n">bright</span>  <span class="o">=</span> <span class="n">valid</span><span class="p">(</span><span class="n">tmid</span><span class="p">,[[</span><span class="bp">cls</span><span class="o">.</span><span class="n">tstart</span><span class="o">.</span><span class="n">jd</span><span class="p">,</span><span class="bp">cls</span><span class="o">.</span><span class="n">tstop</span><span class="o">.</span><span class="n">jd</span><span class="p">]])</span>
+            <span class="n">dark</span>    <span class="o">=</span> <span class="n">valid</span><span class="p">(</span><span class="n">tmid</span><span class="p">,</span><span class="n">t_night</span><span class="p">)</span>
+            <span class="n">above</span>   <span class="o">=</span> <span class="n">valid</span><span class="p">(</span><span class="n">tmid</span><span class="p">,</span><span class="n">t_above</span><span class="p">)</span>
+            <span class="n">moon</span>    <span class="o">=</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">(</span><span class="n">tmid</span><span class="p">,</span><span class="n">t_moon_veto</span><span class="p">)</span> <span class="c1"># Moon acts as a veto</span>
+            <span class="n">visible</span> <span class="o">=</span> <span class="n">bright</span> <span class="ow">and</span> <span class="n">dark</span> <span class="ow">and</span> <span class="n">above</span> <span class="ow">and</span> <span class="n">moon</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">visible</span><span class="p">):</span>
+                <span class="n">t_vis</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">])</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">vis_tonight</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">vis</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">debug</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">t1</span><span class="p">):</span> <span class="n">t1</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span>
+                <span class="k">else</span> <span class="p">:</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">Df</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span><span class="o">.</span><span class="n">iso</span>
+
+                <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">t2</span><span class="p">):</span> <span class="n">t2</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span>
+                <span class="k">else</span><span class="p">:</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">Df</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span><span class="o">.</span><span class="n">iso</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; </span><span class="si">{:&gt;23}</span><span class="s2">   </span><span class="si">{:&gt;23}</span><span class="s2"> </span><span class="si">{:&gt;10}</span><span class="s2"> </span><span class="si">{:&gt;6}</span><span class="s2"> </span><span class="si">{:&gt;6}</span><span class="s2"> </span><span class="si">{:&gt;6}</span><span class="s2"> </span><span class="si">{:&gt;6}</span><span class="s2">&quot;</span>
+                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span>
+                              <span class="n">bright</span><span class="p">,</span> <span class="n">dark</span><span class="p">,</span> <span class="n">above</span><span class="p">,</span> <span class="ow">not</span> <span class="n">moon</span><span class="p">,</span> <span class="n">visible</span><span class="p">),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">visible</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; *&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span> <span class="nb">print</span><span class="p">()</span>
+
+        <span class="c1"># Write back all intervals into Time and into Class</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_night</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">==</span><span class="mi">0</span> <span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">t_twilight</span>  <span class="o">=</span> <span class="p">[[]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">t_twilight</span>  <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">t_night</span><span class="p">:</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">t_twilight</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="n">Df</span><span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">Df</span><span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_above</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">==</span><span class="mi">0</span> <span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">t_event</span>  <span class="o">=</span> <span class="p">[[]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">t_event</span>  <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">t_above</span><span class="p">:</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">t_event</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="n">Df</span><span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">Df</span><span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_moon_alt_veto</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">==</span><span class="mi">0</span> <span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">t_moon_up</span>  <span class="o">=</span> <span class="p">[[]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">t_moon_up</span>  <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">t_moon_alt_veto</span><span class="p">:</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">t_moon_up</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="n">Df</span><span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">Df</span><span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="p">)</span>
+
+        <span class="c1"># Finalise visibility windows, taking into account the depth</span>
+        <span class="c1"># and additionnal moon vetoes.</span>
+        <span class="c1"># If no visibility window is left, re-assign vis_tonight</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_vis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">t_true</span>  <span class="o">=</span> <span class="p">[[]]</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">vis_tonight</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">vis</span>         <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1">### At least one visibility period is found</span>
+            <span class="c1"># Will it survive moon distance and brigthness cut ?</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">vis_tonight</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">t_true</span>  <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">t_vis</span><span class="p">:</span>
+<span class="c1">#                if not moonlight_veto(t_vis):</span>
+                <span class="c1">#cls.t_moon_alt.append( [Df(elt[0]), Df(elt[1])] )</span>
+                <span class="c1">#if (elt[end_of_day] - cls.tstart.jd &lt;= cls.depth):</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">t_true</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="n">Df</span><span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">Df</span><span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span></div>
+
+    <span class="c1">###-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.read"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.read">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">folder</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read a visibility instance from disk</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cls : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        name : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        folder : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is &quot;.&quot;.</span>
+<span class="sd">        debug : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        vis : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">import</span> <span class="nn">pickle</span>
+        <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+        <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+        
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+            <span class="n">infile</span>  <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+            <span class="bp">cls</span> <span class="o">=</span>  <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+            <span class="n">infile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">debug</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &lt;&lt;&lt;&lt; Visibility read from : &quot;</span><span class="p">,</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot; Visibility file &quot;</span><span class="o">+</span><span class="n">filename</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot; does not exist !&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span></div>
+
+    <span class="c1">###-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.write"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write current visibility instance to disk</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is &quot;.&quot;.</span>
+<span class="sd">        debug : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">import</span> <span class="nn">pickle</span>
+        <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;_vis.bin&quot;</span><span class="p">)</span>
+        <span class="n">outfile</span>  <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">outfile</span><span class="p">)</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">debug</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &gt;&gt;&gt; Visibility written to : &quot;</span><span class="p">,</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+
+    <span class="c1">###-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.nights"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.nights">[docs]</a>    <span class="k">def</span> <span class="nf">nights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obs</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="mi">150</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obs : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        is_night : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        skip : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is 0.</span>
+<span class="sd">        tstop : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tnights : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tnights</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">inight</span>  <span class="o">=</span> <span class="mi">0</span> <span class="c1"># night (after trigger) counter</span>
+
+        <span class="c1"># Get the first night : can be the current night</span>
+        <span class="n">is_night</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">is_night</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="p">,</span> <span class="n">horizon</span> <span class="o">=</span> <span class="o">-</span><span class="mi">18</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">is_night</span><span class="p">):</span>
+            <span class="n">search</span><span class="o">=</span><span class="s2">&quot;previous&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">search</span> <span class="o">=</span> <span class="s2">&quot;next&quot;</span>
+
+        <span class="n">t_dusk</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">twilight_evening_astronomical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="p">,</span>
+                                                    <span class="n">which</span> <span class="o">=</span> <span class="n">search</span><span class="p">,</span>
+                                                    <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+        <span class="n">t_dawn</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">twilight_morning_astronomical</span><span class="p">(</span><span class="n">t_dusk</span><span class="p">,</span>
+                                                    <span class="n">which</span><span class="o">=</span><span class="s2">&quot;next&quot;</span><span class="p">,</span>
+                                                    <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+        <span class="c1"># Omit first night if requested</span>
+        <span class="n">inight</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># night counter</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">skip</span> <span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+            <span class="n">tnights</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t_dusk</span><span class="o">.</span><span class="n">jd</span><span class="p">,</span> <span class="n">t_dawn</span><span class="o">.</span><span class="n">jd</span><span class="p">])</span>
+
+        <span class="c1"># Add subsequent nights until reaching the end of GRB data</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">t_dusk</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tstop</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">inight</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">):</span>
+            <span class="n">t_dusk</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">twilight_evening_astronomical</span><span class="p">(</span><span class="n">t_dawn</span><span class="p">,</span>
+                                                        <span class="n">which</span> <span class="o">=</span> <span class="s2">&quot;next&quot;</span><span class="p">,</span>
+                                                        <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+            <span class="n">t_dawn</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">twilight_morning_astronomical</span><span class="p">(</span><span class="n">t_dusk</span><span class="p">,</span>
+                                                        <span class="n">which</span> <span class="o">=</span> <span class="s2">&quot;next&quot;</span><span class="p">,</span>
+                                                        <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">inight</span> <span class="o">&gt;=</span> <span class="n">skip</span><span class="p">):</span>
+                <span class="n">tnights</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t_dusk</span><span class="o">.</span><span class="n">jd</span><span class="p">,</span> <span class="n">t_dawn</span><span class="o">.</span><span class="n">jd</span><span class="p">])</span>
+            
+            <span class="n">inight</span> <span class="o">+=</span><span class="mi">1</span>
+
+        <span class="c1"># For test, add the previous night</span>
+        <span class="c1"># t_dawn0 = obs.twilight_morning_astronomical(self.grb.t_trig,</span>
+        <span class="c1">#                                            which=&quot;previous&quot;,</span>
+        <span class="c1">#                                            n_grid_points = npt)</span>
+        <span class="c1"># t_dusk0 = obs.twilight_evening_astronomical(t_dawn0,</span>
+        <span class="c1">#                                             which=&quot;previous&quot;,</span>
+        <span class="c1">#                                             n_grid_points = npt)</span>
+        <span class="c1"># tnights.append([t_dusk0.jd, t_dawn0.jd])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tnights</span><span class="p">)</span> <span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">sys</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;No night found, please check your input parameters&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">is_night</span><span class="p">,</span> <span class="n">tnights</span><span class="p">)</span></div>
+
+    <span class="c1">###-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.horizon"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.horizon">[docs]</a>    <span class="k">def</span> <span class="nf">horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="mi">150</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obs : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        npt : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is 150.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        high : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">t_above</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Get first period above horizon : can be the present period...</span>
+        <span class="n">high</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">target_is_up</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+                                <span class="n">horizon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">altmin</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">high</span><span class="p">):</span> <span class="n">search</span><span class="o">=</span><span class="s2">&quot;previous&quot;</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">search</span> <span class="o">=</span> <span class="s2">&quot;next&quot;</span>
+
+        <span class="n">t_rise</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">target_rise_time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+                                      <span class="n">which</span>   <span class="o">=</span> <span class="n">search</span><span class="p">,</span>
+                                      <span class="n">horizon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">altmin</span><span class="p">,</span>
+                                      <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+
+        <span class="c1"># If rise time is undefined, this means that the GRB is always above</span>
+        <span class="c1"># or below the horizon - Otherwise the set time can be found.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">t_rise</span><span class="o">.</span><span class="n">jd</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">high</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vis</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">return</span> <span class="n">high</span><span class="p">,</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="o">.</span><span class="n">jd</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">tstop</span><span class="o">.</span><span class="n">jd</span><span class="p">]]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vis</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">return</span> <span class="n">high</span><span class="p">,</span> <span class="p">[[]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vis</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">t_set</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">target_set_time</span><span class="p">(</span><span class="n">t_rise</span><span class="p">,</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+                                        <span class="n">which</span><span class="o">=</span><span class="s2">&quot;next&quot;</span><span class="p">,</span>
+                                        <span class="n">horizon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">altmin</span><span class="p">,</span>
+                                        <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+
+            <span class="n">t_above</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t_rise</span><span class="o">.</span><span class="n">jd</span><span class="p">,</span><span class="n">t_set</span><span class="o">.</span><span class="n">jd</span><span class="p">])</span>
+
+
+            <span class="c1"># Add a subsequent above-horizon periods until GRB end of data</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">t_set</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tstop</span><span class="p">):</span>
+                <span class="n">t_rise</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">target_rise_time</span><span class="p">(</span><span class="n">t_set</span><span class="p">,</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+                                          <span class="n">which</span><span class="o">=</span><span class="s2">&quot;next&quot;</span><span class="p">,</span>
+                                          <span class="n">horizon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">altmin</span><span class="p">,</span>
+                                          <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+                <span class="n">t_set</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">target_set_time</span><span class="p">(</span><span class="n">t_rise</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span>
+                                            <span class="n">which</span><span class="o">=</span><span class="s2">&quot;next&quot;</span><span class="p">,</span>
+                                            <span class="n">horizon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">altmin</span><span class="p">,</span>
+                                            <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+                <span class="n">t_above</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t_rise</span><span class="o">.</span><span class="n">jd</span><span class="p">,</span><span class="n">t_set</span><span class="o">.</span><span class="n">jd</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">high</span><span class="p">,</span> <span class="n">t_above</span><span class="p">)</span></div>
+    <span class="c1">###-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.moonlight_veto"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.moonlight_veto">[docs]</a>    <span class="k">def</span> <span class="nf">moonlight_veto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the Moon period defined by the rise and set time correspond</span>
+<span class="sd">        to a situation where the moon is too bright or too close from the</span>
+<span class="sd">        source.</span>
+<span class="sd">        If this is the case (too bright or too close), returns True</span>
+<span class="sd">        (the veto is confirmed).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">too_bright</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">too_close</span>  <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Check moon illumination</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dt</span><span class="p">:</span>
+            <span class="n">moonlight</span> <span class="o">=</span> <span class="n">moon_illumination</span><span class="p">(</span><span class="n">Df</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">moonlight</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moon_maxlight</span><span class="p">):</span>
+                <span class="n">too_bright</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">debug</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Moonlight :&quot;</span><span class="p">,</span><span class="n">moonlight</span><span class="p">,</span><span class="s2">&quot; too bright ! -&gt; confirmed&quot;</span><span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="c1"># Check distance to source at rise and set</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dt</span><span class="p">:</span>
+            <span class="n">moon_radec</span> <span class="o">=</span> <span class="n">get_moon</span><span class="p">(</span><span class="n">Df</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">site</span><span class="p">)</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="n">moon_radec</span><span class="o">.</span><span class="n">separation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">coord</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dist</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moon_mindist</span><span class="p">:</span>
+                <span class="n">too_close</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">debug</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Moon Distance : &quot;</span><span class="p">,</span><span class="n">dist</span><span class="p">,</span><span class="s2">&quot;too close !&quot;</span><span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">too_bright</span><span class="p">,</span> <span class="n">too_close</span><span class="p">)</span></div>
+
+    <span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.moon_halo"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.moon_halo">[docs]</a>    <span class="k">def</span> <span class="nf">moon_halo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">r0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">q0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the moon light intensity (hand-made model) as a function of distance r</span>
+<span class="sd">        It is assumed that the intensity is constant (q0) along the moon radius r0, and reach</span>
+<span class="sd">        the fraction epsilon at the critical distance rc, following a 1/r2 function:</span>
+<span class="sd">        1/(a*(x-r0)**2 +c)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span> <span class="p">(</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span><span class="n">epsilon</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">q0</span><span class="o">*</span><span class="n">epsilon</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">rc</span><span class="o">-</span><span class="n">r0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">r0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">q0</span><span class="p">)</span>
+        <span class="c1">#f = 0.5*(1 - abs(r0-x)/(r0-x))* f + 0.5*(1 - abs(x-r0)/(x-r0))*q0</span>
+        <span class="k">return</span> <span class="n">f</span></div>
+
+    <span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.moon_halo_veto"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.moon_halo_veto">[docs]</a>    <span class="k">def</span> <span class="nf">moon_halo_veto</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">r0</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the distance at which the moon intensity reaches the threshold</span>
+<span class="sd">        This is the analytical inverse of the moon_halo function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span><span class="n">epsilon</span><span class="p">)</span><span class="o">/</span><span class="n">epsilon</span><span class="o">/</span><span class="n">q0</span><span class="o">/</span><span class="p">(</span><span class="n">rc</span><span class="o">-</span><span class="n">r0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="n">threshold</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">q0</span><span class="p">)</span><span class="o">/</span><span class="n">a</span><span class="p">)</span></div>
+
+    <span class="c1">###-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.moon_alt_veto"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.moon_alt_veto">[docs]</a>    <span class="k">def</span> <span class="nf">moon_alt_veto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">npt</span><span class="o">=</span><span class="mi">150</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The first veto is the moon alitude.</span>
+<span class="sd">        First find windows where the Moon is too high</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obs : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        twindow : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        altmin : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is 10*u.deg.</span>
+<span class="sd">        npt : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is 150.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tmoons : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tmoons</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Is the Moon there at trigger tigger time ?</span>
+        <span class="n">radec</span> <span class="o">=</span> <span class="n">get_moon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="p">,</span><span class="n">obs</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+        <span class="n">altaz</span> <span class="o">=</span> <span class="n">radec</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="n">AltAz</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">obs</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                                         <span class="n">obstime</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="p">))</span>
+
+        <span class="c1"># Search next rise except if Moon is already here</span>
+        <span class="n">search</span><span class="o">=</span><span class="s2">&quot;next&quot;</span>
+        <span class="k">if</span>  <span class="p">(</span><span class="n">altaz</span><span class="o">.</span><span class="n">alt</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">moon_maxalt</span><span class="p">):</span> <span class="n">search</span><span class="o">=</span><span class="s2">&quot;previous&quot;</span>
+
+        <span class="n">t_rise</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">moon_rise_time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="p">,</span>
+                                    <span class="n">which</span> <span class="o">=</span> <span class="n">search</span><span class="p">,</span> <span class="n">horizon</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">moon_maxalt</span><span class="p">,</span>
+                                    <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">t_rise</span><span class="o">.</span><span class="n">jd</span><span class="p">)):</span>
+            <span class="c1"># Moon will never rise</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &gt;&gt;&gt;&gt;&gt; Moon will never rise above &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">moon_maxalt</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[[]]</span> <span class="c1"># No veto period</span>
+
+        <span class="n">t_set</span>  <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">moon_set_time</span><span class="p">(</span><span class="n">t_rise</span><span class="p">,</span>
+                                   <span class="n">which</span><span class="o">=</span><span class="s2">&quot;next&quot;</span><span class="p">,</span> <span class="n">horizon</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">moon_maxalt</span><span class="p">,</span>
+                                   <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+
+        <span class="n">tmoons</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t_rise</span><span class="o">.</span><span class="n">jd</span><span class="p">,</span> <span class="n">t_set</span><span class="o">.</span><span class="n">jd</span><span class="p">])</span>
+
+        <span class="c1"># Add subsequent nights until reaching the end of GRB data</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">t_set</span><span class="o">.</span><span class="n">jd</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tstop</span><span class="o">.</span><span class="n">jd</span><span class="p">):</span>
+            <span class="n">t_rise</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">moon_rise_time</span><span class="p">(</span><span class="n">t_set</span><span class="p">,</span>
+                                        <span class="n">which</span> <span class="o">=</span> <span class="s2">&quot;next&quot;</span><span class="p">,</span> <span class="n">horizon</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">moon_maxalt</span><span class="p">,</span>
+                                        <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+            <span class="n">t_set</span>  <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">moon_set_time</span><span class="p">(</span><span class="n">t_rise</span><span class="p">,</span>
+                                       <span class="n">which</span> <span class="o">=</span> <span class="s2">&quot;next&quot;</span><span class="p">,</span>  <span class="n">horizon</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">moon_maxalt</span><span class="p">,</span>
+                                       <span class="n">n_grid_points</span> <span class="o">=</span> <span class="n">npt</span><span class="p">)</span>
+
+            <span class="n">tmoons</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t_rise</span><span class="o">.</span><span class="n">jd</span><span class="p">,</span> <span class="n">t_set</span><span class="o">.</span><span class="n">jd</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmoons</span><span class="p">):</span> <span class="k">return</span> <span class="n">tmoons</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="p">[[]]</span>
+
+        <span class="k">return</span> <span class="n">tmoons</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.print"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">log</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print out the GRB night, above-the-horizon periods, and default</span>
+<span class="sd">        visibility window.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        loc : String, optional</span>
+<span class="sd">            Either &quot;North&quot; or &quot;South&quot;. The default is None.</span>
+<span class="sd">        log : TextIO, optional</span>
+<span class="sd">            Log file. The default is None.</span>
+<span class="sd">        alt : Visibility instance</span>
+<span class="sd">            Get the values from the Visibility object (used for comparisons)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">log</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> <span class="n">log</span> <span class="o">=</span> <span class="n">Log</span><span class="p">()</span>
+        
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;=================   </span><span class="si">{:10s}</span><span class="s2">   </span><span class="si">{:10s}</span><span class="s2">   ================&quot;</span>
+          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s1">&#39; Visible : </span><span class="si">{}</span><span class="s1"> - tonight, prompt : </span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1">)&#39;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis_tonight</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vis_prompt</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s1">&#39; Altitude : Horizon &gt; </span><span class="si">{:3.1f}</span><span class="s1"> - Moon &gt; </span><span class="si">{:4.2f}</span><span class="s1">&#39;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">altmin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">moon_maxalt</span><span class="p">))</span>
+        <span class="c1">#log.prt(&quot; Trigger: {}&quot;.format(self.t_trig.datetime))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis_tonight</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span><span class="s2">&quot;Updated&quot;</span><span class="p">:</span> <span class="c1"># Seen within 24hr after the trigger</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+----------------------------------------------------------------+&quot;</span><span class="p">)</span>
+
+            <span class="c1">###------------------</span>
+            <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">case</span><span class="o">=</span><span class="s2">&quot;Dummy&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; </span><span class="si">{:6s}</span><span class="s2"> : </span><span class="si">{:26s}</span><span class="s2"> * </span><span class="si">{:26s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">case</span><span class="p">,</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="s2">&quot;--&quot;</span><span class="p">))</span>
+                    <span class="k">return</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+                    <span class="n">t1</span> <span class="o">=</span> <span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">t2</span> <span class="o">=</span> <span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; </span><span class="si">{:6s}</span><span class="s2"> : </span><span class="si">{}</span><span class="s2"> * </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">case</span><span class="p">,</span>
+                                                      <span class="n">t1</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
+                                                      <span class="n">t2</span><span class="o">.</span><span class="n">datetime</span><span class="p">),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="c1"># t1  = (t1-self.grb.t_trig).sec*u.s</span>
+                    <span class="c1"># t2  = (t2-self.grb.t_trig).sec*u.s</span>
+                    <span class="c1"># log.prt(&quot;        : {:7.2f} {:6.2f} * {:7.2f} {:6.2f}&quot;</span>
+                    <span class="c1">#       .format(t1,self.grb.altaz(loc=loc,dt=t1).alt,</span>
+                    <span class="c1">#               t2,self.grb.altaz(loc=loc,dt=t2).alt))</span>
+                    <span class="k">if</span> <span class="n">case</span><span class="o">==</span><span class="s2">&quot;Moon&quot;</span><span class="p">:</span>
+                        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; B:</span><span class="si">{}</span><span class="s2"> D:</span><span class="si">{}</span><span class="s2">&quot;</span>
+                                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">moon_too_bright</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">],</span>
+                                        <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">moon_too_close</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="c1">#-------------------</span>
+
+            <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+                <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_event</span><span class="p">,</span><span class="n">case</span><span class="o">=</span><span class="s2">&quot;Event&quot;</span><span class="p">)</span> <span class="c1"># Event - above altmin</span>
+                <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_twilight</span><span class="p">,</span><span class="n">case</span><span class="o">=</span><span class="s2">&quot;Twil.&quot;</span><span class="p">)</span>  <span class="c1"># Twilight - Dark time</span>
+                <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_moon_up</span><span class="p">,</span><span class="n">case</span><span class="o">=</span><span class="s2">&quot;Moon&quot;</span><span class="p">)</span>  <span class="c1"># Moon altitude veto</span>
+                <span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_true</span><span class="p">,</span><span class="n">case</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>  <span class="c1"># True : dark time + altmin + triggered</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+----------------------------------------------------------------+&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span></div>
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Visibility.check"><a class="viewcode-back" href="../api/visibility.Visibility.html#visibility.Visibility.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">view</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delta_max</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks whether the visibility found in this code is</span>
+<span class="sd">        identical to the one in argument.</span>
+<span class="sd">        In particular, allow checking the default visbility for altmin=10°</span>
+<span class="sd">        and one night (The computation was done by maria Grazia Bernardini (MGB).</span>
+<span class="sd">        See README file for more information.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vis: Visibility</span>
+<span class="sd">            The visibility to be compared wiht</span>
+<span class="sd">        delta_max : float, optional</span>
+<span class="sd">            Max tolerance in seconds on window time limits.</span>
+<span class="sd">            The default is 5..</span>
+<span class="sd">        log : file pointer, optional</span>
+<span class="sd">            Allows having the output both on screen and in a file. The default is None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#----------------------------------------------------------------</span>
+        <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="n">tnew</span><span class="p">,</span><span class="n">torg</span><span class="p">,</span><span class="n">case</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function is part of the check method only, and factorize a</span>
+<span class="sd">            debugging printout</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            tnew : a time object pair in a list</span>
+<span class="sd">                The visibility windows in this code.</span>
+<span class="sd">            torg : a time object pair in a list</span>
+<span class="sd">                The visibility windows in the original data.</span>
+<span class="sd">            case : string, optional</span>
+<span class="sd">                Some words describingthe data sets. The default is None.</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+<span class="sd">            bool</span>
+<span class="sd">                Return True if both time set are identical within the tolerance</span>
+<span class="sd">                delta_max.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">delta1</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">tnew</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span><span class="n">torg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">delta2</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">tnew</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span><span class="n">torg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">delta1</span> <span class="o">&gt;</span> <span class="n">delta_max</span> <span class="ow">or</span> <span class="n">delta2</span> <span class="o">&gt;</span> <span class="n">delta_max</span><span class="p">):</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">log</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   ==&gt; </span><span class="si">{:&gt;10s}</span><span class="s2">: </span><span class="si">{}</span><span class="s2"> * </span><span class="si">{}</span><span class="s2">&quot;</span>
+                            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">case</span><span class="p">,</span><span class="n">tnew</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span><span class="n">tnew</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">datetime</span><span class="p">))</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   ==&gt; </span><span class="si">{:&gt;10s}</span><span class="s2">: </span><span class="si">{}</span><span class="s2"> * </span><span class="si">{}</span><span class="s2">&quot;</span>
+                          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;was&quot;</span><span class="p">,</span><span class="n">torg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span><span class="n">torg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">datetime</span><span class="p">))</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   ==&gt; </span><span class="si">{:&gt;10s}</span><span class="s2">: </span><span class="si">{:26.2f}</span><span class="s2"> * </span><span class="si">{:26.2f}</span><span class="s2">&quot;</span>
+                          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;Delta&quot;</span><span class="p">,</span><span class="n">delta1</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span><span class="n">delta2</span><span class="o">.</span><span class="n">sec</span><span class="p">))</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;   ==&gt; Not compatible with original values&quot;</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="c1">#----------------------------------------------------------------</span>
+
+        <span class="n">matching</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; *** Check </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">, &#39;</span><span class="si">{}</span><span class="s2">&#39; and &#39;</span><span class="si">{}</span><span class="s2">&#39; with tolerance : </span><span class="si">{}</span><span class="s2">&quot;</span>
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">view</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">delta_max</span><span class="p">),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check that general visibilities agree - if not return False</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vis</span> <span class="o">!=</span> <span class="n">view</span><span class="o">.</span><span class="n">vis</span><span class="p">):</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; ==&gt; Vis wrong &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">matching</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vis_tonight</span> <span class="o">!=</span> <span class="n">view</span><span class="o">.</span><span class="n">vis_tonight</span><span class="p">):</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; ==&gt; Vis_tonight wrong &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">matching</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vis_prompt</span> <span class="o">!=</span> <span class="n">view</span><span class="o">.</span><span class="n">vis_prompt</span><span class="p">):</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; ==&gt; Vis_prompt wrong &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">matching</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_true</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; ==&gt; &gt;1 window&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">matching</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">matching</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">matching</span>
+
+        <span class="c1"># If visibilities agree and there is nothing to compare with, return True</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vis</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+             <span class="n">log</span><span class="o">.</span><span class="n">prt</span> <span class="p">(</span><span class="s2">&quot;--- not visible&quot;</span><span class="p">)</span>
+             <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tonight</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+             <span class="n">log</span><span class="o">.</span><span class="n">prt</span> <span class="p">(</span><span class="s2">&quot;--- not tonight&quot;</span><span class="p">)</span>
+             <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="c1"># both &quot;tonight&quot; are OK, compare delta-time</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tonight</span> <span class="ow">and</span> <span class="n">view</span><span class="o">.</span><span class="n">vis_tonight</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">()</span>
+            <span class="c1"># status(self.t_above,self.grb.t_event,case = &quot;Above&quot;)</span>
+            <span class="c1"># status(self.t_night,self.grb.t_twilight,case = &quot;Night&quot;)</span>
+            <span class="n">matching</span> <span class="o">=</span> <span class="n">status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_true</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">view</span><span class="o">.</span><span class="n">t_true</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">case</span> <span class="o">=</span> <span class="s2">&quot;Vis&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">matching</span><span class="p">:</span> <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;--- ok&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;--- DOES NOT MATCH&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">matching</span></div></div>
+
+<span class="c1">###---------------------------------------------------------------------</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the visibilities for some GRB and compare to the default stored in</span>
+<span class="sd">    the GRB class. Update the GRB visibility windows.</span>
+
+<span class="sd">    * Events with Astroplan problem (risetime too close from tref)</span>
+<span class="sd">    astroplan_north = [522, 644]</span>
+<span class="sd">    astroplan_south = [233, 769]</span>
+
+<span class="sd">    * Events for which MG misses a short window</span>
+<span class="sd">    short_missed_North = [129, 174, 197, 214, 309, 380, 381, 479, 488, 502, 609,</span>
+<span class="sd">                         673, 933, 965]</span>
+<span class="sd">    short_missed_South = [24, 30, 182, 186, 319, 338, 444, 475, 734, 772, 826,</span>
+<span class="sd">                         879, 917, 986]</span>
+
+<span class="sd">    * Events with &gt; 1 visibility window</span>
+<span class="sd">    vis2_North = [75, 137, 139, 151, 153, 239, 270, 353, 507, 727, 859, 906,</span>
+<span class="sd">                  923, 948]</span>
+<span class="sd">    vis2_South = [85, 115, 414, 754, 755]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">from</span>   <span class="nn">utilities</span> <span class="kn">import</span> <span class="n">Log</span>
+    <span class="kn">from</span>   <span class="nn">SoHAPPy</span> <span class="kn">import</span> <span class="n">get_grb_fromfile</span>
+    <span class="kn">import</span> <span class="nn">grb_plot</span> <span class="k">as</span> <span class="nn">gplt</span>
+
+    <span class="n">newvis</span>    <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">altmin</span>    <span class="o">=</span> <span class="mi">24</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+    <span class="n">altmoon</span>   <span class="o">=</span> <span class="o">-</span><span class="mf">0.25</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+    <span class="n">moondist</span>  <span class="o">=</span> <span class="mi">30</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+    <span class="n">moonlight</span> <span class="o">=</span> <span class="mf">0.6</span>
+    <span class="n">depth</span>     <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">day</span>
+    <span class="n">skip</span>      <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># GRB list to be analysed</span>
+    <span class="c1"># 751 and 815 are killed by the Moon brigthness</span>
+    <span class="n">ifirst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">54</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">815</span><span class="p">,</span> <span class="mi">751</span><span class="p">]</span>
+    <span class="n">ifirst</span> <span class="o">=</span> <span class="mi">51</span>
+    <span class="n">ngrb</span>   <span class="o">=</span> <span class="mi">50</span>
+
+    <span class="n">dbg</span>   <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">show</span>  <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">res_dir</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span>
+
+    <span class="n">log_filename</span>    <span class="o">=</span> <span class="n">res_dir</span>  <span class="o">+</span> <span class="s2">&quot;visibility.log&quot;</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">Log</span><span class="p">(</span><span class="n">name</span>  <span class="o">=</span> <span class="n">log_filename</span><span class="p">,</span> <span class="n">talk</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">check</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># If True,run comparison between old and new visibilities</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">check</span><span class="p">):</span>
+        <span class="n">altmin</span>    <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+        <span class="n">moondist</span>  <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+        <span class="n">moonlight</span> <span class="o">=</span> <span class="mf">1.</span>
+        <span class="n">depth</span>     <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">day</span>
+        <span class="n">skip</span>      <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">ifirst</span><span class="p">)</span><span class="o">!=</span><span class="nb">list</span><span class="p">:</span>
+        <span class="n">grblist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ifirst</span><span class="p">,</span><span class="n">ifirst</span><span class="o">+</span><span class="n">ngrb</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">grblist</span> <span class="o">=</span> <span class="n">ifirst</span>
+
+    <span class="c1"># Loop over GRB list accordng to the config. file</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">grblist</span><span class="p">:</span>
+
+        <span class="n">grb</span> <span class="o">=</span> <span class="n">get_grb_fromfile</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">log</span><span class="o">=</span><span class="n">log</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">grb</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">]:</span>
+
+            <span class="c1"># Current visibility - not exciting</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--------------- D E F A U L T  -----------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">log</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">check</span> <span class="ow">and</span> <span class="n">ngrb</span><span class="o">&lt;</span><span class="mi">30</span> <span class="ow">and</span> <span class="n">show</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+                <span class="n">gplt</span><span class="o">.</span><span class="n">visibility_plot</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
+            <span class="c1"># Save old visibilities</span>
+            <span class="kn">import</span> <span class="nn">copy</span>
+            <span class="n">vis_def</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="n">loc</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">newvis</span><span class="p">):</span>
+            <span class="c1"># Compute visibility with new altitude</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--------------- New visibility  -----------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">altmin</span>    <span class="o">=</span> <span class="n">altmin</span><span class="p">,</span>
+                                     <span class="n">altmoon</span>   <span class="o">=</span> <span class="n">altmoon</span><span class="p">,</span>
+                                     <span class="n">moondist</span>  <span class="o">=</span> <span class="n">moondist</span><span class="p">,</span>
+                                     <span class="n">moonlight</span> <span class="o">=</span> <span class="n">moonlight</span><span class="p">,</span>
+                                     <span class="n">depth</span>     <span class="o">=</span> <span class="n">depth</span><span class="p">,</span>
+                                     <span class="n">skip</span>      <span class="o">=</span> <span class="n">skip</span><span class="p">,</span>
+                                     <span class="n">debug</span>     <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+                <span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="n">log</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">ngrb</span><span class="o">&lt;</span><span class="mi">30</span> <span class="ow">and</span> <span class="n">show</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="n">gplt</span><span class="o">.</span><span class="n">visibility_plot</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">check</span><span class="p">):</span> <span class="c1"># If requested, perform check</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">()(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--------------- C H E C K  ----------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">vis_def</span><span class="p">,</span><span class="n">log</span><span class="o">=</span><span class="n">log</span><span class="p">,</span><span class="n">delta_max</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; All done !&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Th. Stolarczyk.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

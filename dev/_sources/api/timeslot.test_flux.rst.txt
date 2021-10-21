@@ -1,0 +1,6 @@
+test_flux
+=========
+
+.. currentmodule:: timeslot
+
+.. autofunction:: test_flux

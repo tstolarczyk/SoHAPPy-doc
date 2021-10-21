@@ -1,0 +1,6 @@
+story
+=====
+
+.. currentmodule:: mcsim_plot
+
+.. autofunction:: story

@@ -1,0 +1,39 @@
+Visibility
+==========
+
+.. currentmodule:: visibility
+
+.. autoclass:: Visibility
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Visibility.check
+      ~Visibility.compute
+      ~Visibility.from_fits
+      ~Visibility.horizon
+      ~Visibility.moon_alt_veto
+      ~Visibility.moon_halo
+      ~Visibility.moon_halo_veto
+      ~Visibility.moonlight_veto
+      ~Visibility.nights
+      ~Visibility.print
+      ~Visibility.read
+      ~Visibility.write
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: check
+   .. automethod:: compute
+   .. automethod:: from_fits
+   .. automethod:: horizon
+   .. automethod:: moon_alt_veto
+   .. automethod:: moon_halo
+   .. automethod:: moon_halo_veto
+   .. automethod:: moonlight_veto
+   .. automethod:: nights
+   .. automethod:: print
+   .. automethod:: read
+   .. automethod:: write

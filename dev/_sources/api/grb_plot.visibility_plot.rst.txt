@@ -1,0 +1,6 @@
+visibility_plot
+===============
+
+.. currentmodule:: grb_plot
+
+.. autofunction:: visibility_plot

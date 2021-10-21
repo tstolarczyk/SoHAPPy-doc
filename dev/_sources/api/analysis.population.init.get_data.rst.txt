@@ -1,0 +1,6 @@
+get_data
+========
+
+.. currentmodule:: analysis.population.init
+
+.. autofunction:: get_data

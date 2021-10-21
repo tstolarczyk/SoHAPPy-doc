@@ -1,0 +1,6 @@
+fov
+===
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: fov

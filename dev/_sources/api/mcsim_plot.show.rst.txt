@@ -1,0 +1,6 @@
+show
+====
+
+.. currentmodule:: mcsim_plot
+
+.. autofunction:: show

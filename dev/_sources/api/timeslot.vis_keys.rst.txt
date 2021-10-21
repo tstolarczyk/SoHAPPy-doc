@@ -1,0 +1,6 @@
+vis_keys
+========
+
+.. currentmodule:: timeslot
+
+.. autodata:: vis_keys

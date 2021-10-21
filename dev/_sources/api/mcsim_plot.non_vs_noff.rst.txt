@@ -1,0 +1,6 @@
+non_vs_noff
+===========
+
+.. currentmodule:: mcsim_plot
+
+.. autofunction:: non_vs_noff

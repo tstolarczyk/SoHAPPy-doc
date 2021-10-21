@@ -1,0 +1,6 @@
+dtpop
+=====
+
+.. currentmodule:: analysis.population.setup
+
+.. autodata:: dtpop

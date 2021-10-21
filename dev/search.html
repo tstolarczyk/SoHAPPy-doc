@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>SoHAPPy &mdash; SoHAPPy 0.0 documentation</title>
+  <title>Search &mdash; SoHAPPy 0.0 documentation</title>
   
 
   
@@ -27,6 +27,7 @@
   
 
   
+    
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -42,9 +43,10 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+    <script type="text/javascript" src="_static/searchtools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="introduction.html" /> 
+    <link rel="search" title="Search" href="#" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -58,7 +60,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> SoHAPPy
+            <a href="index.html" class="icon icon-home"> SoHAPPy
           
 
           
@@ -75,7 +77,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="#" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -136,7 +138,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">SoHAPPy</a>
+          <a href="index.html">SoHAPPy</a>
         
       </nav>
 
@@ -167,16 +169,12 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>SoHAPPy</li>
+      <li>Search</li>
     
     
       <li class="wy-breadcrumbs-aside">
-        
-          
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-          
         
       </li>
     
@@ -188,109 +186,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
+  <noscript>
+  <div id="fallback" class="admonition warning">
+    <p class="last">
+      Please activate JavaScript to enable the search functionality.
+    </p>
+  </div>
+  </noscript>
+
   
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="sohappy">
-<h1>SoHAPPy<a class="headerlink" href="#sohappy" title="Permalink to this headline">¶</a></h1>
-<p><em>Simulation of High-energy Astrophysics Process detection in Python</em></p>
-<p><cite>SoHAPPy</cite> computes the response of <a class="reference external" href="https://www.cta-observatory.org">CTA</a> to a population of astrophysical objects
--initially GRBs- described in <em>fits</em> or <em>yaml</em> files in the simplest cases.
-Each object is a set of time slices with their respective spectral model.
-The object position is assumed to be known with an uncertainty below the instrument precision.</p>
-<p><cite>SoHAPPy</cite> handles the visibility from a start (trigger) date.
-Its main output are either a summary <em>csv</em> file with the characterisitics of the detection (significance and position in the sky) and individual output files allowing a time and spectral analysis. Both output files can be analysed thanks to dedicated python notebooks.</p>
-<p>The SoHAPPy project started mid 2019.
-Check the <a class="reference external" href="https://github.com/tstolarczyk/SoHAPPy">gihub repository</a> for the latest improvements.</p>
-<div class="section" id="more-on-sohappy">
-<h2>More on SoHAPPy<a class="headerlink" href="#more-on-sohappy" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="montecarlo.html">Monte Carlo</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">Analyzing a single object</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html#dataset-plotting">Dataset plotting</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Dataset tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html#utilities">Utilities</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer.html">Todo list</a></li>
-</ul>
-</div>
-<p class="rubric">References
-[tot] toto</p>
-</div>
-<div class="section" id="producing-the-documentation">
-<h2>Producing the documentation<a class="headerlink" href="#producing-the-documentation" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>See a <a class="reference external" href="http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html">RST syntax tutorial</a></p></li>
-<li><dl class="simple">
-<dt>From the docs SOHAPPy folder, execute:</dt><dd><ul>
-<li><p>windows : .\make.bat html</p></li>
-<li><p>Linux : make html</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</div>
-</div>
-
+  <div id="search-results">
+  
+  </div>
 
            </div>
            
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
 
   <hr/>
 
@@ -327,7 +239,14 @@ Check the <a class="reference external" href="https://github.com/tstolarczyk/SoH
   
   
     
+  
+  <script type="text/javascript">
+    jQuery(function() { Search.loadIndex("searchindex.js"); });
+  </script>
+  
+  <script type="text/javascript" id="searchindexloader"></script>
    
+
 
 </body>
 </html>

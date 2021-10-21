@@ -1,0 +1,6 @@
+sig_plot_cumulative
+===================
+
+.. currentmodule:: analysis.population.pop_plot
+
+.. autofunction:: sig_plot_cumulative

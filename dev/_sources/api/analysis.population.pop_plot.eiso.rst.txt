@@ -1,0 +1,6 @@
+eiso
+====
+
+.. currentmodule:: analysis.population.pop_plot
+
+.. autofunction:: eiso

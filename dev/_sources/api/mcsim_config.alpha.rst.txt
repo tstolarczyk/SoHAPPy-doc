@@ -1,0 +1,6 @@
+alpha
+=====
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: alpha

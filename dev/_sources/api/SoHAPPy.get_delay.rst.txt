@@ -1,0 +1,6 @@
+get_delay
+=========
+
+.. currentmodule:: SoHAPPy
+
+.. autofunction:: get_delay

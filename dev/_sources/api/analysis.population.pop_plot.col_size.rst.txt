@@ -1,0 +1,6 @@
+col_size
+========
+
+.. currentmodule:: analysis.population.pop_plot
+
+.. autofunction:: col_size

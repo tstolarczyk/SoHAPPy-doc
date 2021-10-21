@@ -1,0 +1,27 @@
+MonteCarlo
+==========
+
+.. currentmodule:: mcsim
+
+.. autoclass:: MonteCarlo
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~MonteCarlo.aperture_photometry
+      ~MonteCarlo.create_dataset_list
+      ~MonteCarlo.dump_slices
+      ~MonteCarlo.fill_stat
+      ~MonteCarlo.run
+      ~MonteCarlo.write
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: aperture_photometry
+   .. automethod:: create_dataset_list
+   .. automethod:: dump_slices
+   .. automethod:: fill_stat
+   .. automethod:: run
+   .. automethod:: write

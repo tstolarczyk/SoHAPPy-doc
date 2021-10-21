@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>SoHAPPy &mdash; SoHAPPy 0.0 documentation</title>
+  <title>Visibilities &mdash; SoHAPPy 0.0 documentation</title>
   
 
   
@@ -44,7 +44,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="introduction.html" /> 
+    <link rel="next" title="Visibility" href="api/visibility.Visibility.html" />
+    <link rel="prev" title="Slice" href="api/obs_slice.Slice.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -58,7 +59,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> SoHAPPy
+            <a href="index.html" class="icon icon-home"> SoHAPPy
           
 
           
@@ -101,10 +102,19 @@
 <li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Visibilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-visibility">visibility Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/visibility.Visibility.html">Visibility</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="montecarlo.html">Monte Carlo</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
@@ -136,7 +146,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">SoHAPPy</a>
+          <a href="index.html">SoHAPPy</a>
         
       </nav>
 
@@ -167,15 +177,15 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>SoHAPPy</li>
+      <li>Visibilities</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/visibility.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -212,74 +222,55 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="sohappy">
-<h1>SoHAPPy<a class="headerlink" href="#sohappy" title="Permalink to this headline">¶</a></h1>
-<p><em>Simulation of High-energy Astrophysics Process detection in Python</em></p>
-<p><cite>SoHAPPy</cite> computes the response of <a class="reference external" href="https://www.cta-observatory.org">CTA</a> to a population of astrophysical objects
--initially GRBs- described in <em>fits</em> or <em>yaml</em> files in the simplest cases.
-Each object is a set of time slices with their respective spectral model.
-The object position is assumed to be known with an uncertainty below the instrument precision.</p>
-<p><cite>SoHAPPy</cite> handles the visibility from a start (trigger) date.
-Its main output are either a summary <em>csv</em> file with the characterisitics of the detection (significance and position in the sky) and individual output files allowing a time and spectral analysis. Both output files can be analysed thanks to dedicated python notebooks.</p>
-<p>The SoHAPPy project started mid 2019.
-Check the <a class="reference external" href="https://github.com/tstolarczyk/SoHAPPy">gihub repository</a> for the latest improvements.</p>
-<div class="section" id="more-on-sohappy">
-<h2>More on SoHAPPy<a class="headerlink" href="#more-on-sohappy" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+<div class="section" id="visibilities">
+<h1>Visibilities<a class="headerlink" href="#visibilities" title="Permalink to this headline">¶</a></h1>
+<p>The time slices and slots are derived from the original <em>fits</em> file slices after applying the visibility.
+The visibility is defined by the <a class="reference internal" href="api/visibility.Visibility.html#visibility.Visibility" title="visibility.Visibility"><code class="xref py py-class docutils literal notranslate"><span class="pre">visibility.Visibility</span></code></a> class in <cite>visibility.py</cite>. It is either read from original provided data (<a class="reference internal" href="api/visibility.Visibility.html#visibility.Visibility.from_fits" title="visibility.Visibility.from_fits"><code class="xref py py-func docutils literal notranslate"><span class="pre">visibility.Visibility.from_fits()</span></code></a>) or pre-computed values (<a class="reference internal" href="api/visibility.Visibility.html#visibility.Visibility.read" title="visibility.Visibility.read"><code class="xref py py-func docutils literal notranslate"><span class="pre">visibility.Visibility.read()</span></code></a>), or computed on the fly (<a class="reference internal" href="api/visibility.Visibility.html#visibility.Visibility.compute" title="visibility.Visibility.compute"><code class="xref py py-func docutils literal notranslate"><span class="pre">visibility.Visibility.compute()</span></code></a>).
+Once computed it can be save on disk (<a class="reference internal" href="api/visibility.Visibility.html#visibility.Visibility.write" title="visibility.Visibility.write"><code class="xref py py-func docutils literal notranslate"><span class="pre">visibility.Visibility.write()</span></code></a>) to be further re-used.</p>
+<p>The visibility consists in time periods that will be applied to the original object time slice to create new time slices on which the observation will be simulated. <em>It does not account for the delay due to the alert or the telescope slewing</em> so that it can be re-used to studies the effect of these delays.</p>
+<p>A function (<a class="reference internal" href="api/visibility.Visibility.html#visibility.Visibility.check" title="visibility.Visibility.check"><code class="xref py py-func docutils literal notranslate"><span class="pre">visibility.Visibility.check()</span></code></a>) allows comparing two visibilities obtained in different ways and give the compatibility of the two within a time difference.</p>
+<dl>
+<dt>For each site location, the visibility it depends on:</dt><dd><ul>
+<li><p>the abscence of Sun (astronomical twilight, Sun below -18°);</p></li>
+<li><p>the altitude of the object above the horizon (typicall values are 10°, or 24° following the CTA requirements);</p></li>
+<li><p>the presence of Moon light as defined by :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the Moon alitude in the sky;</p></li>
+<li><p>the moon phase (or illumination, between 0 and 1);</p></li>
+<li><p>the angular distance of the object to the Moon.</p></li>
 </ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="montecarlo.html">Monte Carlo</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">Analyzing a single object</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html#dataset-plotting">Dataset plotting</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Dataset tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html#utilities">Utilities</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer.html">Todo list</a></li>
-</ul>
-</div>
-<p class="rubric">References
-[tot] toto</p>
-</div>
-<div class="section" id="producing-the-documentation">
-<h2>Producing the documentation<a class="headerlink" href="#producing-the-documentation" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>See a <a class="reference external" href="http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html">RST syntax tutorial</a></p></li>
-<li><dl class="simple">
-<dt>From the docs SOHAPPy folder, execute:</dt><dd><ul>
-<li><p>windows : .\make.bat html</p></li>
-<li><p>Linux : make html</p></li>
+</div></blockquote>
+</li>
 </ul>
 </dd>
 </dl>
-</li>
-</ul>
+<p>All this is obtained from astroplan functions.</p>
+<div class="section" id="module-visibility">
+<span id="visibility-module"></span><h2>visibility Module<a class="headerlink" href="#module-visibility" title="Permalink to this headline">¶</a></h2>
+<p>Created on Tue Aug  4 13:17:27 2020</p>
+<p>This module is organised around the <a class="reference internal" href="#module-visibility" title="visibility"><code class="xref py py-class docutils literal notranslate"><span class="pre">visibility</span></code></a> class.
+It combines the rise, set and night (twilight) windows, and apply the moon veto
+window to the GRB data window (defined by the two extreme GRB time of the
+data points) to produce the visibility windows for a given GRB on a given site.
+It can also be used to check that the ones given by default are in agreement
+for the default horizon value (10 degrees) and for the nights found within
+24 hours.</p>
+<p>&#64;author: Stolar</p>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/visibility.Visibility.html#visibility.Visibility" title="visibility.Visibility"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Visibility</span></code></a>(grb, loc[, observatory])</p></td>
+<td><p>This class defines the visibility periods for a given GRB and a certain site (North or South).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 
@@ -289,7 +280,8 @@ Check the <a class="reference external" href="https://github.com/tstolarczyk/SoH
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api/visibility.Visibility.html" class="btn btn-neutral float-right" title="Visibility" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api/obs_slice.Slice.html" class="btn btn-neutral float-left" title="Slice" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

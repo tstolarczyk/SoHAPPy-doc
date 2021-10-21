@@ -1,0 +1,6 @@
+containment
+===========
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: containment
