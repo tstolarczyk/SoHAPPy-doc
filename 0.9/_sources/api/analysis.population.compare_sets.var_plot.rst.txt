@@ -1,0 +1,6 @@
+var_plot
+========
+
+.. currentmodule:: analysis.population.compare_sets
+
+.. autofunction:: var_plot

@@ -1,0 +1,6 @@
+detection_level
+===============
+
+.. currentmodule:: analysis.population.sigmas
+
+.. autofunction:: detection_level

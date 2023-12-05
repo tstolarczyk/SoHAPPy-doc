@@ -1,0 +1,6 @@
+plot_dominguez_2011
+===================
+
+.. currentmodule:: ebl
+
+.. autofunction:: plot_dominguez_2011

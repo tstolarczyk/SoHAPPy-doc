@@ -1,0 +1,6 @@
+moonlight_plot
+==============
+
+.. currentmodule:: moon
+
+.. autofunction:: moonlight_plot

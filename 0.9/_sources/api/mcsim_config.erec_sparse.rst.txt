@@ -1,0 +1,6 @@
+erec_sparse
+===========
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: erec_sparse

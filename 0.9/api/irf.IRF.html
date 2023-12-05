@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IRF &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Input file format" href="../file_format.html" />
+    <link rel="prev" title="Instrument response functions" href="../irf.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../irf.html">Instrument response functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../irf.html#irf-data-file-organisation">IRF data file organisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../irf.html#irf-validity-ranges">IRF validity ranges</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../irf.html#irf-available-data">IRF available data</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../irf.html#official-public-files">Official public files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../irf.html#cta-consortium-files">CTA consortium files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../irf.html#cta-consortium-older-files">CTA consortium older files</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../irf.html#module-irf">irf Module</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../irf.html#classes">Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../irf.html">Instrument response functions</a></li>
+      <li class="breadcrumb-item active">IRF</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/irf.IRF.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="irf">
+<h1>IRF<a class="headerlink" href="#irf" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="irf.IRF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">irf.</span></span><span class="sig-name descname"><span class="pre">IRF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">irf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">etrue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kzen</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kaz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kdt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/irf.html#IRF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irf.IRF" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class handles the Instrument Response FFunction information and
+utilities</p>
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#irf.IRF.dt_list" title="irf.IRF.dt_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dt_list</span></code></a></p></td>
+<td><p>List of available time durations in the IRF file names and associated values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#irf.IRF.dt_log_valid" title="irf.IRF.dt_log_valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dt_log_valid</span></code></a></p></td>
+<td><p>Validity range of IRF in time, taking into account that the validity intervals are somehow in logarithmic scale.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#irf.IRF.dtl" title="irf.IRF.dtl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtl</span></code></a></p></td>
+<td><p>List of time intervals in logarithm corresponding to the durations in the IRF file names.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#irf.IRF.egen_min" title="irf.IRF.egen_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">egen_min</span></code></a></p></td>
+<td><p>Minimal acceptable True (i.e.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#irf.IRF.etrue_max" title="irf.IRF.etrue_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">etrue_max</span></code></a></p></td>
+<td><p>Minimal acceptable reconstructed energies depending on the IRF zenith angle.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#irf.IRF.nbin_per_decade" title="irf.IRF.nbin_per_decade"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nbin_per_decade</span></code></a></p></td>
+<td><p>Bins per decade for the true energy axis</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#irf.IRF.zenith_list" title="irf.IRF.zenith_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zenith_list</span></code></a></p></td>
+<td><p>List of available zenith angles in the IRF file names and associated values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#irf.IRF.zenith_valid" title="irf.IRF.zenith_valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zenith_valid</span></code></a></p></td>
+<td><p>Validity range in zenith of the IRFs (see documentation of this module).</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#irf.IRF.find_best_keys" title="irf.IRF.find_best_keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_best_keys</span></code></a>(zenith, azimuth, obstime[, ...])</p></td>
+<td><p>Find the best keys to later identify the IRF data file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#irf.IRF.from_observation" title="irf.IRF.from_observation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_observation</span></code></a>([zenith, azimuth, obstime, ...])</p></td>
+<td><p>Get the IRF data from the characteristics of an observation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#irf.IRF.print" title="irf.IRF.print"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print</span></code></a>()</p></td>
+<td><p>Print out some IRF class contents.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="irf.IRF.dt_list">
+<span class="sig-name descname"><span class="pre">dt_list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'prod3':</span> <span class="pre">{'100s':</span> <span class="pre">&lt;Quantity</span> <span class="pre">100.</span> <span class="pre">s&gt;,</span> <span class="pre">'30m':</span> <span class="pre">&lt;Quantity</span> <span class="pre">1800.</span> <span class="pre">s&gt;,</span> <span class="pre">'50h':</span> <span class="pre">&lt;Quantity</span> <span class="pre">180000.</span> <span class="pre">s&gt;,</span> <span class="pre">'5h':</span> <span class="pre">&lt;Quantity</span> <span class="pre">18000.</span> <span class="pre">s&gt;},</span> <span class="pre">'prod5':</span> <span class="pre">{'180000s':</span> <span class="pre">&lt;Quantity</span> <span class="pre">180000.</span> <span class="pre">s&gt;,</span> <span class="pre">'18000s':</span> <span class="pre">&lt;Quantity</span> <span class="pre">18000.</span> <span class="pre">s&gt;,</span> <span class="pre">'1800s':</span> <span class="pre">&lt;Quantity</span> <span class="pre">1800.</span> <span class="pre">s&gt;}}</span></em><a class="headerlink" href="#irf.IRF.dt_list" title="Permalink to this definition"></a></dt>
+<dd><p>List of available time durations in the IRF file names and
+associated values.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="irf.IRF.dt_log_valid">
+<span class="sig-name descname"><span class="pre">dt_log_valid</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'prod3':</span> <span class="pre">{'100s':</span> <span class="pre">[0,</span> <span class="pre">424.2640687119287],</span> <span class="pre">'30m':</span> <span class="pre">[424.2640687119287,</span> <span class="pre">5692.099788303088],</span> <span class="pre">'50h':</span> <span class="pre">[56920.997883030876,</span> <span class="pre">inf],</span> <span class="pre">'5h':</span> <span class="pre">[5692.099788303088,</span> <span class="pre">56920.997883030876]},</span> <span class="pre">'prod5':</span> <span class="pre">{'180000s':</span> <span class="pre">[56920.997883030876,</span> <span class="pre">inf],</span> <span class="pre">'18000s':</span> <span class="pre">[5692.099788303088,</span> <span class="pre">56920.997883030876],</span> <span class="pre">'1800s':</span> <span class="pre">[0,</span> <span class="pre">5692.099788303088]}}</span></em><a class="headerlink" href="#irf.IRF.dt_log_valid" title="Permalink to this definition"></a></dt>
+<dd><p>Validity range of IRF in time, taking into account that the validity
+intervals are somehow in logarithmic scale.
+The edge values are the following :
+0, 424.26 s, 5692.01 s (94.9’), 56921.0 s (15.8h)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="irf.IRF.dtl">
+<span class="sig-name descname"><span class="pre">dtl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'prod3':</span> <span class="pre">{'100s':</span> <span class="pre">2.0,</span> <span class="pre">'30m':</span> <span class="pre">3.255272505103306,</span> <span class="pre">'50h':</span> <span class="pre">5.2552725051033065,</span> <span class="pre">'5h':</span> <span class="pre">4.2552725051033065},</span> <span class="pre">'prod5':</span> <span class="pre">{'180000s':</span> <span class="pre">5.2552725051033065,</span> <span class="pre">'18000s':</span> <span class="pre">4.2552725051033065,</span> <span class="pre">'1800s':</span> <span class="pre">3.255272505103306}}</span></em><a class="headerlink" href="#irf.IRF.dtl" title="Permalink to this definition"></a></dt>
+<dd><p>List of time intervals in logarithm corresponding to the durations in
+the IRF file names.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="irf.IRF.egen_min">
+<span class="sig-name descname"><span class="pre">egen_min</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'20deg':</span> <span class="pre">&lt;Quantity</span> <span class="pre">12.6</span> <span class="pre">GeV&gt;,</span> <span class="pre">'40deg':</span> <span class="pre">&lt;Quantity</span> <span class="pre">26.4</span> <span class="pre">GeV&gt;,</span> <span class="pre">'60deg':</span> <span class="pre">&lt;Quantity</span> <span class="pre">105.3</span> <span class="pre">GeV&gt;}</span></em><a class="headerlink" href="#irf.IRF.egen_min" title="Permalink to this definition"></a></dt>
+<dd><p>Minimal acceptable True (i.e. generated) energies depending on the IRF zenith angle.
+Note: The masking later will remove the bin containing a given E value.
+If the E value is an edge, the subsequent bin is lost.
+The minimal and maximal energies need therefore to be slighlty
+before, resp. after the first, resp last edge of interest.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="irf.IRF.etrue_max">
+<span class="sig-name descname"><span class="pre">etrue_max</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'20deg':</span> <span class="pre">&lt;Quantity</span> <span class="pre">17.</span> <span class="pre">TeV&gt;,</span> <span class="pre">'40deg':</span> <span class="pre">&lt;Quantity</span> <span class="pre">17.</span> <span class="pre">TeV&gt;,</span> <span class="pre">'60deg':</span> <span class="pre">&lt;Quantity</span> <span class="pre">17.</span> <span class="pre">TeV&gt;}</span></em><a class="headerlink" href="#irf.IRF.etrue_max" title="Permalink to this definition"></a></dt>
+<dd><p>Minimal acceptable reconstructed energies depending on the IRF zenith angle.
+Note: The masking later will remove the bin containing the E value.
+If the E value is an edge, the subsequent bin is lost.
+The minimal and maximal energies need therefore to be slighlty
+before, resp. after the first, resp last edge of interest.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="irf.IRF.nbin_per_decade">
+<span class="sig-name descname"><span class="pre">nbin_per_decade</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#irf.IRF.nbin_per_decade" title="Permalink to this definition"></a></dt>
+<dd><p>Bins per decade for the true energy axis</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="irf.IRF.zenith_list">
+<span class="sig-name descname"><span class="pre">zenith_list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'20deg':</span> <span class="pre">&lt;Quantity</span> <span class="pre">20.</span> <span class="pre">deg&gt;,</span> <span class="pre">'40deg':</span> <span class="pre">&lt;Quantity</span> <span class="pre">40.</span> <span class="pre">deg&gt;,</span> <span class="pre">'60deg':</span> <span class="pre">&lt;Quantity</span> <span class="pre">60.</span> <span class="pre">deg&gt;}</span></em><a class="headerlink" href="#irf.IRF.zenith_list" title="Permalink to this definition"></a></dt>
+<dd><p>List of available zenith angles in the IRF file names and associated
+values.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="irf.IRF.zenith_valid">
+<span class="sig-name descname"><span class="pre">zenith_valid</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'20deg':</span> <span class="pre">[&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">deg&gt;,</span> <span class="pre">&lt;Quantity</span> <span class="pre">33.</span> <span class="pre">deg&gt;],</span> <span class="pre">'40deg':</span> <span class="pre">[&lt;Quantity</span> <span class="pre">33.</span> <span class="pre">deg&gt;,</span> <span class="pre">&lt;Quantity</span> <span class="pre">54.</span> <span class="pre">deg&gt;],</span> <span class="pre">'60deg':</span> <span class="pre">[&lt;Quantity</span> <span class="pre">54.</span> <span class="pre">deg&gt;,</span> <span class="pre">&lt;Quantity</span> <span class="pre">90.</span> <span class="pre">deg&gt;]}</span></em><a class="headerlink" href="#irf.IRF.zenith_valid" title="Permalink to this definition"></a></dt>
+<dd><p>Validity range in zenith of the IRFs (see documentation of this module).
+The <cite>60deg</cite> IRF is allowed to be used down to alitude zero for tests
+Its use is foreseen to be limited by the <cite>altmin</cite> variable.</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="irf.IRF.find_best_keys">
+<span class="sig-name descname"><span class="pre">find_best_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zenith</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">azimuth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obstime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">closest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/irf.html#IRF.find_best_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irf.IRF.find_best_keys" title="Permalink to this definition"></a></dt>
+<dd><p>Find the best keys to later identify the IRF data file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>zenith</strong><span class="classifier">Quantity, angle</span></dt><dd><p>zenith angle.</p>
+</dd>
+<dt><strong>azimuth</strong><span class="classifier">Quantity, angle</span></dt><dd><p>Azimuth angle.</p>
+</dd>
+<dt><strong>obstime</strong><span class="classifier">Quantity, time</span></dt><dd><p>Observation duration.</p>
+</dd>
+<dt><strong>closest</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, obtain zenith and observation time from the closest
+available sampling, instead of using the predefined validity value.
+The default is False.</p>
+</dd>
+<dt><strong>prod: String</strong></dt><dd><p>Monte Carlo production identifier. Default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>String, String, String</dt><dd><p>The three strings defining the IRF file and/or folder.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="irf.IRF.from_observation">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_observation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zenith=&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">deg&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">azimuth=&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">deg&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obstime=&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">h&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subarray=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nsb=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">irf_dir=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">closest=False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/irf.html#IRF.from_observation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irf.IRF.from_observation" title="Permalink to this definition"></a></dt>
+<dd><p>Get the IRF data from the characteristics of an observation.</p>
+<dl class="simple">
+<dt>Notes:</dt><dd><ul class="simple">
+<li><p><cite>MapAxis</cite> accepts ony a normalised list of axis type as
+described <a class="reference external" href="https://docs.gammapy.org/dev/irf/index.html#irf-axis-naming">here</a>.</p></li>
+<li><p>The true Energy Axis can be defined on-the-fly, but it is not
+optimal for masking except if the number of bins is very large:</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">erec_axis</span>  <span class="o">=</span> <span class="n">MapAxis</span><span class="o">.</span><span class="n">from_energy_bounds</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">erec_min</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+                                        <span class="nb">max</span><span class="p">(</span><span class="n">erec_max</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+                                        <span class="n">nbin</span> <span class="o">=</span> <span class="n">nbin_per_decade</span><span class="p">,</span>
+                                        <span class="n">per_decade</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Rec. energy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>cls</strong><span class="classifier">IRF class instance</span></dt><dd><p>Current object.</p>
+</dd>
+<dt><strong>zenith</strong><span class="classifier">Quantity angle, optional</span></dt><dd><p>Observation zenith angle. The default is 0*u.deg.</p>
+</dd>
+<dt><strong>azimuth</strong><span class="classifier">Quantity angle, optional</span></dt><dd><p>Observation azimuth angle. The default is 0*u.deg.</p>
+</dd>
+<dt><strong>obstime</strong><span class="classifier">Quantity time, optional</span></dt><dd><p>Observation time. The default is 0*u.h.</p>
+</dd>
+<dt><strong>subarray</strong><span class="classifier">String, optional</span></dt><dd><p>Subarray within the simulation. The default is None.</p>
+</dd>
+<dt><strong>loc</strong><span class="classifier">String, optional</span></dt><dd><p>Site location (“North”, “South”). The default is None.</p>
+</dd>
+<dt><strong>nsb</strong><span class="classifier">TYPE, optional</span></dt><dd><p>Handle special NSB cases. The default is None.</p>
+</dd>
+<dt><strong>irf_dir</strong><span class="classifier">string, optional</span></dt><dd><p>IRF folder. The default is None.</p>
+</dd>
+<dt><strong>closest</strong><span class="classifier">Boolean, optional</span></dt><dd><p>Choose IRF closes to IRF range bounds. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>IRF ojbect</dt><dd><p>Initialise an IRF object with the obtained values.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="irf.IRF.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/irf.html#IRF.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#irf.IRF.print" title="Permalink to this definition"></a></dt>
+<dd><p>Print out some IRF class contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../irf.html" class="btn btn-neutral float-left" title="Instrument response functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../file_format.html" class="btn btn-neutral float-right" title="Input file format" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

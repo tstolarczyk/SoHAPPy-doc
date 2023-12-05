@@ -1,0 +1,6 @@
+EBL_plot
+========
+
+.. currentmodule:: ebl
+
+.. autofunction:: EBL_plot

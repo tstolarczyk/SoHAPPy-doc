@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>analyze &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analyze</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for analyze</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Thu Sep 29 12:50:28 2022</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astropy</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span>   <span class="nn">astropy.coordinates</span>   <span class="kn">import</span> <span class="n">AltAz</span>
+<span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="n">quantity_support</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">mdates</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">gammapy.stats</span> <span class="kn">import</span> <span class="n">WStatCountsStatistic</span>
+
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">t_fmt</span>
+
+<span class="c1"># Defaults colors for the plots</span>
+<span class="n">col3</span>  <span class="o">=</span> <span class="s2">&quot;tab:orange&quot;</span> <span class="c1"># 3 sigma</span>
+<span class="n">col5</span>  <span class="o">=</span> <span class="s2">&quot;tab:green&quot;</span>  <span class="c1"># 5 sigma</span>
+<span class="n">colmx</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>      <span class="c1"># Sigma max</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Analysis&quot;</span><span class="p">]</span>
+
+<span class="c1">###############################################################################</span>
+<div class="viewcode-block" id="Analysis"><a class="viewcode-back" href="../simulation.html#analyze.Analysis">[docs]</a><span class="k">class</span> <span class="nc">Analysis</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This handles the Monte Carlo output, get the detection results and handle</span>
+<span class="sd">    the outputs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ignore</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;slot&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;det_level&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;alpha&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;nstat&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;id_smax_list&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;smax_list&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;nex_mx_list&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;nb_mx_list&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;id_3s_list&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;nex_3s_list&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;nb_3s_list&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;id_5s_list&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;nex_5s_list&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;nb_5s_list&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;sigma_mean&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;sigma_std&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;abort&quot;</span><span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Members of the class not to be dumped into the population file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Analysis.__init__"><a class="viewcode-back" href="../simulation.html#analyze.Analysis.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slot</span><span class="p">,</span> <span class="n">nstat</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">cl</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define the default instance.</span>
+<span class="sd">        Note that the site can be obtained from the slot instance. But</span>
+<span class="sd">        it is useful to attach a site to an analysis even if the slot</span>
+<span class="sd">        (and therefore the slot site) is not defined.</span>
+<span class="sd">        A subset of all member values are dumped to the output file as a table</span>
+<span class="sd">        with columns having the member name (better to keep them short for the</span>
+<span class="sd">        analysis). Some members are not written out (internal usage) and are</span>
+<span class="sd">        defined in the &#39;ignore&#39; list. Some members from external classes have</span>
+<span class="sd">        to be dumped out : as the analysis instance can be created from a</span>
+<span class="sd">        dummy empty slot, some default values are defined here.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        slot : A Slot instance</span>
+<span class="sd">            The slot, a set of time slices, to be analyzed.</span>
+<span class="sd">        nstat : integer, optional</span>
+<span class="sd">            The number of trials in the simulation. The default is None.</span>
+<span class="sd">        alpha : float, optional</span>
+<span class="sd">            The on to off ration number. The default is 0.</span>
+<span class="sd">        cl : float, optional</span>
+<span class="sd">            The fraction of Monte Carlo trials that have lead to a detection</span>
+<span class="sd">            at a certain (3 sigma) siginificance. The default is 0.</span>
+<span class="sd">        loc : string, optional</span>
+<span class="sd">            The site considered for the analysis. The default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">slot</span> <span class="o">=</span> <span class="n">slot</span> <span class="c1"># Will be updated after the slot is dressed</span>
+
+        <span class="c1"># Allows superseding the name in particular for an empty slot</span>
+        <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="n">slot</span><span class="o">.</span><span class="n">loc</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">id</span> <span class="c1"># Source name</span>
+
+        <span class="c1"># Done here to keep order in the ouput file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loca</span> <span class="o">=</span> <span class="n">loc</span>  <span class="c1"># Site nickname - loc is a pandas function !</span>
+
+        <span class="c1"># slot related information to be dumped to the output - dummy so far</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nt</span>   <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t1</span>   <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t2</span>   <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alt1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alt2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">az1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">az2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prpt</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># O or 1 if prompt if visible (not valid for &quot;Both&quot;)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">det_level</span> <span class="o">=</span> <span class="n">cl</span>    <span class="c1"># Fraction declaring a detection above 3,5 sig.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>     <span class="o">=</span> <span class="n">alpha</span> <span class="c1"># 5 zones (1/0.2) for stimating B in off regions</span>
+
+        <span class="k">if</span> <span class="n">nstat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nstat</span> <span class="o">=</span> <span class="n">nstat</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.py: nstat should be defined &quot;</span><span class="p">,</span><span class="nb">format</span><span class="p">(</span><span class="vm">__name__</span><span class="p">))</span>
+
+        <span class="c1">###-------------------------</span>
+        <span class="c1"># Significances over simulations</span>
+        <span class="c1">###-------------------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_smax_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Slice indices to get back the time/ altaz</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smax_list</span>    <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of max. significances along trials</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_mx_list</span>  <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of on counts at max. signif.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_mx_list</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of off counts at max. signif.</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_3s_list</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Slice indices ot get back the time/altaz</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_3s_list</span>  <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of on counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_3s_list</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of off counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d3s</span>          <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Number of trials 3 sigma was reached</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_5s_list</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Slice indices to get back the time/altaz</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_5s_list</span>  <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of on counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_5s_list</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># List of off counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d5s</span>          <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Number of trials 5 sigma was reached</span>
+
+        <span class="c1"># Mean sigma versus time - one value per time slice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># The length is unknow as slot.dress can modify</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_std</span>    <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1">###-------------------------</span>
+        <span class="c1"># Results</span>
+        <span class="c1">###-------------------------</span>
+
+        <span class="c1">### Maximal significance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmx</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Mean maximum significance reached</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">esigmx</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Error on mean maximum significance reached</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nexmx</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Mean number of excess counts at sigmx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enexmx</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Error on mean number of excess counts at sigmx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbmx</span>   <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Mean number of background counts at sigmx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enbmx</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Error on mean number of background counts at sigmx</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tmx</span>    <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="c1"># Mean time at sigmx (related to time binning)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">etmx</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="c1"># Error on mean time at sigmx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">altmx</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Mean altitude at sigmx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ealtmx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Error on mean altitude at sigmx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">azmx</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Mean azimuth at sigmx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eazmx</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Error on mean azimuth at sigmx (deg)</span>
+
+        <span class="c1">### 3 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex3s</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Mean number of excess counts at 3 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enex3s</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Error on mean number of excess counts at 3 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb3s</span>   <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Mean number of background counts at 3 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enb3s</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Error on mean number of background counts at 3 sigma</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">t3s</span>    <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="c1"># Mean time at 3 sigma (related tot time binning)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">et3s</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="c1"># Error on mean time at 3 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alt3s</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Mean altitude at 3 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ealt3s</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Error on mean altitude at 3 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">az3s</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Mean azimuth at 3 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eaz3s</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Error on mean azimuth at 3 sigma</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">d3s</span>    <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Number of trials reaching 3 sigma</span>
+
+        <span class="c1">### 5 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex5s</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Mean number of excess counts at 5 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enex5s</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Error on mean number of excess counts at 5 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb5s</span>   <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Mean number of background counts at 5 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enb5s</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">1.</span> <span class="c1"># Error on mean number of background counts at 5 sigma</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">t5s</span>    <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="c1"># Mean time at 5 sigma (related tot time binning)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">et5s</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="c1"># Error on mean time at 5 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alt5s</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Mean altitude at 5 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ealt5s</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Error on mean altitude at 5 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">az5s</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Mean azimuth at 5 sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eaz5s</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="c1"># Error on mean azimuth at 5 sigma</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">d5s</span>    <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Number of trials reaching 5 sigma</span>
+
+        <span class="c1">### Error variables</span>
+        <span class="c1"># * If positive, give the time slice at which the simulation was stopped.</span>
+        <span class="c1"># A complete simulation has err = number of trials requested.</span>
+        <span class="c1"># * If negative:</span>
+        <span class="c1"># - n : simulations completed but errors reported in n trials</span>
+        <span class="c1"># - 999 : simulation/analysis not done (GRB not visible)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">err</span>    <span class="o">=</span> <span class="o">-</span><span class="mi">999</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abort</span>  <span class="o">=</span> <span class="kc">False</span> <span class="c1"># True if analysis was aborted</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Analysis.run"><a class="viewcode-back" href="../simulation.html#analyze.Analysis.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyse the data cumlulated with the :func:`analyze.Analysis.fill`</span>
+<span class="sd">        function. Modify the current instance with new values.</span>
+
+<span class="sd">        Compute and store :</span>
+<span class="sd">            * Significance values for all slices in the trials;</span>
+<span class="sd">            * Maximum significance reached for the GRB;</span>
+<span class="sd">            * Time of maximum siginificance, number of excess and background events;</span>
+<span class="sd">            * Time to reach 3 or 5 sigma, number of excess and background events.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Add information on the slot  - now that we know that it exists</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nt</span>   <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t1</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">tstart</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t2</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">tstop</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loca</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">]:</span>
+            <span class="n">altaz</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">altaz</span><span class="p">(</span><span class="n">dt</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t1</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loca</span><span class="p">),</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">altaz</span><span class="p">(</span><span class="n">dt</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t2</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loca</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alt1</span> <span class="o">=</span> <span class="n">altaz</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">alt</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alt2</span> <span class="o">=</span> <span class="n">altaz</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">alt</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">az1</span>  <span class="o">=</span> <span class="n">altaz</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">az</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">az2</span>  <span class="o">=</span> <span class="n">altaz</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">az</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loca</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prpt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loca</span><span class="p">]</span><span class="o">.</span><span class="n">vis_prompt</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">err</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nstat</span> <span class="c1"># GRB visible, simul. ought to be complete</span>
+
+        <span class="c1">### From the cumlated values compute the mean and standard values</span>
+        <span class="c1"># for each time slices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nstat</span>
+        <span class="n">sigma2_mean</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_std</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nstat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_std</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma2_mean</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># Max siginificance - mean values and standard deviations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmx</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smax_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">esigmx</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smax_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nexmx</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nex_mx_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enexmx</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nex_mx_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbmx</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_mx_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enbmx</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_mx_list</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tmx</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">etmx</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">altmx</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ealtmx</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">azmx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eazmx</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_smax_list</span><span class="p">)</span>
+
+        <span class="c1">### 3 sigma</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_3s_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="n">nex</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nex_3s_list</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">nb</span>  <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_3s_list</span>  <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nex3s</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nex</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">enex3s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nex</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nb3s</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">enb3s</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">t3s</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">et3s</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">alt3s</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ealt3s</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">az3s</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaz3s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_3s_list</span><span class="p">)</span>
+
+        <span class="c1">### 5 sigma</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_5s_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">nex</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nex_5s_list</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">nb</span>  <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_5s_list</span>  <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nex5s</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nex</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">enex5s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nex</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nb5s</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">enb5s</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">t5s</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">et5s</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">alt5s</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ealt5s</span><span class="p">,</span> \
+        <span class="bp">self</span><span class="o">.</span><span class="n">az5s</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaz5s</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id_5s_list</span><span class="p">)</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Analysis.mean_values"><a class="viewcode-back" href="../simulation.html#analyze.Analysis.mean_values">[docs]</a>    <span class="k">def</span> <span class="nf">mean_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idlist</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract mean values and RMS from the index list.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        idlist : list of indices</span>
+<span class="sd">            List of slice indices to be analysed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        t_det : Astropy Quantity</span>
+<span class="sd">            Detection time.</span>
+<span class="sd">        e_t_det : Astropy Quantity</span>
+<span class="sd">            Error on detection time.</span>
+<span class="sd">        alt_det : Astropy Angle</span>
+<span class="sd">            Altitude of detection.</span>
+<span class="sd">        e_alt_det : Astropy Angle</span>
+<span class="sd">            Error on the altiude of detection.</span>
+<span class="sd">        az_det : Astropy Angle</span>
+<span class="sd">            Azimut angle of the detection.</span>
+<span class="sd">        e_az_det : Astropy Angle</span>
+<span class="sd">            Error on the azimut angle of detection.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">t_det</span><span class="p">,</span> <span class="n">e_t_det</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,)</span>
+        <span class="n">alt_det</span><span class="p">,</span> <span class="n">e_alt_det</span><span class="p">,</span> <span class="n">az_det</span><span class="p">,</span> <span class="n">e_az_det</span>  <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idlist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="n">t_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span><span class="o">.</span><span class="n">unit</span>
+
+            <span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idlist</span>
+                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">t_det</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span><span class="n">t_unit</span>
+            <span class="n">e_t_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>  <span class="o">*</span><span class="n">t_unit</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">loc</span> <span class="o">!=</span> <span class="s2">&quot;Both&quot;</span><span class="p">:</span>
+                <span class="n">altaz</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">altaz</span><span class="p">(</span><span class="n">dt</span> <span class="o">=</span> <span class="n">t</span><span class="o">*</span><span class="n">t_unit</span><span class="p">,</span>
+                                             <span class="n">loc</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">loc</span><span class="p">)</span>
+                <span class="n">alt</span> <span class="o">=</span> <span class="n">altaz</span><span class="o">.</span><span class="n">alt</span>
+                <span class="n">alt_det</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">alt</span><span class="p">)</span>
+                <span class="n">e_alt_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">alt</span><span class="p">)</span>
+                <span class="n">az</span> <span class="o">=</span> <span class="n">altaz</span><span class="o">.</span><span class="n">az</span>
+                <span class="n">az_det</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
+                <span class="n">e_az_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">az</span><span class="p">)</span>
+
+        <span class="k">return</span>  <span class="n">t_det</span><span class="p">,</span> <span class="n">e_t_det</span><span class="p">,</span> <span class="n">alt_det</span><span class="p">,</span> <span class="n">e_alt_det</span><span class="p">,</span> <span class="n">az_det</span><span class="p">,</span> <span class="n">e_az_det</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Analysis.fill"><a class="viewcode-back" href="../simulation.html#analyze.Analysis.fill">[docs]</a>    <span class="k">def</span> <span class="nf">fill</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">itrial</span><span class="p">,</span> <span class="n">non</span><span class="p">,</span> <span class="n">noff</span><span class="p">,</span> <span class="n">dbg</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fill arrays with information from one Monte Carlo iteration.</span>
+<span class="sd">        Keep track of slice indices where a 3 sigma or 5 sigma detection</span>
+<span class="sd">        occured, and where the max siginificance was reached and at which</span>
+<span class="sd">        value.</span>
+
+<span class="sd">        Also cumulate the sigma and sigma**2 values in each time slices in</span>
+<span class="sd">        order to later compute the mean and standard deviation of the</span>
+<span class="sd">        significance for each time slice.</span>
+
+<span class="sd">       The siginificance is computed under the assmption of a measured</span>
+<span class="sd">       background, i.e. with possble fluctuation.</span>
+<span class="sd">       Note that WStatCountsStatistic returns a significance with the</span>
+<span class="sd">       sign of the excess (negative excess give negative significance).</span>
+<span class="sd">       If the count number is not fluctuated, the excess can only be</span>
+<span class="sd">       positive since it is obtained from a physical flux. Excess at zero</span>
+<span class="sd">       gives a significance at zeo.</span>
+
+<span class="sd">       More on the various statistics `onthis page</span>
+<span class="sd">       &lt;https://docs.gammapy.org/0.17/stats/fit_statistics.html&gt;`_ :</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        itrial: integer</span>
+<span class="sd">            The Mone Carlo simulation current number of trials. Used to abort</span>
+<span class="sd">            the simulation if 3s detection is not reachable.</span>
+<span class="sd">        non : list of float</span>
+<span class="sd">            Cumulated count numbers in the signal plus background region along</span>
+<span class="sd">            time slices.</span>
+<span class="sd">        noff : list of float</span>
+<span class="sd">            Cumulated count numbers in the background regions along time slices.</span>
+<span class="sd">        dbg : integer, optional</span>
+<span class="sd">            Debugging flag. The default is 0.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">err</span> <span class="o">=</span> <span class="n">itrial</span>
+
+        <span class="c1"># Compute the significances of all slices for the current trail</span>
+        <span class="n">wstat</span> <span class="o">=</span> <span class="n">WStatCountsStatistic</span><span class="p">(</span><span class="n">n_on</span>  <span class="o">=</span> <span class="n">non</span><span class="p">,</span>
+                                     <span class="n">n_off</span> <span class="o">=</span> <span class="n">noff</span><span class="p">,</span>
+                                     <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span>  <span class="n">wstat</span><span class="o">.</span><span class="n">sqrt_ts</span> <span class="c1"># ? check</span>
+
+        <span class="c1"># Cumulate sigma and sigma squared values for each slice</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span> <span class="o">+=</span> <span class="n">sigma</span> <span class="c1"># To be averaged later</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_std</span>  <span class="o">+=</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span> <span class="c1"># To be averaged later</span>
+
+        <span class="c1"># Go back to excess and background counts</span>
+        <span class="n">nb</span>  <span class="o">=</span> <span class="n">noff</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
+        <span class="n">nex</span> <span class="o">=</span> <span class="n">non</span> <span class="o">-</span> <span class="n">nb</span>
+
+        <span class="c1"># Find slice with maximum - cannot be a slice with non or noff below limit</span>
+        <span class="n">sigmx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span> <span class="c1"># Returns Nan only if all are Nan</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">sigmx</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; All sigma values are Nan !!! &quot;</span><span class="p">)</span>
+            <span class="n">maxidx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">sigmx</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">999</span>
+            <span class="n">nex_mx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">nb_mx</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">maxidx</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanargmax</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span> <span class="c1"># If sigma is nan, it would be the max !</span>
+            <span class="n">nex_mx</span>  <span class="o">=</span> <span class="n">nex</span><span class="p">[</span><span class="n">maxidx</span><span class="p">]</span>
+            <span class="n">nb_mx</span> <span class="o">=</span> <span class="n">nb</span><span class="p">[</span><span class="n">maxidx</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_smax_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">maxidx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smax_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sigmx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_mx_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nex_mx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_mx_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nb_mx</span><span class="p">)</span>
+
+        <span class="c1"># Find where 3 sigma is reached</span>
+        <span class="n">nex_3s</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">nb_3s</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">id_3s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">sigma</span><span class="o">&gt;=</span><span class="mi">3</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># This ignore Nan values</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">id_3s</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">id_3s</span>  <span class="o">=</span> <span class="n">id_3s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># First one</span>
+            <span class="n">nex_3s</span> <span class="o">=</span> <span class="n">nex</span><span class="p">[</span><span class="n">id_3s</span><span class="p">]</span>
+            <span class="n">nb_3s</span>  <span class="o">=</span> <span class="n">nb</span><span class="p">[</span><span class="n">id_3s</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id_3s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">id_3s</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d3s</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_3s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nex_3s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_3s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nb_3s</span><span class="p">)</span>
+
+        <span class="c1"># Find where 5 sigma is reached</span>
+        <span class="n">nex_5s</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">nb_5s</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">id_5s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">sigma</span><span class="o">&gt;=</span><span class="mi">5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># This ignore Nan values</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">id_5s</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="n">id_5s</span>  <span class="o">=</span> <span class="n">id_5s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># First one</span>
+            <span class="n">nex_5s</span> <span class="o">=</span> <span class="n">nex</span><span class="p">[</span><span class="n">id_5s</span><span class="p">]</span>
+            <span class="n">nb_5s</span>  <span class="o">=</span> <span class="n">nb</span><span class="p">[</span><span class="n">id_5s</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id_5s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">id_5s</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d5s</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nex_5s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nex_5s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_5s_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nb_5s</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dbg</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &gt;&gt;&gt; t_smax = </span><span class="si">{:8.2f}</span><span class="s2">, (</span><span class="si">{:5.2f}</span><span class="s2"> sigma at slice </span><span class="si">{:2d}</span><span class="s2">)&quot;</span>
+                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="n">maxidx</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">(),</span>
+                          <span class="n">sigma</span><span class="p">[</span><span class="n">maxidx</span><span class="p">],</span>
+                          <span class="n">maxidx</span><span class="p">),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">id_3s</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - 3s at t3s = </span><span class="si">{:8.2f}</span><span class="s2"> at slice </span><span class="si">{:2d}</span><span class="s2">)&quot;</span>
+                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="n">id_3s</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">(),</span><span class="n">id_3s</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - 3s not reached&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If the fraction of trial exceeds 1-CL, check is 1 detection is found</span>
+        <span class="k">if</span>  <span class="n">itrial</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nstat</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">det_level</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">d3s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">abort</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">sigma</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; GRB </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span><span class="si">:</span><span class="s2">&lt;4</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">loc</span><span class="si">:</span><span class="s2">&lt;s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  z    = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">z</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Eiso = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">Eiso</span><span class="si">:</span><span class="s2">6.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;  Detection&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   - Visible : </span><span class="si">{</span><span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">tstart</span><span class="p">)</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2"> -&quot;</span>\
+                <span class="s2">&quot; {t_fmt(self.slot.tstop)):4.2f}&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   - Slices  : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">)</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   - Delay   : </span><span class="si">{</span><span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">delay</span><span class="p">)</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   - sigmax  : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sigmx</span><span class="si">:</span><span class="s2">&lt;6.2f</span><span class="si">}</span><span class="s2"> @ </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tmx</span><span class="si">:</span><span class="s2">&lt;6.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   - 5 sigma @ </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">t5s</span><span class="si">:</span><span class="s2">&lt;6.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Analysis.print"><a class="viewcode-back" href="../simulation.html#analyze.Analysis.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dump results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">d5s</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nstat</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">det_level</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;5 sigma detected&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">d3s</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nstat</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">det_level</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;3 sigma detected&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;NOT detected    &quot;</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;| Analysis     |  ===&gt; &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">message</span><span class="si">:</span><span class="s2">42s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span>
+        <span class="c1">#.....................................................................</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+&quot;</span> <span class="o">+</span> <span class="mi">14</span><span class="o">*</span><span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="s2">&quot;+&quot;</span> <span class="o">+</span> <span class="mi">49</span><span class="o">*</span><span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="s2">&quot;+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Window : </span><span class="si">{:6.3f}</span><span class="s2"> - </span><span class="si">{:6.3f}</span><span class="s2"> * Delay: </span><span class="si">{:6.2f}</span><span class="s2"> * </span><span class="si">{:3d}</span><span class="s2"> slices&quot;</span>
+               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">tstart</span><span class="p">),</span><span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">tstop</span><span class="p">),</span>
+                       <span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">delay</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">)))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+&quot;</span> <span class="o">+</span> <span class="mi">64</span><span class="o">*</span><span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="s2">&quot;+&quot;</span><span class="p">)</span>
+
+        <span class="c1">#.....................................................................</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;  RESULTS      : </span><span class="si">{}{:&lt;10s}</span><span class="s2">&quot;</span>\
+                   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">14</span><span class="o">*</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">loca</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:66s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+&quot;</span> <span class="o">+</span> <span class="mi">64</span><span class="o">*</span><span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="s2">&quot;+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;  Max. sigma           = </span><span class="si">{:&gt;8.1f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigmx</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">esigmx</span><span class="p">))</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;                  time = </span><span class="si">{:&gt;8.2f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.2f}</span><span class="s2"> </span><span class="si">{:5s}</span><span class="s2">&quot;</span>
+               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmx</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                       <span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">etmx</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmx</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                       <span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmx</span><span class="p">)</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;                  alt. = </span><span class="si">{:&gt;8.2f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.2f}</span><span class="s2"> </span><span class="si">{:5s}</span><span class="s2">&quot;</span>
+               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">altmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ealtmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">altmx</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;                   az. = </span><span class="si">{:&gt;8.2f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.2f}</span><span class="s2"> </span><span class="si">{:5s}</span><span class="s2">&quot;</span>
+               <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">azmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">eazmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">azmx</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;           S, B counts = </span><span class="si">{:&gt;8.1f}</span><span class="s2"> </span><span class="si">{:0.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nexmx</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nbmx</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;        on, off counts = </span><span class="si">{:&gt;8.1f}</span><span class="s2"> </span><span class="si">{:0.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nexmx</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbmx</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">nbmx</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+&quot;</span> <span class="o">+</span> <span class="mi">64</span><span class="o">*</span><span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="s2">&quot;+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;                           3 sig                   5 sig&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+&quot;</span> <span class="o">+</span> <span class="mi">64</span><span class="o">*</span><span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="s2">&quot;+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Time (</span><span class="si">{:3s}</span><span class="s2">)     = </span><span class="si">{:&gt;8.2f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.2f}</span><span class="s2">  </span><span class="si">{:&gt;8.2f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.2f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t3s</span><span class="p">)</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                      <span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t3s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                      <span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">et3s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">t5s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t3s</span><span class="p">)</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">et5s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t3s</span><span class="p">)</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Alt. (</span><span class="si">{:3s}</span><span class="s2">)     = </span><span class="si">{:&gt;8.2f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.2f}</span><span class="s2">  </span><span class="si">{:&gt;8.2f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.2f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alt3s</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">alt3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ealt3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">alt5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ealt5s</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Az.  (</span><span class="si">{:3s}</span><span class="s2">)     = </span><span class="si">{:&gt;8.2f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.2f}</span><span class="s2">  </span><span class="si">{:&gt;8.2f}</span><span class="s2">  +/- </span><span class="si">{:&lt;8.2f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">az3s</span><span class="o">.</span><span class="n">unit</span> <span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">az3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaz3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">az5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaz5s</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Det. level (%) =  </span><span class="si">{:&gt;8.2f}</span><span class="s2">                </span><span class="si">{:&gt;8.2f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">d3s</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nstat</span><span class="p">,</span><span class="mi">100</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">d5s</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nstat</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; S, B           = </span><span class="si">{:&gt;8.1f}</span><span class="s2">, </span><span class="si">{:&lt;8.1f}</span><span class="s2">      </span><span class="si">{:&gt;8.1f}</span><span class="s2">, </span><span class="si">{:&lt;8.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nex3s</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nb3s</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nex5s</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">nb5s</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; On, Off        = </span><span class="si">{:&gt;8.1f}</span><span class="s2">, </span><span class="si">{:&lt;8.1f}</span><span class="s2">      </span><span class="si">{:&gt;8.1f}</span><span class="s2">, </span><span class="si">{:&lt;8.1f}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nex3s</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb3s</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">nb3s</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">nex5s</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb5s</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">nb5s</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="mi">66</span><span class="o">*</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;SoHAPPy!&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Analysis.dump_to_file"><a class="viewcode-back" href="../simulation.html#analyze.Analysis.dump_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">dump_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grb</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pop : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        header : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">### ------------------------------------------------------------</span>
+        <span class="k">def</span> <span class="nf">head_fmt</span><span class="p">(</span><span class="n">kh</span><span class="p">,</span> <span class="n">vh</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">kh</span> <span class="o">==</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;10s&quot;</span>
+            <span class="k">if</span> <span class="n">kh</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;radec&quot;</span><span class="p">,</span><span class="s1">&#39;   ra   dec&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;14s&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vh</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;10s&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vh</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;4s&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vh</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span> <span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;10s&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vh</span><span class="p">,</span> <span class="p">(</span><span class="n">astropy</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Time</span><span class="p">,</span>
+                               <span class="n">astropy</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">Quantity</span><span class="p">)):</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;10s&quot;</span>
+
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">val_fmt</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span><span class="s2">&quot;name&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;10s&quot;</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;radec&quot;</span><span class="p">,</span> <span class="s1">&#39;   ra   dec&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;13s&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;10s&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;4d&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">astropy</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Time</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;&gt;10.2f&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span> <span class="p">:</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">1e9</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;&gt;10.2f&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;&gt;10.2e&quot;</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="n">var</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">astropy</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">sky_coordinate</span><span class="o">.</span><span class="n">SkyCoord</span><span class="p">):</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="p">[</span> <span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">ra</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">var</span><span class="o">.</span><span class="n">dec</span><span class="o">.</span><span class="n">value</span><span class="p">]]</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;6.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">var</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;6.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">astropy</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">quantity</span><span class="o">.</span><span class="n">Quantity</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">var</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">astropy</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Time</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">var</span><span class="o">.</span><span class="n">mjd</span>
+            <span class="k">return</span> <span class="n">var</span>
+
+        <span class="c1">### ------------------------------------------------------------</span>
+
+        <span class="c1"># Table header</span>
+        <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
+
+            <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">grb</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                    <span class="c1"># Pay attention to identical member names</span>
+                    <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span> <span class="ow">or</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">grb</span><span class="o">.</span><span class="n">ignore</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="n">k</span><span class="o">==</span><span class="s2">&quot;radec&quot;</span><span class="p">:</span>
+                        <span class="n">k</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;ra&#39;</span><span class="si">:</span><span class="s2">&gt;6s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;dec&#39;</span><span class="si">:</span><span class="s2">&gt;6s</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt; </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">values</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2"> head_fmt(v) = </span><span class="si">{</span><span class="n">head_fmt</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">values</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;{val:</span><span class="si">{fmt}</span><span class="s2">}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="n">head_fmt</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">values</span><span class="p">(</span><span class="n">v</span><span class="p">))),</span>
+                                            <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">pop</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">pop</span><span class="p">)</span>
+
+        <span class="c1"># Table data</span>
+        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">grb</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="c1"># Pay attention to identical member names</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">grb</span><span class="o">.</span><span class="n">ignore</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt; </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">, values(val) = </span><span class="si">{</span><span class="n">val_fmt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">values</span><span class="p">(</span><span class="n">val</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">values</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">:{</span><span class="n">val_fmt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">values</span><span class="p">(</span><span class="n">val</span><span class="p">))</span><span class="si">}}</span><span class="s2">&quot;</span><span class="p">,</span>
+                      <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">pop</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">pop</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Analysis.write"><a class="viewcode-back" href="../simulation.html#analyze.Analysis.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the present class to disk for further use.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : string, optional</span>
+<span class="sd">            Output file name. The default is &quot;None&quot;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Output file not defined)&quot;</span><span class="p">)</span>
+
+        <span class="n">outfile</span>  <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">outfile</span><span class="p">)</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Saving analysis to file : </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pdf</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">fig_sig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_sigma_vs_time</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nstat</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="n">fig_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_non_vs_noff</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">fig_n</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Otherwise plot one single point</span>
+
+        <span class="n">fig_vis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_story</span><span class="p">(</span><span class="n">ref</span><span class="o">=</span><span class="s2">&quot;VIS&quot;</span><span class="p">)</span>
+        <span class="n">fig_grb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_story</span><span class="p">(</span><span class="n">ref</span><span class="o">=</span><span class="s2">&quot;GRB&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">pdf</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig_sig</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fig_n</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig_n</span><span class="p">)</span>
+            <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig_vis</span><span class="p">)</span>
+            <span class="n">pdf</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig_grb</span><span class="p">)</span>
+
+        <span class="c1"># used to pause plot display in interactive mode on a shell script. In the</span>
+        <span class="c1"># abscence of a call to that function figures will stack on the screen during</span>
+        <span class="c1"># the run and all disappear at the end of the run.</span>
+        <span class="c1"># Using this, figures will be stacked on screen and displayed for each event</span>
+        <span class="c1"># until they are closed by the user.</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span>
+
+    <span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Analysis.plot_sigma_vs_time"><a class="viewcode-back" href="../simulation.html#analyze.Analysis.plot_sigma_vs_time">[docs]</a>    <span class="k">def</span> <span class="nf">plot_sigma_vs_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        unit_def : TYPE, optional</span>
+<span class="sd">            DESCRIPTION. The default is &quot;s&quot;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fig : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="n">quantity_support</span>
+
+        <span class="c1"># If only one MC trial, no max significance distribution</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nstat</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
+                                           <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width_ratios&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+        <span class="c1"># Measurement points and units</span>
+        <span class="n">base_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span><span class="o">.</span><span class="n">unit</span>
+        <span class="n">t_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">])</span><span class="o">*</span><span class="n">base_unit</span>
+        <span class="n">t_unit</span> <span class="o">=</span> <span class="n">t_fmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmx</span><span class="p">)</span><span class="o">.</span><span class="n">unit</span>
+
+        <span class="n">t_s</span>    <span class="o">=</span> <span class="n">t_s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span>
+        <span class="n">tmax</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmx</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span>
+        <span class="n">t3s</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t3s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span>
+        <span class="n">t5s</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t5s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+
+            <span class="c1">### Mean significance at each slice</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">t_s</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_mean</span><span class="p">,</span> <span class="n">yerr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_std</span><span class="p">,</span> <span class="n">fmt</span>  <span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">errs</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">tag</span>  <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                                <span class="p">[</span><span class="n">tmax</span><span class="p">,</span> <span class="n">t3s</span><span class="p">,</span> <span class="n">t5s</span><span class="p">],</span>
+                                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sigmx</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+                                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">esigmx</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                <span class="p">[</span><span class="n">colmx</span><span class="p">,</span> <span class="n">col3</span><span class="p">,</span> <span class="n">col5</span><span class="p">],</span>
+                                <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;$\sigma_</span><span class="si">{max}</span><span class="s2">$&quot;</span><span class="p">,</span><span class="sa">r</span><span class="s2">&quot;$3\sigma$&quot;</span><span class="p">,</span><span class="sa">r</span><span class="s2">&quot;$5\sigma$&quot;</span><span class="p">]</span>
+                                              <span class="p">):</span>
+            <span class="c1">#     if len(t)&gt;0:</span>
+                <span class="kn">import</span> <span class="nn">matplotlib</span>
+                <span class="k">if</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span> <span class="o">&lt;</span> <span class="s2">&quot;3.4.2&quot;</span><span class="p">:</span>
+                    <span class="c1"># Does not support Quantity erros</span>
+                    <span class="n">ax1</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">y</span>    <span class="o">=</span> <span class="n">sig</span><span class="p">,</span>
+                                  <span class="n">xerr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>  <span class="n">yerr</span> <span class="o">=</span> <span class="n">errs</span><span class="p">,</span>
+                                  <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="n">tag</span><span class="p">)</span>
+                    <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Observation duration (&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ax1</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">y</span>    <span class="o">=</span> <span class="n">sig</span><span class="p">,</span>
+                                  <span class="n">xerr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">t</span><span class="p">),</span>  <span class="n">yerr</span> <span class="o">=</span> <span class="n">errs</span><span class="p">,</span>
+                                  <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">tag</span><span class="p">)</span>
+                    <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Observation duration (&#39;</span><span class="o">+</span><span class="n">ax1</span><span class="o">.</span><span class="n">get_xlabel</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+                <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+                <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+                <span class="n">ax1</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">ymin</span> <span class="o">=</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmx</span><span class="p">,</span>
+                            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+                <span class="n">ax1</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t</span><span class="p">),</span>
+                            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Significance $\sigma$&quot;</span><span class="p">)</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+            <span class="kn">import</span> <span class="nn">matplotlib</span>
+            <span class="k">if</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span> <span class="o">&gt;=</span> <span class="s2">&quot;3.5.0&quot;</span><span class="p">:</span>
+                <span class="n">ax1</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="n">nonpositive</span><span class="o">=</span><span class="s1">&#39;clip&#39;</span><span class="p">)</span> <span class="c1"># 3.5.0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax1</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="n">nonposx</span><span class="o">=</span><span class="s1">&#39;clip&#39;</span><span class="p">)</span> <span class="c1"># 3.1.1</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">loca</span> <span class="o">+</span><span class="s1">&#39; (&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nstat</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; iter.)&#39;</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Sigma max distribution (if niter &gt; 1)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nstat</span> <span class="o">&gt;</span><span class="mi">1</span> <span class="p">:</span>
+                <span class="n">ax2</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smax_list</span><span class="p">,</span>
+                         <span class="n">bins</span>  <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nstat</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">1</span><span class="p">),</span> <span class="c1"># Cannot be &lt; 1</span>
+                         <span class="nb">range</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sigmx</span> <span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">esigmx</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">sigmx</span> <span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">esigmx</span><span class="p">],</span>
+                         <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                         <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span><span class="p">,</span>
+                         <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot; </span><span class="si">{:5.1}</span><span class="s2"> $\pm$ </span><span class="si">{:5.1}</span><span class="s2">&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigmx</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">esigmx</span><span class="p">))</span>
+                <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\sigma_</span><span class="si">{max}</span><span class="s2">$&quot;</span><span class="p">)</span>
+                <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Trials&#39;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+    <span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Analysis.plot_non_vs_noff"><a class="viewcode-back" href="../simulation.html#analyze.Analysis.plot_non_vs_noff">[docs]</a>    <span class="k">def</span> <span class="nf">plot_non_vs_noff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">logscale</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot Non versus Noff from the background and excess counts.</span>
+<span class="sd">        Draw the error bars from the variances.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ax : Matplolib axes, optional</span>
+<span class="sd">            Current axis. The default is None.</span>
+<span class="sd">        logscale : String, optional</span>
+<span class="sd">            If True, logarithmic scales. The default is True.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fig : Matplotlib figure</span>
+<span class="sd">            Current figure.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span>
+
+        <span class="n">nexlist</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nex_3s_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nex_5s_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nex_mx_list</span> <span class="p">]</span>
+        <span class="n">nblist</span>  <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_3s_list</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">nb_5s_list</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">nb_mx_list</span><span class="p">]</span>
+        <span class="n">collist</span> <span class="o">=</span> <span class="p">[</span><span class="n">col3</span><span class="p">,</span> <span class="n">col5</span><span class="p">,</span> <span class="n">colmx</span><span class="p">]</span>
+        <span class="n">taglist</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;$3\sigma$&quot;</span><span class="p">,</span><span class="sa">r</span><span class="s2">&quot;$5\sigma$&quot;</span><span class="p">,</span><span class="sa">r</span><span class="s2">&quot;$\sigma_</span><span class="si">{max}</span><span class="s2">$&quot;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">nex</span><span class="p">,</span> <span class="n">nb</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">nexlist</span><span class="p">,</span> <span class="n">nblist</span><span class="p">,</span> <span class="n">collist</span><span class="p">,</span> <span class="n">taglist</span><span class="p">):</span>
+
+            <span class="n">non</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">nex</span><span class="p">,</span><span class="n">nb</span><span class="p">)</span>
+            <span class="n">noff</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">true_divide</span><span class="p">(</span><span class="n">nb</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="n">non_mean</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">non</span><span class="p">)</span>
+            <span class="n">non_std</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">non</span><span class="p">)</span>
+            <span class="n">noff_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">noff</span><span class="p">)</span>
+            <span class="n">noff_std</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">noff</span><span class="p">)</span>
+            <span class="n">xlabel</span>    <span class="o">=</span> <span class="s2">&quot;$N_</span><span class="si">{off}</span><span class="s2">$&quot;</span>
+            <span class="n">ylabel</span>    <span class="o">=</span> <span class="s2">&quot;$N_</span><span class="si">{on}</span><span class="s2">$&quot;</span>
+            <span class="k">if</span> <span class="n">logscale</span><span class="p">:</span>
+                <span class="n">non</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">non</span><span class="p">)</span>
+                <span class="n">non_mean</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">non_mean</span><span class="p">)</span>
+                <span class="n">non_std</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">non_std</span><span class="p">)</span>
+                <span class="n">noff</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">noff</span><span class="p">)</span>
+                <span class="n">noff_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">noff_mean</span><span class="p">)</span>
+                <span class="n">noff_std</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">noff_std</span><span class="p">)</span>
+                <span class="n">xlabel</span>    <span class="o">=</span> <span class="s2">&quot;$log_</span><span class="si">{10}</span><span class="s2">$&quot;</span> <span class="o">+</span> <span class="n">xlabel</span>
+                <span class="n">ylabel</span>    <span class="o">=</span> <span class="s2">&quot;$log_</span><span class="si">{10}</span><span class="s2">$&quot;</span> <span class="o">+</span> <span class="n">ylabel</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">noff</span><span class="p">,</span> <span class="n">non</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">tag</span> <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span>    <span class="o">=</span> <span class="n">noff_mean</span><span class="p">,</span>    <span class="n">y</span>    <span class="o">=</span> <span class="n">non_mean</span><span class="p">,</span>
+                    <span class="n">xerr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">noff</span><span class="p">),</span> <span class="n">yerr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">non</span><span class="p">),</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">col</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">loca</span> <span class="o">+</span><span class="s1">&#39; (&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nstat</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; iter.)&#39;</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+    <span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Analysis.plot_story"><a class="viewcode-back" href="../simulation.html#analyze.Analysis.plot_story">[docs]</a>    <span class="k">def</span> <span class="nf">plot_story</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="s2">&quot;VIS&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Show altitude versus time and points used for computation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loca</span> <span class="o">!=</span> <span class="s2">&quot;North&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">loca</span> <span class="o">!=</span> <span class="s2">&quot;South&quot;</span><span class="p">):</span> <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Plot sigma versus time on the full</span>
+        <span class="c1"># GRB lifetime together with visibility</span>
+
+        <span class="n">coord</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loca</span><span class="p">]</span><span class="o">.</span><span class="n">site</span>
+        <span class="n">dtplot</span> <span class="o">=</span> <span class="mi">500</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="c1"># Add some space for the plot</span>
+
+        <span class="c1"># These are the visibilities in the sense of the Dark time</span>
+        <span class="c1"># Create points from the start of the first night to the end of the</span>
+        <span class="c1"># last night</span>
+        <span class="n">tvis1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loca</span><span class="p">]</span><span class="o">.</span><span class="n">t_twilight</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">tvis2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loca</span><span class="p">]</span><span class="o">.</span><span class="n">t_twilight</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">dtvis</span> <span class="o">=</span> <span class="p">(</span><span class="n">tvis2</span><span class="o">-</span><span class="n">tvis1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">tvis</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">dtvis</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">dtvis</span><span class="o">.</span><span class="n">unit</span>
+
+        <span class="c1"># Set the reference time</span>
+        <span class="n">event_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">id</span><span class="o">+</span><span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">loca</span>
+        <span class="k">if</span> <span class="n">ref</span> <span class="o">==</span> <span class="s2">&quot;VIS&quot;</span> <span class="p">:</span>
+            <span class="n">tref</span> <span class="o">=</span> <span class="n">tvis1</span>
+            <span class="c1">#text_ref =event_name + &quot; (Ref: vis. start)&quot;</span>
+            <span class="n">text_ref</span> <span class="o">=</span><span class="n">event_name</span> <span class="o">+</span> <span class="s2">&quot; (Ref: Dark time start)&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span>
+            <span class="n">text_ref</span> <span class="o">=</span> <span class="n">event_name</span><span class="o">+</span> <span class="s2">&quot; (Ref: GRB trigger)&quot;</span>
+
+        <span class="n">t_trig_rel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span> <span class="o">-</span> <span class="n">tref</span>
+
+        <span class="c1"># Recompute time sampling in the two reference systems</span>
+        <span class="n">tvis_abs</span> <span class="o">=</span> <span class="n">tvis1</span> <span class="o">+</span> <span class="n">tvis</span>
+        <span class="n">tvis_rel</span> <span class="o">=</span> <span class="n">tvis_abs</span> <span class="o">-</span> <span class="n">tref</span>
+
+        <span class="c1"># Compute alt-az points for visibility time sampling</span>
+        <span class="n">altazvis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">radec</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="n">AltAz</span><span class="p">(</span><span class="n">obstime</span><span class="o">=</span> <span class="n">tvis_abs</span><span class="p">,</span>
+                                                     <span class="n">location</span> <span class="o">=</span> <span class="n">coord</span><span class="p">))</span>
+
+        <span class="c1"># Compute GRB measurement points in the two refrence systems</span>
+        <span class="n">tgrb_abs</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">tval</span> <span class="c1"># Absolute time</span>
+        <span class="n">tgrb_rel</span>   <span class="o">=</span> <span class="n">tgrb_abs</span> <span class="o">-</span> <span class="n">tref</span>
+        <span class="n">altazgrb</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">radec</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span> <span class="n">AltAz</span><span class="p">(</span><span class="n">obstime</span><span class="o">=</span> <span class="n">tgrb_abs</span><span class="p">,</span>
+                                                        <span class="n">location</span><span class="o">=</span><span class="n">coord</span><span class="p">))</span>
+
+        <span class="c1"># Compute GRB observation points</span>
+        <span class="n">t_s</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span><span class="o">.</span><span class="n">unit</span>
+        <span class="n">tgrb_obs_abs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span> <span class="o">+</span> <span class="n">t_s</span> <span class="c1"># Absolute time</span>
+        <span class="n">tgrb_obs_rel</span> <span class="o">=</span> <span class="n">tgrb_obs_abs</span> <span class="o">-</span> <span class="n">tref</span>
+        <span class="n">altazobs</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">radec</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span> <span class="n">AltAz</span><span class="p">(</span><span class="n">obstime</span><span class="o">=</span> <span class="n">tgrb_obs_abs</span><span class="p">,</span>
+                                                          <span class="n">location</span><span class="o">=</span><span class="n">coord</span><span class="p">))</span>
+
+        <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+            <span class="c1"># Plot limits</span>
+            <span class="n">xmin</span> <span class="o">=</span> <span class="o">-</span><span class="n">dtplot</span>
+            <span class="n">xmax</span> <span class="o">=</span> <span class="p">(</span><span class="n">tvis2</span> <span class="o">-</span><span class="n">tref</span> <span class="o">+</span> <span class="n">dtplot</span> <span class="p">)</span><span class="o">.</span><span class="n">sec</span>
+            <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+
+            <span class="c1"># Relative to reference</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tvis_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span> <span class="n">altazvis</span><span class="o">.</span><span class="n">alt</span><span class="p">,</span>
+                     <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Altitude&quot;</span><span class="p">)</span>
+
+            <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tgrb_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span><span class="n">altazgrb</span><span class="o">.</span><span class="n">alt</span><span class="p">,</span>
+                     <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span><span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span>
+                     <span class="n">label</span><span class="o">=</span><span class="s2">&quot;End of intervals&quot;</span><span class="p">)</span>
+
+            <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tgrb_obs_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span><span class="n">altazobs</span><span class="o">.</span><span class="n">alt</span><span class="p">,</span>
+                     <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                     <span class="n">marker</span>          <span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+                     <span class="n">markersize</span>      <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                     <span class="n">markerfacecolor</span> <span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                     <span class="n">markeredgewidth</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
+                     <span class="n">markeredgecolor</span> <span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+                     <span class="n">label</span>           <span class="o">=</span> <span class="s2">&quot;Measurements&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Trigger</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_trig_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                        <span class="n">ls</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="c1"># densely dotted</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Trigger&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Dark time</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loca</span><span class="p">]</span><span class="o">.</span><span class="n">t_twilight</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+                    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Night&quot;</span>
+                    <span class="n">first</span><span class="o">=</span> <span class="kc">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">ax1</span><span class="o">.</span><span class="n">axvspan</span><span class="p">((</span><span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">tref</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span> <span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tref</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                           <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+
+            <span class="c1"># minimal altitude in simulation</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loca</span><span class="p">]</span><span class="o">.</span><span class="n">altmin</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;dashdot&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Sig max</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmx</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">t_trig_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">altmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                         <span class="n">xerr</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">etmx</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                         <span class="n">yerr</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ealtmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                         <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">colmx</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\sigma_</span><span class="si">{max}</span><span class="s2">$&quot;</span><span class="p">)</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmx</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">t_trig_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                       <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                       <span class="n">ymax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">altmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                       <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">colmx</span><span class="p">)</span>
+
+            <span class="n">ax1</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">altmx</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                       <span class="n">xmin</span> <span class="o">=</span> <span class="n">xmin</span><span class="p">,</span>
+                       <span class="n">xmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmx</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">t_trig_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                       <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">colmx</span><span class="p">)</span>
+
+            <span class="c1"># 3 sigma - if reached</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t3s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span>
+                <span class="n">ax1</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t3s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">t_trig_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                             <span class="bp">self</span><span class="o">.</span><span class="n">alt3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                             <span class="n">xerr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">et3s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                             <span class="n">yerr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ealt3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                             <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">col3</span><span class="p">,</span>
+                             <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$3\sigma$&quot;</span><span class="p">)</span>
+
+                <span class="n">ax1</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t3s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">t_trig_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                           <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                           <span class="n">ymax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alt3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">col3</span><span class="p">)</span>
+
+                <span class="n">ax1</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alt3s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                           <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span>
+                           <span class="n">xmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t3s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">t_trig_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                           <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">col3</span><span class="p">)</span>
+
+            <span class="c1"># 5 sigma - if reached</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t5s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span>
+                <span class="n">ax1</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t5s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">t_trig_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                             <span class="bp">self</span><span class="o">.</span><span class="n">alt5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                             <span class="n">xerr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">et5s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                             <span class="n">yerr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ealt5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                             <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">col5</span><span class="p">,</span>
+                             <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$5\sigma$&quot;</span><span class="p">)</span>
+
+                <span class="n">ax1</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t5s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">t_trig_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                           <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                           <span class="n">ymax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alt5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">col5</span><span class="p">)</span>
+
+                <span class="n">ax1</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alt5s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                           <span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span>
+                           <span class="n">xmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t5s</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">t_trig_rel</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                           <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">col5</span><span class="p">)</span>
+
+            <span class="c1"># Title and limits</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">text_ref</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span><span class="n">xmax</span><span class="o">=</span> <span class="n">xmax</span><span class="p">)</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">ymin</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">ref</span><span class="o">==</span><span class="s2">&quot;VIS&quot;</span><span class="p">:</span>
+                <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Elapsed time since visible (s)&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Elapsed time since Trigger (s)&quot;</span><span class="p">)</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude&quot;</span><span class="p">)</span>
+
+            <span class="c1">#ax1.legend(loc=&#39;center left&#39;, bbox_to_anchor=(1, 0.5))</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+            <span class="c1"># Display second axis</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tvis_abs</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span><span class="n">altazvis</span><span class="o">.</span><span class="n">alt</span><span class="p">,</span>
+                     <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">70</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%H:%M&#39;</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">ref</span><span class="o">==</span><span class="s2">&quot;VIS&quot;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Date since twilight (hh:mm)&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Date since Trigger (hh:mm)&quot;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

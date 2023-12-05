@@ -1,0 +1,6 @@
+draw_sphere
+===========
+
+.. currentmodule:: niceplot
+
+.. autofunction:: draw_sphere

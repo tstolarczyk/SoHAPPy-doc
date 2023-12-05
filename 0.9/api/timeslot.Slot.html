@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slot &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Slice" href="obs_slice.Slice.html" />
+    <link rel="prev" title="Time slices and slots" href="../time_slice.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../time_slice.html">Time slices and slots</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../time_slice.html#time-slot">Time Slot</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../time_slice.html#module-timeslot">timeslot Module</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../time_slice.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Slot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../time_slice.html#time-slices">Time slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../time_slice.html#module-obs_slice">obs_slice Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../time_slice.html">Time slices and slots</a></li>
+      <li class="breadcrumb-item active">Slot</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/timeslot.Slot.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="slot">
+<h1>Slot<a class="headerlink" href="#slot" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="timeslot.Slot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">timeslot.</span></span><span class="sig-name descname"><span class="pre">Slot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name='naked'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc='?'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay=&lt;Quantity</span> <span class="pre">-1.</span> <span class="pre">s&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt='end'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug=False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeslot.html#Slot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#timeslot.Slot" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A set of time slices, called <cite>slot</cite> is related to a GRB
+lightcurve given as a set of measurement points, and a visibility,
+namely an observation site.
+Slots are essentially a list of Slices (see the <a class="reference internal" href="obs_slice.Slice.html#obs_slice.Slice" title="obs_slice.Slice"><code class="xref py py-class docutils literal notranslate"><span class="pre">obs_slice.Slice</span></code></a>
+class).</p>
+<p>The slice number <cite>i</cite> starts at zero, and a slice <cite>i</cite> covers the observation
+from the sampled flux at <cite>i</cite> to the flux at <cite>i+1</cite>.</p>
+<p>Time slots can result from the merging of initial slots, allowing for
+managing overlapping or consecutive observations.</p>
+<p>Slots get a name for clarity, and can be associated to a site, or
+a combination of sites explicitely. They follow the site naming convention
+of slices, which is mandatory for slot merging.</p>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#timeslot.Slot.apply_visibility" title="timeslot.Slot.apply_visibility"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_visibility</span></code></a>([site, delay])</p></td>
+<td><p>Apply visibility window and delay to the slot, i.e. change time boundaries and re-dress when needed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#timeslot.Slot.both_sites" title="timeslot.Slot.both_sites"><code class="xref py py-obj docutils literal notranslate"><span class="pre">both_sites</span></code></a>([delay, debug])</p></td>
+<td><p>Find the vibilities in N and S be given the delays for observation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#timeslot.Slot.compact" title="timeslot.Slot.compact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compact</span></code></a>()</p></td>
+<td><p>Scan the slot slices and merge those attached to the same physical flux.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#timeslot.Slot.copy" title="timeslot.Slot.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>([name])</p></td>
+<td><p>Copy a slot, change the initial name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#timeslot.Slot.dress" title="timeslot.Slot.dress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dress</span></code></a>([irf_dir, arrays, zenith])</p></td>
+<td><p>Dress the slot slices with physics information.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#timeslot.Slot.find" title="timeslot.Slot.find"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find</span></code></a>(time)</p></td>
+<td><p>Find the slice containing the given time.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#timeslot.Slot.merge" title="timeslot.Slot.merge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge</span></code></a>(slot)</p></td>
+<td><p>Merge current slot (<cite>self</cite>) with another slot.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#timeslot.Slot.plot" title="timeslot.Slot.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>([axa, eref])</p></td>
+<td><p>Displays the slices of the time slot, including the measurement points if the slot was dressed.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="timeslot.Slot.apply_visibility">
+<span class="sig-name descname"><span class="pre">apply_visibility</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site='?'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay=&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">s&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeslot.html#Slot.apply_visibility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#timeslot.Slot.apply_visibility" title="Permalink to this definition"></a></dt>
+<dd><p>Apply visibility window and delay to the slot, i.e. change time
+boundaries and re-dress when needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>site</strong><span class="classifier">String, optional</span></dt><dd><p>The site identifier. The default is “?”.</p>
+</dd>
+<dt><strong>delay</strong><span class="classifier">Quantity, optional</span></dt><dd><p>The delay before detection can start. The default is 0*u.s.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="timeslot.Slot.both_sites">
+<span class="sig-name descname"><span class="pre">both_sites</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeslot.html#Slot.both_sites"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#timeslot.Slot.both_sites" title="Permalink to this definition"></a></dt>
+<dd><p>Find the vibilities in N and S be given the delays for observation.
+In particular in many case the delay will be applied to the first
+in time site (except if the original visibilities differ by a time
+difference less than the delay).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>delay</strong><span class="classifier">Time Quantity, optional</span></dt><dd><p>Delay for observation. The default is 0*u.s.</p>
+</dd>
+<dt><strong>debug</strong><span class="classifier">Boolean, optional</span></dt><dd><p>Verbose mode if True. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>A slot instance or None.</dt><dd><p>Resulting Slot or <cite>None</cite>  if no time slices left</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="timeslot.Slot.compact">
+<span class="sig-name descname"><span class="pre">compact</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeslot.html#Slot.compact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#timeslot.Slot.compact" title="Permalink to this definition"></a></dt>
+<dd><p>Scan the slot slices and merge those attached to the same
+physical flux.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="timeslot.Slot.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeslot.html#Slot.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#timeslot.Slot.copy" title="Permalink to this definition"></a></dt>
+<dd><p>Copy a slot, change the initial name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">Sring, optional</span></dt><dd><p>The name of the slot copy. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>slot_copy</strong><span class="classifier">Slot</span></dt><dd><p>The slot copy.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="timeslot.Slot.dress">
+<span class="sig-name descname"><span class="pre">dress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">irf_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WindowsPath('.')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zenith</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeslot.html#Slot.dress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#timeslot.Slot.dress" title="Permalink to this definition"></a></dt>
+<dd><p>Dress the slot slices with physics information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>irf_dir</strong><span class="classifier">Path, optional</span></dt><dd><p>The IRF folder path name. The default is Path(“./”).</p>
+</dd>
+<dt><strong>arrays</strong><span class="classifier">String, optional</span></dt><dd><p>The subarray to which belong the slot. The default is None.</p>
+</dd>
+<dt><strong>zenith</strong><span class="classifier">astropy.coordinates.Angle, optional</span></dt><dd><p>Observation zenith angle. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="timeslot.Slot.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeslot.html#Slot.find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#timeslot.Slot.find" title="Permalink to this definition"></a></dt>
+<dd><p>Find the slice containing the given time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>time</strong><span class="classifier">astropy.time (time)</span></dt><dd><p>An observation time</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>Index or error code:</dt><dd><p>Index of the slice or -1, -2 if not within the slices</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="timeslot.Slot.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeslot.html#Slot.merge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#timeslot.Slot.merge" title="Permalink to this definition"></a></dt>
+<dd><p>Merge current slot (<cite>self</cite>) with another slot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>slot</strong><span class="classifier">Slot instance</span></dt><dd><p>The slot to be merged with the current slot</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="timeslot.Slot.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axa=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eref=&lt;Quantity</span> <span class="pre">100.</span> <span class="pre">GeV&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/timeslot.html#Slot.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#timeslot.Slot.plot" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the slices of the time slot, including the measurement
+points if the slot was dressed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>axa</strong><span class="classifier">matplotlib.axes</span></dt><dd><p>Axes on which the plots are shown. The default is None.</p>
+</dd>
+<dt><strong>eref</strong><span class="classifier">Quantity (energy), optional</span></dt><dd><p>The reference energy used to display the lightcurve.</p>
+</dd>
+<dt><strong>**kwargs</strong><span class="classifier">keyword arguments</span></dt><dd><p>Extra arguents from matplotlib.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>matplotlib figure</dt><dd><p>Current Matplotlib figure</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../time_slice.html" class="btn btn-neutral float-left" title="Time slices and slots" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="obs_slice.Slice.html" class="btn btn-neutral float-right" title="Slice" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

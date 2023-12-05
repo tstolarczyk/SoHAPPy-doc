@@ -1,0 +1,6 @@
+erec_max
+========
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: erec_max

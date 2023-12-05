@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>analysis.population.sigmas &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analysis.population.sigmas</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for analysis.population.sigmas</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Wed Nov 23 17:43:24 2022</span>
+
+<span class="sd">Detection rates as a function of the mean maximal significance thresholds,</span>
+<span class="sd">evolution of rates with this threshold, distribution of mean maximal significances.</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.axes_grid1.inset_locator</span> <span class="kn">import</span> <span class="n">inset_axes</span>
+
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">heading</span>
+<span class="kn">from</span> <span class="nn">niceplot</span> <span class="kn">import</span> <span class="n">MyLabel</span><span class="p">,</span> <span class="n">stamp</span><span class="p">,</span> <span class="n">single_legend</span>
+
+<span class="kn">from</span> <span class="nn">population</span> <span class="kn">import</span> <span class="n">Pop</span>
+<span class="kn">from</span> <span class="nn">pop_io</span> <span class="kn">import</span> <span class="n">get_data</span>
+
+<span class="kn">import</span> <span class="nn">setup</span> <span class="k">as</span> <span class="nn">stp</span>
+
+<span class="n">codefolder</span> <span class="o">=</span> <span class="s2">&quot;../../&quot;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">codefolder</span><span class="p">)</span>
+
+<span class="c1"># Bigger texts and labels</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;talk&quot;</span><span class="p">)</span> <span class="c1"># poster, talk, notebook, paper</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;detection_level&quot;</span><span class="p">,</span><span class="s2">&quot;plot_sigmax_all&quot;</span><span class="p">,</span><span class="s2">&quot;plot_sigmax&quot;</span><span class="p">,</span><span class="s2">&quot;high_sigma&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;plot_high_sigma_all&quot;</span><span class="p">,</span> <span class="s2">&quot;sigmax_above_threshold&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;rate_above_threshold&quot;</span><span class="p">,</span><span class="s2">&quot;plot_sigmax_cumulative&quot;</span><span class="p">]</span>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="detection_level"><a class="viewcode-back" href="../../../api/analysis.population.sigmas.detection_level.html#analysis.population.sigmas.detection_level">[docs]</a><span class="k">def</span> <span class="nf">detection_level</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">glist</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display the detection level for a list of subpopulation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pop : Pop instance</span>
+<span class="sd">        Data from disk.</span>
+<span class="sd">    gname : list of String</span>
+<span class="sd">        Subpopulation names.</span>
+<span class="sd">    nbin : integer, optional</span>
+<span class="sd">        Histogram bin number. The default is 25.</span>
+<span class="sd">    **kwargs : Dictionnary</span>
+<span class="sd">        Extra arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">glist</span><span class="p">),</span>
+                           <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">glist</span><span class="p">),</span><span class="mi">5</span><span class="p">),</span>
+                           <span class="n">sharey</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">gname</span><span class="p">,</span> <span class="n">axi</span>  <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">glist</span><span class="p">,</span><span class="n">ax</span><span class="p">):</span>
+
+        <span class="n">subpop</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">gname</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>
+                                   <span class="p">[</span><span class="n">subpop</span><span class="o">.</span><span class="n">d3s</span><span class="p">,</span> <span class="n">subpop</span><span class="o">.</span><span class="n">d5s</span><span class="p">],</span>
+                                   <span class="p">[</span><span class="n">stp</span><span class="o">.</span><span class="n">col_3</span><span class="p">,</span> <span class="n">stp</span><span class="o">.</span><span class="n">col_5</span><span class="p">]):</span>
+
+            <span class="n">var</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">var</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">niter</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;$\sigma$&quot;</span>
+
+            <span class="n">axi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
+                     <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">label</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="n">axi</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Confidence level (%)&quot;</span><span class="p">)</span>
+            <span class="n">axi</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+            <span class="n">axi</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">gname</span><span class="p">)</span>
+            <span class="n">axi</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">pop</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">,</span>
+                       <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;min. C.L. (%)&quot;</span><span class="p">)</span>
+            <span class="n">axi</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+                <span class="n">axi</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Event counts&quot;</span><span class="p">)</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">single_legend</span><span class="p">(</span><span class="n">axi</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="plot_sigmax_all"><a class="viewcode-back" href="../../../api/analysis.population.sigmas.plot_sigmax_all.html#analysis.population.sigmas.plot_sigmax_all">[docs]</a><span class="k">def</span> <span class="nf">plot_sigmax_all</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">logx</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the mean maximal significance distributions for North and North only,</span>
+<span class="sd">    South and South only, and GRBs detected on both site. Check that detections</span>
+<span class="sd">    with both sites give higher significances.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pop : Pop instance</span>
+<span class="sd">        Data from disk.</span>
+<span class="sd">    nbin : TYPE, optional</span>
+<span class="sd">        Number of bins in histograms. The default is 25.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span><span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># North and North only</span>
+    <span class="n">ax</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">plot_sigmax</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;North&quot;</span><span class="p">,</span>
+                           <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span><span class="n">logx</span><span class="o">=</span><span class="n">logx</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">stp</span><span class="o">.</span><span class="n">col_n</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plot_sigmax</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;North only&quot;</span><span class="p">,</span>
+                <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span><span class="n">logx</span><span class="o">=</span><span class="n">logx</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">stp</span><span class="o">.</span><span class="n">col_n</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># South and South only</span>
+    <span class="n">ax</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">plot_sigmax</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_s</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;South&quot;</span><span class="p">,</span>
+                        <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span><span class="n">logx</span><span class="o">=</span><span class="n">logx</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">stp</span><span class="o">.</span><span class="n">col_s</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plot_sigmax</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;South only&quot;</span><span class="p">,</span>
+                <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">logx</span><span class="o">=</span><span class="n">logx</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">stp</span><span class="o">.</span><span class="n">col_s</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># Both, all</span>
+    <span class="n">ax</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">plot_sigmax</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_b</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;Both&quot;</span><span class="p">,</span>
+                           <span class="n">logx</span><span class="o">=</span><span class="n">logx</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">stp</span><span class="o">.</span><span class="n">col_b</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plot_sigmax</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_tot</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;N+S&quot;</span><span class="p">,</span>
+                <span class="n">logx</span><span class="o">=</span><span class="n">logx</span><span class="p">,</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">weight</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_b</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_tot</span><span class="p">))</span>
+
+    <span class="n">stamp</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="plot_sigmax"><a class="viewcode-back" href="../../../api/analysis.population.sigmas.plot_sigmax.html#analysis.population.sigmas.plot_sigmax">[docs]</a><span class="k">def</span> <span class="nf">plot_sigmax</span><span class="p">(</span><span class="n">g</span><span class="p">,</span>
+                <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">logx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">xmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot mean maximal significance for a given population</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : Pandas table</span>
+<span class="sd">        Current subpopulation.</span>
+<span class="sd">    ax : Matplotlib axes, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+<span class="sd">    logx : Boolean, optional</span>
+<span class="sd">        Abscissa in log scale if True. The default is True.</span>
+<span class="sd">    bins : integer, optional</span>
+<span class="sd">        number of bisn in histrogram. The default is 25.</span>
+<span class="sd">    tag : string, optional</span>
+<span class="sd">        Descriptor of the data. The default is &quot;&quot;.</span>
+<span class="sd">    weight : float, optional</span>
+<span class="sd">        Histrogram reweighting. The default is 1.</span>
+<span class="sd">    xmax : Float, optional</span>
+<span class="sd">        Abscissa maximal value. The default is None.</span>
+<span class="sd">    **kwargs : Dictionnary</span>
+<span class="sd">        Extra matplotlib arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : Matplotlib axes</span>
+<span class="sd">        Current axis.</span>
+<span class="sd">    bins : TYPE</span>
+<span class="sd">        DESCRIPTION.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">xmax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">sigmx</span> <span class="o">&lt;</span> <span class="n">xmax</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">mask</span><span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">sigmx</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">sigmx</span><span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">logx</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">sigmx</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Positive values only&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$log_</span><span class="si">{10}</span><span class="s2">(\sigma_</span><span class="si">{max}</span><span class="s2">)$&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;$3\sigma$&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;$5\sigma$&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">sigmx</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\sigma_</span><span class="si">{max}</span><span class="s2">$&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">3.</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;$3\sigma$&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span>  <span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;$5\sigma$&quot;</span><span class="p">)</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">tag</span><span class="p">,</span><span class="n">stat</span><span class="o">=</span><span class="s2">&quot;med&quot;</span><span class="p">),</span>
+                        <span class="n">weights</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="n">weight</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">single_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="high_sigma"><a class="viewcode-back" href="../../../api/analysis.population.sigmas.high_sigma.html#analysis.population.sigmas.high_sigma">[docs]</a><span class="k">def</span> <span class="nf">high_sigma</span><span class="p">(</span><span class="n">gpop</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sigmin</span><span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+               <span class="n">sig2show</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+               <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display the high values of the mena maximal significance and tag the</span>
+<span class="sd">    highest value with the event number.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gpop : Pandas table</span>
+<span class="sd">        Current subpopulation.</span>
+<span class="sd">    ax : Matplotlib axis, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+<span class="sd">    inset : Boolean, optional</span>
+<span class="sd">        If True, add a log-scale display in an inset box. The default is True.</span>
+<span class="sd">    sigmin : float, optional</span>
+<span class="sd">        Minimal significance to consider. The default is 5.</span>
+<span class="sd">    sig2show : float, optional</span>
+<span class="sd">        Minimal significance to be tagged. They willnot be shown if negative.</span>
+<span class="sd">        The default is 100.</span>
+<span class="sd">    tag : String, optional</span>
+<span class="sd">        Data descriptor. The default is &quot;&quot;.</span>
+<span class="sd">    **kwargs : Dictionnary</span>
+<span class="sd">        Extra parameters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : Matplotlib axes</span>
+<span class="sd">        Current axis.</span>
+<span class="sd">    bins : sequence</span>
+<span class="sd">        Histogram binning.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">var</span> <span class="o">=</span> <span class="n">gpop</span><span class="o">.</span><span class="n">sigmx</span><span class="p">[</span><span class="n">gpop</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;=</span><span class="n">sigmin</span><span class="p">]</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">))</span><span class="o">*</span><span class="n">weight</span>
+
+    <span class="n">_</span><span class="p">,</span><span class="n">bins</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">var</span><span class="o">*</span><span class="n">weights</span><span class="p">,</span><span class="n">tag</span><span class="p">,</span><span class="n">stat</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                       <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;$\sigma_</span><span class="se">{{</span><span class="s2">max</span><span class="se">}}</span><span class="s2"> \geq </span><span class="si">{</span><span class="n">sigmin</span><span class="si">:}</span><span class="s2">$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Event rate&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Inset in log</span>
+    <span class="k">if</span> <span class="n">inset</span><span class="p">:</span>
+        <span class="n">axx</span> <span class="o">=</span> <span class="n">inset_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;75%&quot;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+        <span class="n">_</span> <span class="p">,</span><span class="n">_</span> <span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">axx</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">gpop</span><span class="p">[</span><span class="n">gpop</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sigmx</span><span class="p">),</span>
+                           <span class="n">bins</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">axx</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;$3\sigma$&quot;</span><span class="p">)</span>
+        <span class="n">axx</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;$5\sigma$&quot;</span><span class="p">)</span>
+        <span class="n">axx</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Log $\sigma_</span><span class="si">{max}</span><span class="s2">$&quot;</span><span class="p">)</span>
+        <span class="n">axx</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="c1"># Outliers</span>
+    <span class="k">if</span> <span class="n">sig2show</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">outlier</span><span class="o">=</span><span class="nb">zip</span><span class="p">(</span><span class="n">gpop</span><span class="p">[</span><span class="n">gpop</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;</span><span class="n">sig2show</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">gpop</span><span class="p">[</span><span class="n">gpop</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;</span><span class="n">sig2show</span><span class="p">]</span><span class="o">.</span><span class="n">sigmx</span><span class="p">)</span>
+        <span class="n">i</span><span class="o">=</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">outlier</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">+</span> <span class="p">(</span><span class="mf">1.5</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">))</span><span class="o">*</span><span class="n">weight</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">g</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">5</span><span class="p">:],</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+            <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">bins</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="plot_high_sigma_all"><a class="viewcode-back" href="../../../api/analysis.population.sigmas.plot_high_sigma_all.html#analysis.population.sigmas.plot_high_sigma_all">[docs]</a><span class="k">def</span> <span class="nf">plot_high_sigma_all</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sigmin</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">inset</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the high value tail of the mean maximal sigificance values and</span>
+<span class="sd">    tag the data with the even number</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pop : Pop instance</span>
+<span class="sd">        Data on disk.</span>
+<span class="sd">    nbin: integer</span>
+<span class="sd">        Histrogram number of bins. Default is 100</span>
+<span class="sd">    sigmin: float</span>
+<span class="sd">        Minimal significance values in the plots. The default is 5</span>
+<span class="sd">    inset : boolean, optional</span>
+<span class="sd">        If True, display the same plot in log-scale in an inset box.</span>
+<span class="sd">        The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span>
+
+    <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>
+
+    <span class="c1"># North and North only</span>
+    <span class="n">ax0</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">high_sigma</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span> <span class="n">sigmin</span> <span class="o">=</span> <span class="n">sigmin</span><span class="p">,</span>
+                           <span class="n">bins</span> <span class="o">=</span> <span class="n">nbin</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">stp</span><span class="o">.</span><span class="n">col_n</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                           <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span> <span class="n">inset</span><span class="o">=</span><span class="n">inset</span><span class="p">)</span>
+    <span class="n">high_sigma</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span>  <span class="n">sigmin</span><span class="o">=</span><span class="n">sigmin</span><span class="p">,</span>
+               <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">stp</span><span class="o">.</span><span class="n">col_n</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax0</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;N only&quot;</span><span class="p">,</span>
+               <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span><span class="n">inset</span><span class="o">=</span><span class="n">inset</span><span class="p">)</span>
+    <span class="n">ax0</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">ax0</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot; Mean $\sigma_</span><span class="si">{max}</span><span class="s2">$ for &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; years of observation&quot;</span><span class="p">)</span>
+    <span class="n">ax0</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+
+    <span class="c1"># South and South only</span>
+    <span class="n">ax0</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">high_sigma</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_s</span><span class="p">,</span> <span class="n">sigmin</span><span class="o">=</span><span class="n">sigmin</span><span class="p">,</span>
+                           <span class="n">bins</span> <span class="o">=</span> <span class="n">nbin</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">stp</span><span class="o">.</span><span class="n">col_s</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;S&quot;</span><span class="p">,</span>
+                           <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span><span class="n">inset</span><span class="o">=</span><span class="n">inset</span><span class="p">)</span>
+    <span class="n">high_sigma</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span> <span class="n">sigmin</span><span class="o">=</span><span class="n">sigmin</span><span class="p">,</span>
+               <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">stp</span><span class="o">.</span><span class="n">col_s</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax0</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="s2">&quot;S only&quot;</span><span class="p">,</span>
+               <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span><span class="n">inset</span><span class="o">=</span><span class="n">inset</span><span class="p">)</span>
+    <span class="n">ax0</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># Both sites</span>
+    <span class="n">ax0</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">high_sigma</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_b</span><span class="p">,</span> <span class="n">sigmin</span><span class="o">=</span><span class="n">sigmin</span><span class="p">,</span>
+                           <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">stp</span><span class="o">.</span><span class="n">col_b</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                           <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;Both&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span> <span class="n">inset</span><span class="o">=</span><span class="n">inset</span><span class="p">)</span>
+    <span class="n">ax0</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+
+    <span class="n">stamp</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+
+<span class="c1">###-----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="sigmax_above_threshold"><a class="viewcode-back" href="../../../api/analysis.population.sigmas.sigmax_above_threshold.html#analysis.population.sigmas.sigmax_above_threshold">[docs]</a><span class="k">def</span> <span class="nf">sigmax_above_threshold</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">sigmin</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print event number with mean maximal significance above a given threshold.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pop : Pop instance</span>
+<span class="sd">        Data from disk.</span>
+<span class="sd">    sigmin : float, optional</span>
+<span class="sd">        Signiifcnace threshold. The default is 0.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">heading</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Source with mean maximal sigma above </span><span class="si">{</span><span class="n">sigmin</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">poplist</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">g_s</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">g_b</span><span class="p">]</span>
+    <span class="n">taglist</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;N only&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">,</span><span class="s2">&quot;S only&quot;</span><span class="p">,</span><span class="s2">&quot;Both&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Mean sigmax value of events above 5 sigma at 90%CL and sigmin</span>
+    <span class="k">for</span> <span class="n">gsub</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">poplist</span><span class="p">,</span> <span class="n">taglist</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---- &quot;</span><span class="p">,</span><span class="n">tag</span><span class="p">)</span>
+        <span class="n">gsub</span> <span class="o">=</span> <span class="n">gsub</span><span class="p">[</span><span class="n">gsub</span><span class="o">.</span><span class="n">d5s</span><span class="o">&gt;=</span><span class="n">pop</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">sig</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">gsub</span><span class="o">.</span><span class="n">sigmx</span><span class="p">,</span><span class="n">gsub</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">sig</span><span class="o">&gt;=</span> <span class="n">sigmin</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - &quot;</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="s2">&quot; :&quot;</span><span class="p">,</span><span class="n">sig</span><span class="p">)</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="rate_above_threshold"><a class="viewcode-back" href="../../../api/analysis.population.sigmas.rate_above_threshold.html#analysis.population.sigmas.rate_above_threshold">[docs]</a><span class="k">def</span> <span class="nf">rate_above_threshold</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print detection rates for various mean maximal significance thresholds.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pop : TYPE</span>
+<span class="sd">        DESCRIPTION.</span>
+<span class="sd">    duration : TYPE, optional</span>
+<span class="sd">        DESCRIPTION. The default is 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">duration</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">nyears</span>
+
+    <span class="n">heading</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detection rate with mean sigmax above sig for </span><span class="si">{</span><span class="n">duration</span><span class="si">:}</span><span class="s2"> years&quot;</span><span class="p">)</span>
+
+    <span class="n">poplist</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">g_s</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">g_b</span><span class="p">]</span>
+    <span class="n">taglist</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;N only&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">,</span><span class="s2">&quot;S only&quot;</span><span class="p">,</span><span class="s2">&quot;Both&quot;</span><span class="p">]</span>
+    <span class="n">siglist</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Sig min&#39;</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">taglist</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Tot&#39;</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">sig</span> <span class="ow">in</span> <span class="n">siglist</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sig</span><span class="si">:</span><span class="s2">&gt;10.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">ntot</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">g_tot</span><span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">g_tot</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;=</span><span class="n">sig</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">p</span>  <span class="ow">in</span> <span class="n">poplist</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;=</span><span class="n">sig</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">duration</span><span class="o">*</span><span class="n">n</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="si">:</span><span class="s2">&gt;8.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">duration</span><span class="o">*</span><span class="n">ntot</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="si">:</span><span class="s2">&gt;8.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="s2">&quot;-&quot;</span><span class="p">)</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="plot_sigmax_cumulative"><a class="viewcode-back" href="../../../api/analysis.population.sigmas.plot_sigmax_cumulative.html#analysis.population.sigmas.plot_sigmax_cumulative">[docs]</a><span class="k">def</span> <span class="nf">plot_sigmax_cumulative</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Show the detection rates as a function of the mean maximal significance</span>
+<span class="sd">    threshold.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pop : Pop instance</span>
+<span class="sd">        Data on disk.</span>
+<span class="sd">    nbin : TYPE, optional</span>
+<span class="sd">        DESCRIPTION. The default is 10.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">pop</span><span class="o">.</span><span class="n">g_tot</span><span class="p">,</span>
+                          <span class="n">pop</span><span class="o">.</span><span class="n">g_b</span><span class="p">,</span>
+                          <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span><span class="n">pop</span><span class="o">.</span><span class="n">g_s</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)],</span>
+                          <span class="p">[</span><span class="s2">&quot;All&quot;</span><span class="p">,</span> <span class="s2">&quot;Both&quot;</span><span class="p">,</span> <span class="s2">&quot;0.5*(N+S)&quot;</span><span class="p">],</span>
+                          <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]):</span>
+
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">sigmx</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">sigmx</span><span class="p">)</span>
+
+        <span class="n">n</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">w</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">)))</span>
+
+        <span class="n">ncum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">ncum</span><span class="p">)</span><span class="o">-</span><span class="n">ncum</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+
+
+
+        <span class="c1"># Display some sigma values</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">*</span><span class="mf">1.05</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="s2">&quot;$50\sigma$&quot;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">*</span><span class="mf">1.05</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="s2">&quot;$20\sigma$&quot;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">*</span><span class="mf">1.05</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="s2">&quot;$5\sigma$&quot;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$Log_</span><span class="si">{10}</span><span class="s2">$ $\sigma_</span><span class="si">{max}</span><span class="s2">$&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Rate above $\sigma_</span><span class="si">{max}</span><span class="s2">$ for 10 yr of operation&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+        <span class="n">single_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+
+    <span class="n">stamp</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span></div>
+
+<span class="c1">###############################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">nyears</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">parpath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># nyears, files, tag = get_data(parpath=&quot;parameter.yaml&quot;,debug=False)</span>
+
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">Pop</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span> <span class="n">nyears</span><span class="p">)</span>
+
+    <span class="c1">### ------------------</span>
+    <span class="c1">### Print statistics</span>
+    <span class="c1">### ------------------</span>
+
+    <span class="c1"># Detection rate versus minimal significance normalised to duration</span>
+    <span class="n">rate_above_threshold</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Mean maximal siginificance above threshold</span>
+    <span class="n">sigmax_above_threshold</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">sigmin</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="c1">### ------------------</span>
+    <span class="c1">### Plots</span>
+    <span class="c1">### ------------------</span>
+
+    <span class="c1"># Detection level distributions</span>
+    <span class="n">detection_level</span><span class="p">(</span><span class="n">pop</span> <span class="p">,[</span><span class="s2">&quot;g_tot&quot;</span><span class="p">,</span><span class="s2">&quot;g_n&quot;</span><span class="p">,</span> <span class="s2">&quot;g_s&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Mean max significance distribution - compare N/Nonly etc.</span>
+    <span class="n">plot_sigmax_all</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span>
+
+    <span class="c1"># Highest significance values</span>
+    <span class="n">plot_high_sigma_all</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">inset</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Rate versus mean maximal siginificance threshold</span>
+    <span class="n">plot_sigmax_cumulative</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

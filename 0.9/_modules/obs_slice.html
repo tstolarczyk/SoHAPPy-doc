@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>obs_slice &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">obs_slice</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for obs_slice</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Apr  6 17:04:35 2020</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+
+<span class="kn">from</span> <span class="nn">irf</span> <span class="kn">import</span> <span class="n">IRF</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Slice&quot;</span><span class="p">]</span>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice">[docs]</a><span class="k">class</span> <span class="nc">Slice</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A (time) slice is a time window associated to a physical flux, an</span>
+<span class="sd">    observation time within the window, a list of sites and the corresponding</span>
+<span class="sd">    IRF as for combined analysis a slice can be associated to more than one</span>
+<span class="sd">    site.</span>
+<span class="sd">    The observation time can be simply set at the beginning or at the end of</span>
+<span class="sd">    the slice or at a date defined in a more elaborated way. Variations due to</span>
+<span class="sd">    these various hypothesis highly depends on the slice length and how the</span>
+<span class="sd">    flux variates in the slice.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#--------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idt</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This defines a so called naked slice. It has no physical information *</span>
+<span class="sd">        defined.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        idt : integer</span>
+<span class="sd">            Slice identtifier</span>
+<span class="sd">        t1 : Quantity Time</span>
+<span class="sd">            Slice start time</span>
+<span class="sd">        t2 : Quantity Time</span>
+<span class="sd">            Slice stop time.</span>
+<span class="sd">        tobs : Quantitiy Time, optional</span>
+<span class="sd">            Observation time for that slice. The default is 0.</span>
+<span class="sd">        flux : Float, optional</span>
+<span class="sd">            Flux value at observation point. The default is [0].</span>
+<span class="sd">        site : String, optional</span>
+<span class="sd">            The site(s) associated to that slice. The default is &quot;?&quot;.</span>
+<span class="sd">        perf : CTAIrf, optional</span>
+<span class="sd">            A list of CTA Irf instances. The default is [].</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__idt</span>    <span class="o">=</span> <span class="n">idt</span>       <span class="c1"># Slice identifier</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ts1</span>    <span class="o">=</span> <span class="n">t1</span>        <span class="c1"># Slice start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ts2</span>    <span class="o">=</span> <span class="n">t2</span>        <span class="c1"># Slice stop</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span>   <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>     <span class="c1"># Observation point</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__f_id</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>        <span class="c1"># Spectrum slice id in the grb object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__irf</span>    <span class="o">=</span> <span class="p">[]</span>        <span class="c1"># Detector IRFs at obs. point</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__site</span>   <span class="o">=</span> <span class="n">site</span>      <span class="c1"># Sites North, South, Both</span>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.idt"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.idt">[docs]</a>    <span class="k">def</span> <span class="nf">idt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the Slice identifier.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        integer</span>
+<span class="sd">            Slice identifier.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__idt</span></div>
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.ts1"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.ts1">[docs]</a>    <span class="k">def</span> <span class="nf">ts1</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the slice start time.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Astropy Quantity</span>
+<span class="sd">            Start time.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ts1</span></div>
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.ts2"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.ts2">[docs]</a>    <span class="k">def</span> <span class="nf">ts2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the slice stop time.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Astropy Quantity</span>
+<span class="sd">            Stop time.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ts2</span></div>
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.tobs"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.tobs">[docs]</a>    <span class="k">def</span> <span class="nf">tobs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the slice observation point.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Astropy Quantity</span>
+<span class="sd">            Observation time.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.fid"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.fid">[docs]</a>    <span class="k">def</span> <span class="nf">fid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the flux identifier.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        integer</span>
+<span class="sd">            Flux identifuier in the GRB object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__f_id</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.site"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.site">[docs]</a>    <span class="k">def</span> <span class="nf">site</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get Site location.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        String</span>
+<span class="sd">            A String describing the site(s) attached to this Slice instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__site</span></div>
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.irf"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.irf">[docs]</a>    <span class="k">def</span> <span class="nf">irf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get detector IRF(s) at obs. point</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        IRF</span>
+<span class="sd">            List of IRF attached to this Slice instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__irf</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.set_id"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.set_id">[docs]</a>    <span class="k">def</span> <span class="nf">set_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idt</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the slice identifier</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        idt : integer</span>
+<span class="sd">            Slice identifier.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__idt</span> <span class="o">=</span> <span class="n">idt</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.set_site"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.set_site">[docs]</a>    <span class="k">def</span> <span class="nf">set_site</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">site</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Possible sites are the following : North, South, Both</span>
+<span class="sd">        More could be added.</span>
+<span class="sd">        Todo. if more possibilities are added might be worth to create a list</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        site : String, optional</span>
+<span class="sd">            Site(s) associated to the site. The default is &quot;?&quot;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__site</span> <span class="o">=</span> <span class="n">site</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.dress"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.dress">[docs]</a>    <span class="k">def</span> <span class="nf">dress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">grb</span><span class="p">,</span>
+                   <span class="n">irf_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./&quot;</span><span class="p">),</span>
+                   <span class="n">arrays</span>  <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                   <span class="n">opt</span>     <span class="o">=</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span>
+                   <span class="n">zenith</span>  <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add physical information to the slice.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        grb : GammaRayBurst</span>
+<span class="sd">            A GRB instance</span>
+<span class="sd">        irf_dir : Path</span>
+<span class="sd">            IRF top directory. The default is the local directory.</span>
+<span class="sd">        arrays : string, optional</span>
+<span class="sd">            String defining the telescope (sub)array. The defualt is None.</span>
+<span class="sd">        opt : string, optional</span>
+<span class="sd">            Define the position at which the flux is estimated. The default is &quot;end&quot;.</span>
+<span class="sd">        zenith : astropy Quantity, optional</span>
+<span class="sd">            Value of the forced zenith angle. The default is None.</span>
+<span class="sd">        debug : boolean, optional</span>
+<span class="sd">            Allow debug printing. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obs_point</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_flux</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_perf</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span><span class="n">irf_dir</span><span class="o">=</span> <span class="n">irf_dir</span><span class="p">,</span><span class="n">arrays</span><span class="o">=</span><span class="n">arrays</span><span class="p">,</span><span class="n">zenith</span><span class="o">=</span><span class="n">zenith</span><span class="p">)</span></div>
+
+    <span class="c1">#------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.merge"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.merge">[docs]</a>    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">next_slice</span><span class="p">):</span>
+        <span class="c1"># Set end time of current slice to end time of another slce</span>
+        <span class="c1"># Leaves the rest unchanged</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ts2</span> <span class="o">=</span> <span class="n">next_slice</span><span class="o">.</span><span class="n">ts2</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span> <span class="o">=</span> <span class="n">next_slice</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span></div>
+
+    <span class="c1">#------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.obs_point"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.obs_point">[docs]</a>    <span class="k">def</span> <span class="nf">obs_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">opt</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the observation point time depending on where the flux will be</span>
+<span class="sd">        considered.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        opt : string</span>
+<span class="sd">            String defining where the flux is estimated in the slice.</span>
+<span class="sd">            &quot;end&quot;, &quot;start&quot;, &quot;mean&quot;, etc.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span>   <span class="n">opt</span> <span class="o">==</span><span class="s2">&quot;end&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ts2</span>
+        <span class="k">elif</span> <span class="n">opt</span> <span class="o">==</span><span class="s2">&quot;start&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ts1</span>
+        <span class="k">elif</span> <span class="n">opt</span> <span class="o">==</span><span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ts1</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">__ts2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">opt</span> <span class="o">==</span><span class="s2">&quot;interp&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ts2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span><span class="o">=</span><span class="mi">0</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ts1</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span></div>
+
+    <span class="c1">#------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.get_flux"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.get_flux">[docs]</a>    <span class="k">def</span> <span class="nf">get_flux</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">grb</span><span class="p">,</span><span class="n">t</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the flux to be associated to a given  time.</span>
+<span class="sd">        So far get the flux at the closest measurement point.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        grb : GammaRayBurst</span>
+<span class="sd">            Current GRB instance</span>
+<span class="sd">        t : Quantity Time</span>
+<span class="sd">            The time at which the flux should be estimated</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">grb</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__f_id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">grb</span><span class="o">.</span><span class="n">tval</span><span class="o">.</span><span class="n">value</span><span class="p">))</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.get_perf"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.get_perf">[docs]</a>    <span class="k">def</span> <span class="nf">get_perf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grb</span><span class="p">,</span>
+                       <span class="n">irf_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./&quot;</span><span class="p">),</span>
+                       <span class="n">arrays</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">zenith</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtain the best performance for a given slice, indpendently of</span>
+<span class="sd">        the observation point that was chosen.</span>
+<span class="sd">        The altitude and azimuth are computed for the slice start since</span>
+<span class="sd">        the performance is obatined at the beginning of the slice where</span>
+<span class="sd">        the flux is higher. The observation time is the length of the slice.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        grb : GammaRayBurst</span>
+<span class="sd">            The current GRB instance.</span>
+<span class="sd">        debug : boolean, optional</span>
+<span class="sd">            If true, display chosen IRF. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># debug=2</span>
+
+        <span class="c1"># Observation window duration</span>
+        <span class="n">obstime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ts2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ts1</span> <span class="c1"># Duration (not cumulated !)</span>
+
+        <span class="n">site_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__site</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;North&quot;</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">):</span>
+            <span class="n">site_list</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__site</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__site</span> <span class="o">==</span> <span class="s2">&quot;Both&quot;</span><span class="p">:</span>
+            <span class="n">site_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">site_list</span><span class="p">:</span>
+            <span class="c1"># Altitude at slice start where the flux is expected larger</span>
+            <span class="n">altaz</span> <span class="o">=</span>  <span class="n">grb</span><span class="o">.</span><span class="n">altaz</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__ts1</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="n">site</span><span class="p">)</span>
+
+            <span class="c1"># Zenith is obtained from altaz except if fixed beforehand</span>
+            <span class="k">if</span> <span class="n">zenith</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">zenith</span>   <span class="o">=</span> <span class="mi">90</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="o">-</span><span class="n">altaz</span><span class="o">.</span><span class="n">alt</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">zenith</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">zenith</span><span class="p">)</span> <span class="c1"># Was string so far</span>
+
+            <span class="n">irf</span> <span class="o">=</span> <span class="n">IRF</span><span class="o">.</span><span class="n">from_observation</span><span class="p">(</span><span class="n">zenith</span>   <span class="o">=</span> <span class="n">zenith</span><span class="p">,</span>
+                                       <span class="n">azimuth</span>  <span class="o">=</span> <span class="n">altaz</span><span class="o">.</span><span class="n">az</span><span class="p">,</span>
+                                       <span class="n">obstime</span>  <span class="o">=</span> <span class="n">obstime</span><span class="p">,</span>
+                                       <span class="n">loc</span>      <span class="o">=</span> <span class="n">site</span><span class="p">,</span>
+                                       <span class="n">irf_dir</span>  <span class="o">=</span> <span class="n">irf_dir</span><span class="p">,</span>
+                                       <span class="n">subarray</span> <span class="o">=</span> <span class="n">arrays</span><span class="p">[</span><span class="n">site</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">debug</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__idt</span><span class="p">,</span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="n">site</span><span class="p">,</span><span class="s2">&quot;--&gt;&quot;</span><span class="p">,</span><span class="n">irf</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">__irf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">irf</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;                       ===&gt; </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__irf</span><span class="p">)</span><span class="si">}</span><span class="s2"> IRF found&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slice.print"><a class="viewcode-back" href="../api/obs_slice.Slice.html#obs_slice.Slice.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Allow displaying</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        txt : String</span>
+<span class="sd">            Slice information</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">{:&gt;2s}</span><span class="s2"> </span><span class="si">{:&gt;10s}</span><span class="s2"> </span><span class="si">{:&gt;10s}</span><span class="s2"> </span><span class="si">{:&gt;10s}</span><span class="s2"> </span><span class="si">{:&gt;3s}</span><span class="s2"> </span><span class="si">{:5s}</span><span class="s2"> </span><span class="si">{:4s}</span><span class="s2">&quot;</span>
+                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Start (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ts1</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Stop (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ts2</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Obs.(&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Fid&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Site&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Perf&quot;</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">{:&gt;2s}</span><span class="s2"> </span><span class="si">{:&gt;10s}</span><span class="s2"> </span><span class="si">{:&gt;10s}</span><span class="s2"> </span><span class="si">{:&gt;10s}</span><span class="s2"> </span><span class="si">{:&gt;3s}</span><span class="s2"> </span><span class="si">{:&gt;5s}</span><span class="s2"> </span><span class="si">{:&gt;4s}</span><span class="s2">&quot;</span>
+                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;----------&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;----------&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;----------&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;---&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;-----&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;----&quot;</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">{:2d}</span><span class="s2"> </span><span class="si">{:10.2f}</span><span class="s2"> </span><span class="si">{:10.2f}</span><span class="s2"> </span><span class="si">{:10.2f}</span><span class="s2"> </span><span class="si">{:3d}</span><span class="s2"> </span><span class="si">{:&gt;5s}</span><span class="s2"> </span><span class="si">{:4d}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__idt</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ts1</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ts2</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__tobs</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__f_id</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__site</span><span class="p">,</span>
+                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__irf</span><span class="p">)),</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">perf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__irf</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="n">perf</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

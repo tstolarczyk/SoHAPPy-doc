@@ -1,0 +1,6 @@
+EBL_from_file
+=============
+
+.. currentmodule:: ebl
+
+.. autofunction:: EBL_from_file

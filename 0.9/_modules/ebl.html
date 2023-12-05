@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ebl &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ebl</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ebl</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Thu Nov  4 15:24:21 2021</span>
+
+<span class="sd">This module contains the functions to decode and plot the EBL absorption model</span>
+<span class="sd">beyond waht exist in `Gammapy`, as well as a main function illustrating the</span>
+<span class="sd">use of these functions.</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">cycle</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp2d</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+<span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="n">quantity_support</span>
+
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">EBLAbsorptionNormSpectralModel</span>
+
+<span class="kn">from</span> <span class="nn">niceplot</span> <span class="kn">import</span> <span class="n">single_legend</span>
+
+<span class="c1"># Bigger texts and labels</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;poster&quot;</span><span class="p">)</span> <span class="c1"># talk, notebook, paper</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;EBL_from_file&quot;</span><span class="p">,</span> <span class="s2">&quot;EBL_plot&quot;</span><span class="p">,</span> <span class="s2">&quot;plot_dominguez_2011&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;compare_EBL_models&quot;</span><span class="p">]</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="EBL_from_file"><a class="viewcode-back" href="../api/ebl.EBL_from_file.html#ebl.EBL_from_file">[docs]</a><span class="k">def</span> <span class="nf">EBL_from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read a specific EBL model from file. Note that the formats are not</span>
+<span class="sd">    normalised. They are different for each file, depending on the provider.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file : String</span>
+<span class="sd">        Input file name.</span>
+<span class="sd">    debug : Boolean, optional</span>
+<span class="sd">        If True display information. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    attenuation : interpd2d object</span>
+<span class="sd">        Interpolated attenuation.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;gilmore&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">z_dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">E_dat</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span>
+        <span class="n">EBLabs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span><span class="mi">1</span><span class="p">:])</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">EBLabs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EBLabs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Gilmore from Lara&quot;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">filename</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;dominguez&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">E_dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span>
+        <span class="n">z_dat</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">EBLabs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Dominguez from Renaud&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;ebl.py: cannot process this EBL data fle&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">interp2d</span><span class="p">(</span><span class="n">E_dat</span><span class="p">,</span><span class="n">z_dat</span><span class="p">,</span> <span class="n">EBLabs</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">)</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="EBL_plot"><a class="viewcode-back" href="../api/ebl.EBL_plot.html#ebl.EBL_plot">[docs]</a><span class="k">def</span> <span class="nf">EBL_plot</span><span class="p">(</span><span class="n">eblmodels</span><span class="p">,</span>
+             <span class="n">redshifts</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">energies</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+             <span class="n">axa</span>   <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">xsize</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">ysize</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+             <span class="n">color</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+              <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eblmodels : list of interp2d objects</span>
+<span class="sd">        List of EBL models.</span>
+<span class="sd">    redshifts : list of float or float, optional</span>
+<span class="sd">        Redshift or list of redshifts. The default is 0.1.</span>
+<span class="sd">    energies : List of Quantity or Quantity, optional</span>
+<span class="sd">        Energy or list of energies with unit. The default is 100*u.GeV.</span>
+<span class="sd">    tags : List of strings or string, optional</span>
+<span class="sd">        Model tags. The default is &quot;&quot;.</span>
+<span class="sd">    ax : matplotlib.axes, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+<span class="sd">    xsize : float, optional</span>
+<span class="sd">        Figure horizontal size. The default is 8.</span>
+<span class="sd">    ysize : float, optional</span>
+<span class="sd">        Figre vertical size. The default is 8.</span>
+<span class="sd">    color : Boolean, optional</span>
+<span class="sd">        If True, colors from a colormap. The default is None.</span>
+<span class="sd">    ls : string, optional</span>
+<span class="sd">        Matplotlib line style. The default is None.</span>
+<span class="sd">    **kwargs : pointer list</span>
+<span class="sd">        Extra arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : Matplolib.axes</span>
+<span class="sd">        Current plot axis.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># If not a list but a single element</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">eblmodels</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">eblmodels</span> <span class="o">=</span> <span class="p">[</span><span class="n">eblmodels</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tags</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="p">[</span><span class="n">tags</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">redshifts</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">redshifts</span> <span class="o">=</span> <span class="p">[</span><span class="n">redshifts</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">energies</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">energies</span><span class="p">]</span>
+
+    <span class="c1"># A line style per attenuation model</span>
+    <span class="n">linecycler</span> <span class="o">=</span> <span class="n">cycle</span><span class="p">([</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="s2">&quot;-.&quot;</span><span class="p">,</span><span class="s2">&quot;:&quot;</span><span class="p">])</span>
+
+    <span class="n">set_color</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">set_line</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">axa</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_</span> <span class="p">,</span><span class="n">axa</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">xsize</span><span class="p">,</span><span class="n">ysize</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">set_color</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">ls</span> <span class="ow">is</span> <span class="kc">None</span> <span class="p">:</span>
+        <span class="n">set_line</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+
+        <span class="k">for</span> <span class="n">att</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">eblmodels</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">set_line</span><span class="p">:</span>
+                <span class="n">ls</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">linecycler</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">redshifts</span><span class="p">):</span>
+
+                <span class="k">if</span> <span class="n">set_color</span> <span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">redshifts</span><span class="p">))</span> <span class="c1"># One color per z</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">att</span><span class="p">,</span> <span class="n">EBLAbsorptionNormSpectralModel</span><span class="p">):</span>
+                    <span class="n">attenuation</span> <span class="o">=</span> <span class="n">att</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">energies</span><span class="p">,</span><span class="n">redshift</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">alpha_norm</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">attenuation</span> <span class="o">=</span> <span class="n">att</span><span class="p">(</span><span class="n">energies</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+                <span class="n">axa</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energies</span><span class="p">,</span> <span class="n">attenuation</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">tag</span><span class="o">+</span><span class="s2">&quot; z=&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mi">2</span><span class="p">)),</span>
+                <span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">axa</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+        <span class="n">axa</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span><span class="n">ymax</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">single_legend</span><span class="p">(</span><span class="n">axa</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">axa</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="plot_dominguez_2011"><a class="viewcode-back" href="../api/ebl.plot_dominguez_2011.html#ebl.plot_dominguez_2011">[docs]</a><span class="k">def</span> <span class="nf">plot_dominguez_2011</span><span class="p">(</span><span class="n">redshifts</span><span class="p">,</span> <span class="n">energies</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">yscale</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Probably redundant with EBL_plot - to be optimised</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    redshifts : list of float</span>
+<span class="sd">        List of redshifts.</span>
+<span class="sd">    energies : list of Quantity or Qauntity</span>
+<span class="sd">        List of energies.</span>
+<span class="sd">    alpha : float, optional</span>
+<span class="sd">        Matplotlib color transparency. The default is 0.8.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_</span> <span class="p">,</span> <span class="n">axa</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">redshifts</span><span class="p">):</span>
+        <span class="n">do_z</span>  <span class="o">=</span> <span class="n">dominguez</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">energies</span><span class="p">,</span><span class="n">redshift</span><span class="o">=</span><span class="n">z</span><span class="p">,</span><span class="n">alpha_norm</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">do_z</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">x</span> <span class="o">==</span> <span class="n">max_att</span> <span class="k">if</span> <span class="n">x</span><span class="o">&lt;</span><span class="n">max_att</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">do_z</span><span class="p">])</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">zlist</span><span class="p">))</span>
+
+        <span class="n">axa</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">do_z</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+
+    <span class="n">axa</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+    <span class="n">axa</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+    <span class="n">axa</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Absorption&quot;</span><span class="p">)</span>
+    <span class="n">axa</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Energy (GeV)&quot;</span><span class="p">)</span>
+    <span class="n">axa</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Dominguez 2011&quot;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">axa</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="compare_EBL_models"><a class="viewcode-back" href="../api/ebl.compare_EBL_models.html#ebl.compare_EBL_models">[docs]</a><span class="k">def</span> <span class="nf">compare_EBL_models</span><span class="p">(</span><span class="n">redshifts</span><span class="p">,</span> <span class="n">energies</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare all availbale EBL models</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    redshifts : list of float</span>
+<span class="sd">        List of redshifts.</span>
+<span class="sd">    energies : list of Quantity or Qauntity</span>
+<span class="sd">        List of energies.</span>
+<span class="sd">    ratio : Boolean, optional</span>
+<span class="sd">        If True show ratii. The default is False.</span>
+<span class="sd">    alpha : float, optional</span>
+<span class="sd">        Matplotlib color transparency. The default is 0.5.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="k">if</span> <span class="n">ratio</span><span class="p">:</span>
+        <span class="n">_</span> <span class="p">,</span> <span class="p">((</span><span class="n">ax11</span><span class="p">,</span><span class="n">ax12</span><span class="p">,</span><span class="n">ax13</span><span class="p">),</span>
+              <span class="p">(</span><span class="n">ax21</span><span class="p">,</span> <span class="n">ax22</span><span class="p">,</span> <span class="n">ax23</span><span class="p">))</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                                                 <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
+                                                 <span class="n">sharey</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                 <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;height_ratios&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_</span> <span class="p">,</span> <span class="p">(</span><span class="n">ax11</span><span class="p">,</span><span class="n">ax12</span><span class="p">,</span><span class="n">ax13</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                                             <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">sharey</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                             <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">redshifts</span><span class="p">):</span>
+        <span class="c1"># color = cm.cool(i/len(zlist))</span>
+        <span class="c1"># color = cm.viridis(0.7-0.7*i/len(zlist))</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">zlist</span><span class="p">))</span>
+
+        <span class="c1"># Evaluate model at given z</span>
+        <span class="n">do_z</span>    <span class="o">=</span> <span class="n">dominguez</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">energies</span><span class="p">,</span><span class="n">redshift</span><span class="o">=</span><span class="n">z</span><span class="p">,</span><span class="n">alpha_norm</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">do_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">x</span> <span class="o">==</span> <span class="n">max_att</span> <span class="k">if</span> <span class="n">x</span><span class="o">&lt;</span><span class="n">max_att</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">do_z</span><span class="p">])</span>
+
+        <span class="n">fr_z</span> <span class="o">=</span> <span class="n">franceschini</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">redshift</span><span class="o">=</span><span class="n">z</span><span class="p">,</span><span class="n">alpha_norm</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">fr_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span> <span class="o">==</span> <span class="n">max_att</span> <span class="k">if</span> <span class="n">x</span><span class="o">&lt;</span><span class="n">max_att</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fr_z</span><span class="p">])</span>
+
+        <span class="n">fi_z</span> <span class="o">=</span> <span class="n">finke</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">redshift</span><span class="o">=</span><span class="n">z</span><span class="p">,</span><span class="n">alpha_norm</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">fi_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span> <span class="o">==</span> <span class="n">max_att</span> <span class="k">if</span> <span class="n">x</span><span class="o">&lt;</span><span class="n">max_att</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fi_z</span><span class="p">])</span>
+
+        <span class="n">gi_z</span> <span class="o">=</span> <span class="n">gilmore_ln</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">gi_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span> <span class="o">==</span> <span class="n">max_att</span> <span class="k">if</span> <span class="n">x</span><span class="o">&lt;</span><span class="n">max_att</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gi_z</span><span class="p">])</span>
+
+        <span class="n">fr_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">fr_z</span> <span class="o">-</span><span class="n">do_z</span><span class="p">)</span> <span class="o">/</span> <span class="n">do_z</span>
+        <span class="n">fi_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">fi_z</span> <span class="o">-</span><span class="n">do_z</span><span class="p">)</span> <span class="o">/</span> <span class="n">do_z</span>
+        <span class="n">gi_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">gi_z</span> <span class="o">-</span><span class="n">do_z</span><span class="p">)</span> <span class="o">/</span> <span class="n">do_z</span>
+
+        <span class="c1"># First row, plot attentaion</span>
+        <span class="n">ax11</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">do_z</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Dominguez&quot;</span><span class="p">)</span>
+        <span class="n">ax11</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">fr_z</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ratio</span><span class="p">:</span>
+            <span class="n">ax11</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Energy (GeV)&quot;</span><span class="p">)</span>
+
+        <span class="n">ax12</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">do_z</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Dominguez&quot;</span><span class="p">)</span>
+        <span class="n">ax12</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">fr_z</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ratio</span><span class="p">:</span>
+            <span class="n">ax12</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Energy (GeV)&quot;</span><span class="p">)</span>
+
+        <span class="n">ax13</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">do_z</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Dominguez&quot;</span><span class="p">)</span>
+        <span class="n">ax13</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span> <span class="n">gi_z</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ratio</span><span class="p">:</span>
+            <span class="n">ax13</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Energy (GeV)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ratio</span><span class="p">:</span>
+            <span class="n">ax21</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">fr_ratio</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">ax22</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">fi_ratio</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">ax23</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Elist</span><span class="p">,</span><span class="n">gi_ratio</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+
+    <span class="c1"># first row decoration</span>
+    <span class="n">ymin</span> <span class="o">=</span> <span class="mf">1e-2</span>
+    <span class="n">ymax</span> <span class="o">=</span> <span class="mf">1.05</span>
+
+    <span class="n">yscale</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
+    <span class="n">ax11</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Absorption&quot;</span><span class="p">)</span>
+    <span class="n">ax11</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Franceschini 2008&quot;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+    <span class="n">ax12</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">ax12</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Finke 2010&quot;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">ax12</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">ax13</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">ax13</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Gilmore 2012&quot;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">ax13</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">single_legend</span><span class="p">(</span><span class="n">ax13</span><span class="p">,</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.0</span><span class="p">])</span>
+
+    <span class="n">ax12</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax13</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ax11</span><span class="p">,</span><span class="n">ax12</span><span class="p">,</span><span class="n">ax13</span><span class="p">]:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">ymin</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymax</span><span class="o">=</span><span class="n">ymax</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ratio</span><span class="p">:</span>
+        <span class="c1"># Second row decoration</span>
+        <span class="n">yscale</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
+        <span class="n">ax21</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$Relative \ \Delta$&quot;</span><span class="p">)</span>
+        <span class="n">ax22</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">ax23</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">ax22</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax23</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ax21</span><span class="p">,</span> <span class="n">ax22</span><span class="p">,</span> <span class="n">ax23</span><span class="p">]:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Energy (GeV)&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=-</span><span class="mf">1.5</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymax</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span> <span class="p">,</span><span class="mf">0.5</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">w_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="c1"># Compare absorption models versus energy for various redshifts.</span>
+    <span class="c1"># This is quite under development and can certainly be optimised</span>
+
+    <span class="c1"># Read SoHAPPY absorptions - These are interp2d function!</span>
+    <span class="c1"># Do not pass Quantity as argument</span>
+    <span class="n">gilmore_ln</span>   <span class="o">=</span> <span class="n">EBL_from_file</span><span class="p">(</span><span class="s2">&quot;data/ebl/others/&quot;</span><span class="o">+</span><span class="s2">&quot;ebl_gilmore12.dat&quot;</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">file_rb</span> <span class="o">=</span> <span class="s2">&quot;data/ebl/others/EBL_abs_RBelmont-dominguez-20170425.dat&quot;</span>
+    <span class="n">dominguez_rb</span> <span class="o">=</span> <span class="n">EBL_from_file</span><span class="p">(</span><span class="n">file_rb</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Read Gammapy absorptions</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GAMMAPY_DATA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span><span class="s2">&quot;data&quot;</span><span class="p">))</span>
+    <span class="n">dominguez</span>    <span class="o">=</span> <span class="n">EBLAbsorptionNormSpectralModel</span><span class="o">.</span><span class="n">read_builtin</span><span class="p">(</span><span class="s2">&quot;dominguez&quot;</span><span class="p">)</span>
+    <span class="n">franceschini</span> <span class="o">=</span> <span class="n">EBLAbsorptionNormSpectralModel</span><span class="o">.</span><span class="n">read_builtin</span><span class="p">(</span><span class="s2">&quot;franceschini&quot;</span><span class="p">)</span>
+    <span class="n">finke</span>        <span class="o">=</span> <span class="n">EBLAbsorptionNormSpectralModel</span><span class="o">.</span><span class="n">read_builtin</span><span class="p">(</span><span class="s2">&quot;finke&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Define redshift, energy space</span>
+    <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">,</span> <span class="n">nzbin</span>  <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span> <span class="p">,</span> <span class="mi">4</span>
+    <span class="n">emin</span><span class="p">,</span> <span class="n">emax</span><span class="p">,</span> <span class="n">nebin</span>  <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">,</span>  <span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span><span class="p">,</span> <span class="mi">100</span>
+
+    <span class="n">zlist</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">zmin</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">zmax</span><span class="p">),</span><span class="n">nzbin</span><span class="p">))</span>
+    <span class="n">Elist</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">emin</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                          <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">emax</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">emin</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                          <span class="n">nebin</span><span class="p">)</span><span class="o">*</span><span class="n">emin</span><span class="o">.</span><span class="n">unit</span>
+    <span class="n">max_att</span> <span class="o">=</span> <span class="mf">1e-3</span> <span class="c1"># Limit attenutaion value to avoid insane small numbers</span>
+
+    <span class="c1"># Plot Dominguez, the reference model in CTA</span>
+    <span class="n">plot_dominguez_2011</span><span class="p">(</span><span class="n">zlist</span><span class="p">,</span> <span class="n">Elist</span><span class="p">)</span>
+
+    <span class="c1"># Display models</span>
+    <span class="n">compare_EBL_models</span><span class="p">(</span><span class="n">zlist</span><span class="p">,</span> <span class="n">Elist</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Plot Model ratii compared to Dominquez</span>
+    <span class="n">compare_EBL_models</span><span class="p">(</span><span class="n">zlist</span><span class="p">,</span> <span class="n">Elist</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Compare several models</span>
+    <span class="n">taglist</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gilmore&quot;</span><span class="p">,</span> <span class="s2">&quot;dominguez&quot;</span><span class="p">]</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">EBL_plot</span><span class="p">([</span><span class="n">gilmore_ln</span><span class="p">,</span> <span class="n">dominguez</span><span class="p">],</span>
+                  <span class="n">redshifts</span><span class="o">=</span><span class="n">zlist</span><span class="p">,</span> <span class="n">energies</span><span class="o">=</span><span class="n">Elist</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">taglist</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All done&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

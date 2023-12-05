@@ -1,0 +1,6 @@
+radec
+=====
+
+.. currentmodule:: analysis.population.skymaps
+
+.. autofunction:: radec

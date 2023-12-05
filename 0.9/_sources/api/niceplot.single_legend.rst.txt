@@ -1,0 +1,6 @@
+single_legend
+=============
+
+.. currentmodule:: niceplot
+
+.. autofunction:: single_legend

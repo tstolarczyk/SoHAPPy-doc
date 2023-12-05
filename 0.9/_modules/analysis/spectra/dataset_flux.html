@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>analysis.spectra.dataset_flux &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analysis.spectra.dataset_flux</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for analysis.spectra.dataset_flux</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Thu Dec 10 16:49:31 2020</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="n">quantity_support</span>
+
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">t_str</span>
+<span class="kn">from</span> <span class="nn">niceplot</span> <span class="kn">import</span> <span class="n">single_legend</span>
+
+<span class="kn">from</span> <span class="nn">gammapy.modeling</span> <span class="kn">import</span> <span class="n">Fit</span>
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">SkyModel</span>
+<span class="kn">from</span> <span class="nn">gammapy.estimators</span> <span class="kn">import</span> <span class="n">FluxPointsEstimator</span>
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">ExpCutoffPowerLawSpectralModel</span>
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">LogParabolaSpectralModel</span>
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">PowerLawSpectralModel</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;extract_spectrum&#39;</span><span class="p">,</span><span class="s1">&#39;flux_versus_time&#39;</span><span class="p">,</span> <span class="s1">&#39;fluxes_versus_time&#39;</span><span class="p">]</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">fit_flux_versus_time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">fluxes</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fit a power law on data and plot</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    times : Astropy Qauntity array</span>
+<span class="sd">        Abscissae.</span>
+<span class="sd">    fluxes : Astropy Quantity array</span>
+<span class="sd">        Values to be fitted.</span>
+<span class="sd">    ax : matplotlib Axes, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float, float</span>
+<span class="sd">        Result of the fit.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#--- Function to be fitted</span>
+    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="o">**-</span><span class="n">b</span>   <span class="c1">#+c</span>
+
+    <span class="c1"># This is valid for Scipy 1.4 (1.9 and later have more output values)</span>
+    <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span>  <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">fluxes</span><span class="p">)</span>
+    <span class="n">a</span>  <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pcov</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">b</span>  <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pcov</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1">#   c = popt[2]</span>
+<span class="c1">#   dc = np.sqrt(pcov[2][2])</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; a=&quot;</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="s2">&quot;+/-&quot;</span><span class="p">,</span><span class="n">da</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; b=&quot;</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="s2">&quot;+/-&quot;</span><span class="p">,</span><span class="n">db</span><span class="p">)</span>
+<span class="c1">#   print(&quot; c=&quot;,c,&quot;+:-&quot;,dc)</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\beta$= &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;$\pm$&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">db</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="n">times</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">),</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="flux_versus_time"><a class="viewcode-back" href="../../../api/analysis.spectra.dataset_flux.flux_versus_time.html#analysis.spectra.dataset_flux.flux_versus_time">[docs]</a><span class="k">def</span> <span class="nf">flux_versus_time</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">emin</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">emax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">tmin</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tmax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">stacked</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                            <span class="n">style</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">e_unit</span> <span class="o">=</span> <span class="s2">&quot;GeV&quot;</span><span class="p">,</span>
+                            <span class="n">flux_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span>
+                            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot extracted flux versus time within the given energy range.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : Dataset list</span>
+<span class="sd">        list of datasets.</span>
+<span class="sd">    ax : matplotlib.axes, optional</span>
+<span class="sd">        Current matplotlib axis. The default is None.</span>
+<span class="sd">    emin : astropy.Quantity, optional</span>
+<span class="sd">        Minimal energy for extracting the flux. The default is None.</span>
+<span class="sd">    emax : astropy.Quantity, optional</span>
+<span class="sd">        Maximal energy for flxu extraction. The default is None.</span>
+<span class="sd">    tmin : astropy.Quantity, optional</span>
+<span class="sd">        minimal observation time. The default is None.</span>
+<span class="sd">    tmax : astropy.Qauntity, optional</span>
+<span class="sd">        maximal observation time. The default is None.</span>
+<span class="sd">    stacked : Boolean, optional</span>
+<span class="sd">        If True, this is a stacked dataset (flux information may be lost).</span>
+<span class="sd">        The default is False.</span>
+<span class="sd">    style : String, optional</span>
+<span class="sd">        The style of th eplot, &quot;bar&quot; or &quot;line&quot;. The default is &quot;bar&quot;.</span>
+<span class="sd">    fit : Boolean, optional</span>
+<span class="sd">        If True perform the fit. The default is False.</span>
+<span class="sd">    e_unit : astropy.unit, optional</span>
+<span class="sd">        Energy unit. The default is &quot;GeV&quot;.</span>
+<span class="sd">    flux_min : float, optional</span>
+<span class="sd">        Minimal flux to be plotted (in the units of the flux extracted).</span>
+<span class="sd">        The default is 1.e-23.</span>
+<span class="sd">    xscale : String, optional</span>
+<span class="sd">        x-scale, &quot;linear&quot; or &quot;log&quot;. The default is &quot;log&quot;.</span>
+<span class="sd">    color : String, optional</span>
+<span class="sd">        The data color. The default is &quot;tab:blue&quot;.</span>
+<span class="sd">    debug : Boolean, optional</span>
+<span class="sd">        If True, let&#39;s talk a bit. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True if everything went well.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">dsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">ftheory</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">errtime</span><span class="p">,</span> <span class="n">dnde</span><span class="p">,</span> <span class="n">errn</span><span class="p">,</span> <span class="n">errp</span><span class="p">,</span> <span class="n">erange</span> <span class="o">=</span> <span class="p">[],[],[],[],[],[],[]</span>
+
+    <span class="c1">### -----------------------------------------------</span>
+    <span class="c1">### Extract the flux for each slice</span>
+    <span class="c1">### -----------------------------------------------</span>
+
+    <span class="c1"># Loop over time slices, get the flux for the given energy range</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">ds</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dsets</span><span class="p">):</span>
+
+        <span class="c1"># Time and duration of the current slice</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">errtime</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="p">)</span>
+
+        <span class="c1"># Energy range</span>
+        <span class="c1"># If Energy boundaries at not given, use the range from the safe mask</span>
+        <span class="c1"># If energy range is outside the dataset energy range, returns False</span>
+        <span class="n">e_min</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">emin</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">emin</span><span class="p">,</span><span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">e_max</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">emax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">emax</span><span class="p">,</span><span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">e_min</span> <span class="o">&lt;</span> <span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">e_max</span><span class="o">&gt;</span><span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">e_max</span><span class="o">&lt;=</span><span class="n">e_min</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; E boundaries out of range&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--</span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="si">:}</span><span class="s2">-- Eff. E range: </span><span class="si">{</span><span class="n">e_min</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e_max</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Extracted flux - It should be limited to existing ereco edges</span>
+        <span class="n">fex</span>  <span class="o">=</span> <span class="n">extract_flux_points</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="n">emin</span><span class="o">=</span><span class="n">e_min</span><span class="p">,</span> <span class="n">emax</span><span class="o">=</span><span class="n">e_max</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+
+        <span class="c1"># Fill the resulting arrays</span>
+        <span class="n">e_min</span> <span class="o">=</span> <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;e_min&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span>
+        <span class="n">e_max</span> <span class="o">=</span> <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;e_max&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span>
+        <span class="n">e_ref</span> <span class="o">=</span> <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;e_ref&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span>
+        <span class="n">flx</span>   <span class="o">=</span> <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;dnde&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ep</span>    <span class="o">=</span> <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;dnde_errp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">en</span>    <span class="o">=</span> <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;dnde_errn&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Mean theoretical flux at reference energy in the bin</span>
+        <span class="k">if</span> <span class="n">stacked</span> <span class="p">:</span>
+            <span class="n">fth</span> <span class="o">=</span> <span class="n">flx</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fth</span>  <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="p">(</span><span class="n">e_ref</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">2</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">e_min</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">6.1f</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">e_max</span><span class="si">:</span><span class="s2">6.1f</span><span class="si">}</span><span class="s2">&quot;</span>\
+                  <span class="sa">f</span><span class="s2">&quot; : F= </span><span class="si">{</span><span class="n">flx</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">5.1e</span><span class="si">}</span><span class="s2"> +&quot;</span>\
+                  <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">5.1e</span><span class="si">}</span><span class="s2"> -</span><span class="si">{</span><span class="n">en</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">5.1e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">flx</span><span class="o">.</span><span class="n">unit</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2">   T= </span><span class="si">{</span><span class="n">fth</span><span class="si">:</span><span class="s2">5.2e</span><span class="si">}</span><span class="s2"> &quot;</span> \
+                  <span class="sa">f</span><span class="s2">&quot;T/F= </span><span class="si">{</span><span class="n">fth</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="n">flx</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">fth</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Store flux of each slice</span>
+        <span class="n">dnde</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flx</span><span class="p">)</span>
+        <span class="n">errp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span>
+        <span class="n">errn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">en</span><span class="p">)</span>
+        <span class="n">ftheory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fth</span><span class="p">)</span>
+        <span class="n">erange</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">e_min</span><span class="p">,</span><span class="n">e_max</span><span class="p">])</span>
+
+    <span class="c1"># Move everything to numpy arrays with units</span>
+    <span class="n">time</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">time</span><span class="p">])</span><span class="o">*</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span>
+    <span class="n">errtime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">errtime</span><span class="p">])</span><span class="o">*</span><span class="n">errtime</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span>
+    <span class="n">dnde</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dnde</span><span class="p">])</span><span class="o">*</span><span class="n">dnde</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span>
+    <span class="n">errn</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">errn</span><span class="p">])</span><span class="o">*</span><span class="n">errn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span>
+    <span class="n">errp</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">errp</span><span class="p">])</span><span class="o">*</span><span class="n">errp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span>
+    <span class="n">ftheory</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">ftheory</span><span class="p">])</span><span class="o">*</span><span class="n">ftheory</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span>
+    <span class="n">erange</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span> <span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span> \
+                          <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">erange</span><span class="p">]</span> <span class="p">)</span>
+
+    <span class="c1">### -----------------------------------------------</span>
+    <span class="c1">### Plot light curves</span>
+    <span class="c1">### -----------------------------------------------</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ax</span>
+
+    <span class="n">label</span><span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">e_min</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">e_max</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_min</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e_min</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">time</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">dnde</span><span class="p">,</span> <span class="n">xerr</span> <span class="o">=</span> <span class="n">errtime</span><span class="p">,</span> <span class="n">yerr</span> <span class="o">=</span> <span class="p">[</span><span class="n">errn</span><span class="p">,</span><span class="n">errp</span><span class="p">],</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+
+    <span class="c1">### -----------------------------------------------</span>
+    <span class="c1">### Energy limits</span>
+    <span class="c1">### -----------------------------------------------</span>
+    <span class="n">axx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+        <span class="n">eb</span> <span class="o">=</span> <span class="n">axx</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">time</span> <span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="p">[:][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">erange</span><span class="p">],</span>
+                          <span class="n">xerr</span> <span class="o">=</span> <span class="n">errtime</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                          <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                          <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$E_</span><span class="si">{min}</span><span class="s2">, E_</span><span class="si">{max}</span><span class="s2">$&quot;</span><span class="p">)</span>
+        <span class="n">eb</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s1">&#39;dashdot&#39;</span><span class="p">)</span>
+        <span class="n">eb</span> <span class="o">=</span> <span class="n">axx</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">time</span> <span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="p">[:][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">erange</span><span class="p">],</span>
+                          <span class="n">xerr</span> <span class="o">=</span> <span class="n">errtime</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                          <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">eb</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s1">&#39;dashdot&#39;</span><span class="p">)</span>
+
+    <span class="n">axx</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Range (&quot;</span><span class="o">+</span><span class="n">e_unit</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+    <span class="n">axx</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+    <span class="n">axx</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="c1">### -----------------------------------------------</span>
+    <span class="c1">### Fit a t**-beta dependence if required, and plot</span>
+    <span class="c1">### -----------------------------------------------</span>
+    <span class="k">if</span> <span class="n">fit</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+
+        <span class="c1"># Check existence of data an results</span>
+        <span class="c1"># Remove undefined dnde values</span>
+        <span class="n">t_min</span> <span class="o">=</span> <span class="n">tmin</span> <span class="k">if</span> <span class="p">(</span><span class="n">tmin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="n">t_max</span> <span class="o">=</span> <span class="n">tmax</span> <span class="k">if</span> <span class="p">(</span><span class="n">tmax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">&gt;</span><span class="n">t_min</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">time</span><span class="o">&lt;</span><span class="n">t_max</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">dnde</span><span class="p">)</span>
+
+        <span class="c1"># Check number of slices remaining, at least 3 are necessary</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dsets</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">mask</span><span class="p">[</span><span class="n">mask</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">]))</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Too few slices have flux a estimate for the fit to be performed&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">fit_flux_versus_time</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">dnde</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_min</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;brown&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Fit limits&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_max</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;brown&quot;</span><span class="p">)</span>
+
+    <span class="c1">### -----------------------------------------------</span>
+    <span class="c1">### Display theory if slices were not stacked</span>
+    <span class="c1">### -----------------------------------------------</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">stacked</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">style</span> <span class="o">==</span><span class="s2">&quot;bar&quot;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">ftheory</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">errtime</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span><span class="s2">&quot;line&quot;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">ftheory</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">)</span>
+
+    <span class="c1">### Decoration</span>
+    <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">flux_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">flux_min</span><span class="o">*</span><span class="n">dnde</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="mf">0.5</span><span class="o">*</span><span class="nb">min</span><span class="p">(</span><span class="n">dnde</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymax</span><span class="o">=</span><span class="mf">2.</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="n">dnde</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">d</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">d</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;One day&quot;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Elapsed time (&quot;</span><span class="o">+</span><span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_label_text</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="fluxes_versus_time"><a class="viewcode-back" href="../../../api/analysis.spectra.dataset_flux.fluxes_versus_time.html#analysis.spectra.dataset_flux.fluxes_versus_time">[docs]</a><span class="k">def</span> <span class="nf">fluxes_versus_time</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span>
+                       <span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+                       <span class="n">xsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span><span class="n">ysize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                       <span class="n">stacked</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the extracted flux on a given energy range, for all available time</span>
+<span class="sd">    slices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : List of Dataset</span>
+<span class="sd">        Current Dataset list.</span>
+<span class="sd">    tmin : astropy.Quantity, optional</span>
+<span class="sd">        Minimal plot time. The default is None.</span>
+<span class="sd">    tmax : astropy.Quantity, optional</span>
+<span class="sd">        Maximal plot time. The default is None.</span>
+<span class="sd">    xscale : String, optional</span>
+<span class="sd">        &quot;log&quot; or &quot;linear&quot;. The default is &quot;linear&quot;.</span>
+<span class="sd">    xsize : float, optional</span>
+<span class="sd">        Figure width. The default is 14.</span>
+<span class="sd">    ysize : float, optional</span>
+<span class="sd">        Figure height. The default is 3.</span>
+<span class="sd">    stacked : Boolean, optional</span>
+<span class="sd">        If True, the datasets have been stacked. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Consider using tmin and tmax&quot;</span><span class="p">)</span>
+
+    <span class="n">e_edges</span> <span class="o">=</span> <span class="n">dsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">edges</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">e_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">xsize</span><span class="p">,</span><span class="n">ysize</span><span class="p">))</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">flux_versus_time</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span>
+                                  <span class="n">emin</span> <span class="o">=</span> <span class="n">e_edges</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">emax</span> <span class="o">=</span> <span class="n">e_edges</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
+                                  <span class="n">style</span><span class="o">=</span><span class="s2">&quot;line&quot;</span><span class="p">,</span>
+                                  <span class="n">xscale</span> <span class="o">=</span> <span class="n">xscale</span><span class="p">,</span>
+                                  <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="c1">#color=color,</span>
+                                  <span class="n">flux_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">stacked</span> <span class="o">=</span> <span class="n">stacked</span><span class="p">,</span>
+                                  <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">status</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax_last</span> <span class="o">=</span> <span class="n">ax</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticklabels</span><span class="o">=</span><span class="p">[])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">ax_last</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Elapsed time (&quot;</span> <span class="o">+</span> <span class="n">ax_last</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_label_text</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+    <span class="n">ax_last</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">models_plot</span><span class="p">(</span><span class="n">dsets</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the models of the individual datasets in the list</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : List of Dataset</span>
+<span class="sd">        Current dataset list.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">ds</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dsets</span><span class="p">):</span>
+        <span class="n">spectrum</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span>
+        <span class="n">spectrum</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_range</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">,</span>
+                      <span class="n">flux_unit</span><span class="o">=</span><span class="s1">&#39;cm-2 s-1 erg-1&#39;</span><span class="p">,</span>
+                      <span class="n">energy_power</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                      <span class="n">energy_unit</span><span class="o">=</span><span class="s1">&#39;TeV&#39;</span><span class="p">,</span>
+                      <span class="n">n_points</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                      <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                      <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                      <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="c1">#print(spectrum)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">extract_flux_points</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sigm_ul</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                            <span class="n">emin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">emax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract flux points.</span>
+<span class="sd">    The flux is extracted from the execess number assuming a certain model</span>
+<span class="sd">    The difference in results between two models is larger when the energy</span>
+<span class="sd">    binning is larger.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : dataset list.</span>
+<span class="sd">        The current lst of datasets.</span>
+<span class="sd">    index : float, optional</span>
+<span class="sd">        Index of the power law spectrum used in the fit. The default is 2.</span>
+<span class="sd">    sigm_ul : float, optional</span>
+<span class="sd">        Significance below which an upper limit is computed. The default is 2.</span>
+<span class="sd">    emin: astropy Quantity, optional</span>
+<span class="sd">        Minimal energy for extracting the flux. The default is None</span>
+<span class="sd">    emax: astropy Quantity, optional</span>
+<span class="sd">        Maximal energy for extracting the flux. The default is None</span>
+<span class="sd">    debug : Boolean, optional</span>
+<span class="sd">        If True let&#39;s talk a bit. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fex : FluxPointsEstimator</span>
+<span class="sd">        Extracted flux points.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Replace default model by the fit model - Change for an E-2 model</span>
+    <span class="c1"># It was checked that it changes slighlty the extracted flux values</span>
+    <span class="c1"># The effect is larger for larger E bins</span>
+
+    <span class="c1"># Initial model</span>
+    <span class="n">model_init</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">models</span> <span class="c1"># Will be put back in place later</span>
+
+    <span class="c1"># Fit model</span>
+    <span class="n">model_fit</span> <span class="o">=</span> <span class="n">PowerLawSpectralModel</span><span class="p">(</span><span class="n">index</span>     <span class="o">=</span> <span class="n">index</span><span class="p">,</span>
+                                      <span class="n">amplitude</span> <span class="o">=</span> <span class="mf">1e-13</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;cm-2 s-1 GeV-1&quot;</span><span class="p">),</span>
+                                      <span class="n">reference</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;pl&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Replace simulated ds model by the fit model</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">SkyModel</span><span class="p">(</span><span class="n">spectral_model</span><span class="o">=</span><span class="n">model_fit</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Fit to data&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Select the energy range</span>
+    <span class="k">if</span> <span class="n">emin</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">emax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">edges</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">emin</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">emax</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">emax</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">emax</span><span class="o">.</span><span class="n">unit</span>
+
+
+    <span class="c1"># Extact the flux assuming the fit model</span>
+    <span class="n">fpe</span> <span class="o">=</span> <span class="n">FluxPointsEstimator</span><span class="p">(</span>
+            <span class="n">energy_edges</span> <span class="o">=</span> <span class="n">energies</span><span class="p">,</span>
+            <span class="n">norm_min</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">norm_max</span>  <span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="n">norm_n_values</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span> <span class="n">norm_values</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">n_sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_sigma_ul</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">reoptimize</span><span class="o">=</span><span class="kc">False</span> <span class="p">)</span>
+    <span class="n">fex</span> <span class="o">=</span> <span class="n">fpe</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">datasets</span> <span class="o">=</span> <span class="n">ds</span><span class="p">)</span>
+
+    <span class="c1"># Replace with a limit of significance lower than sigm_ul</span>
+    <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;is_ul&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;ts&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">sigm_ul</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Put the original model back in place</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">model_init</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; --</span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="si">:}</span><span class="s2">-- assuming a powerlaw with index = </span><span class="si">{</span><span class="n">index</span><span class="si">:</span><span class="s2">3.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">energies</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:7.2f}</span><span class="s2"> - </span><span class="si">{:7.2f}</span><span class="s2"> : </span><span class="si">{:5.2e}</span><span class="s2"> -</span><span class="si">{:5.2e}</span><span class="s2"> +</span><span class="si">{:5.2e}</span><span class="s2">&quot;</span>
+                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;e_min&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                          <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;e_max&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                          <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;dnde&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                          <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;dnde_errn&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                          <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;dnde_errp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">fex</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">fit_model</span><span class="p">(</span><span class="n">fit_tag</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">e_ref</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define the model for the fit.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fit_tag : String</span>
+<span class="sd">        A tag for choosing the model.</span>
+<span class="sd">    amplitude : astropy.Quantity</span>
+<span class="sd">        The amplitude of the model flux.</span>
+<span class="sd">    e_ref : astropy.Quantity</span>
+<span class="sd">        The reference energy of the model flux.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    model_fit : gammapy SkyModel</span>
+<span class="sd">        The model to be fitted.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model_fit</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Create the appropriate model</span>
+    <span class="k">if</span> <span class="n">fit_tag</span> <span class="o">==</span><span class="s2">&quot;cutoff&quot;</span><span class="p">:</span>
+        <span class="n">lambda_</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;TeV-1&quot;</span><span class="p">)</span>
+        <span class="n">model_fit</span> <span class="o">=</span> <span class="n">ExpCutoffPowerLawSpectralModel</span><span class="p">(</span>
+                    <span class="n">index</span>     <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
+                    <span class="n">amplitude</span> <span class="o">=</span> <span class="n">amplitude</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">lambda_</span><span class="o">*</span><span class="n">e_ref</span><span class="p">),</span> <span class="c1"># Correct phi0 for cutoff</span>
+                    <span class="n">lambda_</span>   <span class="o">=</span> <span class="n">lambda_</span><span class="p">,</span>
+                    <span class="n">reference</span> <span class="o">=</span> <span class="n">e_ref</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">fit_tag</span> <span class="o">==</span><span class="s2">&quot;powerlaw&quot;</span><span class="p">:</span>
+        <span class="n">model_fit</span> <span class="o">=</span> <span class="n">PowerLawSpectralModel</span><span class="p">(</span><span class="n">index</span>     <span class="o">=</span>   <span class="mf">2.0</span><span class="p">,</span>
+                                          <span class="n">amplitude</span> <span class="o">=</span> <span class="n">amplitude</span><span class="p">,</span>
+                                          <span class="n">reference</span> <span class="o">=</span> <span class="n">e_ref</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;pl&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">fit_tag</span> <span class="o">==</span><span class="s2">&quot;logparabola&quot;</span><span class="p">:</span>
+        <span class="n">model_fit</span> <span class="o">=</span> <span class="n">LogParabolaSpectralModel</span><span class="p">(</span><span class="n">alpha</span>     <span class="o">=</span>   <span class="mf">2.0</span><span class="p">,</span>
+                                             <span class="n">beta</span>      <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+                                             <span class="n">amplitude</span> <span class="o">=</span> <span class="n">amplitude</span><span class="p">,</span>
+                                             <span class="n">reference</span> <span class="o">=</span> <span class="n">e_ref</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;lpl&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot; Fit = &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">fit_tag</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; is not implemented&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">model_fit</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">fit_result</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display the fit results</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fit : gammapy fit</span>
+<span class="sd">        The fit.</span>
+<span class="sd">    result : gammapt fit result</span>
+<span class="sd">        The result of the fit.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    text : String</span>
+<span class="sd">        The results in a readable format.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mtag</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="o">.</span><span class="n">tag</span>
+
+    <span class="k">if</span> <span class="n">mtag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ExpCutoffPowerLawSpectralModel&quot;</span><span class="p">:</span>
+        <span class="n">res_index</span>   <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">confidence</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span> <span class="c1"># get index error</span>
+        <span class="n">res_lambda_</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">confidence</span><span class="p">(</span><span class="s2">&quot;lambda_&quot;</span><span class="p">)</span>
+
+        <span class="n">text</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:\n$\gamma = </span><span class="si">{:3.1f}</span><span class="s2">  ^{{+</span><span class="si">{:3.2f}</span><span class="s2">}} _{{-</span><span class="si">{:3.2f}</span><span class="s2">}}$&quot;</span> \
+            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mtag</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> \
+            <span class="n">res_index</span><span class="p">[</span><span class="s2">&quot;errp&quot;</span><span class="p">],</span><span class="n">res_index</span><span class="p">[</span><span class="s2">&quot;errn&quot;</span><span class="p">])</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;\n $\lambda = </span><span class="si">{:3.1f}</span><span class="s2">  ^{{+</span><span class="si">{:3.2f}</span><span class="s2">}} _{{-</span><span class="si">{:3.2f}</span><span class="s2">}}$&quot;</span> \
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;lambda_&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> \
+                    <span class="n">res_lambda_</span><span class="p">[</span><span class="s2">&quot;errp&quot;</span><span class="p">],</span><span class="n">res_lambda_</span><span class="p">[</span><span class="s2">&quot;errn&quot;</span><span class="p">])</span>
+
+    <span class="k">elif</span> <span class="n">mtag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;PowerLawSpectralModel&quot;</span><span class="p">:</span>
+        <span class="n">res_index</span>   <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">confidence</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span> <span class="c1"># get index error</span>
+
+        <span class="n">text</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:\n$\gamma = </span><span class="si">{:3.1f}</span><span class="s2">  ^{{+</span><span class="si">{:3.2f}</span><span class="s2">}} _{{-</span><span class="si">{:3.2f}</span><span class="s2">}}$&quot;</span> \
+            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mtag</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> \
+            <span class="n">res_index</span><span class="p">[</span><span class="s2">&quot;errp&quot;</span><span class="p">],</span><span class="n">res_index</span><span class="p">[</span><span class="s2">&quot;errn&quot;</span><span class="p">])</span>
+
+    <span class="k">elif</span> <span class="n">mtag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;LogParabolaSpectralModel&quot;</span><span class="p">:</span>
+        <span class="n">res_alpha</span>   <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">confidence</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span> <span class="c1"># get index error</span>
+        <span class="n">res_beta</span>    <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">confidence</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">)</span>
+
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mtag</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;$\alpha = </span><span class="si">{:3.1f}</span><span class="s2">  ^{{+</span><span class="si">{:3.2f}</span><span class="s2">}} _{{-</span><span class="si">{:3.2f}</span><span class="s2">}}$&quot;</span> \
+            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> \
+            <span class="n">res_alpha</span><span class="p">[</span><span class="s2">&quot;errp&quot;</span><span class="p">],</span><span class="n">res_alpha</span><span class="p">[</span><span class="s2">&quot;errn&quot;</span><span class="p">])</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span><span class="sa">r</span><span class="s2">&quot;$\beta = </span><span class="si">{:3.1f}</span><span class="s2">  ^{{+</span><span class="si">{:3.2f}</span><span class="s2">}} _{{-</span><span class="si">{:3.2f}</span><span class="s2">}}$&quot;</span> \
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> \
+                    <span class="n">res_beta</span><span class="p">[</span><span class="s2">&quot;errp&quot;</span><span class="p">],</span><span class="n">res_beta</span><span class="p">[</span><span class="s2">&quot;errn&quot;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">text</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">fit_spectrum</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">fex</span><span class="p">,</span> <span class="n">e_ref</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span><span class="p">,</span> <span class="n">fit_tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fit the spectrum from the extracted flux points</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : Dataset</span>
+<span class="sd">        The current dataset.</span>
+<span class="sd">    fex : FluxPointsEstimator</span>
+<span class="sd">        Extracted flux point.</span>
+<span class="sd">    e_ref : astropy.qauntity, optional</span>
+<span class="sd">        Refernce energy for the model. The default is 1*u.TeV.</span>
+<span class="sd">    fit_tag : String, optional</span>
+<span class="sd">        A keyword to select the model to be fitted. The default is None.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fit : Gammapy Fit</span>
+<span class="sd">        The Fit instance.</span>
+<span class="sd">    result : Gammapy Fit result</span>
+<span class="sd">        The result of the fit.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Get a reference point : flux value(xE2) at reference energy</span>
+    <span class="n">e_center</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">center</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">e_center</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_ref</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">e_ref</span><span class="o">.</span><span class="n">value</span><span class="p">))</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+    <span class="n">amplitude</span> <span class="o">=</span> <span class="p">(</span><span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;ref_dnde&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">)[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">fex</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;norm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="c1"># if (debug):</span>
+    <span class="c1">#     print(&quot; Best energy : &quot;,e_center[idx])</span>
+    <span class="c1">#     print(&quot; Amplitude   : &quot;,amplitude)</span>
+    <span class="c1">#     ax.scatter(e_center[idx],amplitude*e_center[idx]**2,marker=&quot;x&quot;,color=&quot;red&quot;)</span>
+    <span class="n">model_fit</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">fit_tag</span> <span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span>  <span class="n">e_ref</span><span class="p">)</span>
+
+    <span class="c1"># Replace default model by the fit model</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">SkyModel</span><span class="p">(</span><span class="n">spectral_model</span><span class="o">=</span><span class="n">model_fit</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Fit to data&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Fit the flux points</span>
+    <span class="n">fit</span> <span class="o">=</span> <span class="n">Fit</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+    <span class="n">minuit_opts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># minuit_opts = {&quot;tol&quot;: 10000, &quot;strategy&quot;: 1,&quot;print_level&quot;: 2}</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">optimize_opts</span><span class="o">=</span><span class="n">minuit_opts</span><span class="p">)</span>
+    <span class="c1"># result = fit.optimize(optimize_opts=minuit_opts)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fit</span><span class="p">,</span> <span class="n">result</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="extract_spectrum"><a class="viewcode-back" href="../../../api/analysis.spectra.dataset_flux.extract_spectrum.html#analysis.spectra.dataset_flux.extract_spectrum">[docs]</a><span class="k">def</span> <span class="nf">extract_spectrum</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span>
+                     <span class="n">elapsed</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+                     <span class="n">index</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">flux_unit</span> <span class="o">=</span> <span class="s2">&quot;TeV-1 cm-2 s-1&quot;</span><span class="p">,</span> <span class="n">e_unit</span> <span class="o">=</span> <span class="s2">&quot;TeV&quot;</span><span class="p">,</span>
+                     <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                     <span class="n">model_style</span> <span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                     <span class="n">alpha_model</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">alpha_fit</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">fit_color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+                     <span class="n">xscale</span>   <span class="o">=</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="n">yscale</span>   <span class="o">=</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span>
+                     <span class="n">theory</span>   <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>     <span class="n">stacked</span>  <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                     <span class="n">fit_tag</span>  <span class="o">=</span> <span class="s2">&quot;cutoff&quot;</span><span class="p">,</span> <span class="n">tag</span>      <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                     <span class="n">flux_min</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>     <span class="n">flux_max</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                     <span class="n">e_min</span>    <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">,</span> <span class="n">e_max</span>    <span class="o">=</span> <span class="mi">20</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span><span class="p">,</span>
+                     <span class="n">e_ref</span>    <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span><span class="p">,</span>
+                     <span class="n">count_min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                     <span class="n">debug</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the flux from the data in a Dataset</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : Dataset</span>
+<span class="sd">        Current dataset.</span>
+<span class="sd">    elapsed : astropy.Quantity, optional</span>
+<span class="sd">        Elapsed observation time. The default is 0*u.s.</span>
+<span class="sd">    index : float, optional</span>
+<span class="sd">        Index for plotting E**-index*Flux. The default is 2.</span>
+<span class="sd">    flux_unit : astropy.Quantity, optional</span>
+<span class="sd">        The flux unit. The default is &quot;TeV-1 cm-2 s-1&quot;.</span>
+<span class="sd">    e_unit : astropy.unit, optional</span>
+<span class="sd">        Energy unit. The default is &quot;TeV&quot;.</span>
+<span class="sd">    ax : matplotlib.axes, optional</span>
+<span class="sd">        Current matplotlib axis. The default is None.</span>
+<span class="sd">    model_style : String, optional</span>
+<span class="sd">        The model plot style, &quot;bar&quot; or &quot;scatter&quot;. The default is &quot;bar&quot;.</span>
+<span class="sd">    color : String, optional</span>
+<span class="sd">        Flux point color. The default is &quot;tab:blue&quot;.</span>
+<span class="sd">    lw : float, optional</span>
+<span class="sd">        Line width of the flux plot. The default is 2.</span>
+<span class="sd">    alpha_model : float, optional</span>
+<span class="sd">        model transparency. The default is 0.2.</span>
+<span class="sd">    alpha_fit : float, optional</span>
+<span class="sd">        Fit plot transparency. The default is 0.5.</span>
+<span class="sd">    fit_color : String, optional</span>
+<span class="sd">        Fit plot color. The default is &quot;blue&quot;.</span>
+<span class="sd">    xscale : String, optional</span>
+<span class="sd">        &quot;log&quot; or &quot;linear&quot;. The default is &quot;log&quot;.</span>
+<span class="sd">    yscale : String, optional</span>
+<span class="sd">        &#39;&quot;log&quot; or &quot;linear&quot;. The default is &quot;log&quot;.</span>
+<span class="sd">    theory : Boolean, optional</span>
+<span class="sd">        If True, plot the theory if possible. The default is True.</span>
+<span class="sd">    stacked : Boolean, optional</span>
+<span class="sd">        If True, this is a stacked dataset (theory may be wrong).</span>
+<span class="sd">        The default is False.</span>
+<span class="sd">    fit_tag : String, optional</span>
+<span class="sd">        A tag giving the model to be fitted. The default is &quot;cutoff&quot;.</span>
+<span class="sd">    tag : String, optional</span>
+<span class="sd">        A text tagging the label. The default is None.</span>
+<span class="sd">    flux_min : float, optional</span>
+<span class="sd">        Minimal flux in unit of retrieved flux. The default is None.</span>
+<span class="sd">    flux_max : float, optional</span>
+<span class="sd">        Maximal flux in unit of retrieved flux. The default is None.</span>
+<span class="sd">    e_min : astropy.Quantity, optional</span>
+<span class="sd">        Minimum energy. The default is 10*u.GeV.</span>
+<span class="sd">    e_max : astropy.Quantity, optional</span>
+<span class="sd">        Maximal energy. The default is 20*u.TeV.</span>
+<span class="sd">    e_ref : astropy.Qauntity, optional</span>
+<span class="sd">        Reference energy for the fit model. The default is 1*u.TeV.</span>
+<span class="sd">    count_min : float, optional</span>
+<span class="sd">        Count number below whihc the fit is not performed. The default is 10.</span>
+<span class="sd">    debug : Boolean, optional</span>
+<span class="sd">        If True, let&#39;s talk a bit. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (float, float)</span>
+<span class="sd">        The minimal and maximal flux values (used by dataset_plot.panels).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ax</span>
+
+    <span class="c1"># It can be long, let&#39;s speak a bit</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; ------------------------ &quot;</span><span class="p">,</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="s2">&quot; -----------------------------&quot;</span><span class="p">)</span>
+
+    <span class="c1"># If not enough count, do not attempt to extract spectrum</span>
+    <span class="n">count_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">count_max</span> <span class="o">&lt;=</span> <span class="n">count_min</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span>
+                <span class="s2">&quot;Counts too low (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">count_max</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">,</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span>
+                <span class="n">transform</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Counts too low&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+    <span class="c1"># Define label</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;$t$ = &quot;</span> <span class="o">+</span> <span class="n">t_str</span><span class="p">(</span><span class="n">elapsed</span><span class="p">)</span> \
+          <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\n$\Delta$t = &quot;</span><span class="o">+</span><span class="n">t_str</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;$t_{&quot;</span><span class="o">+</span><span class="n">tag</span><span class="o">+</span><span class="s2">&quot;}$ = &quot;</span> <span class="o">+</span> <span class="n">t_str</span><span class="p">(</span><span class="n">elapsed</span><span class="p">)</span> <span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+          <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;$\Delta t_{&quot;</span><span class="o">+</span><span class="n">tag</span><span class="o">+</span><span class="s2">&quot;}$ = &quot;</span><span class="o">+</span><span class="n">t_str</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="p">)</span>
+
+    <span class="c1"># If the datasets were not stacked, display the original spectrum as bars</span>
+    <span class="c1"># otherwise link measurement points with a dashed line</span>
+    <span class="n">ls</span> <span class="o">=</span> <span class="s2">&quot;:&quot;</span> <span class="k">if</span> <span class="n">stacked</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="c1"># Reconstrcuted energy axis</span>
+    <span class="n">axis_reco</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">e_center</span>  <span class="o">=</span> <span class="n">axis_reco</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span>
+    <span class="n">e_edges</span>   <span class="o">=</span> <span class="n">axis_reco</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span>
+
+    <span class="c1">###---------------------</span>
+    <span class="c1">### Plot extracted flux</span>
+    <span class="c1">###---------------------</span>
+    <span class="c1"># To extract the flux in the dataset E range use</span>
+    <span class="c1"># e_edges[ (e_edges&gt;=ds.energy_range[0]) &amp; (e_edges&lt;=ds.energy_range[1])]</span>
+    <span class="n">fex</span> <span class="o">=</span> <span class="n">extract_flux_points</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+    <span class="n">fex</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_power</span> <span class="o">=</span> <span class="n">index</span><span class="p">,</span>
+             <span class="n">flux_unit</span>    <span class="o">=</span> <span class="n">flux_unit</span><span class="p">,</span>
+             <span class="n">energy_unit</span>  <span class="o">=</span> <span class="n">e_unit</span><span class="p">,</span>
+             <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="n">ls</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+
+    <span class="c1">###---------------------</span>
+    <span class="c1">### Plot theory (at reconstructed energies !)</span>
+    <span class="c1">###---------------------</span>
+    <span class="k">if</span> <span class="n">theory</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">stacked</span><span class="p">:</span> <span class="c1"># Stacked dataset have no proper spectrum</span>
+        <span class="n">model</span>   <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span>
+        <span class="n">ftheory</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">e_center</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">flux_unit</span><span class="p">)</span><span class="o">*</span><span class="n">e_center</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span><span class="o">**</span><span class="n">index</span>
+        <span class="n">width_r</span> <span class="o">=</span> <span class="n">e_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span><span class="n">e_center</span>
+        <span class="n">width_l</span> <span class="o">=</span> <span class="n">e_center</span> <span class="o">-</span> <span class="n">e_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">model_style</span> <span class="o">==</span> <span class="s2">&quot;bar&quot;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">e_center</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">),</span> <span class="n">ftheory</span><span class="p">,</span>
+                       <span class="n">width</span> <span class="o">=</span> <span class="o">-</span><span class="n">width_l</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">,</span>
+                       <span class="n">alpha</span><span class="o">=</span><span class="n">alpha_model</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span>
+                       <span class="n">label</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot; model&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">e_center</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">),</span> <span class="n">ftheory</span><span class="p">,</span>
+                       <span class="n">width</span> <span class="o">=</span> <span class="n">width_r</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">,</span>
+                       <span class="n">alpha</span><span class="o">=</span><span class="n">alpha_model</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">model_style</span> <span class="o">==</span> <span class="s2">&quot;scatter&quot;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">e_center</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">),</span> <span class="n">ftheory</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+                           <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot; model&quot;</span><span class="p">)</span>
+
+    <span class="c1">###---------------------</span>
+    <span class="c1">### Fit the data and plot</span>
+    <span class="c1">###---------------------</span>
+    <span class="c1"># MINUIT reference : https://iminuit.readthedocs.io/en/latest/reference.html</span>
+
+    <span class="k">if</span> <span class="n">fit_tag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Copy the initial model to reset the dataset in the end</span>
+        <span class="n">model_init</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">models</span>
+        <span class="n">fit</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">fit_spectrum</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">fex</span><span class="p">,</span> <span class="n">e_ref</span><span class="o">=</span><span class="n">e_ref</span><span class="p">,</span> <span class="n">fit_tag</span><span class="o">=</span><span class="n">fit_tag</span><span class="p">)</span>
+
+    <span class="c1">###---------------------</span>
+    <span class="c1">### Plot the fit and the result text</span>
+    <span class="c1">###---------------------</span>
+        <span class="c1"># Result of fit text</span>
+
+        <span class="c1"># If fit failed, just mention it on the plot</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">success</span> <span class="ow">or</span> <span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;amplitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="s2">&quot;FIT FAILED &quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                    <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fit failed!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fit_text</span> <span class="o">=</span> <span class="n">fit_result</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">fit_text</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; FITTING : &quot;</span><span class="p">,</span><span class="n">fit_tag</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** &quot;</span><span class="p">,</span><span class="n">result</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** &quot;</span><span class="p">,</span><span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">fit_text</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="p">)</span>
+
+        <span class="c1"># model_fit.plot_error(ax=ax,</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="o">.</span><span class="n">plot_error</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                             <span class="n">energy_range</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">,</span>
+                             <span class="n">energy_power</span> <span class="o">=</span> <span class="n">index</span><span class="p">,</span>
+                             <span class="n">energy_unit</span>  <span class="o">=</span> <span class="n">e_unit</span><span class="p">,</span>
+                             <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+                             <span class="n">color</span> <span class="o">=</span> <span class="n">fit_color</span><span class="p">)</span>
+
+        <span class="c1"># Note that ds.models[0].spectral_model.plot also works</span>
+        <span class="c1"># model_fit.plot(ax=ax,energy_range     = ds.energy_range,</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">mlabel</span> <span class="o">=</span> <span class="s2">&quot;$&quot;</span><span class="o">+</span><span class="n">tag</span><span class="o">+</span><span class="s2">&quot;$&quot;</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">fit_tag</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mlabel</span> <span class="o">=</span> <span class="n">fit_tag</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                                         <span class="n">energy_range</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">,</span>
+                                         <span class="n">energy_power</span> <span class="o">=</span> <span class="n">index</span><span class="p">,</span>
+                                         <span class="n">energy_unit</span>  <span class="o">=</span> <span class="n">e_unit</span><span class="p">,</span>
+                                         <span class="n">flux_unit</span>    <span class="o">=</span> <span class="n">flux_unit</span><span class="p">,</span>
+                                         <span class="n">label</span>        <span class="o">=</span> <span class="n">mlabel</span><span class="p">,</span>
+                                         <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_fit</span><span class="p">,</span>
+                                         <span class="n">color</span> <span class="o">=</span> <span class="n">fit_color</span><span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">model_init</span>
+
+    <span class="c1"># Decoration</span>
+    <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">stacked</span><span class="p">:</span>  <span class="c1"># Plot energy range</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+
+    <span class="c1"># This does not work with units within quantity_support</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span> <span class="o">=</span> <span class="n">e_min</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmax</span> <span class="o">=</span> <span class="n">e_max</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">flux_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="p">:</span>
+        <span class="n">flux_min</span> <span class="o">=</span> <span class="n">flux_min</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">flux_unit</span><span class="p">)</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span><span class="o">**</span><span class="n">index</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span> <span class="o">=</span> <span class="n">flux_min</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">flux_min</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">Inf</span>
+
+    <span class="k">if</span> <span class="n">flux_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="p">:</span>
+        <span class="n">flux_max</span> <span class="o">=</span> <span class="n">flux_max</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">flux_unit</span><span class="p">)</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span><span class="o">**</span><span class="n">index</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymax</span> <span class="o">=</span> <span class="n">flux_max</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">flux_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">Inf</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+    <span class="n">single_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">flux_min</span><span class="p">,</span> <span class="n">flux_max</span><span class="p">)</span> <span class="c1"># expect ymin, ymax</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

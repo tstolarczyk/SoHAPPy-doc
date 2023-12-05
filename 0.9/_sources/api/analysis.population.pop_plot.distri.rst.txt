@@ -1,0 +1,6 @@
+distri
+======
+
+.. currentmodule:: analysis.population.pop_plot
+
+.. autofunction:: distri

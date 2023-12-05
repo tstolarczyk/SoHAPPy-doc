@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="t_str" href="api/niceprint.t_str.html" />
+    <link rel="prev" title="comparison_plot" href="api/analysis.spectra.dataset_compare.comparison_plot.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#print-utilities">Print utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-niceprint">niceprint Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#functions">Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#plot-utilities">Plot utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-niceplot">niceplot Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#general-utilities">General Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-utilities">utilities Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Tools</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tools.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="tools">
+<h1>Tools<a class="headerlink" href="#tools" title="Permalink to this heading"></a></h1>
+<section id="print-utilities">
+<h2>Print utilities<a class="headerlink" href="#print-utilities" title="Permalink to this heading"></a></h2>
+<section id="module-niceprint">
+<span id="niceprint-module"></span><h3>niceprint Module<a class="headerlink" href="#module-niceprint" title="Permalink to this heading"></a></h3>
+<p>Created on Mon Oct 17 09:55:35 2022</p>
+<p>A bunch of functions to manipulate text information.</p>
+<p>&#64;author: Stolar</p>
+<section id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceprint.t_str.html#niceprint.t_str" title="niceprint.t_str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t_str</span></code></a>(t[, digit])</p></td>
+<td><p>Transform a time quantity into a string (used for plot labels).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/niceprint.t_fmt.html#niceprint.t_fmt" title="niceprint.t_fmt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t_fmt</span></code></a>(t[, digit])</p></td>
+<td><p>A utility to have reasonable duration format displayed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceprint.heading.html#niceprint.heading" title="niceprint.heading"><code class="xref py py-obj docutils literal notranslate"><span class="pre">heading</span></code></a>(title[, deco])</p></td>
+<td><p>Display a centered heading with 2 decorated lines above and below a title</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/niceprint.textcol.html#niceprint.textcol" title="niceprint.textcol"><code class="xref py py-obj docutils literal notranslate"><span class="pre">textcol</span></code></a>(text[, t, b, s])</p></td>
+<td><p>Change text color.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceprint.warning.html#niceprint.warning" title="niceprint.warning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warning</span></code></a>(text, **kwarg)</p></td>
+<td><p>Display a warning message</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/niceprint.failure.html#niceprint.failure" title="niceprint.failure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">failure</span></code></a>(text, **kwarg)</p></td>
+<td><p>Display a failure message</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceprint.success.html#niceprint.success" title="niceprint.success"><code class="xref py py-obj docutils literal notranslate"><span class="pre">success</span></code></a>(text, **kwarg)</p></td>
+<td><p>Display a success message.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/niceprint.highlight.html#niceprint.highlight" title="niceprint.highlight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">highlight</span></code></a>(text, **kwarg)</p></td>
+<td><p>Display a failure message</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceprint.banner.html#niceprint.banner" title="niceprint.banner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">banner</span></code></a>(text, **kwarg)</p></td>
+<td><p>Display a banner message</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceprint.Log.html#niceprint.Log" title="niceprint.Log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Log</span></code></a>([log_name, talk])</p></td>
+<td><p>A class to manage a logbook information.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="plot-utilities">
+<h2>Plot utilities<a class="headerlink" href="#plot-utilities" title="Permalink to this heading"></a></h2>
+<section id="module-niceplot">
+<span id="niceplot-module"></span><h3>niceplot Module<a class="headerlink" href="#module-niceplot" title="Permalink to this heading"></a></h3>
+<p>Created on Mon Oct 17 09:56:58 2022</p>
+<p>A bunch of functions to manipulate objects related to plots.</p>
+<p>&#64;author: Stolar</p>
+<section id="id1">
+<h4>Functions<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceplot.pause.html#niceplot.pause" title="niceplot.pause"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pause</span></code></a>()</p></td>
+<td><p>Used to pause plot display in interactive mode on a shell script.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/niceplot.MyLabel.html#niceplot.MyLabel" title="niceplot.MyLabel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MyLabel</span></code></a>(var[, label, stat])</p></td>
+<td><p>A label for plots and histograms with statistics.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceplot.single_legend.html#niceplot.single_legend" title="niceplot.single_legend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">single_legend</span></code></a>(ax, **kwargs)</p></td>
+<td><p>Remove duplicated labels in legend (e.g.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/niceplot.vals_legend.html#niceplot.vals_legend" title="niceplot.vals_legend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vals_legend</span></code></a>([vals, alpha, var_max])</p></td>
+<td><p>Create Matplotlib patches with colored circles from a list of values.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceplot.stamp.html#niceplot.stamp" title="niceplot.stamp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stamp</span></code></a>(text[, axis, where, x, y, rotation])</p></td>
+<td><p>Annotation on the side of any plot referred from the axis, including the gammapy version.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/niceplot.projected_scatter.html#niceplot.projected_scatter" title="niceplot.projected_scatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">projected_scatter</span></code></a>([xsize, ysize, left, ...])</p></td>
+<td><p>Matplotlib template to display a scatter plot and the horizontal and vertical projections of the data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceplot.ColorMap.html#niceplot.ColorMap" title="niceplot.ColorMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColorMap</span></code></a>(threshold, maxval)</p></td>
+<td><p>Create a colormap based on a threshold and a maximal value</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/niceplot.col_size.html#niceplot.col_size" title="niceplot.col_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_size</span></code></a>(var[, var_min, var_max])</p></td>
+<td><p>get a color and a size from a numerical value</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/niceplot.draw_sphere.html#niceplot.draw_sphere" title="niceplot.draw_sphere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_sphere</span></code></a>([radius, colormap, ax])</p></td>
+<td><p>Draw a sphere in matplotlib.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="general-utilities">
+<h2>General Utilities<a class="headerlink" href="#general-utilities" title="Permalink to this heading"></a></h2>
+<section id="module-utilities">
+<span id="utilities-module"></span><h3>utilities Module<a class="headerlink" href="#module-utilities" title="Permalink to this heading"></a></h3>
+<p>Created on Fri Jan 11 14:41:11 2019</p>
+<p>A bucnh of utility functions used in <cite>SoHAPPy</cite>.</p>
+<p>&#64;author: Stolar</p>
+<section id="id2">
+<h4>Functions<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/utilities.subset_ids.html#utilities.subset_ids" title="utilities.subset_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subset_ids</span></code></a>(nmax, nsets[, debug])</p></td>
+<td><p>This is a simple code defining <cite>nsets</cite> interval for a list of integer starting at 1 up to <cite>nmax</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/utilities.get_filename.html#utilities.get_filename" title="utilities.get_filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_filename</span></code></a>(filename)</p></td>
+<td><p>Check if file was compressed and/or if it exists.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/utilities.file_from_tar.html#utilities.file_from_tar" title="utilities.file_from_tar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_from_tar</span></code></a>([folder, tarname, target])</p></td>
+<td><p>Extract a given file from a tar file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/utilities.backup_file.html#utilities.backup_file" title="utilities.backup_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">backup_file</span></code></a>(filename[, folder, dbg])</p></td>
+<td><p>Copy a file to a result folder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/utilities.Df.html#utilities.Df" title="utilities.Df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Df</span></code></a>(x)</p></td>
+<td><p>Returns a time in Julian day format if the argument is finite</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/utilities.Dp.html#utilities.Dp" title="utilities.Dp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dp</span></code></a>(x)</p></td>
+<td><p>Returns a time in ISO format if the argument is an astropy <code class="xref py py-class docutils literal notranslate"><span class="pre">Time</span></code>, and if not returns the argument (unchanged).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/analysis.spectra.dataset_compare.comparison_plot.html" class="btn btn-neutral float-left" title="comparison_plot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/niceprint.t_str.html" class="btn btn-neutral float-right" title="t_str" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

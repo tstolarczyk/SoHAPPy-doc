@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>analysis.spectra.dataset_counts &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analysis.spectra.dataset_counts</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for analysis.spectra.dataset_counts</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Thu Dec 10 16:49:31 2020</span>
+
+<span class="sd">This modules gathers the fucntion to display and analyze the data in terms of</span>
+<span class="sd">counts and excess counts.</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="n">quantity_support</span>
+
+<span class="kn">from</span> <span class="nn">dataset_tools</span> <span class="kn">import</span> <span class="n">get_axis</span>
+
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">t_str</span>
+<span class="kn">from</span> <span class="nn">niceplot</span> <span class="kn">import</span> <span class="n">single_legend</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;excess_counts&#39;</span><span class="p">,</span><span class="s1">&#39;residuals&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;excess_versus_time&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;stacked_versus_time&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;excess_versus_E_and_time&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;lightcurve&#39;</span><span class="p">]</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="excess_versus_time"><a class="viewcode-back" href="../../../api/analysis.spectra.dataset_counts.excess_versus_time.html#analysis.spectra.dataset_counts.excess_versus_time">[docs]</a><span class="k">def</span> <span class="nf">excess_versus_time</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">unmasked</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span>
+                       <span class="n">color1</span> <span class="o">=</span> <span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span><span class="n">color2</span> <span class="o">=</span> <span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span>
+                       <span class="n">debug</span>  <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot both masked and unmasked (if not maked yet) count evolutions. Can</span>
+<span class="sd">    display rates if required.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : list of Dataset objects</span>
+<span class="sd">        The list of Dataset to be plotted.</span>
+<span class="sd">    rate : Boolean, optional</span>
+<span class="sd">        If True display the rate, otherwise the counts. The default is True.</span>
+<span class="sd">    unmasked : boolean, optional</span>
+<span class="sd">        True if the dataset were masked beforehand. The default is False.</span>
+<span class="sd">    ax : matplotlib.axes, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+<span class="sd">    xscale : String, optional</span>
+<span class="sd">        Abscissa scale. The default is &quot;linear&quot;.</span>
+<span class="sd">    yscale : String, optional</span>
+<span class="sd">        y-scale. The default is &quot;linear&quot;.</span>
+<span class="sd">    color1 : String, optional</span>
+<span class="sd">        Color of masked data. The default is &quot;tab:blue&quot;.</span>
+<span class="sd">    color2 : String, optional</span>
+<span class="sd">        Color of unmasked data. The default is &quot;tab:orange&quot;.</span>
+<span class="sd">    debug : TYPE, optional</span>
+<span class="sd">        If True, let&#39;s talk a bit. The default is False.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ax</span>
+
+    <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">dsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">tmax</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">d</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">ds</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dsets</span><span class="p">):</span>
+
+            <span class="n">time</span>      <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="o">/</span><span class="mi">2</span>
+            <span class="n">errtime</span>   <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span>
+            <span class="n">npred</span>     <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">npred_msk</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">tmax</span>      <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tmax</span><span class="p">,</span><span class="n">time</span><span class="p">)</span>
+            <span class="n">xs</span>        <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">xs_msk</span>    <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+            <span class="n">norm</span>      <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">errtime</span> <span class="k">if</span> <span class="n">rate</span> <span class="k">else</span> <span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">2</span><span class="si">}</span><span class="s2"> :&quot;</span>\
+                      <span class="sa">f</span><span class="s2">&quot; t = [</span><span class="si">{</span><span class="p">(</span><span class="n">time</span><span class="o">-</span><span class="n">errtime</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">time</span><span class="o">+</span><span class="n">errtime</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2">]&quot;</span>\
+                      <span class="sa">f</span><span class="s2">&quot; - y=</span><span class="si">{</span><span class="n">xs</span><span class="o">*</span><span class="n">norm</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> ym=</span><span class="si">{</span><span class="n">xs_msk</span><span class="o">*</span><span class="n">norm</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> &quot;</span>\
+                      <span class="sa">f</span><span class="s2">&quot;/ th=</span><span class="si">{</span><span class="n">npred</span><span class="o">*</span><span class="n">norm</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> thm=</span><span class="si">{</span><span class="n">npred_msk</span><span class="o">*</span><span class="n">norm</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">time</span><span class="p">,</span>
+                        <span class="nb">max</span><span class="p">(</span><span class="mf">1.2</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">xs_msk</span><span class="p">)</span><span class="o">*</span><span class="n">norm</span><span class="p">,</span><span class="mi">10</span><span class="o">*</span><span class="n">norm</span><span class="p">),</span>
+                        <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+            <span class="c1"># Handling of quantities by Errorbar is strange</span>
+            <span class="c1"># - requires numpy arrays - quantities are not scalars !</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">time</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                        <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">xs_msk</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                        <span class="n">xerr</span> <span class="o">=</span> <span class="p">[</span><span class="n">errtime</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">errtime</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                        <span class="n">yerr</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xs_msk</span><span class="p">)</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Excess counts&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color1</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span> <span class="n">time</span><span class="p">,</span><span class="n">xs_msk</span><span class="o">*</span><span class="n">norm</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">errtime</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color1</span><span class="p">)</span>
+
+            <span class="c1"># Before masking</span>
+            <span class="k">if</span> <span class="n">unmasked</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span>     <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">time</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                            <span class="n">y</span>     <span class="o">=</span> <span class="p">[</span><span class="n">xs</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                            <span class="n">xerr</span>  <span class="o">=</span> <span class="p">[</span><span class="n">errtime</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">errtime</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                            <span class="n">yerr</span>  <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                            <span class="n">label</span> <span class="o">=</span><span class="s2">&quot;Total excess counts&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color2</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">npred</span><span class="o">*</span><span class="n">norm</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">errtime</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color2</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Elapsed time (&quot;</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_label_text</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rate</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Excess Count rate (&quot;</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_label_text</span><span class="p">()</span><span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Excess counts&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tmax</span><span class="o">&gt;</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">d</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">d</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span>
+                       <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;One day&quot;</span><span class="p">)</span>
+
+        <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+        <span class="n">by_label</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">by_label</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">by_label</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">plot3D</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+                 <span class="n">tag</span>    <span class="o">=</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">,</span>
+                 <span class="n">ax3d</span>   <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">zscale</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+                 <span class="n">cmap</span>   <span class="o">=</span> <span class="s2">&quot;plasma&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a 3D plot with x is energy, y is time, z is data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : 1D Numpy array or list</span>
+<span class="sd">        x values</span>
+<span class="sd">    y : 1D Numpy array or list</span>
+<span class="sd">        y values</span>
+<span class="sd">    data : 2D Numpy array</span>
+<span class="sd">        The data</span>
+<span class="sd">    tag : String, optional</span>
+<span class="sd">        Used as a title. The default is &quot;Unknown&quot;.</span>
+<span class="sd">    ax3d : Matplotlib 3D axis, optional</span>
+<span class="sd">        Axis used for plotting. The default is None.</span>
+<span class="sd">    zscale : String, optional</span>
+<span class="sd">        z axis scale, either &quot;liner&quot; or &quot;log&quot;. The default is &quot;linear&quot;.</span>
+<span class="sd">    cmap : String, optional</span>
+<span class="sd">        A colormap name. The default is &quot;plasma&quot;.</span>
+<span class="sd">    debug : Boolean, optional</span>
+<span class="sd">        If True print some information. The default is False.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">ax3d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">ax3d</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+    <span class="n">yE</span><span class="p">,</span> <span class="n">xt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">zlbl</span> <span class="o">=</span> <span class="s2">&quot;Counts&quot;</span>
+    <span class="k">if</span> <span class="n">zscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">zlbl</span> <span class="o">=</span> <span class="n">zlbl</span> <span class="o">+</span> <span class="s2">&quot;(log)&quot;</span>
+
+    <span class="n">ax3d</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xt</span><span class="p">,</span> <span class="n">yE</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+
+    <span class="n">ax3d</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+    <span class="n">ax3d</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;log(E) (&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+    <span class="n">ax3d</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">labelpad</span><span class="o">=</span><span class="mi">20</span>
+    <span class="n">ax3d</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Elapsed time (&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+    <span class="n">ax3d</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">labelpad</span><span class="o">=</span><span class="mi">20</span>
+    <span class="n">ax3d</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="n">zlbl</span><span class="p">)</span>
+    <span class="n">ax3d</span><span class="o">.</span><span class="n">zaxis</span><span class="o">.</span><span class="n">labelpad</span><span class="o">=</span><span class="mi">20</span>
+    <span class="n">ax3d</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">)</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="excess_versus_E_and_time"><a class="viewcode-back" href="../../../api/analysis.spectra.dataset_counts.excess_versus_E_and_time.html#analysis.spectra.dataset_counts.excess_versus_E_and_time">[docs]</a><span class="k">def</span> <span class="nf">excess_versus_E_and_time</span><span class="p">(</span><span class="n">dsets</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Excess versus E and time in 3D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : Datasets object</span>
+<span class="sd">        A collection of Gammapy datasets</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dt</span><span class="p">,</span> <span class="n">E</span> <span class="o">=</span> <span class="n">get_axis</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span> <span class="n">tunit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="n">Eunit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">)</span>
+
+    <span class="n">data_pred</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">ds</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="p">])</span>
+    <span class="n">data_excess</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">ds</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="p">])</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+    <span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+    <span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+    <span class="n">plot3D</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">data_pred</span><span class="p">,</span>  <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;Prediction&quot;</span><span class="p">,</span><span class="n">ax3d</span> <span class="o">=</span> <span class="n">ax1</span><span class="p">)</span>
+    <span class="n">plot3D</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">data_excess</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;Excess counts&quot;</span><span class="p">,</span> <span class="n">ax3d</span> <span class="o">=</span> <span class="n">ax2</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="lightcurve"><a class="viewcode-back" href="../../../api/analysis.spectra.dataset_counts.lightcurve.html#analysis.spectra.dataset_counts.lightcurve">[docs]</a><span class="k">def</span> <span class="nf">lightcurve</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span>
+               <span class="n">t_unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">tmax</span><span class="o">=</span><span class="mi">1000</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">binwidth</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+               <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;excess&quot;</span><span class="p">,</span>
+               <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xscale</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+               <span class="n">style</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+               <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">fillcolor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reproduce (generate) a lightcurve from a list of dataset with defined</span>
+<span class="sd">    observation slices. Use interpolation along the time slices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : Dataset List</span>
+<span class="sd">        The list od Dataset.</span>
+<span class="sd">    t_unit : astropy.unit, optional</span>
+<span class="sd">        The unit time of the plot. The default is u.s.</span>
+<span class="sd">    tmin : astropy.time, optional</span>
+<span class="sd">        Plot minimal time. The default is 0*u.s.</span>
+<span class="sd">    tmax : astropy.time, optional</span>
+<span class="sd">        Plot maximal time. The default is 1000*u.s.</span>
+<span class="sd">    binwidth : astropy.time, optional</span>
+<span class="sd">        Plot time bin width. The default is 10*u.s.</span>
+<span class="sd">    tag : String, optional</span>
+<span class="sd">        A tag defining the data to plot among excess and prediction.</span>
+<span class="sd">        The default is &quot;excess&quot;.</span>
+<span class="sd">    ax : matplotlib.axes, optional</span>
+<span class="sd">        Current plot axis. The default is None.</span>
+<span class="sd">    xscale : String, optional</span>
+<span class="sd">        Abscissa matplotlib scale. The default is &quot;linear&quot;.</span>
+<span class="sd">    yscale : String, optional</span>
+<span class="sd">        Ordinate matplotlib scale. The default is &quot;linear&quot;.</span>
+<span class="sd">    style : String, optional</span>
+<span class="sd">        Matplotlib style, either &quot;line&quot; or &quot;bar&quot;. The default is &quot;bar&quot;.</span>
+<span class="sd">    marker : String, optional</span>
+<span class="sd">        matplotlib marker style. The default is &quot;o&quot;.</span>
+<span class="sd">    color : String, optional</span>
+<span class="sd">        matplotlib color. The default is &quot;black&quot;.</span>
+<span class="sd">    fillcolor : String, optional</span>
+<span class="sd">        matplotlib fillcolor. The default is None.</span>
+<span class="sd">    debug : Boolean, optional</span>
+<span class="sd">        If True, let&#39;s talk a bit. The default is False.</span>
+<span class="sd">    **kwargs : Arbitrary Keyword Arguments</span>
+<span class="sd">        Arbitrary Keyword Arguments</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : matplotlib.axes</span>
+<span class="sd">        Current matplotlib axis.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">tmin</span>     <span class="o">=</span> <span class="n">tmin</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span>
+    <span class="n">tmax</span>     <span class="o">=</span> <span class="n">tmax</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span>
+    <span class="n">binwidth</span> <span class="o">=</span> <span class="n">binwidth</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span>
+
+    <span class="c1"># Create the time interpolation of the counting rate</span>
+    <span class="n">tsamp</span><span class="p">,</span> <span class="n">dndt</span><span class="p">,</span> <span class="n">tslice</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">dsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">t_unit</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="p">,</span><span class="n">ds</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dsets</span><span class="p">):</span>
+
+        <span class="n">livetime</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span>
+
+        <span class="n">tsamp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">((</span><span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+                           <span class="o">+</span> <span class="n">livetime</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span> <span class="p">)</span>
+        <span class="n">tslice</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">+</span> <span class="n">livetime</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;excess&quot;</span><span class="p">:</span>
+            <span class="n">dndt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">livetime</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">tag</span><span class="o">==</span><span class="s2">&quot;prediction&quot;</span><span class="p">:</span>
+            <span class="n">dndt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">livetime</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t_unit</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;light_curve: tag not implemented&quot;</span><span class="p">)</span>
+
+    <span class="c1"># From now on, all variables have values corresponding to t_unit</span>
+    <span class="n">tsamp</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tsamp</span><span class="p">])</span>
+    <span class="n">dndt</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dndt</span><span class="p">])</span>
+    <span class="n">tslice</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tslice</span><span class="p">])</span>
+
+    <span class="n">tmin</span> <span class="o">=</span> <span class="n">tmin</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">tmax</span> <span class="o">=</span> <span class="n">tmax</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">binwidth</span> <span class="o">=</span> <span class="n">binwidth</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="c1"># Warning : f is not a quantity - Therefore all time units should be</span>
+    <span class="c1"># the same before the interpolation - f should have unit 1/t_unit like dndt</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">tsamp</span><span class="p">,</span><span class="n">dndt</span><span class="p">,</span><span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;extrapolate&quot;</span><span class="p">)</span>
+    <span class="c1">#print(tsamp,dndt,f(tsamp))</span>
+
+    <span class="c1"># Generate a number of counts for each bin</span>
+    <span class="n">nbin</span>    <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">tmax</span><span class="o">-</span><span class="n">tmin</span><span class="p">)</span><span class="o">/</span><span class="n">binwidth</span><span class="p">)</span>
+    <span class="n">t_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span><span class="n">nbin</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">t_bins</span>  <span class="o">=</span> <span class="n">t_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">t_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">t_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># print(t_bins)</span>
+
+    <span class="c1"># Compute count number in each bin = rate * bin width&quot;</span>
+    <span class="n">n_random</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_bins</span><span class="p">:</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">binwidth</span>
+        <span class="c1"># print(t,&quot;rate=&quot;,f(t),&quot;counts=&quot;,counts)</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="o">!=</span> <span class="s2">&quot;prediction&quot;</span><span class="p">:</span>
+            <span class="c1"># If excess is negative, do not fluxtuate</span>
+            <span class="k">if</span> <span class="n">counts</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">n_random</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">counts</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Negative counts : &quot;</span><span class="p">,</span><span class="n">counts</span><span class="p">,</span><span class="s2">&quot; not fluctuated&quot;</span><span class="p">)</span>
+                <span class="n">n_random</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">counts</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_random</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+    <span class="c1">#print(n_random)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ax</span>
+
+    <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;bar&quot;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">t_bins</span><span class="p">,</span> <span class="n">n_random</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">binwidth</span><span class="p">,</span>
+               <span class="n">edgecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">fillcolor</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;line&quot;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_bins</span><span class="p">,</span> <span class="n">n_random</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_bins</span><span class="p">,</span><span class="n">f</span><span class="p">(</span><span class="n">t_bins</span><span class="p">)</span><span class="o">*</span><span class="n">binwidth</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tsamp</span><span class="p">[</span><span class="n">tsamp</span><span class="o">&lt;</span><span class="n">tmax</span><span class="p">],</span><span class="n">dndt</span><span class="o">*</span><span class="n">binwidth</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Initial data&quot;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Observation duration (&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Counts per bin (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">binwidth</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">t_unit</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">xl</span> <span class="ow">in</span> <span class="n">tslice</span><span class="p">[</span><span class="n">tslice</span><span class="o">&lt;</span><span class="n">tmax</span><span class="p">]:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xl</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="stacked_versus_time"><a class="viewcode-back" href="../../../api/analysis.spectra.dataset_counts.stacked_versus_time.html#analysis.spectra.dataset_counts.stacked_versus_time">[docs]</a><span class="k">def</span> <span class="nf">stacked_versus_time</span><span class="p">(</span><span class="n">dstacked</span><span class="p">,</span> <span class="n">dsets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">rate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    DRAFT - Display stacked statictics and model statistics if original datasets is</span>
+<span class="sd">    given (since model stacking is irrelevant).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dstacked : TYPE</span>
+<span class="sd">        DESCRIPTION.</span>
+<span class="sd">    dsets : TYPE, optional</span>
+<span class="sd">        DESCRIPTION. The default is None.</span>
+<span class="sd">    rate : TYPE, optional</span>
+<span class="sd">        DESCRIPTION. The default is True.</span>
+<span class="sd">    ax : TYPE, optional</span>
+<span class="sd">        DESCRIPTION. The default is None.</span>
+<span class="sd">    debug : TYPE, optional</span>
+<span class="sd">        DESCRIPTION. The default is False.</span>
+<span class="sd">    xscale : TYPE, optional</span>
+<span class="sd">        DESCRIPTION. The default is &quot;linear&quot;.</span>
+<span class="sd">    yscale : TYPE, optional</span>
+<span class="sd">        DESCRIPTION. The default is &quot;linear&quot;.</span>
+<span class="sd">    color : TYPE, optional</span>
+<span class="sd">        DESCRIPTION. The default is &quot;tab:blue&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;to be finalised !&quot;</span><span class="p">)</span>
+    <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="p">:</span>
+        <span class="n">_</span> <span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+
+    <span class="n">duration</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+    <span class="n">npred</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">dstacked</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">dst</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dstacked</span><span class="p">,</span><span class="n">dsets</span><span class="p">):</span>
+
+            <span class="n">livetime</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_delta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">time</span>     <span class="o">=</span> <span class="p">(</span><span class="n">dst</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_start</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="o">+</span> <span class="n">livetime</span><span class="o">/</span><span class="mi">2</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="s2">&quot; &gt;&gt;&gt; &quot;</span><span class="p">,</span><span class="n">livetime</span><span class="p">)</span>
+            <span class="n">errtime</span>    <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">livetime</span><span class="o">-</span><span class="n">duration</span><span class="p">)</span>
+            <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+
+            <span class="n">xs</span>     <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">npred</span> <span class="o">+=</span> <span class="n">ds</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+            <span class="n">norm</span>   <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span> <span class="k">if</span> <span class="n">rate</span> <span class="ow">is</span> <span class="kc">False</span> <span class="k">else</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">errtime</span>
+
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; At </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> +/-</span><span class="si">{</span><span class="n">errtime</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> :&quot;</span>\
+                      <span class="sa">f</span><span class="s2">&quot; nxs = </span><span class="si">{</span><span class="n">xs</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> +/-</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="o">*</span><span class="n">norm</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2">&quot;</span>\
+                      <span class="sa">f</span><span class="s2">&quot; Ratio=</span><span class="si">{</span><span class="n">npred</span><span class="o">/</span><span class="n">xs</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Handling of quantities by Errorbar is strange</span>
+            <span class="c1"># requires numpy arrays - quantities are not scalars !</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">time</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                        <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">xs</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                        <span class="n">xerr</span> <span class="o">=</span> <span class="p">[</span><span class="n">errtime</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">errtime</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                        <span class="n">yerr</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">value</span><span class="p">]</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Excess counts&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">npred</span><span class="o">*</span><span class="n">norm</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">errtime</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Theory&quot;</span><span class="p">)</span>
+            <span class="n">duration</span> <span class="o">+=</span> <span class="n">livetime</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Elapsed time (&quot;</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_label_text</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Counts (&quot;</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_label_text</span><span class="p">()</span><span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+
+        <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+        <span class="n">by_label</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">by_label</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">by_label</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="excess_counts"><a class="viewcode-back" href="../../../api/analysis.spectra.dataset_counts.excess_counts.html#analysis.spectra.dataset_counts.excess_counts">[docs]</a><span class="k">def</span> <span class="nf">excess_counts</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">elapsed</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+                  <span class="n">ax</span>   <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">stacked</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">model_bar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                  <span class="n">n_min</span>   <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>      <span class="n">n_max</span>  <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">emin</span>    <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">,</span> <span class="n">emax</span>   <span class="o">=</span> <span class="mi">20</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span><span class="p">,</span>
+                  <span class="n">color</span>   <span class="o">=</span> <span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span><span class="n">tag</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">model_label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$\mu_</span><span class="si">{src}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="n">alpha_model</span>   <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+                  <span class="n">lgd_col</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">lgd_size</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a modified version of dataset plot_counts method.</span>
+<span class="sd">    It does not explicitely mask the energy bins</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : Dataset</span>
+<span class="sd">        A gammapy Dataset.</span>
+<span class="sd">    elapsed : astropy.time, optional</span>
+<span class="sd">        The time of start of this particular dataset. The default is 0*u.s.</span>
+<span class="sd">    ax : matplotlib.axes, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+<span class="sd">    stacked : Boolean, optional</span>
+<span class="sd">        Indicate if the current Dataset was previously stacked.</span>
+<span class="sd">        The default is False.</span>
+<span class="sd">    model_bar : Boolean, optional</span>
+<span class="sd">        If True, plot the model as bars. The default is True.</span>
+<span class="sd">    n_min : float, optional</span>
+<span class="sd">        Minimum number of counts on the plot. The default is 0.1.</span>
+<span class="sd">    n_max : float, optional</span>
+<span class="sd">        Maximal number of counts on the plot. The default is None.</span>
+<span class="sd">    emin : astropy.Quantity, optional</span>
+<span class="sd">        Minimum energy of the plot. The default is 10*u.GeV.</span>
+<span class="sd">    emax : stropy.Quantity, optional</span>
+<span class="sd">        Maximal energy of the plot. The default is 20*u.TeV.</span>
+<span class="sd">    color : String, optional</span>
+<span class="sd">        matplotlib color of the plot. The default is &quot;tab:orange&quot;.</span>
+<span class="sd">    tag : String, optional</span>
+<span class="sd">        Extra information on top of the label. The default is None.</span>
+<span class="sd">    model_label : String, optional</span>
+<span class="sd">        The model plot label. The default is r&quot;$\mu_{src}$&quot;.</span>
+<span class="sd">    alpha_model : TYPE, optional</span>
+<span class="sd">        trabsparency of the model (if plotted). The default is 0.2.</span>
+<span class="sd">    lgd_col : integer, optional</span>
+<span class="sd">        Number of columns of the legend. The default is 2.</span>
+<span class="sd">    lgd_size : float, optional</span>
+<span class="sd">        Plot legned font size. The default is 12.</span>
+<span class="sd">    **kwargs : Arbitrary Keyword Arguments</span>
+<span class="sd">        Arbitrary Keyword Arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    n_min : float</span>
+<span class="sd">        Minimum counts - useful for the panelling</span>
+<span class="sd">    max_counts : float</span>
+<span class="sd">        Maximal counts - useful for the panelling.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ax</span>
+
+    <span class="n">Eedges</span>  <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="c1"># Need the unit</span>
+
+    <span class="c1">###-----------------------------------------</span>
+    <span class="c1">### Plot excess count using gammapy function</span>
+    <span class="c1">###-----------------------------------------</span>
+
+    <span class="c1"># Define label</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$t$ = &quot;</span> <span class="o">+</span> <span class="n">t_str</span><span class="p">(</span><span class="n">elapsed</span><span class="p">)</span> \
+          <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\n$\Delta$t = &quot;</span><span class="o">+</span><span class="n">t_str</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">tag</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span><span class="n">label</span>
+
+    <span class="c1"># If data are stacked, no model are plotted - draw a line</span>
+    <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span> <span class="k">if</span> <span class="n">stacked</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="c1"># Plot, retain the max. counts for the panel function</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">max_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">counts</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="c1">###-----------------------------------------</span>
+    <span class="c1">### Plot theory and energy range if possible (not stacked)</span>
+    <span class="c1">###-----------------------------------------</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">stacked</span><span class="p">:</span>
+
+        <span class="c1">### Get predicted counts -&gt; Modify max. counts for later</span>
+        <span class="n">npred</span>      <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">max_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">max_counts</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">npred</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()])</span>
+
+        <span class="c1">### use default plotting - quite unreadable with data points</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">model_bar</span><span class="p">:</span> <span class="c1"># Use default function</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">model_label</span><span class="p">)</span>
+
+        <span class="c1">### Use bar to have the model easily readable</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># in log scale center is not center, widths are assymetric</span>
+            <span class="n">Ecenter</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">width_r</span> <span class="o">=</span> <span class="n">Eedges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">Ecenter</span>
+            <span class="n">width_l</span> <span class="o">=</span> <span class="n">Ecenter</span> <span class="o">-</span> <span class="n">Eedges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">Ecenter</span><span class="p">,</span> <span class="n">npred</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="o">-</span><span class="n">width_l</span><span class="p">,</span>
+                   <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_model</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">model_label</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">Ecenter</span><span class="p">,</span> <span class="n">npred</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">width_r</span><span class="p">,</span>
+                   <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_model</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+        <span class="c1"># ds._plot_energy_range(ax=ax, label=&quot;&quot;) # Show the dataset energy masking</span>
+
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">emin</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">Eedges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">emax</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">Eedges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Excess count number&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">n_min</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymax</span><span class="o">=</span><span class="n">n_max</span><span class="p">)</span>
+        <span class="n">max_counts</span> <span class="o">=</span> <span class="n">n_max</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_max</span> <span class="o">=</span> <span class="n">max_counts</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ax.legend(ncol=lgd_col,fontsize=lgd_size)</span>
+    <span class="n">single_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="n">lgd_col</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="n">lgd_size</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">n_min</span><span class="p">,</span> <span class="n">max_counts</span><span class="p">)</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="residuals"><a class="viewcode-back" href="../../../api/analysis.spectra.dataset_counts.residuals.html#analysis.spectra.dataset_counts.residuals">[docs]</a><span class="k">def</span> <span class="nf">residuals</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">elapsed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot residuals - Just use the `gammapy` function, but embed it ib such a</span>
+<span class="sd">    way that it can be used by the SoHAPPy `panels` function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : Dataset</span>
+<span class="sd">        Current dataset.</span>
+<span class="sd">    ax : matplotlib.axes, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+<span class="sd">    elapsed: float</span>
+<span class="sd">        This is an argument expected by the SoHAPPy `panels` function but</span>
+<span class="sd">        it is not used. It has to be explicited otherwise it will be passed to</span>
+<span class="sd">        `kwargs` and will lead to a crash since this is not expected from the</span>
+<span class="sd">        Gammapy resisuals function.</span>
+<span class="sd">    kwargs : dictionnary</span>
+<span class="sd">        Arbitrary Keyword Arguments.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">plot_residuals</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span><span class="p">(</span><span class="o">-</span><span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span> <span class="c1"># Not satisfactory but &#39;panels&#39; request these 2 numbers...</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

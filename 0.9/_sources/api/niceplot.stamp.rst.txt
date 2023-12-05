@@ -1,0 +1,6 @@
+stamp
+=====
+
+.. currentmodule:: niceplot
+
+.. autofunction:: stamp

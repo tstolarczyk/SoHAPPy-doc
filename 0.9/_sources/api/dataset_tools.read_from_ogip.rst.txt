@@ -1,0 +1,6 @@
+read_from_ogip
+==============
+
+.. currentmodule:: dataset_tools
+
+.. autofunction:: read_from_ogip

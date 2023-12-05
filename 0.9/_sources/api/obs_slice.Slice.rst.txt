@@ -1,0 +1,45 @@
+Slice
+=====
+
+.. currentmodule:: obs_slice
+
+.. autoclass:: Slice
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Slice.dress
+      ~Slice.fid
+      ~Slice.get_flux
+      ~Slice.get_perf
+      ~Slice.idt
+      ~Slice.irf
+      ~Slice.merge
+      ~Slice.obs_point
+      ~Slice.print
+      ~Slice.set_id
+      ~Slice.set_site
+      ~Slice.site
+      ~Slice.tobs
+      ~Slice.ts1
+      ~Slice.ts2
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: dress
+   .. automethod:: fid
+   .. automethod:: get_flux
+   .. automethod:: get_perf
+   .. automethod:: idt
+   .. automethod:: irf
+   .. automethod:: merge
+   .. automethod:: obs_point
+   .. automethod:: print
+   .. automethod:: set_id
+   .. automethod:: set_site
+   .. automethod:: site
+   .. automethod:: tobs
+   .. automethod:: ts1
+   .. automethod:: ts2

@@ -1,0 +1,47 @@
+Configuration
+=============
+
+.. currentmodule:: configuration
+
+.. autoclass:: Configuration
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~Configuration.def_conf
+      ~Configuration.ignore
+      ~Configuration.quantities
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Configuration.command_line
+      ~Configuration.create_output_folder
+      ~Configuration.decode_visibility_keyword
+      ~Configuration.find_and_read
+      ~Configuration.get_delay
+      ~Configuration.print
+      ~Configuration.read_from_yaml
+      ~Configuration.source_ids
+      ~Configuration.write
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: def_conf
+   .. autoattribute:: ignore
+   .. autoattribute:: quantities
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: command_line
+   .. automethod:: create_output_folder
+   .. automethod:: decode_visibility_keyword
+   .. automethod:: find_and_read
+   .. automethod:: get_delay
+   .. automethod:: print
+   .. automethod:: read_from_yaml
+   .. automethod:: source_ids
+   .. automethod:: write

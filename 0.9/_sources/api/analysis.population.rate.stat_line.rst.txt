@@ -1,0 +1,6 @@
+stat_line
+=========
+
+.. currentmodule:: analysis.population.rate
+
+.. autofunction:: stat_line

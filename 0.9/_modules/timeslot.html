@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>timeslot &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">timeslot</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for timeslot</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This code handles the observation windows in CTA North and South sites and</span>
+<span class="sd">combine the observations common to both sites.</span>
+
+<span class="sd">Created on Mon Mar 30 10:36:09 2020</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">failure</span><span class="p">,</span> <span class="n">heading</span><span class="p">,</span> <span class="n">Log</span>
+
+<span class="kn">from</span> <span class="nn">obs_slice</span> <span class="kn">import</span> <span class="n">Slice</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Slot&quot;</span><span class="p">]</span>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slot"><a class="viewcode-back" href="../api/timeslot.Slot.html#timeslot.Slot">[docs]</a><span class="k">class</span> <span class="nc">Slot</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A set of time slices, called `slot` is related to a GRB</span>
+<span class="sd">    lightcurve given as a set of measurement points, and a visibility,</span>
+<span class="sd">    namely an observation site.</span>
+<span class="sd">    Slots are essentially a list of Slices (see the :class:`obs_slice.Slice`</span>
+<span class="sd">    class).</span>
+
+<span class="sd">    The slice number `i` starts at zero, and a slice `i` covers the observation</span>
+<span class="sd">    from the sampled flux at `i` to the flux at `i+1`.</span>
+
+<span class="sd">    Time slots can result from the merging of initial slots, allowing for</span>
+<span class="sd">    managing overlapping or consecutive observations.</span>
+
+<span class="sd">    Slots get a name for clarity, and can be associated to a site, or</span>
+<span class="sd">    a combination of sites explicitely. They follow the site naming convention</span>
+<span class="sd">    of slices, which is mandatory for slot merging.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grb</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;naked&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
+                       <span class="n">delay</span><span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Create a naked observation slot consisting of a GRB, naked slices,</span>
+<span class="sd">        and a flag mentionning if the slot was dressed with physics information.</span>
+<span class="sd">        The time reference is the GRB trigger time.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        grb :  GammaRayBurst instance</span>
+<span class="sd">            a GRB class instantiation</span>
+<span class="sd">        name : String, optional</span>
+<span class="sd">            The slot name. The default is &quot;naked&quot;.</span>
+<span class="sd">        loc : string, optional</span>
+<span class="sd">            The site to which this slot is associated.Can be &#39;North&#39;, &#39;South&#39;</span>
+<span class="sd">            or &#39;Both&#39;. The default is &#39;?&#39;.</span>
+<span class="sd">        delay : astropy.time, optional</span>
+<span class="sd">            The observation delay of the slot. The default is -1*u.s.</span>
+<span class="sd">        opt : string, optional</span>
+<span class="sd">            Defines how the observation points are chosen.</span>
+<span class="sd">            The default is &quot;end&quot;.</span>
+<span class="sd">        debug : Boolean, optional</span>
+<span class="sd">            If True, will be verbosy. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">grb</span>   <span class="o">=</span> <span class="n">grb</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span>  <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc</span>   <span class="o">=</span> <span class="n">loc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="n">delay</span> <span class="c1"># Has so far no sense if merged sites</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt</span>   <span class="o">=</span> <span class="n">opt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NINF</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span> <span class="c1"># Negative infinite</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tstop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">Inf</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span>  <span class="c1"># Positive infinite</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phys</span>  <span class="o">=</span> <span class="kc">False</span>       <span class="c1"># Initially not associated to flux values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dbg</span>   <span class="o">=</span> <span class="n">debug</span>
+
+        <span class="n">slices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">grb</span><span class="o">.</span><span class="n">tval</span><span class="p">)):</span> <span class="c1"># Starts at 1, but uses i-1</span>
+            <span class="n">time1</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">time2</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">slc</span>  <span class="o">=</span> <span class="n">Slice</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">time1</span><span class="p">,</span><span class="n">time2</span><span class="p">)</span>
+            <span class="n">slices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slc</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">slices</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">slices</span><span class="p">)</span> <span class="c1"># Works also it the list is already an array</span>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slot.dress"><a class="viewcode-back" href="../api/timeslot.Slot.html#timeslot.Slot.dress">[docs]</a>    <span class="k">def</span> <span class="nf">dress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">irf_dir</span><span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./&quot;</span><span class="p">),</span>
+                    <span class="n">arrays</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">zenith</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dress the slot slices with physics information.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        irf_dir : Path, optional</span>
+<span class="sd">            The IRF folder path name. The default is Path(&quot;./&quot;).</span>
+<span class="sd">        arrays : String, optional</span>
+<span class="sd">            The subarray to which belong the slot. The default is None.</span>
+<span class="sd">        zenith : astropy.coordinates.Angle, optional</span>
+<span class="sd">            Observation zenith angle. The default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">phys</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">for</span> <span class="n">sls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">:</span>
+            <span class="n">sls</span><span class="o">.</span><span class="n">dress</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">,</span>
+                      <span class="n">irf_dir</span> <span class="o">=</span> <span class="n">irf_dir</span><span class="p">,</span>  <span class="n">arrays</span>  <span class="o">=</span> <span class="n">arrays</span><span class="p">,</span>
+                       <span class="n">opt</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt</span><span class="p">,</span> <span class="n">zenith</span>  <span class="o">=</span> <span class="n">zenith</span><span class="p">)</span>
+
+        <span class="c1"># After dressing, two consecutives slices can be associated to the</span>
+        <span class="c1"># same spectrum id and should be merged</span>
+        <span class="n">to_be_compacted</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">while</span> <span class="n">to_be_compacted</span><span class="p">:</span>
+
+            <span class="n">fidlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">slc</span><span class="o">.</span><span class="n">fid</span><span class="p">()</span> <span class="k">for</span> <span class="n">slc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fidlist</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">fidlist</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">compact</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">to_be_compacted</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slot.compact"><a class="viewcode-back" href="../api/timeslot.Slot.html#timeslot.Slot.compact">[docs]</a>    <span class="k">def</span> <span class="nf">compact</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Scan the slot slices and merge those attached to the same</span>
+<span class="sd">        physical flux.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">prev_fid</span> <span class="o">=</span> <span class="o">-</span><span class="mi">999</span>
+        <span class="n">newslices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">idt</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">slc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">):</span>
+
+            <span class="n">fid</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">fid</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">fid</span> <span class="o">==</span> <span class="n">prev_fid</span><span class="p">:</span>
+                <span class="c1"># Change end-time of prev-spec to this spec</span>
+                <span class="c1"># print(&quot; Slice &quot;,i,&quot; merged with slice &quot;,i-1)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">slc</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">slc</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="n">idt</span><span class="p">)</span>
+                <span class="n">newslices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slc</span><span class="p">)</span>
+                <span class="n">idt</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="n">prev_fid</span> <span class="o">=</span> <span class="n">fid</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">slices</span> <span class="o">=</span> <span class="n">newslices</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slot.copy"><a class="viewcode-back" href="../api/timeslot.Slot.html#timeslot.Slot.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Copy a slot, change the initial name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : Sring, optional</span>
+<span class="sd">            The name of the slot copy. The default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        slot_copy : Slot</span>
+<span class="sd">            The slot copy.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="n">slot_copy</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">slot_copy</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slot.apply_visibility"><a class="viewcode-back" href="../api/timeslot.Slot.html#timeslot.Slot.apply_visibility">[docs]</a>    <span class="k">def</span> <span class="nf">apply_visibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span><span class="n">delay</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Apply visibility window and delay to the slot, i.e. change time</span>
+<span class="sd">        boundaries and re-dress when needed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        site : String, optional</span>
+<span class="sd">            The site identifier. The default is &quot;?&quot;.</span>
+<span class="sd">        delay : Quantity, optional</span>
+<span class="sd">            The delay before detection can start. The default is 0*u.s.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc</span> <span class="o">=</span> <span class="n">site</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span>
+
+        <span class="c1">#------------------------------------------</span>
+        <span class="c1">### Check if t is within a visibility window</span>
+        <span class="k">def</span> <span class="nf">visible</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+            <span class="n">is_ok</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">time1</span><span class="p">,</span> <span class="n">time2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tstart</span><span class="p">,</span><span class="n">tstop</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">time1</span> <span class="o">&lt;=</span> <span class="n">time</span> <span class="o">&lt;=</span> <span class="n">time2</span><span class="p">:</span>
+                    <span class="n">is_ok</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">continue</span>
+            <span class="k">return</span> <span class="n">is_ok</span>
+        <span class="c1">#------------------------------------------</span>
+
+        <span class="c1"># Get the list of all slices edges</span>
+        <span class="n">ticks</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">slc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">:</span> <span class="c1"># Original slices</span>
+            <span class="n">ticks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slc</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">ticks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slc</span><span class="o">.</span><span class="n">ts2</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="c1"># Create visibility start and stop time and store</span>
+        <span class="n">shift</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">tstart</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="n">tstop</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tvis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">]</span><span class="o">.</span><span class="n">t_true</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tvis</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+                <span class="n">time0</span> <span class="o">=</span> <span class="p">(</span><span class="n">tvis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span> <span class="o">+</span> <span class="n">delay</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="n">shift</span>
+                <span class="n">time1</span> <span class="o">=</span> <span class="p">(</span><span class="n">tvis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span>
+            <span class="k">if</span> <span class="n">time1</span> <span class="o">&lt;</span> <span class="n">time0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Delay made this slice vanished, duration =</span><span class="si">{</span><span class="n">time1</span><span class="o">-</span><span class="n">time0</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tstart</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time0</span><span class="p">)</span>
+                <span class="n">tstop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time1</span><span class="p">)</span>
+                <span class="n">ticks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time0</span><span class="p">)</span>
+                <span class="n">ticks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">shift</span> <span class="p">:</span>
+                    <span class="n">shift</span><span class="o">=</span><span class="kc">False</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tstart</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># If delays are such that all slices disappear, then</span>
+            <span class="c1"># the GRB become not visible</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">ticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ticks</span><span class="p">))</span> <span class="c1"># FIRST remove duplicated entries</span>
+        <span class="n">ticks</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span> <span class="c1"># THEN Sort (because &#39;set&#39; change the order)</span>
+
+        <span class="c1"># Now loop over all intervals and add to slot</span>
+        <span class="n">newslices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">inb</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">time1</span> <span class="o">=</span> <span class="n">ticks</span><span class="p">[</span><span class="n">inb</span><span class="p">]</span>
+            <span class="n">time2</span> <span class="o">=</span> <span class="n">ticks</span><span class="p">[</span><span class="n">inb</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">visible</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">time1</span> <span class="o">+</span> <span class="n">time2</span><span class="p">)):</span>
+                <span class="n">slc</span>  <span class="o">=</span> <span class="n">Slice</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="n">time1</span><span class="o">*</span><span class="n">unit</span><span class="p">,</span><span class="n">time2</span><span class="o">*</span><span class="n">unit</span><span class="p">,</span><span class="n">site</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">)</span>
+                <span class="n">idx</span><span class="o">+=</span><span class="mi">1</span>
+                <span class="n">newslices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slc</span><span class="p">)</span>
+
+        <span class="c1"># Create a slot from existing and replace content</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slices</span> <span class="o">=</span> <span class="n">newslices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span>   <span class="o">=</span> <span class="s2">&quot;Visible&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tstart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tstop</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ts2</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delay</span>  <span class="o">=</span> <span class="n">delay</span> <span class="c1"># Loose the delay information after merging</span>
+        <span class="c1">#self.dress(name = self.name)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slot.merge"><a class="viewcode-back" href="../api/timeslot.Slot.html#timeslot.Slot.merge">[docs]</a>    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">slot</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Merge current slot (`self`) with another slot.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        slot : Slot instance</span>
+<span class="sd">            The slot to be merged with the current slot</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Get the list of all slices edges</span>
+        <span class="n">ticks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span><span class="o">.</span><span class="n">unit</span>
+
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span><span class="n">slot</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">slc</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">slices</span><span class="p">:</span>
+                <span class="n">ticks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slc</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">ticks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slc</span><span class="o">.</span><span class="n">ts2</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">ticks</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ticks</span><span class="p">))</span> <span class="c1"># FIRST remove duplicated entries</span>
+        <span class="n">ticks</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span> <span class="c1"># THEN Sort (because &#39;set&#39; change the order)</span>
+
+        <span class="n">newslices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">icount</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">time1</span> <span class="o">=</span> <span class="n">ticks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">time2</span> <span class="o">=</span> <span class="n">ticks</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">tmid</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">time1</span> <span class="o">+</span> <span class="n">time2</span><span class="p">)</span>
+            <span class="n">idxa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">tmid</span><span class="o">*</span><span class="n">unit</span><span class="p">)</span>
+            <span class="n">idxb</span> <span class="o">=</span> <span class="n">slot</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">tmid</span><span class="o">*</span><span class="n">unit</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">idxa</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">idxb</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;Both&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">idxb</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="n">loc</span> <span class="o">=</span> <span class="n">slot</span><span class="o">.</span><span class="n">loc</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">loc</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="c1"># Append only if associated to one or two sites</span>
+            <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">slc</span>  <span class="o">=</span> <span class="n">Slice</span><span class="p">(</span><span class="n">icount</span><span class="p">,</span> <span class="n">time1</span><span class="o">*</span><span class="n">unit</span><span class="p">,</span> <span class="n">time2</span><span class="o">*</span><span class="n">unit</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
+                <span class="n">slc</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="n">icount</span><span class="p">)</span>
+                <span class="n">icount</span><span class="o">+=</span><span class="mi">1</span>
+                <span class="n">newslices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slc</span><span class="p">)</span>
+
+        <span class="c1"># Create a slot from existing and replace content</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slices</span> <span class="o">=</span> <span class="n">newslices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tstart</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span><span class="o">*</span><span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tstop</span>  <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span><span class="o">*</span><span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc</span>    <span class="o">=</span> <span class="s2">&quot;Both&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delay</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="c1"># Loose the delay information after merging</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slot.find"><a class="viewcode-back" href="../api/timeslot.Slot.html#timeslot.Slot.find">[docs]</a>    <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the slice containing the given time.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        time : astropy.time (time)</span>
+<span class="sd">            An observation time</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Index or error code:</span>
+<span class="sd">            Index of the slice or -1, -2 if not within the slices</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">slc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">slc</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">time</span> <span class="o">&lt;=</span> <span class="n">slc</span><span class="o">.</span><span class="n">ts2</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">slc</span><span class="o">.</span><span class="n">idt</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slot.plot"><a class="viewcode-back" href="../api/timeslot.Slot.html#timeslot.Slot.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axa</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eref</span><span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Displays the slices of the time slot, including the measurement</span>
+<span class="sd">        points if the slot was dressed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        axa : matplotlib.axes</span>
+<span class="sd">            Axes on which the plots are shown. The default is None.</span>
+<span class="sd">        eref : Quantity (energy), optional</span>
+<span class="sd">            The reference energy used to display the lightcurve.</span>
+<span class="sd">        **kwargs : keyword arguments</span>
+<span class="sd">            Extra arguents from matplotlib.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib figure</span>
+<span class="sd">            Current Matplotlib figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">axa</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">axa</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">axa</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span>
+
+        <span class="c1">### GRB lightcurve neareEref ---</span>
+        <span class="n">iref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eref</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">Eval</span><span class="p">))</span>
+        <span class="n">axa</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">tval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">fluxval</span><span class="p">[:,</span><span class="n">iref</span><span class="p">],</span>
+                <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span>
+                <span class="n">markeredgecolor</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                <span class="n">markeredgewidth</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span>
+                <span class="n">markerfacecolor</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">&quot;grb&quot;</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Compute display interval - takes delay into accont</span>
+        <span class="c1"># Because a log scale does not accept zero</span>
+        <span class="n">tmin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">tmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ts2</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">axa</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.9</span><span class="o">*</span><span class="n">tmin</span><span class="p">,</span> <span class="mf">1.10</span><span class="o">*</span><span class="n">tmax</span><span class="p">)</span>
+
+        <span class="c1">### Show delay window</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Delay </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">axa</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span> <span class="n">tmin</span><span class="p">,</span> <span class="n">tmin</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="c1">### Slices and flux points</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">phys</span><span class="p">:</span> <span class="c1"># If dressed</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">:</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;Both&quot;</span><span class="p">:</span><span class="s2">&quot;purple&quot;</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">slc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">:</span>
+                <span class="n">tobs</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">tobs</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+                <span class="n">flux</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">fluxval</span><span class="p">[</span><span class="n">slc</span><span class="o">.</span><span class="n">fid</span><span class="p">(),</span><span class="n">iref</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># Not absorbed</span>
+                <span class="n">ts1</span>  <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">ts1</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+                <span class="n">ts2</span>  <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">ts2</span><span class="p">()</span><span class="o">.</span><span class="n">value</span>
+                <span class="n">site</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">site</span><span class="p">()</span>
+                <span class="n">axa</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tobs</span><span class="p">,</span><span class="n">flux</span><span class="p">,</span>
+                        <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+                        <span class="n">markerfacecolor</span> <span class="o">=</span> <span class="n">color</span><span class="p">[</span><span class="n">site</span><span class="p">],</span>
+                        <span class="n">markeredgecolor</span> <span class="o">=</span> <span class="n">color</span><span class="p">[</span><span class="n">site</span><span class="p">],</span>
+                        <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                        <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">site</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,)</span>
+
+                <span class="n">axa</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">xmin</span> <span class="o">=</span> <span class="n">ts1</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">ts2</span><span class="p">,</span>
+                           <span class="n">y</span><span class="o">=</span><span class="n">flux</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">axa</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time since trigger (&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+        <span class="n">axa</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Flux at &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">eref</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; - &quot;</span>
+                      <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">fluxval</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span> <span class="p">)</span>
+        <span class="n">axa</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+        <span class="n">axa</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+        <span class="c1">### Visibility windows</span>
+        <span class="n">tref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">t_trig</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;North&quot;</span><span class="p">,</span> <span class="s2">&quot;Both&quot;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">t_true</span><span class="p">:</span>
+                <span class="n">axa</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span> <span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span> <span class="n">tref</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                            <span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span> <span class="n">tref</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;vis. North&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;South&quot;</span><span class="p">,</span> <span class="s2">&quot;Both&quot;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">t_true</span><span class="p">:</span>
+                <span class="n">axa</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span> <span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span> <span class="n">tref</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                            <span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span> <span class="n">tref</span><span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:red&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;vis. South&quot;</span><span class="p">)</span>
+
+
+        <span class="n">axa</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+        <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">axa</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+        <span class="n">by_label</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
+        <span class="n">axa</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">by_label</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">by_label</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">axa</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc</span> <span class="o">+</span> <span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print out the content of a slice set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Slot &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">,</span><span class="s2">&quot;Both&quot;</span><span class="p">):</span>
+            <span class="n">heading</span><span class="p">(</span><span class="n">title</span><span class="o">+</span><span class="s2">&quot; Original&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">heading</span><span class="p">(</span><span class="n">title</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Observation set </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">15s</span><span class="si">}</span><span class="s2"> - site=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="si">:</span><span class="s2">5s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Visibility : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tstart</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tstop</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    including : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> of delay&quot;</span><span class="p">)</span>
+
+        <span class="n">show_header</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">for</span> <span class="n">slc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slices</span><span class="p">:</span>
+            <span class="n">slc</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">header</span> <span class="o">=</span> <span class="n">show_header</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">show_header</span><span class="p">:</span>
+                <span class="n">show_header</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="s2">&quot; &quot;</span>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Slot.both_sites"><a class="viewcode-back" href="../api/timeslot.Slot.html#timeslot.Slot.both_sites">[docs]</a>    <span class="k">def</span> <span class="nf">both_sites</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">delay</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the vibilities in N and S be given the delays for observation.</span>
+<span class="sd">        In particular in many case the delay will be applied to the first</span>
+<span class="sd">        in time site (except if the original visibilities differ by a time</span>
+<span class="sd">        difference less than the delay).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        delay : Time Quantity, optional</span>
+<span class="sd">            Delay for observation. The default is 0*u.s.</span>
+<span class="sd">        debug : Boolean, optional</span>
+<span class="sd">            Verbose mode if True. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A slot instance or None.</span>
+<span class="sd">            Resulting Slot or `None`  if no time slices left</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">delay</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">delay</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">:</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">}</span>
+
+        <span class="c1"># Compute the delays to be applied to the sites</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">t_true</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                 <span class="o">-</span>  <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">t_true</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="p">)</span><span class="o">.</span><span class="n">sec</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+
+        <span class="c1"># Add delay to the first one plus the difference to the second</span>
+        <span class="k">if</span> <span class="n">delta</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;North is before South by &quot;</span><span class="p">,</span><span class="o">-</span><span class="n">delta</span><span class="p">)</span>
+            <span class="n">delay_n</span> <span class="o">=</span> <span class="n">delay</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]</span>
+            <span class="n">delay_s</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span><span class="n">delay</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]</span><span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="n">delta</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">delta</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;South is before North by &quot;</span><span class="p">,</span><span class="n">delta</span><span class="p">)</span>
+            <span class="n">delay_n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span><span class="n">delay</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">delta</span><span class="p">)</span>
+            <span class="n">delay_s</span> <span class="o">=</span> <span class="n">delay</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]</span>
+
+        <span class="k">elif</span> <span class="n">delta</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;North and South are simultaneaous &quot;</span><span class="p">,</span><span class="n">delta</span><span class="p">)</span>
+            <span class="n">delay_n</span> <span class="o">=</span> <span class="n">delay</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]</span>
+            <span class="n">delay_s</span> <span class="o">=</span> <span class="n">delay</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Get slots for both sites and merge</span>
+        <span class="n">slot_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">still_vis_n</span> <span class="o">=</span> <span class="n">slot_n</span><span class="o">.</span><span class="n">apply_visibility</span><span class="p">(</span><span class="n">site</span><span class="o">=</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="n">delay</span> <span class="o">=</span> <span class="n">delay_n</span><span class="p">)</span>
+
+        <span class="n">slot_s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">still_vis_s</span> <span class="o">=</span> <span class="n">slot_s</span><span class="o">.</span><span class="n">apply_visibility</span><span class="p">(</span><span class="n">site</span><span class="o">=</span><span class="s2">&quot;South&quot;</span><span class="p">,</span><span class="n">delay</span> <span class="o">=</span> <span class="n">delay_s</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">still_vis_s</span> <span class="ow">and</span> <span class="n">still_vis_n</span><span class="p">:</span>
+            <span class="n">slot_n</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">slot_s</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">slot_n</span>
+
+        <span class="n">failure</span><span class="p">(</span><span class="s2">&quot; N and/or S vanished because of delays&quot;</span><span class="p">)</span>
+        <span class="n">failure</span><span class="p">(</span><span class="s2">&quot; Combined analysis not possible&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">None</span></div></div>
+
+<span class="c1">###---------------------------------------------------------------------------</span>
+<span class="c1">### TESTS</span>
+<span class="c1">###----------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">test_visibility</span><span class="p">(</span><span class="n">slotet</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test visibility</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    slotet : Slot instance</span>
+<span class="sd">        Current time Slot.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">tvis</span> <span class="o">=</span><span class="p">[[</span><span class="mi">18</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">,</span><span class="mi">40</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">],</span>
+           <span class="p">[</span> <span class="mi">3</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">,</span><span class="mi">60</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">3</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">,</span><span class="mi">44</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">3</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">,</span><span class="mi">39</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">16</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">,</span><span class="mi">60</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">]</span> <span class="p">,</span>
+            <span class="p">[</span><span class="mi">7</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">,</span><span class="mi">13</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">]]</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Inside&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;Outside&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;Before1&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;Before2&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;After&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;Within&quot;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">time</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tvis</span><span class="p">,</span><span class="n">title</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Apply visibility </span><span class="si">{</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">_</span> <span class="p">,</span> <span class="n">axa</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">myset</span> <span class="o">=</span> <span class="n">slotet</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">myset</span><span class="o">.</span><span class="n">mask</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">myset</span><span class="p">)</span>
+
+        <span class="n">myset</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axa</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">axa</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span><span class="p">)</span>
+        <span class="n">axa</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:red&quot;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">test_flux</span><span class="p">(</span><span class="n">slotet</span><span class="p">,</span> <span class="n">time</span> <span class="o">=</span> <span class="mi">23</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test flux retrieval</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    slotet : Slot instance</span>
+<span class="sd">        Current time Slot.</span>
+<span class="sd">    time: Astropy Quantity</span>
+<span class="sd">        Time of evaluation</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">flux</span> <span class="o">=</span> <span class="n">slotet</span><span class="o">.</span><span class="n">get_flux</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; flux at </span><span class="si">{</span><span class="n">time</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">flux</span><span class="si">:</span><span class="s2">8.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<span class="c1">### MAIN</span>
+<span class="c1">###----------------------------------------------------------------------------</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+
+    <span class="c1"># Create time slices collection for a series of GRB.</span>
+    <span class="c1"># Print them, plot them, test visibility application, merging etc.</span>
+
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="kn">from</span> <span class="nn">grb</span> <span class="kn">import</span> <span class="n">GammaRayBurst</span>
+    <span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">Configuration</span>
+
+    <span class="c1"># This is required to have the EBL models read from gammapy</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GAMMAPY_DATA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span>
+                                          <span class="s2">&quot;data&quot;</span><span class="p">))</span>
+
+    <span class="n">log</span> <span class="o">=</span> <span class="n">Log</span><span class="p">(</span><span class="n">talk</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1">### -------------------</span>
+    <span class="c1">### Configuration</span>
+    <span class="c1">### -------------------</span>
+    <span class="n">cf</span> <span class="o">=</span> <span class="n">Configuration</span><span class="o">.</span><span class="n">command_line</span><span class="p">()</span>
+
+    <span class="c1"># Supersede some parameters</span>
+    <span class="c1"># 85 : not visible at all</span>
+    <span class="n">cf</span><span class="o">.</span><span class="n">dbg_level</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">cf</span><span class="o">.</span><span class="n">ifirst</span>    <span class="o">=</span> <span class="mi">343</span> <span class="c1"># 1, 85, 204</span>
+    <span class="n">cf</span><span class="o">.</span><span class="n">nsrc</span>      <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">cf</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+
+    <span class="c1"># Input data</span>
+    <span class="n">grblist</span>   <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">source_ids</span><span class="p">()</span>
+    <span class="n">data_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">cf</span><span class="o">.</span><span class="n">infolder</span><span class="p">,</span><span class="n">cf</span><span class="o">.</span><span class="n">data_dir</span><span class="p">)</span> <span class="c1"># Input data</span>
+    <span class="n">visinfo</span>   <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">decode_visibility_keyword</span><span class="p">(</span><span class="n">cf</span><span class="o">.</span><span class="n">create_output_folder</span><span class="p">())</span>
+
+
+    <span class="c1">###---------------------------</span>
+    <span class="c1">### Loop over sources</span>
+    <span class="c1">###---------------------------</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">grblist</span><span class="p">):</span>
+
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">prefix</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">+</span><span class="n">cf</span><span class="o">.</span><span class="n">suffix</span>
+
+        <span class="n">grb</span> <span class="o">=</span> <span class="n">GammaRayBurst</span><span class="o">.</span><span class="n">from_fits</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span><span class="n">fname</span><span class="p">),</span>
+                                      <span class="n">prompt</span>  <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">prompt_dir</span><span class="p">,</span>
+                                      <span class="n">ebl</span>     <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">ebl_model</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">]:</span>
+            <span class="n">grb</span><span class="o">.</span><span class="n">set_visibility</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">visinfo</span><span class="p">)</span>
+
+        <span class="c1"># Printout grb and visibility windows</span>
+        <span class="k">if</span> <span class="n">cf</span><span class="o">.</span><span class="n">niter</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">cf</span><span class="o">.</span><span class="n">dbg</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">cf</span><span class="o">.</span><span class="n">ngrb</span><span class="o">==</span><span class="mi">1</span> <span class="p">:</span>
+            <span class="n">heading</span><span class="p">(</span><span class="n">grb</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="n">grb</span><span class="p">)</span>
+            <span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+            <span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+        <span class="c1"># Create the original GRB slot</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">Slot</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span>
+                      <span class="n">opt</span>   <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">obs_point</span><span class="p">,</span>
+                      <span class="n">name</span>  <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                      <span class="n">debug</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">cf</span><span class="o">.</span><span class="n">dbg</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+        <span class="n">origin</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axa</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># Empty dots (not dressed)</span>
+
+        <span class="c1">### Compute slots</span>
+        <span class="n">delay</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">get_delay</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">,</span><span class="s2">&quot;Both&quot;</span><span class="p">]:</span>
+
+            <span class="n">name</span> <span class="o">=</span> <span class="n">grb</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">loc</span>
+            <span class="n">still_vis</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Assumed not visible</span>
+
+            <span class="c1">### Both sites - create a slot</span>
+            <span class="k">if</span> <span class="n">loc</span><span class="o">==</span><span class="s2">&quot;Both&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">vis_night</span> <span class="ow">and</span> <span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="s2">&quot;South&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">vis_night</span><span class="p">:</span>
+                    <span class="n">slot</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">both_sites</span><span class="p">(</span><span class="n">delay</span> <span class="o">=</span> <span class="n">delay</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="p">(</span><span class="n">cf</span><span class="o">.</span><span class="n">dbg</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">slot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">still_vis</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1">### North or South, create a slot</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">grb</span><span class="o">.</span><span class="n">vis</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span><span class="o">.</span><span class="n">vis_night</span><span class="p">:</span> <span class="c1"># Apply delays to original slot</span>
+                    <span class="n">slot</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;loc&quot;</span><span class="p">)</span>
+                    <span class="n">still_vis</span> <span class="o">=</span> <span class="n">slot</span><span class="o">.</span><span class="n">apply_visibility</span><span class="p">(</span><span class="n">delay</span> <span class="o">=</span> <span class="n">delay</span><span class="p">[</span><span class="n">loc</span><span class="p">],</span>
+                                                      <span class="n">site</span>  <span class="o">=</span> <span class="n">loc</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">still_vis</span><span class="p">:</span>
+                <span class="c1"># Add IRF feature and run - Note that this can</span>
+                <span class="c1"># modify the number of slices (merging)</span>
+                <span class="n">slot</span><span class="o">.</span><span class="n">dress</span><span class="p">(</span><span class="n">irf_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">cf</span><span class="o">.</span><span class="n">infolder</span><span class="p">,</span><span class="n">cf</span><span class="o">.</span><span class="n">irf_dir</span><span class="p">),</span>
+                            <span class="n">arrays</span>  <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">arrays</span><span class="p">,</span>
+                            <span class="n">zenith</span>  <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">fixed_zenith</span><span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="n">slot</span><span class="p">)</span>
+                <span class="n">slot</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;c&#39;est fini&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+compactify
+==========
+
+.. currentmodule:: dataset_tools
+
+.. autofunction:: compactify

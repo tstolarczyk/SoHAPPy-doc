@@ -1,0 +1,6 @@
+extract_spectrum
+================
+
+.. currentmodule:: analysis.spectra.dataset_flux
+
+.. autofunction:: extract_spectrum

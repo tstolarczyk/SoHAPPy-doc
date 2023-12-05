@@ -1,0 +1,31 @@
+Slot
+====
+
+.. currentmodule:: timeslot
+
+.. autoclass:: Slot
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Slot.apply_visibility
+      ~Slot.both_sites
+      ~Slot.compact
+      ~Slot.copy
+      ~Slot.dress
+      ~Slot.find
+      ~Slot.merge
+      ~Slot.plot
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: apply_visibility
+   .. automethod:: both_sites
+   .. automethod:: compact
+   .. automethod:: copy
+   .. automethod:: dress
+   .. automethod:: find
+   .. automethod:: merge
+   .. automethod:: plot

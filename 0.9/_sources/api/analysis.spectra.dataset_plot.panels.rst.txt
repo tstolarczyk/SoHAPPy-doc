@@ -1,0 +1,6 @@
+panels
+======
+
+.. currentmodule:: analysis.spectra.dataset_plot
+
+.. autofunction:: panels

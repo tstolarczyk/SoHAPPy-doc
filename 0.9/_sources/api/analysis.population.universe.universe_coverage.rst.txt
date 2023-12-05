@@ -1,0 +1,6 @@
+universe_coverage
+=================
+
+.. currentmodule:: analysis.population.universe
+
+.. autofunction:: universe_coverage

@@ -1,0 +1,31 @@
+Pop
+===
+
+.. currentmodule:: analysis.population.population
+
+.. autoclass:: Pop
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Pop.add_combinatory
+      ~Pop.detectable_prompt
+      ~Pop.detection_above_sigma
+      ~Pop.negative_significance
+      ~Pop.print
+      ~Pop.sanity_check
+      ~Pop.slice_stat
+      ~Pop.trust_CL
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: add_combinatory
+   .. automethod:: detectable_prompt
+   .. automethod:: detection_above_sigma
+   .. automethod:: negative_significance
+   .. automethod:: print
+   .. automethod:: sanity_check
+   .. automethod:: slice_stat
+   .. automethod:: trust_CL

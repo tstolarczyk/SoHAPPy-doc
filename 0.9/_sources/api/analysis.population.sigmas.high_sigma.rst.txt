@@ -1,0 +1,6 @@
+high_sigma
+==========
+
+.. currentmodule:: analysis.population.sigmas
+
+.. autofunction:: high_sigma

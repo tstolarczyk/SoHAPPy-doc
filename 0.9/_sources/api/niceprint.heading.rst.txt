@@ -1,0 +1,6 @@
+heading
+=======
+
+.. currentmodule:: niceprint
+
+.. autofunction:: heading

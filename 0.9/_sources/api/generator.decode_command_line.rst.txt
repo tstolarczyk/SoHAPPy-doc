@@ -1,0 +1,6 @@
+decode_command_line
+===================
+
+.. currentmodule:: generator
+
+.. autofunction:: decode_command_line

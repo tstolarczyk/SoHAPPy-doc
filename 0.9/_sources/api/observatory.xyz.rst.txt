@@ -1,0 +1,6 @@
+xyz
+===
+
+.. currentmodule:: observatory
+
+.. autodata:: xyz

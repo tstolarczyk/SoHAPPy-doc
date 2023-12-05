@@ -1,0 +1,6 @@
+Dp
+==
+
+.. currentmodule:: utilities
+
+.. autofunction:: Dp

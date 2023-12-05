@@ -1,0 +1,6 @@
+compare_stacked_dataset
+=======================
+
+.. currentmodule:: dataset_tools
+
+.. autofunction:: compare_stacked_dataset

@@ -1,0 +1,6 @@
+time_to_5sigma_fullrange
+========================
+
+.. currentmodule:: analysis.population.times
+
+.. autofunction:: time_to_5sigma_fullrange

@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dataset_tools &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dataset_tools</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for dataset_tools</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Thu Dec  3 11:51:18 2020</span>
+
+<span class="sd">This modules contains the functions to manipulate the Gammapy `dataset` and</span>
+<span class="sd">`datasets` objects as used in `SoHAPPy`, both for the population analysis</span>
+<span class="sd">(see `&lt;population_analysis.rst&gt;`_) or the individual source spectra analysis</span>
+<span class="sd">(see `&lt;spectral_analysis.rst&gt;`_).</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span> <span class="nn">astropy.time</span>          <span class="kn">import</span> <span class="n">Time</span>
+<span class="c1"># This causes a pylint crash. Issue opened.</span>
+<span class="kn">from</span>   <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
+
+<span class="kn">from</span> <span class="nn">regions</span> <span class="kn">import</span> <span class="n">CircleSkyRegion</span>
+
+<span class="kn">from</span> <span class="nn">gammapy.utils.random</span> <span class="kn">import</span> <span class="n">get_random_state</span>
+<span class="kn">from</span> <span class="nn">gammapy.stats</span> <span class="kn">import</span> <span class="n">WStatCountsStatistic</span>
+
+<span class="kn">from</span> <span class="nn">gammapy.datasets</span> <span class="kn">import</span> <span class="n">SpectrumDataset</span><span class="p">,</span> <span class="n">Datasets</span><span class="p">,</span> <span class="n">SpectrumDatasetOnOff</span>
+<span class="kn">from</span> <span class="nn">gammapy.makers</span>   <span class="kn">import</span> <span class="n">SpectrumDatasetMaker</span>
+
+<span class="kn">from</span> <span class="nn">gammapy.irf</span> <span class="kn">import</span> <span class="n">load_cta_irfs</span>
+<span class="kn">from</span> <span class="nn">gammapy.data</span> <span class="kn">import</span> <span class="n">Observation</span>
+<span class="kn">from</span> <span class="nn">gammapy.maps</span> <span class="kn">import</span> <span class="n">RegionNDMap</span><span class="p">,</span> <span class="n">MapAxis</span>
+
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">TemplateSpectralModel</span>
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">SkyModel</span>
+
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">t_fmt</span>
+<span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">Configuration</span>
+
+<span class="c1">#warnings.filterwarnings(&#39;error&#39;)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../SoHAPPy&quot;</span><span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;generate_dataset&quot;</span><span class="p">,</span><span class="s2">&quot;stacked_model&quot;</span><span class="p">,</span><span class="s2">&quot;compare_stacked_dataset&quot;</span><span class="p">,</span><span class="s2">&quot;stacking&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;get_masked_dataset&quot;</span><span class="p">,</span><span class="s2">&quot;compactify&quot;</span><span class="p">,</span><span class="s2">&quot;createonoff_from_simulation&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;read_from_ogip&quot;</span><span class="p">,</span><span class="s2">&quot;get_axis&quot;</span><span class="p">,</span><span class="s2">&quot;check_dataset&quot;</span><span class="p">,</span><span class="s2">&quot;check_datasets&quot;</span><span class="p">,</span><span class="s2">&quot;sigmax&quot;</span><span class="p">]</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="generate_dataset"><a class="viewcode-back" href="../api/dataset_tools.generate_dataset.html#dataset_tools.generate_dataset">[docs]</a><span class="k">def</span> <span class="nf">generate_dataset</span><span class="p">(</span><span class="n">Eflux</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">Erange</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                     <span class="n">tstart</span>   <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="s1">&#39;2000-01-01 02:00:00&#39;</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s1">&#39;utc&#39;</span><span class="p">),</span>
+                     <span class="n">tobs</span>     <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span>
+                     <span class="n">irf_file</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                     <span class="n">alpha</span>    <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span>
+                     <span class="n">name</span>     <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                     <span class="n">fake</span>     <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                     <span class="n">onoff</span>    <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                     <span class="n">seed</span>     <span class="o">=</span> <span class="s1">&#39;random-seed&#39;</span><span class="p">,</span>
+                     <span class="n">debug</span>    <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a dataset from a list of energies and flux points either as</span>
+<span class="sd">    a SpectrumDataset or a SpectrumDatasetOnOff</span>
+
+<span class="sd">    Note :</span>
+<span class="sd">    - in SpectrumDataset, the backgound counts are assumed precisely known and</span>
+<span class="sd">    are not fluctuated.</span>
+<span class="sd">    - in SpectrumDatasetOnOff, the background counts (off counts) are</span>
+<span class="sd">    fluctuated from the IRF known values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Eflux : Quantity</span>
+<span class="sd">        Energies at which the flux is given.</span>
+<span class="sd">    flux : Quantity</span>
+<span class="sd">        Flux corresponding to the given energies.</span>
+<span class="sd">    Erange : List, optional</span>
+<span class="sd">        The energy boundaries within which the flux is defined, if not over all</span>
+<span class="sd">        energies. The default is None.</span>
+<span class="sd">    tstart : Time object, optional</span>
+<span class="sd">        Start date of the dataset.</span>
+<span class="sd">        The default is Time(&#39;2000-01-01 02:00:00&#39;,scale=&#39;utc&#39;).</span>
+<span class="sd">    tobs : Quantity, optional</span>
+<span class="sd">        Duration of the observation. The default is 100*u.s.</span>
+<span class="sd">    irf_file : String, optional</span>
+<span class="sd">        The IRf file name. The default is None.</span>
+<span class="sd">    alpha : Float, optional</span>
+<span class="sd">        The on over off surface ratio for the On-Off analysis.</span>
+<span class="sd">        The default is 1/5.</span>
+<span class="sd">    name : String, optional</span>
+<span class="sd">        The dataset name, also used to name the spectrum. The default is None.</span>
+<span class="sd">    fake : Boolean, optional</span>
+<span class="sd">        If True, the dataset counts are fluctuated. The default is True.</span>
+<span class="sd">    onoff : Boolean, optional</span>
+<span class="sd">        If True, use SpectrumDatasetOnOff, otherwise SpectrumDataSet.</span>
+<span class="sd">        The default is True.</span>
+<span class="sd">    seed : String, optional</span>
+<span class="sd">        The seed for the random generator; An integer will generate the</span>
+<span class="sd">        same random series at each run. The default is &#39;random-seed&#39;.</span>
+<span class="sd">    debug: Boolean</span>
+<span class="sd">        If True, let&#39;s talk a bit. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ds : Dataset object</span>
+<span class="sd">        The dataset.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">random_state</span> <span class="o">=</span> <span class="n">get_random_state</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="c1">### Define on observation region</span>
+    <span class="n">on_pointing</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s2">&quot;icrs&quot;</span><span class="p">)</span>
+    <span class="n">on_region</span>   <span class="o">=</span> <span class="n">CircleSkyRegion</span><span class="p">(</span><span class="n">center</span> <span class="o">=</span> <span class="n">on_pointing</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span>
+
+    <span class="c1"># Define energy axis (see spectrum analysis notebook)</span>
+    <span class="c1"># edges for SpectrumDataset - all dataset should have the same axes</span>
+    <span class="c1"># Note that linear spacing is clearly problematic for powerlaw fluxes</span>
+    <span class="c1"># Axes can also be defined using MapAxis</span>
+    <span class="n">unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">GeV</span>
+    <span class="n">E1v</span>  <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">Eflux</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">E2v</span>  <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">Eflux</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="n">ereco_axis</span>  <span class="o">=</span> <span class="n">MapAxis</span><span class="o">.</span><span class="n">from_energy_bounds</span><span class="p">(</span><span class="mf">1.1</span><span class="o">*</span><span class="n">E1v</span><span class="o">*</span><span class="n">unit</span><span class="p">,</span>
+                                             <span class="mf">0.9</span><span class="o">*</span><span class="n">E2v</span><span class="o">*</span><span class="n">unit</span><span class="p">,</span>
+                                             <span class="n">nbin</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+                                             <span class="n">per_decade</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;energy&quot;</span><span class="p">)</span>
+
+    <span class="n">etrue_axis</span>  <span class="o">=</span> <span class="n">MapAxis</span><span class="o">.</span><span class="n">from_energy_bounds</span><span class="p">(</span><span class="n">E1v</span><span class="o">*</span><span class="n">unit</span><span class="p">,</span>
+                                             <span class="n">E2v</span><span class="o">*</span><span class="n">unit</span><span class="p">,</span>
+                                             <span class="n">nbin</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+                                             <span class="n">per_decade</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;energy_true&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dataset &quot;</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Etrue : &quot;</span><span class="p">,</span> <span class="n">etrue_axis</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Ereco : &quot;</span><span class="p">,</span> <span class="n">ereco_axis</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span>
+
+    <span class="c1"># Load IRF</span>
+    <span class="n">irf</span>  <span class="o">=</span> <span class="n">load_cta_irfs</span><span class="p">(</span><span class="n">irf_file</span><span class="p">)</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">TemplateSpectralModel</span><span class="p">(</span><span class="n">energy</span> <span class="o">=</span> <span class="n">Eflux</span><span class="p">,</span>
+                                 <span class="n">values</span> <span class="o">=</span> <span class="n">flux</span><span class="p">,</span>
+                                 <span class="n">interp_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;values_scale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">})</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">SkyModel</span><span class="p">(</span><span class="n">spectral_model</span> <span class="o">=</span> <span class="n">spec</span><span class="p">,</span> <span class="n">name</span>  <span class="o">=</span> <span class="s2">&quot;Spec&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">obs</span>   <span class="o">=</span> <span class="n">Observation</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">obs_id</span>   <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                               <span class="n">pointing</span> <span class="o">=</span> <span class="n">on_pointing</span><span class="p">,</span>
+                               <span class="n">livetime</span> <span class="o">=</span> <span class="n">tobs</span><span class="p">,</span>
+                               <span class="n">irfs</span>     <span class="o">=</span> <span class="n">irf</span><span class="p">,</span>
+                               <span class="n">deadtime_fraction</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                               <span class="n">reference_time</span> <span class="o">=</span> <span class="n">tstart</span><span class="p">)</span>
+
+    <span class="n">ds_empty</span>  <span class="o">=</span> <span class="n">SpectrumDataset</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">e_reco</span> <span class="o">=</span> <span class="n">ereco_axis</span><span class="p">,</span> <span class="c1"># Ereco.edges,</span>
+                                       <span class="n">e_true</span> <span class="o">=</span> <span class="n">etrue_axis</span><span class="p">,</span> <span class="c1">#Etrue.edges,</span>
+                                       <span class="n">region</span> <span class="o">=</span> <span class="n">on_region</span><span class="p">,</span>
+                                       <span class="n">name</span>   <span class="o">=</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">maker</span> <span class="o">=</span> <span class="n">SpectrumDatasetMaker</span><span class="p">(</span><span class="n">containment_correction</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">selection</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;exposure&quot;</span><span class="p">,</span> <span class="s2">&quot;background&quot;</span><span class="p">,</span><span class="s2">&quot;edisp&quot;</span><span class="p">])</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">maker</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ds_empty</span><span class="p">,</span> <span class="n">obs</span><span class="p">)</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">energy_mask</span><span class="p">(</span><span class="n">energy_min</span> <span class="o">=</span> <span class="n">Erange</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                         <span class="n">energy_max</span> <span class="o">=</span> <span class="n">Erange</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span> <span class="o">=</span> <span class="n">RegionNDMap</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">geom</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+
+    <span class="n">ds</span><span class="o">.</span><span class="n">fake</span><span class="p">(</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span><span class="p">)</span>   <span class="c1"># Fake is mandatory ?</span>
+
+    <span class="c1"># Transform SpectrumDataset into SpectrumDatasetOnOff if needed</span>
+    <span class="k">if</span> <span class="n">onoff</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">SpectrumDatasetOnOff</span><span class="o">.</span><span class="n">from_spectrum_dataset</span><span class="p">(</span>
+                                                        <span class="n">dataset</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span>
+                                                        <span class="n">acceptance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                                        <span class="n">acceptance_off</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dataset was transformed in ONOFF&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">fake</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Fluctuations : seed = &quot;</span><span class="p">,</span><span class="n">seed</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">onoff</span><span class="p">:</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">fake</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">npred_background</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">fake</span><span class="p">(</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ds.energy_range = &quot;</span><span class="p">,</span><span class="n">ds</span><span class="o">.</span><span class="n">energy_range</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="stacked_model"><a class="viewcode-back" href="../api/dataset_tools.stacked_model.html#dataset_tools.stacked_model">[docs]</a><span class="k">def</span> <span class="nf">stacked_model</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds_stack</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is not finalised and should be checked. It is intended to</span>
+<span class="sd">    recompute an effective spectral model from the exiisting already stacked</span>
+<span class="sd">    model -from the previous call- and the current model in a dataset list. It</span>
+<span class="sd">    also extract the masked dataset of the first dataset in the list</span>
+<span class="sd">    (when first == True).</span>
+
+<span class="sd">    The reconstructed binning is required to apply the masking</span>
+<span class="sd">    The theoretical spectrum is therefore evaluated on reconstrcuted</span>
+<span class="sd">    energies which assumes that the reconstructed energy is not too</span>
+<span class="sd">    different from the true one.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : Dataset</span>
+<span class="sd">        The current dataset.</span>
+<span class="sd">    ds_stack : Dataset, optional</span>
+<span class="sd">        The current stacked dataset if first is False. The default is None.</span>
+<span class="sd">    first : Boolean, optional</span>
+<span class="sd">        If True, extract the masked dataset - Valid for the first dataset of</span>
+<span class="sd">        the list. The default is False.</span>
+<span class="sd">    debug : Boolean, optional</span>
+<span class="sd">        If True, let&#39;s talk a bit. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    model : Skymodel</span>
+<span class="sd">        The current stcake model.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Get unmasked Reconstructed E bining from current dataset</span>
+    <span class="c1"># (but they are all identical)</span>
+    <span class="n">e_axis</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># E reco sampling from the IRF</span>
+
+    <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+        <span class="c1"># The reconstructed binning is required to apply the masking</span>
+        <span class="c1"># The theoretical spectrum is therefore evaluated on reconstrcuted</span>
+        <span class="c1"># energies which assumes that the reconstructed energy is not too</span>
+        <span class="c1"># different from the true one.</span>
+
+        <span class="c1"># e_axis = dsets[0].aeff.data.axes[0] # E true sampling from the IRF</span>
+        <span class="n">flux_org</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="p">(</span><span class="n">e_axis</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+        <span class="n">mask_org</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">TemplateSpectralModel</span><span class="p">(</span><span class="n">energy</span> <span class="o">=</span> <span class="n">e_axis</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
+                                     <span class="n">values</span> <span class="o">=</span> <span class="n">flux_org</span><span class="o">*</span><span class="n">mask_org</span><span class="p">,</span>
+                                     <span class="n">interp_kwargs</span> <span class="o">=</span><span class="p">{</span><span class="s2">&quot;values_scale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">})</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">SkyModel</span><span class="p">(</span><span class="n">spectral_model</span> <span class="o">=</span> <span class="n">spec</span><span class="p">,</span> <span class="n">name</span>  <span class="o">=</span> <span class="s2">&quot;Stack&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">flux_stacked</span> <span class="o">=</span> <span class="n">ds_stack</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="p">(</span><span class="n">e_axis</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+        <span class="n">dt_stack</span>     <span class="o">=</span> <span class="n">ds_stack</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span> <span class="c1"># Duration on present stack</span>
+
+        <span class="n">flux_org</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="p">(</span><span class="n">e_axis</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+        <span class="n">mask_org</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">dt</span>       <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span> <span class="c1"># Duration on present stack</span>
+
+        <span class="c1"># Create ad-hoc new flux and model</span>
+        <span class="n">dt_new</span>    <span class="o">=</span> <span class="n">dt</span><span class="o">+</span> <span class="n">dt_stack</span>
+        <span class="n">flux_new</span>  <span class="o">=</span> <span class="p">(</span><span class="n">dt_stack</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="n">flux_stacked</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="n">flux_org</span><span class="o">*</span><span class="n">mask_org</span><span class="p">)</span>
+        <span class="n">flux_new</span>  <span class="o">=</span> <span class="n">flux_new</span><span class="o">/</span><span class="p">(</span><span class="n">dt_stack</span><span class="o">.</span><span class="n">value</span><span class="o">+</span><span class="n">dt</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="c1"># Create a new SkyModel from the flux template model</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">TemplateSpectralModel</span><span class="p">(</span><span class="n">energy</span> <span class="o">=</span> <span class="n">e_axis</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
+                                     <span class="n">values</span> <span class="o">=</span> <span class="n">flux_new</span><span class="p">,</span>
+                                     <span class="n">interp_kwargs</span> <span class="o">=</span><span class="p">{</span><span class="s2">&quot;values_scale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">})</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">SkyModel</span><span class="p">(</span><span class="n">spectral_model</span> <span class="o">=</span> <span class="n">spec</span><span class="p">,</span> <span class="n">name</span>  <span class="o">=</span> <span class="s2">&quot;Stack&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="n">livetime</span>     <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span> <span class="c1"># Duration on present stack</span>
+            <span class="nb">print</span><span class="p">(</span><span class="mi">72</span><span class="o">*</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Current dataset dt=</span><span class="si">{</span><span class="n">livetime</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> -&quot;</span> \
+                  <span class="sa">f</span><span class="s2">&quot; with model </span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    On stack  : dt=&quot;</span><span class="p">,</span><span class="n">dt_stack</span><span class="p">,</span><span class="s2">&quot; F0 = &quot;</span><span class="p">,</span><span class="n">flux_stacked</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    To add    : dt=&quot;</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="s2">&quot; F0 = &quot;</span><span class="p">,</span><span class="n">flux_org</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    To stack  : dt=&quot;</span><span class="p">,</span><span class="n">dt_new</span><span class="p">,</span><span class="s2">&quot; F0 = &quot;</span><span class="p">,</span><span class="n">flux_new</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">model</span></div>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="compare_stacked_dataset"><a class="viewcode-back" href="../api/dataset_tools.compare_stacked_dataset.html#dataset_tools.compare_stacked_dataset">[docs]</a><span class="k">def</span> <span class="nf">compare_stacked_dataset</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span><span class="n">dsets_stacked</span><span class="p">,</span><span class="n">count</span><span class="o">=</span><span class="s2">&quot;pred&quot;</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare the stacked counts of a Dataset list with the counts of a stacked</span>
+<span class="sd">    Dataset list (they should match).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : Dataset List</span>
+<span class="sd">        The original Dataset list.</span>
+<span class="sd">    dsets_stacked : Dataset</span>
+<span class="sd">        The final stacked dataset.</span>
+<span class="sd">    count : String, optional</span>
+<span class="sd">        Defines which cou_nt should be checked among &quot;pred&quot; (from the model),</span>
+<span class="sd">        &quot;excess&quot; and &quot;background&quot;. The default is &quot;pred&quot;.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Check cumulated &quot;</span><span class="o">+</span><span class="n">count</span><span class="p">)</span>
+    <span class="n">tot_counts</span>  <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">duration</span>    <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+
+    <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Id&#39;</span><span class="si">:</span><span class="s2">&gt;3</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;dt&#39;</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2"> &quot;</span>\
+          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;dtsum&#39;</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">count</span><span class="o">+</span><span class="s1">&#39;sum&#39;</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2"> --&gt; &quot;</span>\
+          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;dtnew&#39;</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">count</span><span class="o">+</span><span class="s1">&#39;new&#39;</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">ds</span><span class="p">,</span><span class="n">dss</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span><span class="n">dsets_stacked</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">count</span><span class="o">==</span><span class="s2">&quot;pred&quot;</span><span class="p">:</span>
+            <span class="n">masked_counts</span>  <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">stacked_counts</span> <span class="o">=</span> <span class="n">dss</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">dss</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">count</span><span class="o">==</span><span class="s2">&quot;excess&quot;</span><span class="p">:</span>
+            <span class="n">masked_counts</span>  <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">stacked_counts</span> <span class="o">=</span> <span class="n">dss</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">dss</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">count</span> <span class="o">==</span> <span class="s2">&quot;background&quot;</span><span class="p">:</span>
+            <span class="n">masked_counts</span>  <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">stacked_counts</span> <span class="o">=</span> <span class="n">dss</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">dss</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">tot_counts</span>   <span class="o">+=</span> <span class="n">masked_counts</span>
+
+        <span class="n">duration</span> <span class="o">+=</span> <span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">3</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> &quot;</span>\
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">masked_counts</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">duration</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> &quot;</span>\
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tot_counts</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> --&gt; </span><span class="si">{</span><span class="n">dss</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> &quot;</span>\
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">stacked_counts</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">i</span><span class="o">+=</span><span class="mi">1</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="stacking"><a class="viewcode-back" href="../api/dataset_tools.stacking.html#dataset_tools.stacking">[docs]</a><span class="k">def</span> <span class="nf">stacking</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span> <span class="n">tryflux</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a new dataset collection (Datasets) with (consecutively) stacked</span>
+<span class="sd">    datasets.</span>
+<span class="sd">    When datasets are stacked they are automatically masked, whihc means that</span>
+<span class="sd">    the energy bins outside the valid energy range are hidden and not</span>
+<span class="sd">    considered in the following use of this dataset.</span>
+
+<span class="sd">    Note that the first dataset has to be masked explicitely as the stacked</span>
+<span class="sd">    ones are. Note that by default the model carried by the stacked dataset</span>
+<span class="sd">    in a stacked list is the model of the first dataset.</span>
+<span class="sd">    An option exists in gammapy to supersede the models in each consecutively</span>
+<span class="sd">    stacked dataset but it essentially works only for dataset with the same</span>
+<span class="sd">    `mask_safe` (See documentation for more explanations).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : List of Dataset objects</span>
+<span class="sd">        A collection of original datasets.</span>
+<span class="sd">    tryflux : boolean</span>
+<span class="sd">        If true a mean spectrum is recomputed an assigned to the stacked models.</span>
+<span class="sd">        See documentation for caveat.</span>
+<span class="sd">    debug : boolean</span>
+<span class="sd">        If True, let&#39;s talk a bit. Default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dsets_stacked : Datasets object</span>
+<span class="sd">        A collection of stacked datasets.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#------------------</span>
+    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="n">ds0</span><span class="p">,</span><span class="n">dsstk0</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; * Current dataset : &quot;</span>\
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ds0</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">20</span><span class="si">}</span><span class="s2"> dt= </span><span class="si">{</span><span class="n">t_fmt</span><span class="p">(</span><span class="n">ds0</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="p">)</span><span class="si">:</span><span class="s2">10</span><span class="si">}</span><span class="s2"> &quot;</span>\
+              <span class="sa">f</span><span class="s2">&quot;- Model : </span><span class="si">{</span><span class="n">ds0</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; *         Stacked : </span><span class="si">{</span><span class="n">dsstk0</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">20</span><span class="si">}</span><span class="s2"> &quot;</span>\
+              <span class="sa">f</span><span class="s2">&quot;dt= </span><span class="si">{</span><span class="n">t_fmt</span><span class="p">(</span><span class="n">dsstk0</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="p">)</span><span class="si">:</span><span class="s2">10</span><span class="si">}</span><span class="s2"> &quot;</span>\
+              <span class="sa">f</span><span class="s2">&quot;- Model : </span><span class="si">{</span><span class="n">dsstk0</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;                  -&gt; t1=</span><span class="si">{</span><span class="n">dsstk0</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_start</span><span class="si">:}</span><span class="s2"> &quot;</span>\
+                                   <span class="sa">f</span><span class="s2">&quot;t2=</span><span class="si">{</span><span class="n">dsstk0</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_stop</span><span class="si">}</span><span class="s2"> &quot;</span>\
+                                   <span class="sa">f</span><span class="s2">&quot;dt=</span><span class="si">{</span><span class="n">dsstk0</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_delta</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+    <span class="c1">#------------------</span>
+
+    <span class="c1"># Put first MASKED dataset on stack - masking is mandatory</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">stacked</span> <span class="o">=</span> <span class="n">get_masked_dataset</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;1st unmasked&quot;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">tryflux</span><span class="p">:</span> <span class="c1"># Change model</span>
+        <span class="n">stacked</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">stacked_model</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">stacked</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+    <span class="n">dsets_stacked</span> <span class="o">=</span> <span class="n">Datasets</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;1st unmasked&quot;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="n">info</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="n">ds</span><span class="p">)</span>
+
+    <span class="c1"># Stack following ones</span>
+    <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+
+        <span class="n">stacked</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span> <span class="c1"># Stack applies the mask !</span>
+        <span class="n">dss</span> <span class="o">=</span> <span class="n">stacked</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Stacked_&quot;</span><span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tryflux</span><span class="p">:</span>
+            <span class="n">dss</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">stacked_model</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">dsets_stacked</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+
+        <span class="c1"># Add the dataset to the stack</span>
+        <span class="n">dsets_stacked</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dss</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="n">info</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="n">dss</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Initial dataset collection stacked&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dsets_stacked</span></div>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="get_masked_dataset"><a class="viewcode-back" href="../api/dataset_tools.get_masked_dataset.html#dataset_tools.get_masked_dataset">[docs]</a><span class="k">def</span> <span class="nf">get_masked_dataset</span><span class="p">(</span><span class="n">ds0</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a trick to get a masked dataset from a dataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds0 : Dataset object</span>
+<span class="sd">        The original complete unmasked dataset.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    masked_dataset : Dataset object</span>
+<span class="sd">        The original dataset with masking applied.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># print(&quot;dataset_tools/get_maked_dataset(ds) : masking disabled&quot;)</span>
+    <span class="c1"># return ds0</span>
+    <span class="n">e_true</span> <span class="o">=</span> <span class="n">ds0</span><span class="o">.</span><span class="n">exposure</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="s2">&quot;energy_true&quot;</span><span class="p">]</span>
+    <span class="n">e_reco</span> <span class="o">=</span> <span class="n">ds0</span><span class="o">.</span><span class="n">counts</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">region</span> <span class="o">=</span> <span class="n">ds0</span><span class="o">.</span><span class="n">counts</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">region</span>
+    <span class="n">masked_dataset</span> <span class="o">=</span> <span class="n">SpectrumDataset</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">e_true</span><span class="o">=</span><span class="n">e_true</span><span class="p">,</span> <span class="n">e_reco</span><span class="o">=</span><span class="n">e_reco</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">ds0</span><span class="o">.</span><span class="n">name</span>
+    <span class="p">)</span>
+    <span class="n">masked_dataset</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">ds0</span><span class="o">.</span><span class="n">models</span>
+    <span class="n">masked_dataset</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">ds0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">masked_dataset</span></div>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="compactify"><a class="viewcode-back" href="../api/dataset_tools.compactify.html#dataset_tools.compactify">[docs]</a><span class="k">def</span> <span class="nf">compactify</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span><span class="n">dtmin</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a list of stacked Dataset having a minimal total duration from an</span>
+<span class="sd">    original unstacked Dataset list.</span>
+<span class="sd">    Note that the model stacking is not applied.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : Dataset List</span>
+<span class="sd">        The initial list of Datasets.</span>
+<span class="sd">    dtmin : astropy.time, optional</span>
+<span class="sd">        The stacked Dataset minimal duration. The default is 1*u.h.</span>
+<span class="sd">    debug : Boolean, optional</span>
+<span class="sd">        If True, let&#39;s talk a bit. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ds_compacted : Dataset List</span>
+<span class="sd">        The compacted Dataset list.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">duration</span>     <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+    <span class="n">tmp_stack</span>    <span class="o">=</span> <span class="n">Datasets</span><span class="p">()</span>
+    <span class="n">ds_compacted</span> <span class="o">=</span> <span class="n">Datasets</span><span class="p">()</span>
+
+    <span class="n">iset</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Loop over the `dataset` objetcs</span>
+    <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="p">:</span>
+
+        <span class="n">tmp_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+        <span class="n">duration</span> <span class="o">+=</span> <span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_delta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  &quot;</span><span class="p">,</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="s2">&quot; : &quot;</span><span class="p">,</span><span class="n">ds</span><span class="o">.</span><span class="n">livetime</span><span class="p">,</span><span class="s2">&quot; appended&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If max duration reached, stack</span>
+        <span class="k">if</span> <span class="n">duration</span> <span class="o">&gt;=</span> <span class="n">dtmin</span> <span class="p">:</span>
+
+            <span class="n">dset_stacked</span> <span class="o">=</span> <span class="n">stacking</span><span class="p">(</span><span class="n">tmp_stack</span><span class="p">,</span> <span class="n">tryflux</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Compacted-&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">iset</span><span class="p">)</span>
+            <span class="n">ds_compacted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dset_stacked</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Dt exceeded - stack&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">tmp_stack</span><span class="p">),</span><span class="s2">&quot; datasets&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">tmp_stack</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Duration and stack reset&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">dset_stacked</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">dset_stacked</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="s2">&quot; should be kept as &quot;</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
+
+            <span class="c1"># Reset stack and duration</span>
+            <span class="n">duration</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+            <span class="n">tmp_stack</span> <span class="o">=</span> <span class="n">Datasets</span><span class="p">()</span>
+            <span class="n">iset</span><span class="o">+=</span><span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">ds_compacted</span></div>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="createonoff_from_simulation"><a class="viewcode-back" href="../api/dataset_tools.createonoff_from_simulation.html#dataset_tools.createonoff_from_simulation">[docs]</a><span class="k">def</span> <span class="nf">createonoff_from_simulation</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="s1">&#39;random-seed&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                                <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform the stored SpectrumDataset list in the MonteCarlo class of</span>
+<span class="sd">    SoHAPPy into a list of Datasets of type SpectrumDatasetOnOff.</span>
+<span class="sd">    Note that the On-Off data set is randomised from the initial contents</span>
+<span class="sd">    (&#39;fake&#39; function).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mc : MonteCarlo instantiation</span>
+<span class="sd">        A SoHAPPy MonteCarlo class instantiation</span>
+<span class="sd">    random_state : randome seed</span>
+<span class="sd">        The default is &#39;randome-seed&#39;</span>
+<span class="sd">    debug : boolean, optional</span>
+<span class="sd">        If True, verbosy. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dlist_onoff : Datasets</span>
+<span class="sd">        A list of on-off datasets from the originals.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">mc</span><span class="o">.</span><span class="n">slot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Simulation was not runable - no dataset available&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">slot</span><span class="p">)</span>
+
+    <span class="n">dset_list</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">dset_list</span>
+
+    <span class="c1"># Create on-off datasets fom the original list</span>
+    <span class="c1"># which is a list of list to account for multiple sites</span>
+    <span class="n">dlist_onoff</span> <span class="o">=</span> <span class="n">Datasets</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">ds_site</span> <span class="ow">in</span> <span class="n">dset_list</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">ds_site</span><span class="p">:</span>
+            <span class="c1"># Remove NAN background (corrected in 0.19)</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span> <span class="p">)</span>
+
+            <span class="c1"># It seems that above 0.17, dataset need to be simulated in order</span>
+            <span class="c1"># to go to on-off</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">fake</span><span class="p">(</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span><span class="p">)</span>
+
+            <span class="n">ds_onoff</span> <span class="o">=</span> <span class="n">SpectrumDatasetOnOff</span><span class="o">.</span><span class="n">from_spectrum_dataset</span><span class="p">(</span>
+                                            <span class="n">dataset</span>        <span class="o">=</span> <span class="n">ds</span><span class="p">,</span>
+                                            <span class="n">acceptance</span>     <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                                            <span class="n">acceptance_off</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">alpha</span><span class="p">)</span>
+
+            <span class="n">ds_onoff</span><span class="o">.</span><span class="n">fake</span><span class="p">(</span><span class="n">npred_background</span><span class="o">=</span><span class="n">ds_onoff</span><span class="o">.</span><span class="n">npred_background</span><span class="p">())</span>
+
+            <span class="c1"># if debug:</span>
+            <span class="c1">#     print(ds_onoff)</span>
+
+            <span class="n">dlist_onoff</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds_onoff</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dlist_onoff</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="read_from_ogip"><a class="viewcode-back" href="../api/dataset_tools.read_from_ogip.html#dataset_tools.read_from_ogip">[docs]</a><span class="k">def</span> <span class="nf">read_from_ogip</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    https://heasarc.gsfc.nasa.gov/docs/heasarc/ofwg/docs/spectra/ogip_92_007.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Not implemented yet, bugs to be solved&quot;</span><span class="p">)</span></div>
+
+        <span class="c1">### Work on this :</span>
+        <span class="c1"># # Read the data set - this does not work</span>
+        <span class="c1"># import os</span>
+        <span class="c1"># path = &quot;../SoHAPPy/Event85data/grb&quot;</span>
+
+        <span class="c1"># filedata = Path(path + &quot;_datasets.yaml&quot;)</span>
+        <span class="c1"># print(&quot; Datastes yaml = &quot;,filedata,end=&quot;&quot;)</span>
+        <span class="c1"># if (os.path.isfile(filedata)): print(&quot; exists&quot;)</span>
+        <span class="c1"># else: print(&quot; Not available&quot;)</span>
+
+        <span class="c1"># filemodel = Path(path + &quot;_models.yaml&quot;)</span>
+        <span class="c1"># print(&quot; Model yaml = &quot;,filemodel,end=&quot;&quot;)</span>
+        <span class="c1"># if (os.path.isfile(filemodel)): print(&quot; exists&quot;)</span>
+        <span class="c1"># else: print(&quot; Not available&quot;)</span>
+        <span class="c1"># datasets = Datasets.read(filedata=filedata, filemodel=filemodel)</span>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1">### UTILITIES</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="get_axis"><a class="viewcode-back" href="../api/dataset_tools.get_axis.html#dataset_tools.get_axis">[docs]</a><span class="k">def</span> <span class="nf">get_axis</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span> <span class="n">tunit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">Eunit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the list of observing time and the reconstructed energy axis from</span>
+<span class="sd">    a list od Dataset</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : Dataset List</span>
+<span class="sd">        List of Dataset.</span>
+<span class="sd">    tunit : astropy.unit, optional</span>
+<span class="sd">        The unit to express time. The default is u.s.</span>
+<span class="sd">    Eunit : astropy.unit, optional</span>
+<span class="sd">        The unit ti express energies. The default is u.GeV.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Quantity List</span>
+<span class="sd">        list of oberving times.</span>
+<span class="sd">    Quantity numpy array</span>
+<span class="sd">        Numpy array ot the reconstructed energy axis.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#--- Build t axis</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_delta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">tunit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">dt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+
+    <span class="c1">#--- Get E axis</span>
+    <span class="n">Erec</span> <span class="o">=</span> <span class="n">dsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">center</span>
+    <span class="n">Erec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">Erec</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">Eunit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">dt</span><span class="o">*</span><span class="n">tunit</span><span class="p">,</span> <span class="n">Erec</span><span class="o">*</span><span class="n">Eunit</span></div>
+
+<span class="c1">###---------------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="check_dataset"><a class="viewcode-back" href="../api/dataset_tools.check_dataset.html#dataset_tools.check_dataset">[docs]</a><span class="k">def</span> <span class="nf">check_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="n">e_unit</span><span class="o">=</span><span class="s2">&quot;GeV&quot;</span><span class="p">,</span>
+                  <span class="n">masked</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">deeper</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Printout some content of a dataset for verification purposes</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds : Dataset object</span>
+<span class="sd">        The dataset to be scrutinized.</span>
+<span class="sd">    e_unit: Quantity Unit</span>
+<span class="sd">        Energy unit</span>
+<span class="sd">    tag : String, optional</span>
+<span class="sd">        A descritpion tag. The default is &quot;?&quot;.</span>
+<span class="sd">    masked : Boolean, optional</span>
+<span class="sd">        If True, display the contents of the masked energy bins.</span>
+<span class="sd">        The default is False.</span>
+<span class="sd">    header : Boolean, optional</span>
+<span class="sd">        If False, print the table header that was not printed yet.</span>
+<span class="sd">        The default is True.</span>
+<span class="sd">    deeper : Boolean, optional</span>
+<span class="sd">        If True, ,describe the dataset content bin per bin.</span>
+<span class="sd">        The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    header : Boolean</span>
+<span class="sd">        Retruns True if the header was displayed during the call.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">masked</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="o">*</span><span class="p">[[[</span><span class="kc">True</span><span class="p">]]])</span>
+
+    <span class="k">if</span> <span class="n">show_header</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="mi">90</span><span class="o">*</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; id         name  livetime           on        bck&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;       excs       pred    Model     Flux&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">deeper</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ecenter (&quot;</span><span class="p">,</span><span class="n">e_unit</span><span class="p">,</span><span class="s2">&quot;)         Ebin         &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;                                   Mask &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span><span class="p">)</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="n">show_header</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># Since it was shown already</span>
+
+<span class="c1">#   if ds.counts undefined, set ncounts to np.nan etc.</span>
+    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">counts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># ds.counts != None crahses in Jupyter</span>
+        <span class="n">ncounts</span>     <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">counts</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">ncounts_sum</span> <span class="o">=</span> <span class="n">ncounts</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">nxs</span>         <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">nxs_sum</span>     <span class="o">=</span> <span class="n">nxs</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ncounts</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="o">*</span><span class="p">[[[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]]])</span>
+        <span class="n">ncounts_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">nxs</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="o">*</span><span class="p">[[[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]]])</span>
+        <span class="n">nxs_sum</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="n">nbck</span>        <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">models</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Please, define a Dataset model&quot;</span><span class="p">)</span>
+
+    <span class="n">npred</span>   <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">npred_signal</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="mi">90</span><span class="o">*</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">tag</span><span class="si">:</span><span class="s2">3s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">&gt;8s</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">time_sum</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2"> &quot;</span>\
+          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ncounts_sum</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">nbck</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">nxs_sum</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> &quot;</span>\
+          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">npred</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">6s</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+
+    <span class="c1"># If requested go into the energy bins</span>
+    <span class="k">if</span> <span class="n">deeper</span> <span class="p">:</span>
+        <span class="n">e_center</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">center</span>
+        <span class="n">e_edges</span>  <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">edges</span>
+        <span class="nb">print</span><span class="p">(</span><span class="mi">90</span><span class="o">*</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]):</span>
+
+            <span class="n">energy</span> <span class="o">=</span> <span class="n">e_center</span><span class="p">[</span><span class="n">mask</span><span class="o">.</span><span class="n">flatten</span><span class="p">()][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span> <span class="c1"># Current ecenter</span>
+            <span class="n">emax</span>   <span class="o">=</span> <span class="n">e_edges</span><span class="p">[</span><span class="n">e_edges</span><span class="o">&gt;</span><span class="n">energy</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span>
+            <span class="n">emin</span>   <span class="o">=</span> <span class="n">e_edges</span><span class="p">[</span><span class="n">e_edges</span><span class="o">&lt;</span><span class="n">energy</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">e_unit</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">energy</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">7.1f</span><span class="si">}</span><span class="s2">  &quot;</span>\
+                  <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">emin</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">7.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">emax</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">7.1f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="c1">#            if ds.counts != None:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">ncounts</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">nbck</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> &quot;</span>\
+                  <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nxs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">npred</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2">&quot;</span> \
+                  <span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="c1">#            else:</span>
+<span class="c1">#</span>
+<span class="c1">#                print(&quot; {:&gt;10s} {:10.2f} {:&gt;10s} {:10.2f}&quot;</span>
+<span class="c1">#                      .format(&quot;-&quot;,</span>
+<span class="c1">#                              nbck.flatten()[i],</span>
+<span class="c1">#                              &quot;-&quot;,</span>
+<span class="c1">#                              npred.flatten()[i]),end=&quot;&quot;)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">^6</span><span class="si">}</span><span class="s2">  &quot;</span>\
+                  <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">8.2e</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">show_header</span></div>
+
+<span class="c1">###---------------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="check_datasets"><a class="viewcode-back" href="../api/dataset_tools.check_datasets.html#dataset_tools.check_datasets">[docs]</a><span class="k">def</span> <span class="nf">check_datasets</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span><span class="n">masked</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">deeper</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Printout the content of a dataset collection (Datasets), based on the</span>
+<span class="sd">    check_dataset function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : Datasets object</span>
+<span class="sd">        A collection of datasets to be scrutinized.</span>
+<span class="sd">    masked : Boolean, optional</span>
+<span class="sd">        If True, apply mask to the bins. The default is False.</span>
+<span class="sd">    deeper : Boolean, optional</span>
+<span class="sd">        If True display the content bin per bin. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">ds</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dsets</span><span class="p">):</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="n">check_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                               <span class="n">show_header</span> <span class="o">=</span> <span class="n">header</span><span class="p">,</span>
+                               <span class="n">deeper</span><span class="o">=</span><span class="n">deeper</span><span class="p">,</span>
+                               <span class="n">masked</span><span class="o">=</span><span class="n">masked</span><span class="p">)</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="sigmax"><a class="viewcode-back" href="../api/dataset_tools.sigmax.html#dataset_tools.sigmax">[docs]</a><span class="k">def</span> <span class="nf">sigmax</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">stacked</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the max significance from the cumulated counts in a fluctuated</span>
+<span class="sd">    dataset. Note: the value can change depending on the random</span>
+<span class="sd">    generation (this is not comparable to the mean maximal siginificance from</span>
+<span class="sd">    a full simulation).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsets : list of Dataset objects</span>
+<span class="sd">        Input datasets</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sigmax : float</span>
+<span class="sd">        Significance</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">non</span>    <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">noff</span>   <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sigmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">999</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="p">,</span><span class="n">ds</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dsets</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">stacked</span> <span class="p">:</span> <span class="c1"># Data have already been masked</span>
+            <span class="n">ns</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">nb</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># Data should be masked</span>
+            <span class="n">ns</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">excess</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">nb</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">mask_safe</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="c1"># ns   = ds.npred_signal().data.sum() # don&#39;t use this for merged ds !!!!</span>
+        <span class="c1"># if stacked: # mask applied, and existing mask if for 1st element</span>
+        <span class="c1">#     nb   = ds.npred_background().data.sum()</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     nb   = ds.npred_background().data[ds.mask_safe].sum()</span>
+        <span class="n">on</span>  <span class="o">=</span> <span class="n">ns</span><span class="o">+</span><span class="n">nb</span>
+        <span class="n">off</span> <span class="o">=</span> <span class="n">nb</span><span class="o">/</span><span class="n">alpha</span>
+        <span class="n">non</span>  <span class="o">+=</span> <span class="n">on</span>
+        <span class="n">noff</span> <span class="o">+=</span> <span class="n">off</span>
+        <span class="n">wstat</span> <span class="o">=</span> <span class="n">WStatCountsStatistic</span><span class="p">(</span><span class="n">n_on</span><span class="o">=</span> <span class="n">non</span><span class="p">,</span> <span class="n">n_off</span><span class="o">=</span> <span class="n">noff</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span> <span class="n">alpha</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">wstat</span><span class="o">.</span><span class="n">sqrt_ts</span> <span class="o">&gt;</span> <span class="n">sigmax</span><span class="p">:</span>
+            <span class="n">sigmax</span> <span class="o">=</span> <span class="n">wstat</span><span class="o">.</span><span class="n">sqrt_ts</span>
+
+    <span class="k">return</span> <span class="n">sigmax</span></div>
+
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="c1"># Test the main function</span>
+
+    <span class="n">debug</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Data folder - get configuration</span>
+    <span class="n">folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;D:/CTA/SoHAPPy/output/long_1_1000/test_omega/strictmoonveto\strictmoonveto_343&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get configuration file</span>
+    <span class="n">cf</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">()</span>
+    <span class="n">cf</span><span class="o">.</span><span class="n">read_from_yaml</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span><span class="s2">&quot;config_ref.yaml&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="n">cf</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="s2">&quot;Event343-South_sim.bin&quot;</span> <span class="c1"># 4 slices</span>
+
+    <span class="c1"># Open archived data</span>
+    <span class="n">infile</span>  <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span><span class="n">file</span><span class="p">),</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+    <span class="n">mc</span>      <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+    <span class="n">infile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># Create a ON-Off list of datasets from the stored simulation</span>
+    <span class="n">dlist_onoff</span> <span class="o">=</span> <span class="n">createonoff_from_simulation</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">cf</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

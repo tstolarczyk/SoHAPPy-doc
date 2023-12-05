@@ -1,0 +1,6 @@
+sigmax_after_delay
+==================
+
+.. currentmodule:: analysis.population.times
+
+.. autofunction:: sigmax_after_delay

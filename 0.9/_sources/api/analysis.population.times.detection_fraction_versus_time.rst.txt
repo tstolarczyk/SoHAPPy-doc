@@ -1,0 +1,6 @@
+detection_fraction_versus_time
+==============================
+
+.. currentmodule:: analysis.population.times
+
+.. autofunction:: detection_fraction_versus_time

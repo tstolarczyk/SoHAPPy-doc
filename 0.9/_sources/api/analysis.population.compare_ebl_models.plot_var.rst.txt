@@ -1,0 +1,6 @@
+plot_var
+========
+
+.. currentmodule:: analysis.population.compare_ebl_models
+
+.. autofunction:: plot_var

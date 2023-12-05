@@ -1,0 +1,45 @@
+IRF
+===
+
+.. currentmodule:: irf
+
+.. autoclass:: IRF
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~IRF.dt_list
+      ~IRF.dt_log_valid
+      ~IRF.dtl
+      ~IRF.egen_min
+      ~IRF.etrue_max
+      ~IRF.nbin_per_decade
+      ~IRF.zenith_list
+      ~IRF.zenith_valid
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~IRF.find_best_keys
+      ~IRF.from_observation
+      ~IRF.print
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: dt_list
+   .. autoattribute:: dt_log_valid
+   .. autoattribute:: dtl
+   .. autoattribute:: egen_min
+   .. autoattribute:: etrue_max
+   .. autoattribute:: nbin_per_decade
+   .. autoattribute:: zenith_list
+   .. autoattribute:: zenith_valid
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: find_best_keys
+   .. automethod:: from_observation
+   .. automethod:: print

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Population analysis &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pop" href="api/analysis.population.population.Pop.html" />
+    <link rel="prev" title="sigmax" href="api/dataset_tools.sigmax.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Population analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.population">analysis.population.population Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.rate">analysis.population.rate Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.pop_plot">analysis.population.pop_plot Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.sigmas">analysis.population.sigmas Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.times">analysis.population.times Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.skymaps">analysis.population.skymaps Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.universe">analysis.population.universe Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.compare_sets">analysis.population.compare_sets Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.compare_ebl_models">analysis.population.compare_ebl_models Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.explore_simulation">analysis.population.explore_simulation Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-analysis.population.setup">analysis.population.setup Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Population analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/population_analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="population-analysis">
+<h1>Population analysis<a class="headerlink" href="#population-analysis" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>The population is analysed from the devoted <cite>SoHAPPy</cite> output files
+(named <cite>data.txt</cite> by default).</p>
+<p>The available tools consist in python script files with the most common
+analysis algorithms and plot facilities. The user is intended to indicate
+in the file <cite>parameter.yaml</cite> the <cite>SoHAPPy</cite> subfolder where the data can be
+found as well as the duration in years associated to the simulation. This
+duration is used to  normalize the detection rates.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">duration</span><span class="p">:</span>
+    <span class="o">-</span> <span class="mi">44</span>
+<span class="n">outfolders</span><span class="p">:</span>
+    <span class="o">-</span> <span class="s2">&quot;long/alpha_prod5/pop_vis24_strictmoonveto-100iter&quot;</span>
+<span class="n">tags</span><span class="p">:</span>
+    <span class="o">-</span> <span class="s2">&quot;Example&quot;</span>
+</pre></div>
+</div>
+<p>The subfolder can contain a data file, or a <cite>tar.gz</cite> archive containing it. The
+subfolder can also contain folders resulting from the batch processing of a
+series of subpopulation as described in <cite>&lt;production.rst&gt;_</cite>. In that case the
+data will be found in all folders and merged. This does mean that they have
+to come from the same unique population simulation.</p>
+<p>The initial data file are readable text files. They are converted into a <cite>.csv</cite>
+file opened with <cite>pandas</cite>.</p>
+<p>The input and output process is handled by the functions in <code class="docutils literal notranslate"><span class="pre">pop_io.py</span></code>
+(see documentation below).</p>
+<p>The following scripts are available for the analysis:</p>
+<section id="module-analysis.population.population">
+<span id="analysis-population-population-module"></span><h3>analysis.population.population Module<a class="headerlink" href="#module-analysis.population.population" title="Permalink to this heading"></a></h3>
+<p>Created on Wed Nov  9 17:40:49 2022</p>
+<p>Contains the definition of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Population</span></code>. The constructor function
+opens the input files and store the read data in various
+<cite>pandas</cite> table that are reused later. The main function reads the data,
+perform a sanity check comparing the results to the requirement in the
+original configuration file, check for negative significances, the fraction
+of GRB for which the prompt component can be detected etc.</p>
+<p>&#64;author: Stolar</p>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.population.Pop.html#analysis.population.population.Pop" title="analysis.population.population.Pop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pop</span></code></a>(files[, tag, nyrs, nmaxsrc, debug])</p></td>
+<td><p>This class handles population data from csv files on disk.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.population.rate">
+<span id="analysis-population-rate-module"></span><h3>analysis.population.rate Module<a class="headerlink" href="#module-analysis.population.rate" title="Permalink to this heading"></a></h3>
+<p>Created on Tue Nov 15 12:26:59 2022</p>
+<p>Compute detection rates for various site-related population normalised to
+the data taking duration to get mean yearly rates above 3 and 5 standard
+deviations of detection significance.</p>
+<p>&#64;author: Stolar</p>
+<section id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.rate.compute.html#analysis.population.rate.compute" title="analysis.population.rate.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>(pop[, summary])</p></td>
+<td><p>Compute and display the detection rates of the various subpopulations</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.rate.separator.html#analysis.population.rate.separator" title="analysis.population.rate.separator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">separator</span></code></a>()</p></td>
+<td><p>Just a separator line</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.rate.stat_mean.html#analysis.population.rate.stat_mean" title="analysis.population.rate.stat_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stat_mean</span></code></a>(pop[, tag, nyrs])</p></td>
+<td><p>Print mean detection above a given significance for a list of subpopulations</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.rate.prt_mean.html#analysis.population.rate.prt_mean" title="analysis.population.rate.prt_mean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prt_mean</span></code></a>(pop[, nyrs, sig, tag])</p></td>
+<td><p>Mean detection above a certain significance</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.rate.stat_line.html#analysis.population.rate.stat_line" title="analysis.population.rate.stat_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stat_line</span></code></a>(pop[, tag, nyrs])</p></td>
+<td><p>Print statistics in various conditions</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.population.pop_plot">
+<span id="analysis-population-pop-plot-module"></span><h3>analysis.population.pop_plot Module<a class="headerlink" href="#module-analysis.population.pop_plot" title="Permalink to this heading"></a></h3>
+<p>Created on Tue Jul 27 11:58:24 2021</p>
+<p>Show distributions and population coverage as functions of <cite>Eiso</cite>, <cite>Epeak</cite>
+and the redshift <cite>z</cite>.</p>
+<p>&#64;author: Stolar</p>
+<section id="id1">
+<h4>Functions<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.pop_plot.distri.html#analysis.population.pop_plot.distri" title="analysis.population.pop_plot.distri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distri</span></code></a>(pop, grbs[, var, varmin, varmax, ...])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.pop_plot.coverage.html#analysis.population.pop_plot.coverage" title="analysis.population.pop_plot.coverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">coverage</span></code></a>(varx, vary[, ref, pop, mask, ...])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.population.sigmas">
+<span id="analysis-population-sigmas-module"></span><h3>analysis.population.sigmas Module<a class="headerlink" href="#module-analysis.population.sigmas" title="Permalink to this heading"></a></h3>
+<p>Created on Wed Nov 23 17:43:24 2022</p>
+<p>Detection rates as a function of the mean maximal significance thresholds,
+evolution of rates with this threshold, distribution of mean maximal significances.</p>
+<p>&#64;author: Stolar</p>
+<section id="id2">
+<h4>Functions<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.sigmas.detection_level.html#analysis.population.sigmas.detection_level" title="analysis.population.sigmas.detection_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detection_level</span></code></a>(pop, glist[, bins])</p></td>
+<td><p>Display the detection level for a list of subpopulation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.sigmas.plot_sigmax_all.html#analysis.population.sigmas.plot_sigmax_all" title="analysis.population.sigmas.plot_sigmax_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sigmax_all</span></code></a>(pop[, nbin, logx])</p></td>
+<td><p>Plot the mean maximal significance distributions for North and North only, South and South only, and GRBs detected on both site.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.sigmas.plot_sigmax.html#analysis.population.sigmas.plot_sigmax" title="analysis.population.sigmas.plot_sigmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sigmax</span></code></a>(g[, ax, logx, bins, tag, ...])</p></td>
+<td><p>Plot mean maximal significance for a given population</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.sigmas.high_sigma.html#analysis.population.sigmas.high_sigma" title="analysis.population.sigmas.high_sigma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">high_sigma</span></code></a>(gpop[, ax, inset, sigmin, ...])</p></td>
+<td><p>Display the high values of the mena maximal significance and tag the highest value with the event number.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.sigmas.plot_high_sigma_all.html#analysis.population.sigmas.plot_high_sigma_all" title="analysis.population.sigmas.plot_high_sigma_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_high_sigma_all</span></code></a>(pop[, nbin, sigmin, inset])</p></td>
+<td><p>Plot the high value tail of the mean maximal sigificance values and tag the data with the even number</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.sigmas.sigmax_above_threshold.html#analysis.population.sigmas.sigmax_above_threshold" title="analysis.population.sigmas.sigmax_above_threshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sigmax_above_threshold</span></code></a>(pop[, sigmin])</p></td>
+<td><p>Print event number with mean maximal significance above a given threshold.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.sigmas.rate_above_threshold.html#analysis.population.sigmas.rate_above_threshold" title="analysis.population.sigmas.rate_above_threshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rate_above_threshold</span></code></a>(pop[, duration])</p></td>
+<td><p>Print detection rates for various mean maximal significance thresholds.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.sigmas.plot_sigmax_cumulative.html#analysis.population.sigmas.plot_sigmax_cumulative" title="analysis.population.sigmas.plot_sigmax_cumulative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_sigmax_cumulative</span></code></a>(pop[, bins])</p></td>
+<td><p>Show the detection rates as a function of the mean maximal significance threshold.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.population.times">
+<span id="analysis-population-times-module"></span><h3>analysis.population.times Module<a class="headerlink" href="#module-analysis.population.times" title="Permalink to this heading"></a></h3>
+<p>Created on Wed Nov 30 17:11:21 2022</p>
+<p>Characterizes the time needed to get a detection or the mean maximal
+significance. Plots in particular for…</p>
+<p>&#64;author: Stolar</p>
+<section id="id3">
+<h4>Functions<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.times.sigmax_after_delay.html#analysis.population.times.sigmax_after_delay" title="analysis.population.times.sigmax_after_delay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sigmax_after_delay</span></code></a>(pop[, sigmx_min, tmin])</p></td>
+<td><p>Find and display mean maximal significnaces, above a threshold, reached after a certain time following the explosion, and the fraction of time this threshold is reached.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.times.time_to_5sigma_fullrange.html#analysis.population.times.time_to_5sigma_fullrange" title="analysis.population.times.time_to_5sigma_fullrange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_to_5sigma_fullrange</span></code></a>(pop[, nbin])</p></td>
+<td><p>Display mean times to get 5 sigma siginificance in North and South.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.times.time_to_detection.html#analysis.population.times.time_to_detection" title="analysis.population.times.time_to_detection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_to_detection</span></code></a>(sub_pop[, binw, yscale, title])</p></td>
+<td><p>Display the distribution of the 5 sigma and the mean maximal significance detection times.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.times.detection_fraction_versus_time.html#analysis.population.times.detection_fraction_versus_time" title="analysis.population.times.detection_fraction_versus_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detection_fraction_versus_time</span></code></a>(pop, sub_pop)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.times.plot_t_sigma.html#analysis.population.times.plot_t_sigma" title="analysis.population.times.plot_t_sigma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_t_sigma</span></code></a>(pop, sub_pop[, title])</p></td>
+<td><p>Display mean maximal significance as the fucntion of the mean time to reach the maximal significance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.times.sig_vs_time_errors.html#analysis.population.times.sig_vs_time_errors" title="analysis.population.times.sig_vs_time_errors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sig_vs_time_errors</span></code></a>(pop, mask[, ax, xscale, ...])</p></td>
+<td><p>Display the mean maximal significnace versus the mean time to have it reached, with error bars</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.times.delay_correlation_both_sites.html#analysis.population.times.delay_correlation_both_sites" title="analysis.population.times.delay_correlation_both_sites"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delay_correlation_both_sites</span></code></a>(pop[, sigmin])</p></td>
+<td><p>Find N and S detection for all both detected GRB Get name of GRB detected on both sites and retrieve the independent N and S detections</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.population.skymaps">
+<span id="analysis-population-skymaps-module"></span><h3>analysis.population.skymaps Module<a class="headerlink" href="#module-analysis.population.skymaps" title="Permalink to this heading"></a></h3>
+<p>Created on Wed Jan  4 16:04:07 2023</p>
+<p>Show skymap coverage in ra-dec and in altitude-azimuth</p>
+<p>&#64;author: Stolar</p>
+<section id="id4">
+<h4>Functions<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.skymaps.radec.html#analysis.population.skymaps.radec" title="analysis.population.skymaps.radec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">radec</span></code></a>(ginit, gpop[, ax, title, label])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.skymaps.detection_alt_az.html#analysis.population.skymaps.detection_alt_az" title="analysis.population.skymaps.detection_alt_az"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detection_alt_az</span></code></a>(sub_pop[, tag, ax, start, ...])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.population.universe">
+<span id="analysis-population-universe-module"></span><h3>analysis.population.universe Module<a class="headerlink" href="#module-analysis.population.universe" title="Permalink to this heading"></a></h3>
+<p>Created on Wed Jan  4 17:22:01 2023</p>
+<p>Show universe coverage.</p>
+<p>&#64;author: Stolar</p>
+<section id="id5">
+<h4>Functions<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.universe.universe_coverage.html#analysis.population.universe.universe_coverage" title="analysis.population.universe.universe_coverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">universe_coverage</span></code></a>(sub_pop)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.population.compare_sets">
+<span id="analysis-population-compare-sets-module"></span><h3>analysis.population.compare_sets Module<a class="headerlink" href="#module-analysis.population.compare_sets" title="Permalink to this heading"></a></h3>
+<p>Compare two (or several sets)
+Created on Tue Jan 10 14:04:54 2023</p>
+<p>&#64;author: Stolar</p>
+<section id="id6">
+<h4>Functions<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.compare_sets.find_5sigma_diff.html#analysis.population.compare_sets.find_5sigma_diff" title="analysis.population.compare_sets.find_5sigma_diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_5sigma_diff</span></code></a>(pop1, pop2)</p></td>
+<td><p>Find and display sources being detected at 5 sigma in one simulation/analysis, not the other.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.compare_sets.check_visibilities.html#analysis.population.compare_sets.check_visibilities" title="analysis.population.compare_sets.check_visibilities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_visibilities</span></code></a>(pop1, pop2)</p></td>
+<td><p>Check sources visible in one population and not in the other.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.compare_sets.var_plot.html#analysis.population.compare_sets.var_plot" title="analysis.population.compare_sets.var_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var_plot</span></code></a>(var1, var2[, tag, varmin, varmax, ...])</p></td>
+<td><p>Show distributions of a given variable of two different populations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.compare_sets.var_scatter_all.html#analysis.population.compare_sets.var_scatter_all" title="analysis.population.compare_sets.var_scatter_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var_scatter_all</span></code></a>(var, pop1, pop2)</p></td>
+<td><p>For this study, the two sets should have the same size.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.compare_sets.var_scatter.html#analysis.population.compare_sets.var_scatter" title="analysis.population.compare_sets.var_scatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var_scatter</span></code></a>(var1, var2[, tag, title, ...])</p></td>
+<td><p>The two variabale sets should have the same size</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.population.compare_ebl_models">
+<span id="analysis-population-compare-ebl-models-module"></span><h3>analysis.population.compare_ebl_models Module<a class="headerlink" href="#module-analysis.population.compare_ebl_models" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>Created on Thu Sep 28 16:12:11 2023</dt><dd><p>Compare analysed data obtained from with the EBLmodel available in <cite>SoHAPPy</cite>.</p>
+</dd>
+</dl>
+<p>&#64;author: Stolar</p>
+<section id="id7">
+<h4>Functions<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.compare_ebl_models.plot_var.html#analysis.population.compare_ebl_models.plot_var" title="analysis.population.compare_ebl_models.plot_var"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_var</span></code></a>(var, poplist, taglist[, logx, bins])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.population.explore_simulation">
+<span id="analysis-population-explore-simulation-module"></span><h3>analysis.population.explore_simulation Module<a class="headerlink" href="#module-analysis.population.explore_simulation" title="Permalink to this heading"></a></h3>
+<p>Explore population from output files.</p>
+<p>The output population files contain by default all the GRB information
+available in the original fits file.</p>
+<p>Created on Mon Jan  9 14:08:58 2023</p>
+<p>&#64;author: Stolar</p>
+<section id="id8">
+<h4>Functions<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.explore_simulation.galactic_coverage.html#analysis.population.explore_simulation.galactic_coverage" title="analysis.population.explore_simulation.galactic_coverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">galactic_coverage</span></code></a>(grb[, latmax])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.explore_simulation.var_coverage.html#analysis.population.explore_simulation.var_coverage" title="analysis.population.explore_simulation.var_coverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">var_coverage</span></code></a>(var, grb[, logz])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.population.setup">
+<span id="analysis-population-setup-module"></span><h3>analysis.population.setup Module<a class="headerlink" href="#module-analysis.population.setup" title="Permalink to this heading"></a></h3>
+<p>Color definitions</p>
+<section id="variables">
+<h4>Variables<a class="headerlink" href="#variables" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.setup.codefolder.html#analysis.population.setup.codefolder" title="analysis.population.setup.codefolder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">codefolder</span></code></a></p></td>
+<td><p>str(object='') -&gt; str str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.setup.col_3.html#analysis.population.setup.col_3" title="analysis.population.setup.col_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_3</span></code></a></p></td>
+<td><p>str(object='') -&gt; str str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.setup.col_5.html#analysis.population.setup.col_5" title="analysis.population.setup.col_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_5</span></code></a></p></td>
+<td><p>str(object='') -&gt; str str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.setup.col_b.html#analysis.population.setup.col_b" title="analysis.population.setup.col_b"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_b</span></code></a></p></td>
+<td><p>str(object='') -&gt; str str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.population.setup.col_n.html#analysis.population.setup.col_n" title="analysis.population.setup.col_n"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_n</span></code></a></p></td>
+<td><p>str(object='') -&gt; str str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.population.setup.col_s.html#analysis.population.setup.col_s" title="analysis.population.setup.col_s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_s</span></code></a></p></td>
+<td><p>str(object='') -&gt; str str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/dataset_tools.sigmax.html" class="btn btn-neutral float-left" title="sigmax" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/analysis.population.population.Pop.html" class="btn btn-neutral float-right" title="Pop" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

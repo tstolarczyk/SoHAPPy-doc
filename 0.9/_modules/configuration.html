@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>configuration &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">configuration</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for configuration</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Tue Aug  4 13:17:27 2020</span>
+
+<span class="sd">This module is organised around the :class:`Configuration` class.</span>
+
+<span class="sd">@author: Stolar</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">from</span> <span class="nn">yaml.loader</span> <span class="kn">import</span> <span class="n">SafeLoader</span>
+
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">warning</span><span class="p">,</span> <span class="n">failure</span><span class="p">,</span> <span class="n">Log</span>
+<span class="kn">from</span> <span class="nn">visibility</span> <span class="kn">import</span> <span class="n">Visibility</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Configuration&#39;</span><span class="p">]</span>
+
+<span class="c1">###############################################################################</span>
+<div class="viewcode-block" id="Configuration"><a class="viewcode-back" href="../api/configuration.Configuration.html#configuration.Configuration">[docs]</a><span class="k">class</span> <span class="nc">Configuration</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class handles all the external parameters required to run a simulation</span>
+<span class="sd">    and the corresponding analysis. It also handles the tools to build the</span>
+<span class="sd">    input and output folder names, and create the necessary output folders</span>
+<span class="sd">    if they do not exist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ignore</span>    <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">,</span><span class="s2">&quot;dtslew&quot;</span><span class="p">,</span> <span class="s2">&quot;arrays&quot;</span><span class="p">,</span> <span class="s2">&quot;dbg&quot;</span><span class="p">,</span> <span class="s2">&quot;srclist&quot;</span><span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot;Keyword to be ignored when dumping the Configuration class instance to</span>
+<span class="sd">    a file on disk&quot;&quot;&quot;</span>
+
+    <span class="n">quantities</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;dtslew_south&quot;</span><span class="p">,</span><span class="s2">&quot;dtslew_north&quot;</span><span class="p">,</span><span class="s2">&quot;dtswift&quot;</span><span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot; Member of the class that should be handled as quantities and not strings&quot;&quot;&quot;</span>
+
+    <span class="n">def_conf</span>   <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span><span class="s2">&quot;config_ref.yaml&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;Default configuration file name&quot;&quot;&quot;</span>
+
+    <span class="c1">###-----------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameter definitions and default values</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### PHYSICS PARAMETERS</span>
+        <span class="c1">### -----------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span>  <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># id to start with, or a list (then nsrc is not used)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span>    <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># integer, number of sources to be read</span>
+
+        <span class="c1"># visibility can be :</span>
+        <span class="c1"># - &quot;built-in&quot; (read from the data file if it exists);</span>
+        <span class="c1"># - a subfolder where to find the pre-computed visibility files;</span>
+        <span class="c1"># - a json file with a colection of visibilities;</span>
+        <span class="c1"># - a keyword corresponding to a dictionnay in visibility.yaml</span>
+        <span class="c1">#   to compute the visivility on the fly.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visibility</span> <span class="o">=</span> <span class="s2">&quot;strictmoonveto&quot;</span>
+
+        <span class="c1"># Possible EBL models are from gammapy or Gilmore data on disk.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ebl_model</span>   <span class="o">=</span> <span class="s2">&quot;dominguez&quot;</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### INPUT/OUPUT</span>
+        <span class="c1">### -----------------</span>
+        <span class="c1"># self.infolder   = Path(&quot;../input&quot;)  # Base input folder</span>
+        <span class="c1"># self.resfolder  = Path(&quot;../output&quot;) # Base output main folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span>   <span class="o">=</span> <span class="s2">&quot;lightcurves/LONG_FITS/&quot;</span> <span class="c1">#Afterglow subfolder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_dir</span>    <span class="o">=</span> <span class="s2">&quot;test&quot;</span> <span class="c1"># Result subfolder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prompt_dir</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Prompt subfolder (if None, not considered)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">irf_dir</span>    <span class="o">=</span> <span class="s2">&quot;irf/Full/prod3-v2&quot;</span> <span class="c1"># IRF subfolder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span>   <span class="o">=</span> <span class="s2">&quot;data.txt&quot;</span>   <span class="c1"># Population main output file name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span>     <span class="o">=</span> <span class="s2">&quot;Event&quot;</span> <span class="c1"># Prefix file name, followed by a number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span>     <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="c1"># Suffix file name, following a number</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### SIMULATION PARAMETERS</span>
+        <span class="c1">### -----------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">niter</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Number of Monte Carlo trials</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span>  <span class="o">=</span> <span class="mi">2021</span>  <span class="c1"># Choose ‘random-seed’ to randomize</span>
+
+        <span class="c1"># If True Statistical fluctuations are enabled,</span>
+        <span class="c1"># If False niter forced to one</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">do_fluctuate</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># When True, the simulation is stopped if none of the first</span>
+        <span class="c1"># trials in the limit of 1 - det_level have reached the minimal</span>
+        <span class="c1"># significance (3 sigma).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">do_accelerate</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Observation position in the time slice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obs_point</span> <span class="o">=</span> <span class="s2">&quot;end&quot;</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### DETECTION PARAMETERS</span>
+        <span class="c1">### -----------------</span>
+
+        <span class="c1"># Fraction of trials above significance threshold to declare a</span>
+        <span class="c1"># detection at that threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">det_level</span> <span class="o">=</span> <span class="mf">0.9</span>
+
+        <span class="c1"># Number of on over off regions for detection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">array_north</span>  <span class="o">=</span> <span class="s2">&quot;FullArray&quot;</span>  <span class="c1"># IRF subarrays in North</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">array_south</span>  <span class="o">=</span> <span class="s2">&quot;FullArray&quot;</span>  <span class="c1"># IRF subarrays in South</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtslew_north</span> <span class="o">=</span> <span class="mi">30</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="c1"># Maximum slewing time delay in North</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtslew_south</span> <span class="o">=</span> <span class="mi">30</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="c1"># Maximum slewing time delay in South</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtslew</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtslew_north</span><span class="p">,</span>
+                       <span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtslew_south</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arrays</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">array_north</span><span class="p">,</span>
+                       <span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">array_south</span><span class="p">}</span>
+
+        <span class="c1"># If True use max. slewing value, otherwise a random delay &lt; dtslew</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixslew</span>  <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Alert latency (e.g. SWIFT latency, with amean value of 77 s)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtswift</span>  <span class="o">=</span> <span class="mi">77</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+
+        <span class="c1"># If True, use above value. If False, latency generated from Swift data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixswift</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># SWIFT Latency distribution data file in input base folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">swiftfile</span> <span class="o">=</span> <span class="s2">&quot;data/swift/Swift_delay_times.txt&quot;</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### DEBUGGING / BOOKKEEPING</span>
+        <span class="c1">### -----------------</span>
+
+        <span class="c1"># From 0 to 3, increasingly talkative</span>
+        <span class="c1"># if negative or zero : no plot (show=0)</span>
+        <span class="c1"># 0: evt counting, 1: + some results, 2: + event details</span>
+        <span class="c1"># 3: details for each trials</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dbg</span>        <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show</span>       <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logfile</span>    <span class="o">=</span> <span class="s2">&quot;analysis.log&quot;</span> <span class="c1"># log file</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_simu</span>  <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># If True, Simulation saved to file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_grb</span>   <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># If True, GRB class saved to disk</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_vis</span>   <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># If True, svae computed visibility</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_fig</span>   <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># If True, plots saved to pdf file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_tar</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># If True, remove tarred output files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">silent</span>     <span class="o">=</span> <span class="kc">True</span>   <span class="c1"># If True, nothing on screen (output to log (if dbg =0))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmd_line</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>     <span class="c1"># Command line arguments</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### EXPERTS/DEVELOPPERS ONLY</span>
+        <span class="c1">### -----------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_prompt</span>   <span class="o">=</span> <span class="kc">False</span> <span class="c1"># If True test prompt alone (experimental)</span>
+
+        <span class="c1"># Prompt characteristics from the afterglow with same id.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_afterglow</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Shitf in time - Useful for tests</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tshift</span>        <span class="o">=</span> <span class="mf">0.</span>    <span class="c1"># float (days)</span>
+
+        <span class="c1"># Force fixed zenith</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixed_zenith</span>  <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># If a value (&quot;20 deg&quot;), freezes zenith</span>
+
+        <span class="c1"># Multiplicative factor of the input flux</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">magnify</span>       <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># Store detailed information on slices if True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_slices</span>  <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxnight</span>      <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Limit data to a maximal number of nights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip</span>          <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Number of first nights to be skipped</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emax</span>          <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Limit data energy bins to Emax</span>
+
+        <span class="c1"># Bulld the source list to be processed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">srclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_ids</span><span class="p">()</span>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Configuration.command_line"><a class="viewcode-back" href="../api/configuration.Configuration.html#configuration.Configuration.command_line">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">command_line</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an instance from the command line parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        debug : Boolean, optional</span>
+<span class="sd">            If True, talk a bit. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Configuration object</span>
+<span class="sd">            Current instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">inst</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span> <span class="c1"># Initialize default</span>
+
+        <span class="c1"># Define command line arguments - default values will come from</span>
+        <span class="c1"># the configuration file and are not known at this stage</span>
+        <span class="c1"># When using getopt, it was possible to treat the reading of</span>
+        <span class="c1"># the configuraion file separately.</span>
+        <span class="c1"># As a consequence, the default values from the __init__ constructor</span>
+        <span class="c1"># are not used here.</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;SoHAPPy&quot;</span><span class="p">,</span> <span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;---&quot;</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;--first&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;First source id&quot;</span><span class="p">,</span>
+                            <span class="nb">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">,</span>
+                            <span class="n">default</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-N&#39;</span><span class="p">,</span> <span class="s1">&#39;--nsrc&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Number of source files&quot;</span><span class="p">,</span>
+                            <span class="nb">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="s1">&#39;--niter&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Number of Monte Carlo iteration&quot;</span><span class="p">,</span>
+                            <span class="nb">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;--config&#39;</span><span class="p">,</span>
+                            <span class="n">default</span> <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">def_conf</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Configuration file name&quot;</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="s1">&#39;--maxnight&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Maximal number of nights&quot;</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;--skip&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Number of nights to skip&quot;</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-V&#39;</span><span class="p">,</span> <span class="s1">&#39;--visibility&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Visibility keyword&quot;</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-d&#39;</span><span class="p">,</span> <span class="s1">&#39;--debug&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Debugging level&quot;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="nb">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">save</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">save_simu</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--save&#39;</span><span class="p">,</span>
+                            <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;save&#39;</span><span class="p">,</span>
+                            <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+                            <span class="n">help</span><span class="o">=</span> <span class="s2">&quot;Save simulation&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--nosave&#39;</span><span class="p">,</span>
+                            <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;save&#39;</span><span class="p">,</span>
+                            <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_false&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;Do not save simulation&quot;</span><span class="p">)</span>
+
+        <span class="n">args</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_known_args</span><span class="p">()</span>
+
+        <span class="c1"># Find a configuration file, load the data</span>
+        <span class="c1"># This replaces the constructor defaults</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">find_and_read</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+
+        <span class="c1"># Supersede parameters if given</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">first</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">ifirst</span>     <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">first</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">nsrc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">nsrc</span>       <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">nsrc</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">niter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">niter</span>      <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">niter</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">maxnight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">maxnight</span>   <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">input</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">skip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">skip</span>       <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">input</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">visibility</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">visibility</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">visibility</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">debug</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">dbg</span>        <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">debug</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">save</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">save_simu</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">save</span>
+
+        <span class="c1"># If prompt_dir is not None, change to Path</span>
+        <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">prompt_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">prompt_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">prompt_dir</span><span class="p">)</span>
+
+        <span class="c1"># Show plots or not</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">show</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">dbg</span>  <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">abs</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">dbg</span><span class="p">)</span>
+
+        <span class="c1"># If debugging is requested, cannot be silent</span>
+        <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">dbg</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">silent</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+        <span class="c1"># If the simulation is saved, it is not fluctuated</span>
+        <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">save_simu</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">do_fluctuate</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># If no fluctuation, one simulation is enough !</span>
+        <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">do_fluctuate</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">niter</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># Bulld the source list to be processed</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">srclist</span> <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">source_ids</span><span class="p">()</span>
+
+        <span class="c1"># Redefine array and dtslew variaables</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">dtslew</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="n">inst</span><span class="o">.</span><span class="n">dtslew_north</span><span class="p">,</span>
+                       <span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="n">inst</span><span class="o">.</span><span class="n">dtslew_south</span><span class="p">}</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">arrays</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span> <span class="n">inst</span><span class="o">.</span><span class="n">array_north</span><span class="p">,</span>
+                       <span class="s2">&quot;South&quot;</span><span class="p">:</span> <span class="n">inst</span><span class="o">.</span><span class="n">array_south</span><span class="p">}</span>
+
+        <span class="c1"># Check contradictions in visibility request</span>
+        <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">visibility</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;permanent&quot;</span><span class="p">,</span> <span class="s2">&quot;forced&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">inst</span><span class="o">.</span><span class="n">maxnight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">failure</span><span class="p">(</span><span class="s2">&quot; Number of nights cannot be limited if &#39;permanent&#39; or &#39;forced&#39;&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot; Please correct inconsistency in configuration input&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Generate command line</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">cmd_line</span> <span class="o">=</span> <span class="s2">&quot;python SoHAPPy.py &quot;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="c1"># if k in [&quot;debug&quot;]:</span>
+            <span class="c1">#     inst.cmd_line += &quot;--no&quot;+k+&quot; &quot;  if v is False else &quot;--&quot;+k+&quot; &quot;</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]:</span>
+                <span class="n">inst</span><span class="o">.</span><span class="n">cmd_line</span> <span class="o">+=</span> <span class="s1">&#39;--&#39;</span><span class="o">+</span><span class="n">k</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">inst</span><span class="o">.</span><span class="n">cmd_line</span> <span class="o">+=</span> <span class="s2">&quot;--&quot;</span><span class="o">+</span><span class="n">k</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+
+        <span class="k">return</span> <span class="n">inst</span></div>
+
+    <span class="c1">###-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Configuration.find_and_read"><a class="viewcode-back" href="../api/configuration.Configuration.html#configuration.Configuration.find_and_read">[docs]</a>    <span class="k">def</span> <span class="nf">find_and_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testname</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check existence of the given file name, and read data if it exists.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        testname : None, String or Path</span>
+<span class="sd">            A tentative configuration file name.</span>
+<span class="sd">        debug : boolean, optional</span>
+<span class="sd">            If True, talk a bit. The default is True.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Assume not given</span>
+
+        <span class="k">if</span> <span class="n">testname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># No argument was given on the command line</span>
+            <span class="n">basefolder</span>   <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>  <span class="c1"># Where the code is</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">basefolder</span><span class="p">,</span><span class="n">Configuration</span><span class="o">.</span><span class="n">def_conf</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Using default config file&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># A name was given</span>
+            <span class="k">if</span>  <span class="n">Path</span><span class="p">(</span><span class="n">testname</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span> <span class="c1"># The argument is an existing file</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span>  <span class="n">Path</span><span class="p">(</span><span class="n">testname</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">:}</span><span class="s2">.py/build: &quot;</span>\
+                         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">testname</span><span class="si">:}</span><span class="s2"> configuration file does not exist&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Read configuration file from file name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_from_yaml</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Configuration.read_from_yaml"><a class="viewcode-back" href="../api/configuration.Configuration.html#configuration.Configuration.read_from_yaml">[docs]</a>    <span class="k">def</span> <span class="nf">read_from_yaml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read configuration file from a `yaml` file on disk.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : string, optional</span>
+<span class="sd">            Configuration file name. The default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="c1">#---------------------------------------------------</span>
+        <span class="k">def</span> <span class="nf">obj_dic</span><span class="p">(</span><span class="n">record</span><span class="p">):</span>
+
+            <span class="c1"># top = type(&#39;new&#39;, (object,), d)</span>
+            <span class="n">seqs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">frozenset</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">record</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+                <span class="c1"># Do not read wrong/deprecated keywords</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">:}</span><span class="s2">.py: warning: </span><span class="si">{</span><span class="n">key</span><span class="si">:}</span><span class="s2"> ignored&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">obj_dic</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">seqs</span><span class="p">):</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)(</span><span class="n">obj_dic</span><span class="p">(</span><span class="n">sv</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sv</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="n">sv</span> <span class="k">for</span> <span class="n">sv</span> <span class="ow">in</span> <span class="n">val</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantities</span><span class="p">:</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="c1">#---------------------------------------------------</span>
+
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; Read configuration from &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">:}</span><span class="s2">.py : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">:}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">SafeLoader</span><span class="p">)</span>
+        <span class="n">obj_dic</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># Bulld the source list to be processed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">srclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_ids</span><span class="p">()</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Configuration.write"><a class="viewcode-back" href="../api/configuration.Configuration.html#configuration.Configuration.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write current configuration to a `yaml` file for further use.</span>
+<span class="sd">        Note that this does not copy the possible comments of the original</span>
+<span class="sd">        file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : string, optional</span>
+<span class="sd">            Configuration file name. The default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">out_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out_name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;config_backup.yaml&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create a dict with unnecessary keywords dropped and no quantities</span>
+        <span class="n">newdict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,(</span><span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
+                <span class="n">newdict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">newdict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">newdict</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Configuration.print"><a class="viewcode-back" href="../api/configuration.Configuration.html#configuration.Configuration.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print configuration class instance to screen and out file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        out : Log class instance</span>
+<span class="sd">            Logbook output.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">Log</span><span class="p">()</span>
+
+        <span class="c1">#----------------------------------------------------</span>
+        <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=== &#39;</span><span class="o">+</span><span class="n">txt</span><span class="o">+</span><span class="mi">40</span><span class="o">*</span><span class="s1">&#39;=&#39;</span><span class="si">:</span><span class="s2">&lt;27s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1">#----------------------------------------------------</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Configuration file*     : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">:}</span><span class="s2"> &quot;</span><span class="p">)</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### PHYSICS PARAMETERS</span>
+        <span class="c1">### -----------------</span>
+        <span class="n">title</span><span class="p">(</span><span class="s2">&quot;Physics parameters&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Number of sources*        : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="si">:</span><span class="s2">&gt;5d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; First source*             : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span><span class="si">:</span><span class="s2">&gt;5d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Source list*              : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Visibility*               : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">visibility</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; EBL model                 : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ebl_model</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">nnight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxnight</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxnight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;Inf&quot;</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Number of nights limit*   : </span><span class="si">{</span><span class="n">nnight</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">nskip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;0&quot;</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Night(s) skipped*         : </span><span class="si">{</span><span class="n">nskip</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Energy max. limit         : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">emax</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### INPUT/OUPUT</span>
+        <span class="c1">### -----------------</span>
+        <span class="n">title</span><span class="p">(</span><span class="s2">&quot;Input/output&quot;</span><span class="p">)</span>
+        <span class="c1"># out.prt(f&quot; Input folder*             : {self.infolder:}&quot;)</span>
+        <span class="c1"># out.prt(f&quot; Output folder*            : {self.resfolder:}&quot;)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Data subfolder            : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; IRF subfolder             : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">irf_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prompt_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Prompt data subfolder     : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_dir</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Prompt data               : not considered&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Output population         : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Source file prefix        : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;             suffix        : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### SIMULATION PARAMETERS</span>
+        <span class="c1">### -----------------</span>
+        <span class="n">title</span><span class="p">(</span><span class="s2">&quot;Simulation&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">:}</span><span class="s2">.py: At least 1 trial is requested&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Number of trials*          : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="si">:</span><span class="s2">&gt;5d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Seed                       : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Counts randomised          : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">do_fluctuate</span><span class="si">:}</span><span class="s2"> &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_fluctuate</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;-&gt; Only 1 trial&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Stop if cannot be detected : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">do_accelerate</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### DETECTION PARAMETERS</span>
+        <span class="c1">### -----------------</span>
+        <span class="n">title</span><span class="p">(</span><span class="s2">&quot;Detection&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Detection level            : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">det_level</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Alpha (1/n)                : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Site sub-arrays            : N:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">array_north</span><span class="si">:}</span><span class="s2"> &quot;</span>\
+                <span class="s2">&quot;S:</span><span class="si">{self.array_south:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Slewing time               : N:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dtslew_north</span><span class="si">}</span><span class="s2">&quot;</span>\
+                <span class="s2">&quot; S:</span><span class="si">{self.dtslew_south}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Fixed                   : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fixslew</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; SWIFT delay fixed          : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fixswift</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixswift</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Value                   : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dtswift</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;            Read from : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">swiftfile</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### DEBUGGING / BOOKKEEPING</span>
+        <span class="c1">### -----------------</span>
+        <span class="n">title</span><span class="p">(</span><span class="s2">&quot;Debugging / bookkeeping&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Debug mode*                : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dbg</span><span class="si">:</span><span class="s2">&gt;5d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; out file                   : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">logfile</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Show plots                 : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="si">:</span><span class="s2">&gt;5d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Save simulation            : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">save_simu</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_simu</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;-&gt; Only 1 trial&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Save computed visibility   : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">save_vis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Save source class          : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">save_grb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Save figures to pdf        : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">save_fig</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Remove tarred file         : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">remove_tar</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="o">+</span><span class="mi">66</span><span class="o">*</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; *: can be changed with command line (use -h)&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="o">+</span><span class="mi">66</span><span class="o">*</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot; Developments:&quot;</span><span class="p">)</span>
+
+        <span class="c1">### -----------------</span>
+        <span class="c1">### EXPERTS/DEVELOPPERS ONLY</span>
+        <span class="c1">### -----------------</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_prompt</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Test prompt simulation&#39;</span><span class="si">:</span><span class="s2">60s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_afterglow</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&gt; use afterglow information&#39;</span><span class="si">:</span><span class="s2">60s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_zenith</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zenith angle fixed at value &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_zenith</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">magnify</span> <span class="o">!=</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GRB flux values are multiplied by </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">magnify</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tshift</span> <span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Times shifted by </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tshift</span><span class="si">}</span><span class="s2"> days&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">silent</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Maximise screen output&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_slices</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="s2">&quot;{&#39;Slice information saved to disk (write_slices=True)&#39;:60s}&quot;</span><span class="p">)</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="n">prt</span><span class="p">(</span><span class="s2">&quot;    --end</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Configuration.create_output_folder"><a class="viewcode-back" href="../api/configuration.Configuration.html#configuration.Configuration.create_output_folder">[docs]</a>    <span class="k">def</span> <span class="nf">create_output_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resfolder</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the code outptut folder.</span>
+<span class="sd">        The convention is that the output folder refers to the folder name</span>
+<span class="sd">        containing the lightcurves, a subfolder refering to the visibility</span>
+<span class="sd">        which will be used.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        log : Log instance</span>
+<span class="sd">            Pointer to the logbook file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        res_dir : pathlib Path</span>
+<span class="sd">            output folder.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srclist</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srclist</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srclist</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srclist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">resdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">resfolder</span><span class="p">,</span>
+                      <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">out_dir</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">visibility</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">visibility</span><span class="o">+</span><span class="n">ext</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+
+        <span class="c1"># Check that the output folder exists, otherwise try to create it</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">resdir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating </span><span class="si">{</span><span class="n">resdir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">Path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">resdir</span><span class="p">,</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">:}</span><span class="s2">.py: Could not create </span><span class="si">{</span><span class="n">resdir</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Already exists :</span><span class="si">{</span><span class="n">resdir</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">resdir</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Configuration.source_ids"><a class="viewcode-back" href="../api/configuration.Configuration.html#configuration.Configuration.source_ids">[docs]</a>    <span class="k">def</span> <span class="nf">source_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtain the source list from the input parameters.</span>
+<span class="sd">        `first` is either an integer (identifier of the first source to be</span>
+<span class="sd">        analysed) or a list with integers (identifiers) or string</span>
+<span class="sd">        (source names).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A list of source identifiers to be analysed.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">srclist</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">srclist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">srclist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ifirst</span>
+
+        <span class="k">return</span> <span class="n">srclist</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Configuration.decode_visibility_keyword"><a class="viewcode-back" href="../api/configuration.Configuration.html#configuration.Configuration.decode_visibility_keyword">[docs]</a>    <span class="k">def</span> <span class="nf">decode_visibility_keyword</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decode the `visibility` keyword value and return an information</span>
+<span class="sd">        to be handled at running time. The visibility keyword can be:</span>
+
+<span class="sd">        * a visibility folder that should contain a suitable visibility `json`</span>
+<span class="sd">          file where all visibility instances of a data subset are stored.</span>
+<span class="sd">          By definition the folder structure is the following:</span>
+
+<span class="sd">            * output</span>
+<span class="sd">            * population name</span>
+<span class="sd">            * a subfolder name as described in skygen,</span>
+<span class="sd">              i.e `keyword_year1_Nyears_version`</span>
+
+<span class="sd">        * `forced` to force a single infinite night</span>
+<span class="sd">        * `permanent` to force a permanent visibility</span>
+<span class="sd">        * `built-in` : will use the default visibility stored in the source</span>
+<span class="sd">          files, if any (for backward compatibility).</span>
+<span class="sd">        * a keyword giving access to information in a `yaml` file, as a</span>
+<span class="sd">          python dictionnary.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        debug : boolean, optional</span>
+<span class="sd">            If True, talk a bit. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        a visibility information</span>
+<span class="sd">            The information necessary to get the visibility at running time.</span>
+<span class="sd">            Various type of information in a single variable. It can be a string</span>
+<span class="sd">            or a dictionnary.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check predefined possibilities</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visibility</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;built-in&quot;</span><span class="p">,</span><span class="s2">&quot;forced&quot;</span><span class="p">,</span><span class="s2">&quot;permanent&quot;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Visibilities from keyword: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">visibility</span><span class="si">}</span><span class="s2">&#39; &quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">visibility</span>
+
+        <span class="c1"># Check if referenced in visibility.yaml</span>
+        <span class="n">vispar</span> <span class="o">=</span>  <span class="n">Visibility</span><span class="o">.</span><span class="n">params_from_key</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visibility</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">vispar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">vispar</span>
+
+        <span class="c1"># Check if the keyword corresponds to a visibility subfolder</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accessing visibility in : </span><span class="si">{</span><span class="n">test</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">test</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.py : visibility Keyword supposed to be a folder and is not&quot;</span><span class="p">)</span>
+
+        <span class="c1"># A folder is given</span>
+        <span class="c1"># Find file name pattern from source identifiers</span>
+        <span class="n">idmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srclist</span><span class="p">)</span>
+        <span class="n">idmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">srclist</span><span class="p">)</span>
+
+        <span class="c1"># Complete version that find at least a valid file for the source</span>
+        <span class="c1"># id range</span>
+
+        <span class="n">candidates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.json&quot;</span><span class="p">))</span>
+        <span class="n">visfile</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="c1"># Get ids in the filename</span>
+            <span class="n">bnds</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">fname</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bnds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span> <span class="c1"># Range</span>
+                <span class="n">bndmin</span> <span class="o">=</span> <span class="n">bnds</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">bndmax</span> <span class="o">=</span> <span class="n">bnds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">bnds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span> <span class="c1"># One source only</span>
+                <span class="n">bndmin</span> <span class="o">=</span> <span class="n">bndmax</span> <span class="o">=</span> <span class="n">bnds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># print(fname.name,&quot;: &quot;,bnds,bndmin, bndmax )</span>
+
+            <span class="k">if</span> <span class="n">bndmin</span><span class="o">&lt;=</span> <span class="n">idmin</span> <span class="ow">and</span> <span class="n">idmax</span><span class="o">&lt;=</span> <span class="n">bndmax</span><span class="p">:</span>
+                <span class="n">visfile</span> <span class="o">=</span> <span class="n">fname</span>
+                <span class="k">break</span>
+
+        <span class="c1"># Load data from the visibility file</span>
+        <span class="k">if</span> <span class="n">visfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Visibility data :&quot;</span><span class="p">,</span><span class="n">visfile</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">visfile</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">json</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.py : Visibility: Recomputation seems required&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Configuration.get_delay"><a class="viewcode-back" href="../api/configuration.Configuration.html#configuration.Configuration.get_delay">[docs]</a>    <span class="k">def</span> <span class="nf">get_delay</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the overall delay to be applied to the start of detection</span>
+<span class="sd">        (satellite and telescope slewing), according to the user parameters.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        delay : Quantity (time)</span>
+<span class="sd">                Delay before the detection can start.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">delay</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">:</span><span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">]:</span>
+
+            <span class="n">delta</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixslew</span><span class="p">:</span>
+                <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtslew</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtslew</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixswift</span><span class="p">:</span>
+                <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtswift</span> <span class="c1"># don&#39;t do += !!!</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.py: Variable SWIFT delay not implemented)&quot;</span><span class="p">)</span>
+            <span class="n">delay</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">delay</span></div></div>
+
+<span class="c1">###############################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="c1"># A standalone function to read a configuration from a configuration file</span>
+    <span class="c1"># with wome parameters possibly ovsersed by the command line.</span>
+    <span class="c1"># * Directly from the file on disk, e.g?</span>
+
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">Log</span><span class="p">()</span>
+
+    <span class="n">testfile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data/config_ref.yaml&quot;</span><span class="p">)</span>
+
+    <span class="c1"># sys.argv = [&quot;&quot;, &quot;-f&quot;, &quot;343&quot;, &quot;-N&quot;, &quot;10&quot;,&quot;-n&quot;, &quot;100&quot;,</span>
+    <span class="c1">#             &quot;-V&quot;, &quot;nomoonveto&quot;]</span>
+    <span class="n">cf1</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">()</span> <span class="c1"># Default</span>
+    <span class="n">cf1</span><span class="o">.</span><span class="n">read_from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">testfile</span><span class="p">)</span>
+    <span class="n">res_dir</span>  <span class="o">=</span> <span class="n">cf1</span><span class="o">.</span><span class="n">create_output_folder</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HAPPY_OUT&quot;</span><span class="p">]))</span>
+    <span class="n">cf1</span><span class="o">.</span><span class="n">decode_visibility_keyword</span><span class="p">(</span><span class="n">res_dir</span><span class="p">)</span>
+    <span class="n">cf1</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+
+    <span class="c1"># cf1.read_from_yaml(filename=&quot;config.yaml&quot;)</span>
+    <span class="c1"># # cf1.print(log)</span>
+    <span class="c1"># cf1.write(out_name = &quot;config_bck.yaml&quot;)</span>
+
+    <span class="c1"># cf2 = Configuration()</span>
+    <span class="c1"># cf2.read_from_yaml(filename=&quot;config_bck.yaml&quot;)</span>
+    <span class="c1"># cf2.print(log)</span>
+
+    <span class="c1"># cf4 = Configuration.build(sys.argv[1:])</span>
+    <span class="c1"># cf4.print(log)</span>
+
+    <span class="c1"># test automatic output file naming</span>
+
+    <span class="c1"># data_sub = Path(cf1.data_dir).name</span>
+    <span class="c1"># if cf1.trigger ==0:</span>
+    <span class="c1">#     trigpos_sub = &quot;TP_default&quot;</span>
+    <span class="c1"># else:</span>
+    <span class="c1">#     trigpos_sub = &quot;TP_tobedefined&quot;</span>
+
+    <span class="c1"># print(&quot; output subfolder for this run :&quot;)</span>
+    <span class="c1"># out_sub = Path(data_sub,trigpos_sub)</span>
+    <span class="c1"># print(Path(out_sub))</span>
+    <span class="c1"># print(Path(cf1.resfolder,out_sub))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

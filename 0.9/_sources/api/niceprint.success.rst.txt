@@ -1,0 +1,6 @@
+success
+=======
+
+.. currentmodule:: niceprint
+
+.. autofunction:: success

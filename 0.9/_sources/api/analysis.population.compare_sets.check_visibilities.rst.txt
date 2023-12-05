@@ -1,0 +1,6 @@
+check_visibilities
+==================
+
+.. currentmodule:: analysis.population.compare_sets
+
+.. autofunction:: check_visibilities

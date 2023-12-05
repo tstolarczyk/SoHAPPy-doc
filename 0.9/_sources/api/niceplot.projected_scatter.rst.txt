@@ -1,0 +1,6 @@
+projected_scatter
+=================
+
+.. currentmodule:: niceplot
+
+.. autofunction:: projected_scatter

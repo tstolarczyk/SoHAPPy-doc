@@ -1,0 +1,6 @@
+prt_mean
+========
+
+.. currentmodule:: analysis.population.rate
+
+.. autofunction:: prt_mean

@@ -1,0 +1,6 @@
+windows
+=======
+
+.. currentmodule:: analysis.spectra.dataset_plot
+
+.. autofunction:: windows

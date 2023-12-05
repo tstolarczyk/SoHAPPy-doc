@@ -1,0 +1,6 @@
+sigmax_above_threshold
+======================
+
+.. currentmodule:: analysis.population.sigmas
+
+.. autofunction:: sigmax_above_threshold

@@ -1,0 +1,6 @@
+sigmax
+======
+
+.. currentmodule:: dataset_tools
+
+.. autofunction:: sigmax

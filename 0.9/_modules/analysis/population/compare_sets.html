@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>analysis.population.compare_sets &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analysis.population.compare_sets</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for analysis.population.compare_sets</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Compare two (or several sets)</span>
+<span class="sd">Created on Tue Jan 10 14:04:54 2023</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">niceplot</span> <span class="kn">import</span> <span class="n">MyLabel</span>
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">heading</span>
+
+<span class="kn">from</span> <span class="nn">times</span> <span class="kn">import</span> <span class="n">detection_fraction_versus_time</span>
+
+<span class="kn">from</span> <span class="nn">population</span> <span class="kn">import</span> <span class="n">Pop</span>
+<span class="kn">from</span> <span class="nn">pop_io</span> <span class="kn">import</span> <span class="n">get_data</span>
+<span class="n">codefolder</span> <span class="o">=</span> <span class="s2">&quot;../../&quot;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">codefolder</span><span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;find_5sigma_diff&quot;</span><span class="p">,</span><span class="s2">&quot;check_visibilities&quot;</span><span class="p">,</span><span class="s2">&quot;var_plot&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;var_scatter_all&quot;</span><span class="p">,</span><span class="s2">&quot;var_scatter&quot;</span><span class="p">]</span>
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="find_5sigma_diff"><a class="viewcode-back" href="../../../api/analysis.population.compare_sets.find_5sigma_diff.html#analysis.population.compare_sets.find_5sigma_diff">[docs]</a><span class="k">def</span> <span class="nf">find_5sigma_diff</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find and display sources being detected at 5 sigma in one</span>
+<span class="sd">    simulation/analysis, not the other.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pop1 : Pop instance</span>
+<span class="sd">        First population data.</span>
+<span class="sd">    pop2 : Pop instance</span>
+<span class="sd">        Second population data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">grb1</span> <span class="o">=</span> <span class="n">pop1</span><span class="o">.</span><span class="n">g_tot</span>
+    <span class="n">grb2</span> <span class="o">=</span> <span class="n">pop2</span><span class="o">.</span><span class="n">g_tot</span>
+
+    <span class="n">first1</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">first2</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1">#----------------------</span>
+    <span class="k">def</span> <span class="nf">show</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f</span><span class="si">{g1[&#39;name&#39;]:8s}</span><span class="s2"> </span><span class="si">{g1.loca:5s}</span><span class="s2"> &quot;</span> \
+              <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;1: sigmx=</span><span class="si">{</span><span class="n">g1</span><span class="o">.</span><span class="n">sigmx</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> +/-</span><span class="si">{</span><span class="n">g1</span><span class="o">.</span><span class="n">esigmx</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2">&quot;</span> \
+              <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;* CL=</span><span class="si">{</span><span class="n">g1</span><span class="o">.</span><span class="n">d5s</span><span class="si">:</span><span class="s2">5d</span><span class="si">}</span><span class="s2"> * vis=</span><span class="si">{</span><span class="n">g1</span><span class="o">.</span><span class="n">prpt</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> * err=</span><span class="si">{</span><span class="n">g1</span><span class="o">.</span><span class="n">err</span><span class="si">:</span><span class="s2">5d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="si">:</span><span class="s2">8s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="si">:</span><span class="s2">5s</span><span class="si">}</span><span class="s2">             &quot;</span>\
+              <span class="o">+</span><span class="sa">f</span><span class="s2">&quot;2:       </span><span class="si">{</span><span class="n">g2</span><span class="o">.</span><span class="n">sigmx</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> +/-</span><span class="si">{</span><span class="n">g2</span><span class="o">.</span><span class="n">esigmx</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2">&quot;</span> \
+              <span class="o">+</span><span class="sa">f</span><span class="s2">&quot;      </span><span class="si">{</span><span class="n">g2</span><span class="o">.</span><span class="n">d5s</span><span class="si">:</span><span class="s2">5d</span><span class="si">}</span><span class="s2"> *     </span><span class="si">{</span><span class="n">g2</span><span class="o">.</span><span class="n">prpt</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> *     </span><span class="si">{</span><span class="n">g2</span><span class="o">.</span><span class="n">err</span><span class="si">:</span><span class="s2">5d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1">#----------------------</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">g1</span><span class="p">),</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">g2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">grb1</span><span class="o">.</span><span class="n">iterrows</span><span class="p">(),</span> <span class="n">grb2</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">g1</span><span class="o">.</span><span class="n">d5s</span> <span class="o">&gt;=</span> <span class="n">pop1</span><span class="o">.</span><span class="n">eff_lvl</span> <span class="ow">and</span> <span class="n">g2</span><span class="o">.</span><span class="n">d5s</span> <span class="o">&lt;</span> <span class="n">pop2</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">)</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="n">first1</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error : detected in 1 not in 2&quot;</span><span class="p">)</span>
+                <span class="n">first1</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">show</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">g1</span><span class="o">.</span><span class="n">d5s</span> <span class="o">&lt;</span> <span class="n">pop1</span><span class="o">.</span><span class="n">eff_lvl</span> <span class="ow">and</span> <span class="n">g2</span><span class="o">.</span><span class="n">d5s</span> <span class="o">&gt;=</span> <span class="n">pop2</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">)</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="n">first2</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error : detected in 2 not in 1&quot;</span><span class="p">)</span>
+                <span class="n">first2</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">show</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All done!&quot;</span><span class="p">)</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="check_visibilities"><a class="viewcode-back" href="../../../api/analysis.population.compare_sets.check_visibilities.html#analysis.population.compare_sets.check_visibilities">[docs]</a><span class="k">def</span>  <span class="nf">check_visibilities</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check sources visible in one population and not in the other.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pop1 : Pop instance</span>
+<span class="sd">        First population data.</span>
+<span class="sd">    pop2 : Pop instance</span>
+<span class="sd">        Second population data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grb1</span> <span class="o">=</span> <span class="n">pop1</span><span class="o">.</span><span class="n">grb</span>
+    <span class="n">grb2</span> <span class="o">=</span> <span class="n">pop2</span><span class="o">.</span><span class="n">grb</span>
+
+    <span class="n">namelist</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">grb1</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Both&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+
+    <span class="c1">#     print(&quot;check : &quot;,name)</span>
+    <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">,</span><span class="s2">&quot;Both&quot;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="mi">24</span><span class="o">*</span><span class="s1">&#39;-&#39;</span><span class="si">:</span><span class="s2">24s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">loc</span><span class="si">:</span><span class="s2">10s</span><span class="si">}</span><span class="s2"> err1 err2&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">namelist</span><span class="p">:</span>
+            <span class="n">mask1</span> <span class="o">=</span> <span class="p">(</span><span class="n">grb1</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">grb1</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span> <span class="n">loc</span><span class="p">)</span>
+            <span class="n">mask2</span> <span class="o">=</span> <span class="p">(</span><span class="n">grb2</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">grb2</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span> <span class="n">loc</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">grb1</span><span class="p">[</span><span class="n">mask1</span><span class="p">]</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">grb2</span><span class="p">[</span><span class="n">mask2</span><span class="p">]</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">10s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">grb1</span><span class="p">[</span><span class="n">mask1</span><span class="p">]</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">4d</span><span class="si">}</span><span class="s2">&quot;</span> \
+                      <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">grb2</span><span class="p">[</span><span class="n">mask2</span><span class="p">]</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">4d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">count</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Differences between the 2 populations :&quot;</span><span class="p">,</span><span class="n">count</span><span class="p">)</span></div>
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="var_plot"><a class="viewcode-back" href="../../../api/analysis.population.compare_sets.var_plot.html#analysis.population.compare_sets.var_plot">[docs]</a><span class="k">def</span> <span class="nf">var_plot</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="s2">&quot;o&quot;</span><span class="p">),</span><span class="n">varmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">varmax</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">nbin</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span><span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Show distributions of a given variable of two different populations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    var1 : Sequence</span>
+<span class="sd">        First population variable data sequence.</span>
+<span class="sd">    var2 : Sequence</span>
+<span class="sd">        Second population variable data sequence.</span>
+<span class="sd">    tag : List of strings, optional</span>
+<span class="sd">        Tags to appear on the x  and y axis respectively. The default is [&quot;o&quot;,&quot;o&quot;].</span>
+<span class="sd">    varmin : float, optional</span>
+<span class="sd">        Minimal allowed value for the variable. The default is None.</span>
+<span class="sd">    varmax : float, optional</span>
+<span class="sd">        Maximal allowed value for the variable . The default is None.</span>
+<span class="sd">    nbin : integer, optional</span>
+<span class="sd">        Number of bins for both axes. The default is 100.</span>
+<span class="sd">    xscale : string, optional</span>
+<span class="sd">        &quot;log&quot; or &quot;linear&quot; for the  abscissa. The default is &quot;log&quot;.</span>
+<span class="sd">    yscale : string, optional</span>
+<span class="sd">        &quot;log&quot; or &quot;linear&quot; for the ordinate. The default is &quot;log&quot;.</span>
+<span class="sd">    xlabel : string, optional</span>
+<span class="sd">        Abscissa label describing the variable. The default is &quot;&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">varmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">varmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">var1</span><span class="p">),</span><span class="nb">min</span><span class="p">(</span><span class="n">var2</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">varmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">varmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">var1</span><span class="p">),</span><span class="nb">max</span><span class="p">(</span><span class="n">var2</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;min = &quot;</span><span class="p">,</span><span class="n">varmin</span><span class="p">,</span><span class="s2">&quot; max=&quot;</span><span class="p">,</span><span class="n">varmax</span><span class="p">)</span>
+
+    <span class="n">mask1</span> <span class="o">=</span> <span class="p">(</span><span class="n">var1</span><span class="o">&lt;=</span><span class="n">varmax</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">var1</span><span class="o">&gt;=</span><span class="n">varmin</span><span class="p">)</span>
+    <span class="n">mask2</span> <span class="o">=</span> <span class="p">(</span><span class="n">var2</span><span class="o">&lt;=</span><span class="n">varmax</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">var2</span><span class="o">&gt;=</span><span class="n">varmin</span><span class="p">)</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">axa</span><span class="p">,</span> <span class="n">axb</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+    <span class="c1"># First population</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">axa</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">var1</span><span class="p">[</span><span class="n">mask1</span><span class="p">],</span><span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                          <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">var1</span><span class="p">[</span><span class="n">mask1</span><span class="p">],</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="c1"># Second population</span>
+    <span class="n">axa</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">var2</span><span class="p">[</span><span class="n">mask2</span><span class="p">],</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">var2</span><span class="p">[</span><span class="n">mask2</span><span class="p">],</span><span class="n">tag</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="c1"># Decoration</span>
+    <span class="n">axa</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
+    <span class="n">axa</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+    <span class="n">axa</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">axa</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="c1"># Ratio betwenn the two plots</span>
+    <span class="n">axb</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">var2</span><span class="p">[</span><span class="n">mask2</span><span class="p">]</span><span class="o">/</span><span class="n">var1</span><span class="p">[</span><span class="n">mask1</span><span class="p">],</span><span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                          <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">var2</span><span class="p">[</span><span class="n">mask2</span><span class="p">]</span><span class="o">/</span><span class="n">var1</span><span class="p">[</span><span class="n">mask1</span><span class="p">],</span><span class="n">tag</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">axb</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="o">+</span> <span class="s2">&quot; ratio&quot;</span><span class="p">)</span>
+    <span class="n">axb</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+    <span class="n">axb</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="var_scatter_all"><a class="viewcode-back" href="../../../api/analysis.population.compare_sets.var_scatter_all.html#analysis.population.compare_sets.var_scatter_all">[docs]</a><span class="k">def</span> <span class="nf">var_scatter_all</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    For this study, the two sets should have the same size. We start from</span>
+<span class="sd">    the original popualtion set (even if not visible)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    var : String</span>
+<span class="sd">        Column name to be plotted.</span>
+<span class="sd">    pop1 : Pop instance</span>
+<span class="sd">        First popualtion.</span>
+<span class="sd">    pop2 : Pop instance</span>
+<span class="sd">        Second population.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gn1</span> <span class="o">=</span> <span class="n">pop1</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span><span class="n">pop1</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;North&quot;</span><span class="p">]</span>
+    <span class="n">gs1</span> <span class="o">=</span> <span class="n">pop1</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span><span class="n">pop1</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;South&quot;</span><span class="p">]</span>
+    <span class="n">gb1</span> <span class="o">=</span> <span class="n">pop1</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span><span class="n">pop1</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;Both&quot;</span><span class="p">]</span>
+    <span class="n">gn2</span> <span class="o">=</span> <span class="n">pop2</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span><span class="n">pop2</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;North&quot;</span><span class="p">]</span>
+    <span class="n">gs2</span> <span class="o">=</span> <span class="n">pop2</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span><span class="n">pop2</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;South&quot;</span><span class="p">]</span>
+    <span class="n">gb2</span> <span class="o">=</span> <span class="n">pop2</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span><span class="n">pop2</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;Both&quot;</span><span class="p">]</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">ax0</span><span class="p">,</span> <span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">title</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">[</span><span class="n">gn1</span><span class="p">,</span><span class="n">gs1</span><span class="p">,</span><span class="n">gb1</span><span class="p">],</span>
+                                      <span class="p">[</span><span class="n">gn2</span><span class="p">,</span><span class="n">gs2</span><span class="p">,</span><span class="n">gb2</span><span class="p">],</span>
+                                      <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">,</span> <span class="s2">&quot;Both&quot;</span><span class="p">]):</span>
+        <span class="c1"># var1 = g1[nmin:nmax][var]</span>
+        <span class="c1"># var2 = g2[nmin:nmax][var]</span>
+        <span class="n">var1</span> <span class="o">=</span> <span class="n">g1</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        <span class="n">var2</span> <span class="o">=</span> <span class="n">g2</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+
+        <span class="n">var_scatter</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="p">[</span><span class="n">pop1</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span><span class="n">pop2</span><span class="o">.</span><span class="n">tag</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="var_scatter"><a class="viewcode-back" href="../../../api/analysis.population.compare_sets.var_scatter.html#analysis.population.compare_sets.var_scatter">[docs]</a><span class="k">def</span> <span class="nf">var_scatter</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">,</span><span class="s2">&quot;o&quot;</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">varmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">varmax</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">logscale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cut</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The two variabale sets should have the same size</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    var1 : List</span>
+<span class="sd">        First variable.</span>
+<span class="sd">    var2 : List</span>
+<span class="sd">        Second variable.</span>
+<span class="sd">    tag : List of string, optional</span>
+<span class="sd">        DESCRIPTION. The default is [&quot;o&quot;,&quot;o&quot;].</span>
+<span class="sd">    varmin : Float, optional</span>
+<span class="sd">        Minimal value to be plotted. The default is None.</span>
+<span class="sd">    varmax : Float, optional</span>
+<span class="sd">        Maximal value to be plotted. The default is None.</span>
+<span class="sd">    nbin : Integer, optional</span>
+<span class="sd">        Bin number. The default is 100.</span>
+<span class="sd">    logscale : Boolean, optional</span>
+<span class="sd">        If True plot the logarithm of the variables. The default is True.</span>
+<span class="sd">    ax : Matplotlib axes, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : Matplotlib axes</span>
+<span class="sd">       Current axis.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">var2</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Set 1 : &quot;</span><span class="p">,</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">var1</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Set 2 : &quot;</span><span class="p">,</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">var2</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Samples should have the same size !&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ax</span>
+
+    <span class="k">if</span> <span class="n">varmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">varmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">var1</span><span class="p">),</span><span class="nb">min</span><span class="p">(</span><span class="n">var2</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">varmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">varmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">var1</span><span class="p">),</span><span class="nb">max</span><span class="p">(</span><span class="n">var2</span><span class="p">))</span>
+    <span class="c1"># print(&quot;min = &quot;,varmin,&quot; max=&quot;,varmax)</span>
+
+    <span class="k">if</span> <span class="n">logscale</span><span class="p">:</span>
+        <span class="n">var1</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">cut</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">if</span> <span class="n">x</span><span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">cut</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">var1</span><span class="p">]</span>
+        <span class="n">var2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">cut</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">if</span> <span class="n">x</span><span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">cut</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">var2</span><span class="p">]</span>
+
+        <span class="n">varmin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">cut</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">varmin</span><span class="p">))</span> <span class="k">if</span> <span class="n">varmin</span><span class="o">&gt;</span><span class="mi">0</span> <span class="k">else</span> <span class="n">cut</span>
+        <span class="n">varmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">varmax</span><span class="p">)</span> <span class="k">if</span> <span class="n">varmax</span><span class="o">&gt;</span><span class="mi">0</span> <span class="k">else</span> <span class="n">cut</span>
+
+    <span class="n">sig3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">if</span> <span class="n">logscale</span> <span class="k">else</span> <span class="mi">3</span>
+    <span class="n">sig5</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">if</span> <span class="n">logscale</span> <span class="k">else</span> <span class="mi">5</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span><span class="n">var2</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Diagonal</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">varmin</span><span class="p">,</span><span class="n">varmax</span><span class="p">],[</span><span class="n">varmin</span><span class="p">,</span><span class="n">varmax</span><span class="p">],</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 3 and 5 sigma lines</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">sig3</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;$ 3 \sigma$&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">sig3</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;$ 3 \sigma$&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">sig5</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;$ 5 \sigma$&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">sig5</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;$ 5 \sigma$&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">varmin</span><span class="p">,</span><span class="n">varmax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">varmin</span><span class="p">,</span><span class="n">varmax</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+    <span class="n">by_label</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">by_label</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">by_label</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">ax</span></div>
+
+<span class="c1">##############################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">parpath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">codefolder</span><span class="p">,</span><span class="s2">&quot;data/samples/comparepop_parameter.yaml&quot;</span><span class="p">)</span>
+    <span class="n">nyears</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">tags</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">parpath</span><span class="o">=</span><span class="n">parpath</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">poplist</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">f</span><span class="p">,</span><span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+        <span class="n">pop</span> <span class="o">=</span> <span class="n">Pop</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span> <span class="n">nyears</span><span class="p">)</span>
+        <span class="c1"># pop.sanity_check()</span>
+        <span class="n">poplist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span>
+
+    <span class="p">[</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">poplist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">poplist</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="c1"># # Find 5 sigma detection differences in the two population</span>
+    <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Compare 5 sigma detection&quot;</span><span class="p">)</span>
+    <span class="n">find_5sigma_diff</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">)</span>
+
+    <span class="c1"># # Check differences in visibility</span>
+    <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Check visibilities&quot;</span><span class="p">)</span>
+    <span class="n">check_visibilities</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">)</span>
+
+    <span class="c1"># ###------------------------</span>
+    <span class="c1"># ### Check some variables</span>
+    <span class="c1"># ###------------------------</span>
+
+    <span class="n">nmin</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">nmax</span><span class="o">=</span><span class="mi">3000</span>
+    <span class="n">sigmin</span><span class="o">=</span><span class="mi">0</span>
+
+    <span class="n">gs1</span> <span class="o">=</span> <span class="n">pop1</span><span class="o">.</span><span class="n">g_s</span>
+    <span class="n">gs2</span> <span class="o">=</span> <span class="n">pop2</span><span class="o">.</span><span class="n">g_s</span>
+
+    <span class="c1"># # Check tmax relative error</span>
+    <span class="n">var1</span> <span class="o">=</span> <span class="n">gs1</span><span class="p">[</span><span class="n">nmin</span><span class="p">:</span><span class="n">nmax</span><span class="p">][</span><span class="n">gs1</span><span class="o">.</span><span class="n">etmx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">etmx</span><span class="o">/</span><span class="n">gs1</span><span class="p">[</span><span class="n">nmin</span><span class="p">:</span><span class="n">nmax</span><span class="p">]</span><span class="o">.</span><span class="n">tmx</span>
+    <span class="n">var2</span> <span class="o">=</span> <span class="n">gs2</span><span class="p">[</span><span class="n">nmin</span><span class="p">:</span><span class="n">nmax</span><span class="p">][</span><span class="n">gs2</span><span class="o">.</span><span class="n">etmx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">etmx</span><span class="o">/</span><span class="n">gs2</span><span class="p">[</span><span class="n">nmin</span><span class="p">:</span><span class="n">nmax</span><span class="p">]</span><span class="o">.</span><span class="n">tmx</span>
+    <span class="n">var_plot</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="p">[</span><span class="n">pop1</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span><span class="n">pop2</span><span class="o">.</span><span class="n">tag</span><span class="p">],</span><span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span><span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span>
+              <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;$t_</span><span class="si">{max}</span><span class="s2">$ relative error&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="c1"># # Mean maximal siginificance</span>
+    <span class="n">var1</span> <span class="o">=</span> <span class="n">pop1</span><span class="o">.</span><span class="n">g_tot</span><span class="p">[</span><span class="n">nmin</span><span class="p">:</span><span class="n">nmax</span><span class="p">][</span><span class="n">pop1</span><span class="o">.</span><span class="n">g_tot</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sigmx</span>
+    <span class="n">var2</span> <span class="o">=</span> <span class="n">pop2</span><span class="o">.</span><span class="n">g_tot</span><span class="p">[</span><span class="n">nmin</span><span class="p">:</span><span class="n">nmax</span><span class="p">][</span><span class="n">pop2</span><span class="o">.</span><span class="n">g_tot</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sigmx</span>
+    <span class="n">var_plot</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="p">[</span><span class="n">pop1</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span><span class="n">pop2</span><span class="o">.</span><span class="n">tag</span><span class="p">],</span><span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span><span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span>
+             <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;$\sigma_</span><span class="si">{max}</span><span class="s2">$ &quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="c1"># # Mean time of maximal significance</span>
+    <span class="n">var1</span> <span class="o">=</span> <span class="n">gs1</span><span class="p">[</span><span class="n">nmin</span><span class="p">:</span><span class="n">nmax</span><span class="p">][</span><span class="n">gs1</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tmx</span>
+    <span class="n">var2</span> <span class="o">=</span> <span class="n">gs2</span><span class="p">[</span><span class="n">nmin</span><span class="p">:</span><span class="n">nmax</span><span class="p">][</span><span class="n">gs2</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tmx</span>
+
+    <span class="n">var_plot</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span><span class="n">tag</span><span class="o">=</span><span class="p">[</span><span class="n">pop1</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span><span class="n">pop2</span><span class="o">.</span><span class="n">tag</span><span class="p">],</span><span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span><span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span>
+             <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;$t_</span><span class="si">{max}</span><span class="s2">$ &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Set 1 : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">var1</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Set 2 : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">var2</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="c1"># ###------------------------</span>
+    <span class="c1"># ### Compare in scatter plots</span>
+    <span class="c1"># ###------------------------</span>
+
+    <span class="c1"># heading(&quot;Compare sigmax&quot;)</span>
+    <span class="n">var_scatter_all</span><span class="p">(</span><span class="s2">&quot;sigmx&quot;</span><span class="p">,</span> <span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">)</span>
+
+    <span class="c1"># heading(&quot;Compare excess counts&quot;)</span>
+    <span class="n">var_scatter_all</span><span class="p">(</span><span class="s2">&quot;nexmx&quot;</span><span class="p">,</span> <span class="n">pop1</span><span class="p">,</span> <span class="n">pop2</span><span class="p">)</span>
+
+    <span class="c1">###------------------------</span>
+    <span class="c1">### Cumulative 5 sigma detectionversus time</span>
+    <span class="c1">###------------------------</span>
+    <span class="n">axs</span> <span class="o">=</span> <span class="n">detection_fraction_versus_time</span><span class="p">(</span><span class="n">pop1</span><span class="p">,</span> <span class="n">pop1</span><span class="o">.</span><span class="n">g_tot</span><span class="p">,</span>
+                                         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span>
+                                         <span class="n">label</span><span class="o">=</span><span class="n">pop1</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
+                                         <span class="n">title</span><span class="o">=</span><span class="s2">&quot; All&quot;</span><span class="p">)</span>
+    <span class="n">detection_fraction_versus_time</span><span class="p">(</span><span class="n">pop2</span><span class="p">,</span> <span class="n">pop2</span><span class="o">.</span><span class="n">g_tot</span><span class="p">,</span>
+                                   <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span>
+                                   <span class="n">label</span><span class="o">=</span><span class="n">pop2</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
+                                   <span class="n">title</span><span class="o">=</span><span class="s2">&quot;All&quot;</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

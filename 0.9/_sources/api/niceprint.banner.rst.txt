@@ -1,0 +1,6 @@
+banner
+======
+
+.. currentmodule:: niceprint
+
+.. autofunction:: banner

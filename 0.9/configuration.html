@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration file &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration" href="api/configuration.Configuration.html" />
+    <link rel="prev" title="main" href="api/SoHAPPy.main.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration file</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#physics-parameters">Physics parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-output">Input / Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simulation-parameters">Simulation parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#detection-parameters">Detection parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#debugging-and-bookkeeping">Debugging and bookkeeping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#experts-and-developpers-only">Experts and developpers only</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-configuration">configuration Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/configuration.Configuration.html">Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Configuration file</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/configuration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="configuration-file">
+<h1>Configuration file<a class="headerlink" href="#configuration-file" title="Permalink to this heading"></a></h1>
+<p>A simulation and analysis parameter file can be passed to the main script with
+the <cite>-c</cite> options (some of these parameters can be superseded on the command
+line, use  <cite>-h</cite> to get the list). If no file name is given, the parameters
+are read from the <em>data/config_ref.yaml</em> default file provided with the code
+sources.</p>
+<p>The base input and output folders are defined through the <cite>HAPPY_IN</cite> and
+<cite>HAPPY_OUT</cite> environment variables respectively.</p>
+<p>The execution of <cite>SoHAPPy</cite> automatically creates a copy (backup) of the chosen
+configuration file to the output folder, with the initial parameters
+overwritten by the ones on the command line, so that this backuped
+configuration can be used to reprocess the data in the exact same conditions.</p>
+<p>The configuration data are stored and processed in the
+<a class="reference internal" href="api/configuration.Configuration.html#configuration.Configuration" title="configuration.Configuration"><code class="xref py py-class docutils literal notranslate"><span class="pre">configuration.Configuration</span></code></a> class in <code class="file docutils literal notranslate"><span class="pre">configuration.py</span></code>.</p>
+<p>The following parameters are defined and mandatory in the configuration file.
+Extra parameters can be added and are notified as ignored at run time. The
+defauilt in the following tables are the one in the <em>data/config_ref.yaml</em>
+file.</p>
+<section id="physics-parameters">
+<h2>Physics parameters<a class="headerlink" href="#physics-parameters" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 18%" />
+<col style="width: 63%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ifirst</span></code></p></td>
+<td><p>1</p></td>
+<td><div class="line-block">
+<div class="line">The first GRB identifier to be processed</div>
+<div class="line">or a list of identifiers. The identifier can</div>
+<div class="line">include a string referring to a <cite>yaml</cite> file</div>
+<div class="line">with parameters to generate spectra from an</div>
+<div class="line">analytical function.</div>
+<div class="line">(See the <cite>data/historical</cite> folder)</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nsrc</span></code></p></td>
+<td><p>None</p></td>
+<td><div class="line-block">
+<div class="line">Number of GRB to be processed if <code class="docutils literal notranslate"><span class="pre">ifirst</span></code> is</div>
+<div class="line">an integer. If 1, special actions are taken.</div>
+<div class="line">Not used if <code class="docutils literal notranslate"><span class="pre">ifirst</span></code> is a list.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">visibility</span></code></p></td>
+<td><p>None</p></td>
+<td><div class="line-block">
+<div class="line">Can be:</div>
+<div class="line">* <cite>built-in</cite> (read from the data file if it</div>
+<div class="line">exists),</div>
+<div class="line">* a keyword pointing to a folder containing</div>
+<div class="line"><cite>json</cite> files with a colection of visibilities;</div>
+<div class="line">* a keyword corresponding to a dictionnay entry</div>
+<div class="line">in <cite>visibility.yaml</cite> to compute the visibility</div>
+<div class="line">on the fly</div>
+<div class="line">* <cite>forced</cite> to force a single infinite night</div>
+<div class="line">* <cite>permanent</cite> to force a permanent visibility</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">EBLmodel</span></code></p></td>
+<td><p>“dominguez”</p></td>
+<td><div class="line-block">
+<div class="line">Extragalactic Background Light model as</div>
+<div class="line">defined in gammapy or <cite>built-in</cite> if provided</div>
+<div class="line">or <cite>None</cite> if ignored (no absortpion)</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="input-output">
+<h2>Input / Output<a class="headerlink" href="#input-output" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 22%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">out_dir</span></code></p></td>
+<td><p>None</p></td>
+<td><div class="line-block">
+<div class="line">Specific output subfolder, with a name</div>
+<div class="line">related to tests or IRF</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">data_dir</span></code></p></td>
+<td><p>None</p></td>
+<td><p>Data subfolder</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">prompt_dir</span></code></p></td>
+<td><p>None</p></td>
+<td><div class="line-block">
+<div class="line">if not Null, read time-integrated</div>
+<div class="line">prompt from this subfolder</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">irf_dir</span></code></p></td>
+<td><p>None</p></td>
+<td><div class="line-block">
+<div class="line">IRF subfolder - should contain a tag</div>
+<div class="line">for the production used</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">prefix</span></code></p></td>
+<td><p>None</p></td>
+<td><div class="line-block">
+<div class="line">The prefix before the source identifier</div>
+<div class="line">to create the full file name</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">suffix</span></code></p></td>
+<td><p>None</p></td>
+<td><div class="line-block">
+<div class="line">The suffix after the source identifier to</div>
+<div class="line">create the file name (including the extension)</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="simulation-parameters">
+<h2>Simulation parameters<a class="headerlink" href="#simulation-parameters" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 18%" />
+<col style="width: 56%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">niter</span></code></p></td>
+<td><p>1</p></td>
+<td><p>Number of Monte Carlo trials</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">seed</span></code></p></td>
+<td><p>2021</p></td>
+<td><p>Choose ‘random-seed’ to randomize</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">do_fluctuate</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Statistical fluctuations are enabled</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">do_accelerate</span></code></p></td>
+<td><p>True</p></td>
+<td><div class="line-block">
+<div class="line">When True, the simulation is stopped if</div>
+<div class="line">none of the first trials in the limit</div>
+<div class="line">of <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">-</span> <span class="pre">det_level</span></code> have reached the minimal</div>
+<div class="line">significance. In a simulation with 100</div>
+<div class="line">trials requesting a 3 sigma detection in</div>
+<div class="line">90% of the iterations, the simulation will</div>
+<div class="line">be stopped after 10 iterations*</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>(*) Note that this bias the resulting population since it artificially depletes
+the maximal significance population below the minimum required (e.g. 3 sigma).</p>
+</section>
+<section id="detection-parameters">
+<h2>Detection parameters<a class="headerlink" href="#detection-parameters" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">array_North</span></code></p></td>
+<td><p>“FullArray”</p></td>
+<td><p>IRF North array</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">array_South</span></code></p></td>
+<td><p>“FullArray”</p></td>
+<td><p>IRF South array</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dtslew_North</span></code></p></td>
+<td><p>“30 s”</p></td>
+<td><p>Maximum slewing time delay in North</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dtslew_South</span></code></p></td>
+<td><p>“30 s”</p></td>
+<td><p>Maximum slewing time delay in South</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fixslew</span></code></p></td>
+<td><p>True</p></td>
+<td><dl class="simple">
+<dt>If False generate a random delay less</dt><dd><p>than <code class="docutils literal notranslate"><span class="pre">dtslew</span></code>. If True use <code class="docutils literal notranslate"><span class="pre">dtswift</span></code></p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dtswift</span></code></p></td>
+<td><p>77*u.s</p></td>
+<td><div class="line-block">
+<div class="line">Alert latency Fixed SWIFT latency</div>
+<div class="line">(e.g. SWIFT latency, with</div>
+<div class="line">a mean value of 77 s)</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fixswift</span></code></p></td>
+<td><p>True</p></td>
+<td><div class="line-block">
+<div class="line">If False, the latency is generated from</div>
+<div class="line">real data file (see below)</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">swiftfile</span></code></p></td>
+<td><div class="line-block">
+<div class="line">data/swift/</div>
+<div class="line">Swift_delay_times.txt</div>
+</div>
+</td>
+<td><p>Swift latency file</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="debugging-and-bookkeeping">
+<h2>Debugging and bookkeeping<a class="headerlink" href="#debugging-and-bookkeeping" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dbg</span></code></p></td>
+<td><p>0</p></td>
+<td><p>From 0 to 3, increasingly verbosy</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">silent</span></code></p></td>
+<td><p>False</p></td>
+<td><p>If True, nothing on screen (output to log)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">save_simu</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Simulation saved to file for offline use</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">save_grb</span></code></p></td>
+<td><p>False</p></td>
+<td><p>GRB class saved to disk -&gt; use grb.py main</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">datafile</span></code></p></td>
+<td><p>“data.txt”</p></td>
+<td><p>Population study main output file</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">logfile</span></code></p></td>
+<td><p>“analysis.log”</p></td>
+<td><p>Text file with results, status and warning</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">remove_tar</span></code></p></td>
+<td><p>False</p></td>
+<td><div class="line-block">
+<div class="line">Remove tarred files, otherwise keep for</div>
+<div class="line">faster access</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="experts-and-developpers-only">
+<h2>Experts and developpers only<a class="headerlink" href="#experts-and-developpers-only" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>What is it ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">det_level</span></code></p></td>
+<td><p>0.9</p></td>
+<td><p>Confidence level for detection</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code></p></td>
+<td><p>0.2</p></td>
+<td><p>One over the number of on/off regions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">obs_point</span></code></p></td>
+<td><p>“end”</p></td>
+<td><p>Observation position in the time slice</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_prompt</span></code></p></td>
+<td><p>False</p></td>
+<td><p>If True test prompt alone (experimental)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">use_afterglow</span></code></p></td>
+<td><p>False</p></td>
+<td><div class="line-block">
+<div class="line">Prompt characteritics from the afterglow</div>
+<div class="line">with same id.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tshift</span></code></p></td>
+<td><p>0</p></td>
+<td><p>Shift in days applied to all trigger dates</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">signal_to_zero</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Keep only background, set signal to zero</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fixed_zenith</span></code></p></td>
+<td><p>None</p></td>
+<td><p>If a value (<cite>20*u.deg</cite>) freeze zenith in IRF</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">magnify</span></code></p></td>
+<td><p>1</p></td>
+<td><p>Multiplicative factor of the flux, for tests</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">write_slices</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Store detailed information on slices if True</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">save_dataset</span></code></p></td>
+<td><p>False</p></td>
+<td><p>Not implemented (save datasets)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">n_night</span></code></p></td>
+<td><p>Null</p></td>
+<td><p>Limit data to a maximal number of nights</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">skip</span></code></p></td>
+<td><p>Null</p></td>
+<td><p>Skip the firts nights</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Emax</span></code></p></td>
+<td><p>Null</p></td>
+<td><p>Limit data energy bins to Emax</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-configuration">
+<span id="configuration-module"></span><h2>configuration Module<a class="headerlink" href="#module-configuration" title="Permalink to this heading"></a></h2>
+<p>Created on Tue Aug  4 13:17:27 2020</p>
+<p>This module is organised around the <a class="reference internal" href="api/configuration.Configuration.html#configuration.Configuration" title="configuration.Configuration"><code class="xref py py-class docutils literal notranslate"><span class="pre">Configuration</span></code></a> class.</p>
+<p>&#64;author: Stolar</p>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/configuration.Configuration.html#configuration.Configuration" title="configuration.Configuration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Configuration</span></code></a>()</p></td>
+<td><p>This class handles all the external parameters required to run a simulation and the corresponding analysis.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/SoHAPPy.main.html" class="btn btn-neutral float-left" title="main" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/configuration.Configuration.html" class="btn btn-neutral float-right" title="Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

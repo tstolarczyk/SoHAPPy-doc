@@ -1,0 +1,6 @@
+compute
+=======
+
+.. currentmodule:: analysis.population.rate
+
+.. autofunction:: compute

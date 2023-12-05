@@ -1,0 +1,6 @@
+separator
+=========
+
+.. currentmodule:: analysis.population.rate
+
+.. autofunction:: separator

@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>analysis.population.population &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analysis.population.population</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for analysis.population.population</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Wed Nov  9 17:40:49 2022</span>
+
+<span class="sd">Contains the definition of the :class:`Population`. The constructor function</span>
+<span class="sd">opens the input files and store the read data in various</span>
+<span class="sd">`pandas` table that are reused later. The main function reads the data,</span>
+<span class="sd">perform a sanity check comparing the results to the requirement in the</span>
+<span class="sd">original configuration file, check for negative significances, the fraction</span>
+<span class="sd">of GRB for which the prompt component can be detected etc.</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span> <span class="nn">astropy.time</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">MultipleLocator</span>
+
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">t_fmt</span><span class="p">,</span> <span class="n">heading</span><span class="p">,</span> <span class="n">warning</span>
+<span class="kn">from</span> <span class="nn">niceplot</span> <span class="kn">import</span> <span class="n">MyLabel</span><span class="p">,</span> <span class="n">stamp</span>
+
+<span class="kn">from</span> <span class="nn">pop_io</span> <span class="kn">import</span> <span class="n">get_config_data</span><span class="p">,</span> <span class="n">get_data</span>
+
+<span class="c1"># Bigger texts and labels</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">)</span> <span class="c1"># notebook, notebook, paper</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Pop&quot;</span><span class="p">]</span>
+
+<span class="c1">###############################################################################</span>
+<div class="viewcode-block" id="Pop"><a class="viewcode-back" href="../../../api/analysis.population.population.Pop.html#analysis.population.population.Pop">[docs]</a><span class="k">class</span> <span class="nc">Pop</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class handles population data from csv files on disk.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nyrs</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">nmaxsrc</span><span class="o">=</span><span class="mi">1000000</span><span class="p">,</span>
+                 <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get data from a csv SoHAPPy output file path list.</span>
+<span class="sd">        Compute combinatory of site visibilities.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        files : Path or list of Path.</span>
+<span class="sd">            Input files.</span>
+<span class="sd">        nyrs : float, optional</span>
+<span class="sd">            Number of years in the simulation or data sample. The default is 1.</span>
+<span class="sd">        nmaxsrc : integer, optional</span>
+<span class="sd">            Maximum number of sources to be read. The default is 1000000.</span>
+<span class="sd">        debug : boolean, optional</span>
+<span class="sd">            A general flag for debugging. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> <span class="c1"># Backward compatibility</span>
+            <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">files</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dbg</span>       <span class="o">=</span> <span class="n">debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filepaths</span> <span class="o">=</span> <span class="n">files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nyears</span>    <span class="o">=</span> <span class="n">nyrs</span> <span class="c1"># Rate normalisation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span>       <span class="o">=</span> <span class="n">tag</span> <span class="c1"># A descriptor of the data for plots</span>
+
+        <span class="c1"># The full GRB population (Entries North, South and Both).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span> <span class="p">[</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span> <span class="p">]</span> <span class="p">)</span>
+
+        <span class="c1"># After concatenation, the indices are recalculated to be unique</span>
+        <span class="c1"># and the former ones are dropped</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">mem_Mb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="mi">1024</span><span class="o">/</span><span class="mi">1024</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Memory usage = </span><span class="si">{</span><span class="n">mem_Mb</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> Mb&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Extract &quot;not visible&quot; flag and iteration from the data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unvis</span>     <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">err</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">niter</span>     <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">err</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">niter_3s</span>  <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">d3s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">niter_5s</span>  <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">d5s</span><span class="p">)</span>
+
+        <span class="c1"># If &quot;loca&quot; column does not exist, this is an old file using &quot;site&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;loca&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;site&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">grb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;site&#39;</span><span class="p">:</span> <span class="s1">&#39;loca&#39;</span><span class="p">})</span>
+                <span class="n">warning</span><span class="p">(</span><span class="s2">&quot; Deprecated column name &#39;site&#39; changed to &#39;loca&#39;&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.py: Missing column for location&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If &quot;prpt&quot; column does not exist, this is an old file using &quot;vis&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;prpt&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;vis&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">grb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;vis&#39;</span><span class="p">:</span> <span class="s1">&#39;prpt&#39;</span><span class="p">})</span>
+                <span class="n">warning</span><span class="p">(</span><span class="s2">&quot; Deprecated column name &#39;vis&#39; changed to &#39;prpt&#39;&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">warning</span><span class="p">(</span><span class="s2">&quot; f</span><span class="si">{__name__}</span><span class="s2">.py: Missing column for prompt - insering with value 0&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;prpt&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Dummy value</span>
+
+        <span class="c1"># If &quot;t_trig&quot; column does not exist, this is an old file using &quot;ttrig&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;t_trig&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;ttrig&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">grb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ttrig&#39;</span><span class="p">:</span> <span class="s1">&#39;t_trig&#39;</span><span class="p">})</span>
+                <span class="n">warning</span><span class="p">(</span><span class="s2">&quot; Deprecated column name &#39;ttrig&#39; changed to &#39;t_trig&#39;&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.py: Missing column for trigger time&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Site populations - even if not analysed</span>
+        <span class="n">g_s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;South&quot;</span><span class="p">][:</span><span class="n">nmaxsrc</span><span class="p">]</span>
+        <span class="n">g_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;North&quot;</span><span class="p">][:</span><span class="n">nmaxsrc</span><span class="p">]</span>
+        <span class="n">g_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;Both&quot;</span> <span class="p">][:</span><span class="n">nmaxsrc</span><span class="p">]</span>
+
+        <span class="c1"># Keep one of them for simulated GRB parameters (e.g. z)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ref</span>   <span class="o">=</span> <span class="n">g_n</span> <span class="c1"># Reference, no selection applied</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="c1"># Get GRB names in the data</span>
+        <span class="k">if</span>  <span class="n">g_s</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">g_n</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="n">g_s</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">g_b</span><span class="o">.</span><span class="n">size</span> <span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">:}</span><span class="s2">.py: Inconstistency in GRB name list&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Warn user in case the maximal GRB limit is below the data content</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">nmaxsrc</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; WARNING : limited statistics (&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">),</span><span class="s2">&quot;) &gt;&quot;</span><span class="p">,</span><span class="n">nmaxsrc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ngrb</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nmaxsrc</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">))</span>
+
+        <span class="c1"># Add combinatory to data frame for the name list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_combinatory</span><span class="p">()</span>
+
+        <span class="c1"># The iteration number of the simulation can be guessed</span>
+        <span class="c1"># from the error code (except if all simulations failed!)</span>
+        <span class="c1"># All iterations were processed when niter == err</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">err</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="p">]</span>
+
+        <span class="c1"># Population of all sites that could be fully analysed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_n0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="p">[</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span><span class="s2">&quot;North&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="o">.</span><span class="n">N</span><span class="o">==</span><span class="mi">1</span><span class="p">)]</span> <span class="c1"># North only</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_s0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="p">[</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span><span class="s2">&quot;South&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="o">.</span><span class="n">S</span><span class="o">==</span><span class="mi">1</span><span class="p">)]</span> <span class="c1"># South only</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="p">[</span>  <span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span><span class="s2">&quot;North&quot;</span><span class="p">]</span> <span class="c1"># North and maybe elsewhere</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="p">[</span>  <span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span><span class="s2">&quot;South&quot;</span><span class="p">]</span> <span class="c1"># South and maybe elsewhere</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="p">[</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span><span class="s2">&quot;Both&quot;</span><span class="p">)</span>  <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="o">.</span><span class="n">B</span><span class="o">==</span><span class="mi">1</span><span class="p">)]</span> <span class="c1"># Seen both</span>
+        <span class="c1"># The total unique population</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_tot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">g_b</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Get configuration file data and some parameters</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">get_config_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepaths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;niter&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">:}</span><span class="s2">.py: niter mismatch wrt configuration&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;det_level&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">conf</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.py: old config. file, &#39;det_level&#39; set to 0.9&quot;</span><span class="p">)</span>
+            <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;det_level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.9</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">eff_lvl</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;det_level&quot;</span><span class="p">]</span><span class="o">*</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;niter&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtswift</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;dtswift&quot;</span><span class="p">])</span>
+
+        <span class="k">if</span>   <span class="s2">&quot;dtslew_north&quot;</span>  <span class="ow">in</span> <span class="n">conf</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="s2">&quot;dtslew_south&quot;</span> <span class="ow">in</span> <span class="n">conf</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dtslew</span>  <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span><span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;dtslew_north&quot;</span><span class="p">]),</span>
+                            <span class="s2">&quot;South&quot;</span><span class="p">:</span><span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;dtslew_south&quot;</span><span class="p">])}</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># Try older version</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dtslew</span>  <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;North&quot;</span><span class="p">:</span><span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;dtslew_North&quot;</span><span class="p">]),</span>
+                            <span class="s2">&quot;South&quot;</span><span class="p">:</span><span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s2">&quot;dtslew_South&quot;</span><span class="p">])}</span>
+
+    <span class="c1">###-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Pop.add_combinatory"><a class="viewcode-back" href="../../../api/analysis.population.population.Pop.html#analysis.population.population.Pop.add_combinatory">[docs]</a>    <span class="k">def</span> <span class="nf">add_combinatory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add combinatory to data frame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># If columns do not exist, create them - Initlaize at zero</span>
+        <span class="k">if</span> <span class="s2">&quot;S&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;S&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># South only</span>
+        <span class="k">if</span> <span class="s2">&quot;N&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;N&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># North only</span>
+        <span class="k">if</span> <span class="s2">&quot;B&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;B&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># North and South</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbg</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;name&#39;</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;N&#39;</span><span class="si">:</span><span class="s2">&gt;3s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;S&#39;</span><span class="si">:</span><span class="s2">&gt;3s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;B&#39;</span><span class="si">:</span><span class="s2">&gt;3s</span><span class="si">}</span><span class="s2">&quot;</span> \
+                  <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="s1">&#39;No&#39;</span><span class="si">:</span><span class="s2">&gt;3s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;So&#39;</span><span class="si">:</span><span class="s2">&gt;3s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">name</span><span class="o">==</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">seen_n</span> <span class="o">=</span> <span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="n">src</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;North&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">err</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unvis</span><span class="p">)</span><span class="o">.</span><span class="n">bool</span><span class="p">()</span>
+            <span class="n">seen_s</span> <span class="o">=</span> <span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="n">src</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;South&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">err</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unvis</span><span class="p">)</span><span class="o">.</span><span class="n">bool</span><span class="p">()</span>
+            <span class="n">seen_b</span> <span class="o">=</span> <span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="n">src</span><span class="o">.</span><span class="n">loca</span><span class="o">==</span><span class="s2">&quot;Both&quot;</span> <span class="p">]</span><span class="o">.</span><span class="n">err</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unvis</span><span class="p">)</span><span class="o">.</span><span class="n">bool</span><span class="p">()</span>
+            <span class="n">seen_sonly</span> <span class="o">=</span> <span class="n">seen_s</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">seen_n</span>
+            <span class="n">seen_nonly</span> <span class="o">=</span> <span class="n">seen_n</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">seen_s</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbg</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">seen_n</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">seen_s</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">seen_b</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">&quot;</span>\
+                      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">seen_nonly</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">seen_sonly</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Note that this leads to unpredciatble results if the index</span>
+            <span class="c1"># was not rebuild after concatenation (as indices can be duplicated</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">src</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="s2">&quot;N&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">seen_nonly</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="s2">&quot;S&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">seen_sonly</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="s2">&quot;B&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">seen_b</span><span class="p">)</span></div>
+
+    <span class="c1">###------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Pop.print"><a class="viewcode-back" href="../../../api/analysis.population.population.Pop.html#analysis.population.population.Pop.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Printout the class content.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">heading</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1">#======================</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; DATA READING from :&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepaths</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; -&quot;</span><span class="p">,</span><span class="n">f</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;N&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;S&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;B&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Supplementary information is present&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; grb.N==1 seen North only&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; gbr.S==1 seen South only&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; grb.B==1 seen on both&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;+-------------------------- Flags ---------------------------+&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Flags:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   No visible flag, unvis           = &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">unvis</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Iteration # from error code, 3s and 5s counts : &quot;</span><span class="p">,</span>
+              <span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter_3s</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter_5s</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;+----------------------- Statistics -------------------------+&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="s1">&#39;Not visible&#39;</span><span class="si">:</span><span class="s2">^15s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Fully analyzed&#39;</span><span class="si">:</span><span class="s2">^15s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Aborted&#39;</span><span class="si">:</span><span class="s2">^15s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; </span><span class="si">{:^15d}</span><span class="s2"> </span><span class="si">{:^15d}</span><span class="s2"> </span><span class="si">{:^15d}</span><span class="s2">&quot;</span>
+          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span>  <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">err</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">unvis</span><span class="p">]),</span>
+                  <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span>  <span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">err</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="p">]),</span>
+                  <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">[</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">err</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="p">)</span>
+                              <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">err</span><span class="o">!=</span><span class="bp">self</span><span class="o">.</span><span class="n">unvis</span><span class="p">)</span> <span class="p">])))</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Raw statistics - max per site =&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">ngrb</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - total      : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grb</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - analyzable : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_ana</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - North      : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - South      : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - Both sites : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_b</span><span class="p">),</span>
+              <span class="s2">&quot;-&gt; total = &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="p">)</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="p">)</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_b</span><span class="p">))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - North only : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n0</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - South only : &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s0</span><span class="p">))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;+------------------------------------------------------------+&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">###-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Pop.slice_stat"><a class="viewcode-back" href="../../../api/analysis.population.population.Pop.html#analysis.population.population.Pop.slice_stat">[docs]</a>    <span class="k">def</span> <span class="nf">slice_stat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Slice number distribution</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        gname : string</span>
+<span class="sd">            Subpopulation name.</span>
+<span class="sd">        ax : Matplotlib axes, optional</span>
+<span class="sd">            Current plots axis. The default is None.</span>
+<span class="sd">        **kwargs : Dictionnary</span>
+<span class="sd">            Extra arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ax : Matplotlib axes</span>
+<span class="sd">            Current matplotlib axis.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">31</span><span class="p">)</span>
+        <span class="n">pop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">gname</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">nt</span><span class="p">,</span>
+                             <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                             <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">nt</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of slices in the GRB&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="mf">2.000</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">gname</span><span class="p">)</span>
+
+        <span class="n">stamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ax</span></div>
+
+    <span class="c1">###-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Pop.trust_CL"><a class="viewcode-back" href="../../../api/analysis.population.population.Pop.html#analysis.population.population.Pop.trust_CL">[docs]</a>    <span class="k">def</span> <span class="nf">trust_CL</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gname</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Since the detection is at 3/5 sigma,</span>
+<span class="sd">        It is expected that as a mean, the background fluctuate at 3/5 sigma</span>
+<span class="sd">        in a fraction of the time. This function try to check it.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        gname : string</span>
+<span class="sd">            Subpopulation name.</span>
+<span class="sd">        sigma : float, optional</span>
+<span class="sd">            Siginificance thresold value. The default is 3.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Trust confidence level&quot;</span><span class="p">)</span> <span class="c1">#======================</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Sub population &quot;</span><span class="p">,</span><span class="n">gname</span><span class="p">)</span>
+        <span class="n">pop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">gname</span><span class="p">]</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Err code &lt; 0          = &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">err</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">nSL</span>   <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">nt</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">sigma</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">nok</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">d3s</span><span class="p">)</span>
+            <span class="c1"># var = pop.d3s</span>
+            <span class="c1"># tag = r&quot;$3\sigma$&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; d3s code &lt; 0          = &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">d3s</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="n">sigma</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">nok</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">d5s</span><span class="p">)</span>
+            <span class="c1"># var = pop.d5s</span>
+            <span class="c1"># tag = r&quot;$5\sigma$&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; d5s code &lt; 0          = &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">d5s</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total numbers : &quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; nMC: trials  = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="si">:</span><span class="s2">10d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; nSL: slices  = </span><span class="si">{</span><span class="n">nSL</span><span class="si">:</span><span class="s2">10d</span><span class="si">}</span><span class="s2"> (mean = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">nt</span><span class="p">)</span><span class="si">:</span><span class="s2">3.2f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; -&gt; MC trials (nMC x nSL) = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="o">*</span><span class="n">nSL</span><span class="si">:</span><span class="s2">10d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">p_value</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
+        <span class="n">nexpect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">niter</span><span class="o">*</span><span class="n">nSL</span><span class="o">*</span><span class="n">p_value</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Probability to get a signal (p_value for </span><span class="si">{</span><span class="n">sigma</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> sigma&quot;</span>\
+              <span class="sa">f</span><span class="s2">&quot;   = </span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">p_value</span><span class="si">:</span><span class="s2">7.6f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    =&gt; </span><span class="si">{</span><span class="n">sigma</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> sigma occurence in a no signal scenario&quot;</span>\
+              <span class="sa">f</span><span class="s2">&quot;    = </span><span class="si">{</span><span class="n">nexpect</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Observed </span><span class="si">{</span><span class="n">sigma</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> sigma trials in the data&quot;</span>\
+              <span class="sa">f</span><span class="s2">&quot;                = </span><span class="si">{</span><span class="n">nok</span><span class="si">:</span><span class="s2">10.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">###-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Pop.sanity_check"><a class="viewcode-back" href="../../../api/analysis.population.population.Pop.html#analysis.population.population.Pop.sanity_check">[docs]</a>    <span class="k">def</span> <span class="nf">sanity_check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform some sanity checks on the data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Sanity checks&quot;</span><span class="p">)</span> <span class="c1">#======================</span>
+
+        <span class="c1"># Min altitude</span>
+        <span class="n">_</span> <span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">axi</span><span class="p">,</span> <span class="n">gpop</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
+                                  <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">g_b</span><span class="p">],</span>
+                                  <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">,</span><span class="s2">&quot;Both&quot;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">tag</span> <span class="o">!=</span> <span class="s2">&quot;Both&quot;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Estimated min altitude in &quot;</span><span class="p">,</span><span class="n">tag</span><span class="p">,</span><span class="s2">&quot; :&quot;</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">gpop</span><span class="o">.</span><span class="n">altmx</span><span class="p">))</span>
+            <span class="n">axi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">gpop</span><span class="o">.</span><span class="n">altmx</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+            <span class="n">axi</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Altitude at max $\sigma$&quot;</span><span class="p">)</span>
+            <span class="n">axi</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="n">_</span> <span class="p">,</span> <span class="n">ax0</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">axi</span><span class="p">,</span> <span class="n">gpop</span><span class="p">,</span> <span class="n">loc</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax0</span><span class="p">,[</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="p">],[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span><span class="s2">&quot;South&quot;</span><span class="p">]):</span>
+
+            <span class="n">axi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">gpop</span><span class="p">[</span><span class="n">gpop</span><span class="o">.</span><span class="n">t3s</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">t3s</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
+            <span class="n">delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtslew</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span>
+
+            <span class="n">axi</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">delay</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">delay</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">delay</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+
+            <span class="n">delay</span> <span class="o">=</span> <span class="n">delay</span><span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtswift</span>
+            <span class="n">axi</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span> <span class="n">delay</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                       <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span>
+                       <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">delay</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">delay</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+
+            <span class="n">axi</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Time delay to $3 \sigma$  - &quot;</span><span class="o">+</span><span class="n">loc</span><span class="p">)</span>
+            <span class="n">axi</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">xmax</span><span class="o">=</span><span class="mi">10</span><span class="o">+</span><span class="mf">1.3</span><span class="o">*</span><span class="n">delay</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1">#axi.set_yscale(&quot;log&quot;)</span>
+            <span class="n">axi</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Estimated total delay in </span><span class="si">{</span><span class="n">loc</span><span class="si">:</span><span class="s2">5s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - From visibility start : </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">gpop</span><span class="p">[</span><span class="n">gpop</span><span class="o">.</span><span class="n">t1</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">t1</span><span class="p">)</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - From 3s detection     : </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">gpop</span><span class="p">[</span><span class="n">gpop</span><span class="o">.</span><span class="n">t3s</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">t3s</span><span class="p">)</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">###-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Pop.negative_significance"><a class="viewcode-back" href="../../../api/analysis.population.population.Pop.html#analysis.population.population.Pop.negative_significance">[docs]</a>    <span class="k">def</span> <span class="nf">negative_significance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Negative significances</span>
+<span class="sd">        The significance is returned by the WStatCountsStatistic function in</span>
+<span class="sd">        gammapy, and has a sign which corresponds to the sign of the excess.</span>
+<span class="sd">        As a consequence it can be negative. In case the simulation is done</span>
+<span class="sd">        without fluctuation and one trial, the excess can not be negative,</span>
+<span class="sd">        and all significances are zero (no excess count) or more.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Negative siginificances&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">g</span><span class="p">,</span><span class="n">txt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_b</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">,</span> <span class="s2">&quot;North only&quot;</span><span class="p">,</span><span class="s2">&quot;South only&quot;</span><span class="p">,</span><span class="s2">&quot;Both&quot;</span><span class="p">]):</span>
+
+            <span class="n">n_pos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">n0</span>    <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">sigmx</span><span class="o">==</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">n_neg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">sigmx</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">n_neg</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; This simualtion was probably without fluctuations&quot;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">txt</span><span class="si">:</span><span class="s2">10s</span><span class="si">}</span><span class="s2"> &lt;0: </span><span class="si">{</span><span class="n">n_neg</span><span class="si">:</span><span class="s2">&lt;5d</span><span class="si">}</span><span class="s2"> ==0: </span><span class="si">{</span><span class="n">n0</span><span class="si">:</span><span class="s2">&lt;5d</span><span class="si">}</span><span class="s2"> &gt;0: </span><span class="si">{</span><span class="n">n_pos</span><span class="si">:</span><span class="s2">&lt;5d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">###-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Pop.detectable_prompt"><a class="viewcode-back" href="../../../api/analysis.population.population.Pop.html#analysis.population.population.Pop.detectable_prompt">[docs]</a>    <span class="k">def</span> <span class="nf">detectable_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Based on t90, prpt, avalaible in the most recent file.</span>
+
+<span class="sd">        Note that counting for both sites has no sense since the delays are</span>
+<span class="sd">        different on the two sites (the first has the intrinsic delay whereas</span>
+<span class="sd">        the other is most likely having no delay if the time delay between the</span>
+<span class="sd">        visibilities of the two sites is larger than the first site delay).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot; GRB with prompt potentially visible&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="s1">&#39;t90(s)&gt;&#39;</span><span class="si">:</span><span class="s2">8s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;N&#39;</span><span class="si">:</span><span class="s2">4s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;S&#39;</span><span class="si">:</span><span class="s2">4s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">delay</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">107</span><span class="p">]:</span>
+            <span class="n">prS</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="p">[</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="o">.</span><span class="n">prpt</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="o">.</span><span class="n">t90</span><span class="o">&gt;</span><span class="n">delay</span><span class="p">)</span> <span class="p">]</span>
+            <span class="n">prN</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="p">[</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="o">.</span><span class="n">prpt</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="o">.</span><span class="n">t90</span><span class="o">&gt;</span><span class="n">delay</span><span class="p">)</span> <span class="p">]</span>
+            <span class="n">n_S</span>   <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prS</span><span class="p">)</span>
+            <span class="n">n_N</span>   <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prN</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">delay</span><span class="si">:</span><span class="s2">&lt;8.0f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">n_N</span><span class="si">:</span><span class="s2">&gt;4d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">n_S</span><span class="si">:</span><span class="s2">&gt;4d</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;In North : &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">n</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span> <span class="k">for</span> <span class="n">n</span>  <span class="ow">in</span> <span class="n">prN</span><span class="o">.</span><span class="n">name</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;In South : &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">n</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span> <span class="k">for</span> <span class="n">n</span>  <span class="ow">in</span> <span class="n">prS</span><span class="o">.</span><span class="n">name</span><span class="p">]))</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="p">],</span>
+                              <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">]):</span>
+
+            <span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">t90</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">prpt</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">t90</span><span class="p">,</span>
+                    <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">t90</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Prompt visible&quot;</span><span class="p">))</span>
+
+            <span class="n">mask1</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">prpt</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">t90</span><span class="o">&gt;</span><span class="mi">107</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask1</span><span class="p">]</span><span class="o">.</span><span class="n">t90</span><span class="p">,</span>
+                    <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask1</span><span class="p">]</span><span class="o">.</span><span class="n">t90</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Prompt detectable &gt;107s&quot;</span><span class="p">))</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">107</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$t_</span><span class="si">{90}</span><span class="s2">$&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+    <span class="c1">###-------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Pop.detection_above_sigma"><a class="viewcode-back" href="../../../api/analysis.population.population.Pop.html#analysis.population.population.Pop.detection_above_sigma">[docs]</a>    <span class="k">def</span> <span class="nf">detection_above_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display information on source detected above 5 sigma at 90%CL</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sigma : float, optional</span>
+<span class="sd">            Significance value. The default is 5.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Detection above a certain significance&quot;</span><span class="p">)</span> <span class="c1">#================</span>
+
+        <span class="k">for</span> <span class="n">grb</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_b</span><span class="p">],</span>
+                            <span class="p">[</span><span class="s2">&quot;N only&quot;</span><span class="p">,</span><span class="s2">&quot;S only&quot;</span><span class="p">,</span> <span class="s2">&quot;Both&quot;</span><span class="p">]):</span>
+
+            <span class="n">conf_level</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">eff_lvl</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">niter</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;###---------------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;###------- </span><span class="si">{</span><span class="n">tag</span><span class="si">:</span><span class="s2">7s</span><span class="si">}</span><span class="s2"> -----&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;###---------------------&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">sigma</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">glist</span> <span class="o">=</span> <span class="n">grb</span><span class="p">[(</span><span class="n">grb</span><span class="o">.</span><span class="n">d5s</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">)</span> <span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; &gt;= 5 sig. at </span><span class="si">{</span><span class="n">conf_level</span><span class="si">:</span><span class="s2">2.0f</span><span class="si">}</span><span class="s2">% CL :&quot;</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">sigma</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
+                <span class="n">glist</span> <span class="o">=</span> <span class="n">grb</span><span class="p">[(</span><span class="n">grb</span><span class="o">.</span><span class="n">d3s</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">)</span> <span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; &gt;= 3 sig. at </span><span class="si">{</span><span class="n">conf_level</span><span class="si">:</span><span class="s2">2.0f</span><span class="si">}</span><span class="s2">% CL :&quot;</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">glist</span> <span class="o">=</span> <span class="n">grb</span><span class="p">[</span> <span class="p">(</span><span class="n">grb</span><span class="o">.</span><span class="n">d3s</span><span class="o">&gt;=</span><span class="bp">self</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">grb</span><span class="o">.</span><span class="n">d5s</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">)]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &gt;= 3 and &lt;5 sigma at </span><span class="si">{conf_level:2.0f}</span><span class="s2">% CL :&quot;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="si">:</span><span class="s2">&lt;5s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;prt&#39;</span><span class="si">:</span><span class="s2">&gt;3s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;z&#39;</span><span class="si">:</span><span class="s2">&gt;4s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;t5s&#39;</span><span class="si">:</span><span class="s2">&gt;18s</span><span class="si">}</span><span class="s2"> &quot;</span>\
+                  <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;sigmax&#39;</span><span class="si">:</span><span class="s2">&gt;15s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;tmax&#39;</span><span class="si">:</span><span class="s2">&gt;19s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;date&#39;</span><span class="si">:</span><span class="s2">&gt;23s</span><span class="si">}</span><span class="s2"> &quot;</span>\
+                  <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;</span><span class="si">%3s</span><span class="s1">&#39;</span><span class="si">:</span><span class="s2">&gt;3s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;</span><span class="si">%5s</span><span class="s1">&#39;</span><span class="si">:</span><span class="s2">&gt;3s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">gg</span> <span class="ow">in</span> <span class="n">glist</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="n">t5s</span>  <span class="o">=</span> <span class="n">t_fmt</span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">t5s</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span><span class="n">digit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">et5s</span> <span class="o">=</span> <span class="n">t_fmt</span><span class="p">((</span><span class="n">gg</span><span class="o">.</span><span class="n">et5s</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">),</span><span class="n">digit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">t5s</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+                <span class="n">tmx</span> <span class="o">=</span> <span class="n">t_fmt</span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">tmx</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">,</span><span class="n">digit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">etmx</span> <span class="o">=</span> <span class="n">t_fmt</span><span class="p">(</span> <span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">etmx</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">),</span><span class="n">digit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">tmx</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+                <span class="n">t_trig</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">gg</span><span class="o">.</span><span class="n">t_trig</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;mjd&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isot</span>
+                <span class="k">if</span> <span class="n">tag</span><span class="o">==</span><span class="s2">&quot;Both&quot;</span><span class="p">:</span>
+                    <span class="n">vis</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">g_n</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">==</span><span class="n">gg</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">prpt</span><span class="p">))</span>
+                    <span class="n">vis</span><span class="o">+=</span> <span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">g_s</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">==</span><span class="n">gg</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">prpt</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">vis</span> <span class="o">=</span> <span class="n">gg</span><span class="o">.</span><span class="n">prpt</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gg</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">][</span><span class="mi">5</span><span class="p">:]</span><span class="si">:</span><span class="s2">&lt;5s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">vis</span><span class="p">)</span><span class="si">:</span><span class="s2">3s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">gg</span><span class="o">.</span><span class="n">z</span><span class="si">:</span><span class="s2">4.1f</span><span class="si">}</span><span class="s2"> &quot;</span> \
+                      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t5s</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">et5s</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">&lt;5.1f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">t5s</span><span class="o">.</span><span class="n">unit</span><span class="si">:</span><span class="s2">3s</span><span class="si">}</span><span class="s2"> &quot;</span>\
+                      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gg</span><span class="o">.</span><span class="n">sigmx</span><span class="si">:</span><span class="s2">&gt;6.1f</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">gg</span><span class="o">.</span><span class="n">esigmx</span><span class="si">:</span><span class="s2">&gt;3.1f</span><span class="si">}</span><span class="s2"> &quot;</span>\
+                      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tmx</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">etmx</span><span class="o">.</span><span class="n">value</span><span class="si">:</span><span class="s2">&lt;5.1f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">tmx</span><span class="o">.</span><span class="n">unit</span><span class="si">:</span><span class="s2">3s</span><span class="si">}</span><span class="s2"> &quot;</span>\
+                      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t_trig</span><span class="si">:</span><span class="s2">23s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">gg</span><span class="o">.</span><span class="n">d3s</span><span class="si">:</span><span class="s2">3.0f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">gg</span><span class="o">.</span><span class="n">d5s</span><span class="si">:</span><span class="s2">3.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
+
+
+
+<span class="c1">###############################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="c1"># A standalone function to read a GRB and make various tests</span>
+
+    <span class="n">codefolder</span> <span class="o">=</span> <span class="s2">&quot;../../&quot;</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">codefolder</span><span class="p">)</span>
+
+    <span class="n">nyears</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">parpath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># nyears, files, tag = get_data(parpath=&quot;parameter.yaml&quot;,debug=False)</span>
+
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">Pop</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span> <span class="n">tag</span><span class="p">,</span>  <span class="n">nyrs</span><span class="o">=</span> <span class="n">nyears</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+    <span class="n">pop</span><span class="o">.</span><span class="n">sanity_check</span><span class="p">()</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">detection_above_sigma</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">negative_significance</span><span class="p">()</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">detectable_prompt</span><span class="p">()</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">slice_stat</span><span class="p">(</span><span class="s2">&quot;g_n&quot;</span><span class="p">)</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">trust_CL</span><span class="p">(</span><span class="s2">&quot;g_tot&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

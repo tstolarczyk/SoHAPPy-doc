@@ -1,0 +1,6 @@
+nLiMamin
+========
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: nLiMamin

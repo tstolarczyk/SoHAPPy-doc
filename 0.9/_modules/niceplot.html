@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>niceplot &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">niceplot</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for niceplot</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Oct 17 09:56:58 2022</span>
+
+<span class="sd">A bunch of functions to manipulate objects related to plots.</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span> <span class="nn">gammapy</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">mcolors</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pause&quot;</span><span class="p">,</span> <span class="s2">&quot;MyLabel&quot;</span><span class="p">,</span><span class="s2">&quot;single_legend&quot;</span><span class="p">,</span><span class="s2">&quot;vals_legend&quot;</span><span class="p">,</span><span class="s2">&quot;stamp&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;projected_scatter&quot;</span><span class="p">,</span><span class="s2">&quot;ColorMap&quot;</span><span class="p">,</span><span class="s2">&quot;col_size&quot;</span><span class="p">,</span><span class="s2">&quot;draw_sphere&quot;</span><span class="p">]</span>
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="pause"><a class="viewcode-back" href="../api/niceplot.pause.html#niceplot.pause">[docs]</a><span class="k">def</span> <span class="nf">pause</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Used to pause plot display in interactive mode on a shell script. In the</span>
+<span class="sd">    abscence of a call to that function figures wil stack on the screen during</span>
+<span class="sd">    the run and all disappear at the end of the run.</span>
+<span class="sd">    Using this, figures will be stacked on screen and displayed for each event</span>
+<span class="sd">    until they are closed by the user.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="MyLabel"><a class="viewcode-back" href="../api/niceplot.MyLabel.html#niceplot.MyLabel">[docs]</a><span class="k">def</span> <span class="nf">MyLabel</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;std&quot;</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A label for plots and histograms with statistics.</span>
+<span class="sd">    Add extra statistical information (counts, dispersions) to a classical</span>
+<span class="sd">    matplotlib label.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    var : A list or numpy array</span>
+<span class="sd">        The plotted variable.</span>
+<span class="sd">    label : String, optional</span>
+<span class="sd">        The classical label text. The default is &quot;&quot;.</span>
+<span class="sd">    stat : String, optional</span>
+<span class="sd">        A keyword defining the extra information to be displayed (on top</span>
+<span class="sd">        of counts) : &quot;std&quot; for standard deviation, &quot;med&quot; for median, None to</span>
+<span class="sd">        have counts only. The default is &quot;std&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    legend : String</span>
+<span class="sd">        The modfied label text.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+    <span class="n">legend</span><span class="o">=</span><span class="s2">&quot;bad option&quot;</span>
+    <span class="k">if</span> <span class="n">stat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">label</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;$n$ : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">if</span> <span class="n">stat</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;std&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">legend</span> <span class="o">=</span> <span class="n">label</span>  \
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;$n$ : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">))</span> \
+                <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;$\bar</span><span class="si">{n}</span><span class="s2">$ : &quot;</span><span class="o">+</span><span class="s2">&quot;</span><span class="si">{:5.3f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">var</span><span class="p">))</span> \
+                <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;$\sigma$ : &quot;</span><span class="o">+</span><span class="s2">&quot; </span><span class="si">{:5.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">stat</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;med&quot;</span><span class="p">)</span> <span class="o">!=-</span><span class="mi">1</span> <span class="p">:</span>
+        <span class="n">legend</span> <span class="o">=</span> <span class="n">label</span>  \
+                <span class="o">+</span> <span class="s2">&quot;$n$ : </span><span class="si">{:d}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">))</span> \
+                <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;$\bar</span><span class="si">{n}</span><span class="s2">$ : &quot;</span><span class="o">+</span><span class="s2">&quot;</span><span class="si">{:5.3f}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">var</span><span class="p">))</span> \
+                <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;$Med.$ : &quot;</span><span class="o">+</span><span class="s2">&quot; </span><span class="si">{:5.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">legend</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="single_legend"><a class="viewcode-back" href="../api/niceplot.single_legend.html#niceplot.single_legend">[docs]</a><span class="k">def</span> <span class="nf">single_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove duplicated labels in legend (e.g. a vertical and an horizontal</span>
+<span class="sd">    lines defining and intersection having the same labels).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : matplotlib.axes</span>
+<span class="sd">        Current axis.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+    <span class="n">by_label</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">handles</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">by_label</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">by_label</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="vals_legend"><a class="viewcode-back" href="../api/niceplot.vals_legend.html#niceplot.vals_legend">[docs]</a><span class="k">def</span> <span class="nf">vals_legend</span><span class="p">(</span><span class="n">vals</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">var_max</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create Matplotlib patches with colored circles from a list of values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vals: list of float</span>
+<span class="sd">        List of values in legend</span>
+<span class="sd">    alpha : float, optional</span>
+<span class="sd">        Alpha value. The default is 0.5.</span>
+<span class="sd">    var_max : float, optional</span>
+<span class="sd">        Maximal value. The default is 1000.</span>
+<span class="sd">    **kwargs : Dictionnary</span>
+<span class="sd">        Extra parameters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    patches : legend elements</span>
+<span class="sd">        Legend associated to the current axis.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">vals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span> <span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span>
+
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">]</span>
+    <span class="c1"># symbol = Line2D(range(1), range(1), color=&quot;white&quot;, marker=&#39;o&#39;,</span>
+    <span class="c1"># markerfacecolor=&quot;red&quot;)</span>
+
+    <span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span> <span class="o">=</span> <span class="n">col_size</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span><span class="n">var_max</span><span class="o">=</span><span class="n">var_max</span><span class="p">)</span>
+    <span class="n">patches</span> <span class="o">=</span> <span class="p">[</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+                          <span class="n">ms</span> <span class="o">=</span> <span class="mi">7</span><span class="o">+</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mi">50</span><span class="p">,</span>
+                          <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                          <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span>
+                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">patches</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="stamp"><a class="viewcode-back" href="../api/niceplot.stamp.html#niceplot.stamp">[docs]</a><span class="k">def</span> <span class="nf">stamp</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="n">where</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Annotation on the side of any plot referred from the axis, including</span>
+<span class="sd">    the gammapy version.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text : String</span>
+<span class="sd">       Text to be displayed</span>
+<span class="sd">    where : String, optional</span>
+<span class="sd">       Position of the text with respect to the axis.</span>
+<span class="sd">       The default is `right`.</span>
+<span class="sd">    x : float, optional</span>
+<span class="sd">       Text x position, supersedes the `where` variable.</span>
+<span class="sd">       The default is `None`.</span>
+<span class="sd">    y : float, optional</span>
+<span class="sd">       Text x position, supersedes the `where` variable.</span>
+<span class="sd">       The default is `None`.</span>
+<span class="sd">    rotation : float, optional</span>
+<span class="sd">       Text rotation - If not given use default.</span>
+<span class="sd">       The default is `None`.</span>
+<span class="sd">    axis : matplotlib.axes, optional</span>
+<span class="sd">       Current plot axis. The default is `None`.</span>
+<span class="sd">    **kwargs :</span>
+<span class="sd">       Any additionnal arguments for matplotlib.axes.text</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="n">gammapy</span><span class="o">.</span><span class="n">__version__</span>
+
+    <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span> <span class="c1"># Currentr figure</span>
+
+    <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span>   <span class="n">where</span> <span class="o">==</span><span class="s2">&quot;right&quot;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span>  <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="mi">270</span>
+        <span class="k">elif</span> <span class="n">where</span> <span class="o">==</span><span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span>  <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="mi">90</span>
+        <span class="k">elif</span> <span class="n">where</span> <span class="o">==</span><span class="s2">&quot;top&quot;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span>   <span class="mi">1</span><span class="p">)</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">where</span> <span class="o">==</span><span class="s2">&quot;bottom&quot;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span>   <span class="mi">0</span><span class="p">)</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">axis</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+              <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+              <span class="n">verticalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+              <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="projected_scatter"><a class="viewcode-back" href="../api/niceplot.projected_scatter.html#niceplot.projected_scatter">[docs]</a><span class="k">def</span> <span class="nf">projected_scatter</span><span class="p">(</span><span class="n">xsize</span>   <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>  <span class="n">ysize</span>  <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+                      <span class="n">left</span>    <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">width</span>  <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span>
+                      <span class="n">bottom</span>  <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span>
+                      <span class="n">spacing</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Matplotlib template to display a scatter plot and the horizontal and</span>
+<span class="sd">    vertical projections of the data. Adapted from :</span>
+<span class="sd">    https://matplotlib.org/stable/gallery/lines_bars_and_markers/scatter_hist.html#sphx-glr-gallery-lines-bars-and-markers-scatter-hist-py</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xsize : float, optional</span>
+<span class="sd">        Figure horizontal size. The default is 12.</span>
+<span class="sd">    ysize : float, optional</span>
+<span class="sd">        Figure vertical size. The default is 8.</span>
+<span class="sd">    left : float, optional</span>
+<span class="sd">        Scatter plot left position. The default is 0.1.</span>
+<span class="sd">    width : float, optional</span>
+<span class="sd">        Height of the histogram handling the y-projection. The default is 0.7.</span>
+<span class="sd">    bottom : float, optional</span>
+<span class="sd">        Scatter plot bottom position. The default is 0.1.</span>
+<span class="sd">    height : float, optional</span>
+<span class="sd">        Height of the histogram handling the x-projection. The default is 0.7.</span>
+<span class="sd">    spacing : TYPE, optional</span>
+<span class="sd">        Space between the subplots. The default is 0.02.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fig : TYPE</span>
+<span class="sd">        DESCRIPTION.</span>
+<span class="sd">    ax : matplotlib.axes</span>
+<span class="sd">        Scatter plot axis.</span>
+<span class="sd">    axh : matplotlib.axes</span>
+<span class="sd">        Horizontal projection axis.</span>
+<span class="sd">    axv : matplotlib.axes</span>
+<span class="sd">        Vertical projection axis.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rect_scatter</span> <span class="o">=</span> <span class="p">[</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">]</span>
+    <span class="n">rect_histx</span>   <span class="o">=</span> <span class="p">[</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]</span>
+    <span class="n">rect_histy</span>   <span class="o">=</span> <span class="p">[</span><span class="n">left</span> <span class="o">+</span> <span class="n">width</span> <span class="o">+</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">height</span><span class="p">]</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">xsize</span><span class="p">,</span> <span class="n">ysize</span><span class="p">))</span>
+    <span class="n">ax</span>  <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">rect_scatter</span><span class="p">)</span>
+    <span class="n">axh</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">rect_histx</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">axv</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">rect_histy</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+    <span class="n">axh</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">axv</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">axh</span><span class="p">,</span> <span class="n">axv</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="ColorMap"><a class="viewcode-back" href="../api/niceplot.ColorMap.html#niceplot.ColorMap">[docs]</a><span class="k">def</span> <span class="nf">ColorMap</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span><span class="n">maxval</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a colormap based on a threshold and a maximal value</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        Starting values.</span>
+<span class="sd">    maxval : float</span>
+<span class="sd">        End value.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mymap : matplotlib.colors.LinearSegmentedColormap</span>
+<span class="sd">        A matplotlib color map.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">color_cut</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">256</span><span class="o">*</span><span class="n">threshold</span><span class="o">/</span><span class="n">maxval</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;color_cut=&quot;</span><span class="p">,</span><span class="n">color_cut</span><span class="p">)</span>
+    <span class="n">colors1</span>  <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Greys</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color_cut</span><span class="p">))</span>
+    <span class="n">colors2</span>  <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">plasma</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">256</span><span class="o">-</span><span class="n">color_cut</span><span class="p">))</span>
+
+    <span class="c1"># combine them and build a new colormap</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">colors1</span><span class="p">,</span> <span class="n">colors2</span><span class="p">))</span>
+    <span class="n">mymap</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="s1">&#39;my_colormap&#39;</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mymap</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="col_size"><a class="viewcode-back" href="../api/niceplot.col_size.html#niceplot.col_size">[docs]</a><span class="k">def</span> <span class="nf">col_size</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">var_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span><span class="n">var_max</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    get a color and a size from a numerical value</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    var : float</span>
+<span class="sd">        Input number.</span>
+<span class="sd">    var_min : float, optional</span>
+<span class="sd">        Minimal value. The default is 1.1.</span>
+<span class="sd">    var_max : float, optional</span>
+<span class="sd">        Maximal value. The default is 1000.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    color : matplotlib color</span>
+<span class="sd">        Color.</span>
+<span class="sd">    size : float</span>
+<span class="sd">        matplotlib size.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Limit values in case they are not yet limited</span>
+    <span class="n">var</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">var_min</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">var_max</span><span class="p">))</span>
+    <span class="n">size</span>  <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">color</span><span class="p">,</span> <span class="n">size</span></div>
+
+<span class="c1">###----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="draw_sphere"><a class="viewcode-back" href="../api/niceplot.draw_sphere.html#niceplot.draw_sphere">[docs]</a><span class="k">def</span> <span class="nf">draw_sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draw a sphere in matplotlib.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    radius : float, optional</span>
+<span class="sd">        radius. The default is 1.</span>
+<span class="sd">    colormap : matplolib color map, optional</span>
+<span class="sd">        Color map. The default is plt.cm.viridis.</span>
+<span class="sd">    ax : matplolib axes, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+<span class="sd">    **kwargs :</span>
+<span class="sd">        Extra arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span> <span class="o">&gt;</span> <span class="s2">&quot;3.5&quot;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_box_aspect</span><span class="p">(</span><span class="n">aspect</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">radius</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">radius</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">radius</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">u</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+    <span class="n">ls</span> <span class="o">=</span> <span class="n">mcolors</span><span class="o">.</span><span class="n">LightSource</span><span class="p">(</span><span class="n">azdeg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">altdeg</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+    <span class="n">rgb</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">shade</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span>  <span class="n">rstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="c1">#                     color=color,</span>
+                    <span class="n">facecolors</span><span class="o">=</span><span class="n">rgb</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

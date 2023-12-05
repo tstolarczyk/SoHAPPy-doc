@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instrument response functions &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="IRF" href="api/irf.IRF.html" />
+    <link rel="prev" title="Configuration" href="api/configuration.Configuration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Instrument response functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#irf-data-file-organisation">IRF data file organisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prod5-v0-1">prod5 v0.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prod3-v2">prod3 v2</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#irf-validity-ranges">IRF validity ranges</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#angular-interpolation">Angular “interpolation”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#energy-thresholds">Energy thresholds</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#irf-available-data">IRF available data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#official-public-files">Official public files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cta-consortium-files">CTA consortium files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cta-consortium-older-files">CTA consortium older files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-irf">irf Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Instrument response functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/irf.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="instrument-response-functions">
+<h1>Instrument response functions<a class="headerlink" href="#instrument-response-functions" title="Permalink to this heading"></a></h1>
+<p>This should be revised and cleaned-up.</p>
+<p>The instrument response function class <a class="reference internal" href="api/irf.IRF.html#irf.IRF" title="irf.IRF"><code class="xref py py-class docutils literal notranslate"><span class="pre">irf.IRF</span></code></a> and methods are in <code class="code docutils literal notranslate"><span class="pre">irf.py</span></code>. This module hosts the functionnalities to choose the best IRF from the available files and the recipes on their validity domains in observation duration and angles.</p>
+<section id="irf-data-file-organisation">
+<h2>IRF data file organisation<a class="headerlink" href="#irf-data-file-organisation" title="Permalink to this heading"></a></h2>
+<section id="prod5-v0-1">
+<h3>prod5 v0.1<a class="headerlink" href="#prod5-v0-1" title="Permalink to this heading"></a></h3>
+<p>This corresponds to the alpha configuration, with 4 LST and 9 MST in North, and 14 MST and 37 SST in South (no LST). The instrument response function (IRF) files are expected to be found in a
+dedicated folder, with files organised as follows (the structure is defined for the code to find the best IRF).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">|</span> <span class="o">+</span> <span class="mi">4</span><span class="n">LSTs09MSTs</span>
+<span class="o">|</span>         <span class="o">+--</span> <span class="n">Prod5</span><span class="o">-</span><span class="n">North</span><span class="o">-</span><span class="mi">20</span><span class="n">deg</span><span class="o">-</span><span class="n">AverageAz</span><span class="o">-</span><span class="mi">4</span><span class="n">LSTs09MSTs</span><span class="mf">.1800</span><span class="n">s</span><span class="o">-</span><span class="n">v0</span><span class="mf">.1</span><span class="o">.</span><span class="n">fits</span><span class="o">.</span><span class="n">gz</span>
+<span class="o">|</span>         <span class="o">+--</span> <span class="n">Prod5</span><span class="o">-</span><span class="n">North</span><span class="o">-</span><span class="mi">20</span><span class="n">deg</span><span class="o">-</span><span class="n">AverageAz</span><span class="o">-</span><span class="mi">4</span><span class="n">LSTs09MSTs</span><span class="mf">.18000</span><span class="n">s</span><span class="o">-</span><span class="n">v0</span><span class="mf">.1</span><span class="o">.</span><span class="n">fits</span><span class="o">.</span><span class="n">gz</span>
+<span class="o">|</span>         <span class="o">+--</span> <span class="o">...</span>
+<span class="o">|</span> <span class="o">+</span> <span class="mi">14</span><span class="n">MSTs37SSTs</span>
+<span class="o">|</span>         <span class="o">+--</span> <span class="n">Prod5</span><span class="o">-</span><span class="n">South</span><span class="o">-</span><span class="mi">20</span><span class="n">deg</span><span class="o">-</span><span class="n">AverageAz</span><span class="o">-</span><span class="mi">14</span><span class="n">MSTs37SSTs</span><span class="mf">.1800</span><span class="n">s</span><span class="o">-</span><span class="n">v0</span><span class="mf">.1</span><span class="o">.</span><span class="n">fits</span><span class="o">.</span><span class="n">gz</span>
+<span class="o">|</span>         <span class="o">+--</span> <span class="n">Prod5</span><span class="o">-</span><span class="n">South</span><span class="o">-</span><span class="mi">20</span><span class="n">deg</span><span class="o">-</span><span class="n">AverageAz</span><span class="o">-</span><span class="mi">14</span><span class="n">MSTs37SSTs</span><span class="mf">.18000</span><span class="n">s</span><span class="o">-</span><span class="n">v0</span><span class="mf">.1</span><span class="o">.</span><span class="n">fits</span><span class="o">.</span><span class="n">gz</span>
+<span class="o">|</span>         <span class="o">+--</span> <span class="o">...</span>
+<span class="o">|</span> <span class="o">+</span> <span class="n">MST</span>
+<span class="o">|</span> <span class="o">+</span> <span class="n">SST</span>
+</pre></div>
+</div>
+</section>
+<section id="prod3-v2">
+<h3>prod3 v2<a class="headerlink" href="#prod3-v2" title="Permalink to this heading"></a></h3>
+<p>The instrument response function (IRF) files are expected to be found in a
+dedicated folder, with files organised as follows (the structure is defined for the code to find the best IRF). The IRF data are in gzip files named <code class="code docutils literal notranslate"><span class="pre">irf_file.fits.gz</span></code>. Here is an excerpt of the organisation :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">|</span> <span class="o">+</span> <span class="n">FullArray</span>
+<span class="o">|</span>      <span class="o">+--</span> <span class="n">North</span>
+<span class="o">|</span>              <span class="o">+--</span> <span class="mi">20</span><span class="n">deg</span>
+<span class="o">|</span>                      <span class="o">+--</span> <span class="n">North_z20_average_5h</span>
+<span class="o">|</span>                              <span class="o">+--</span> <span class="n">irf_file</span><span class="o">.</span><span class="n">fits</span><span class="o">.</span><span class="n">gz</span>
+<span class="o">|</span>
+<span class="o">|</span>                      <span class="o">+--</span> <span class="n">North_z20_average_30m</span>
+<span class="o">|</span>                      <span class="o">+--</span> <span class="n">North_z20_average_50h</span>
+<span class="o">|</span>                      <span class="o">+--</span> <span class="n">North_z20_average_100s</span>
+<span class="o">|</span>
+<span class="o">|</span>      <span class="o">+--</span> <span class="mi">40</span><span class="n">deg</span>
+<span class="o">|</span>      <span class="o">+--</span> <span class="mi">60</span><span class="n">deg</span>
+<span class="o">|</span>
+<span class="o">|</span>  <span class="o">+--</span> <span class="n">South</span>
+<span class="o">|</span>      <span class="o">+--</span> <span class="mi">20</span><span class="n">deg</span>
+<span class="o">|</span>      <span class="o">+--</span> <span class="mi">40</span><span class="n">deg</span>
+<span class="o">|</span>      <span class="o">+--</span> <span class="mi">60</span><span class="n">deg</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="irf-validity-ranges">
+<h2>IRF validity ranges<a class="headerlink" href="#irf-validity-ranges" title="Permalink to this heading"></a></h2>
+<p>The recommendations for <cite>prod3v2</cite> IRF are the following (Information from G. Maier obtained by I. Sadeh on January 30:sup:<cite>th</cite>, 2020), and later private
+discussion on March 31st, 2021.</p>
+<section id="angular-interpolation">
+<h3>Angular “interpolation”<a class="headerlink" href="#angular-interpolation" title="Permalink to this heading"></a></h3>
+<p><em>Zenith</em></p>
+<p>The zenith windows should be defined following a 1/cos(theta) law, which means that depending on the zenith angle the following IRF should be
+used :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">zen</span> <span class="o">&lt;</span> <span class="mi">33</span>        <span class="p">:</span> <span class="s2">&quot;20deg&quot;</span>
+<span class="mi">33</span> <span class="o">&lt;=</span> <span class="n">zen</span> <span class="o">&lt;</span> <span class="mi">54</span>  <span class="p">:</span> <span class="s2">&quot;40deg&quot;</span>
+<span class="n">zen</span> <span class="o">&gt;=</span> <span class="mi">54</span>       <span class="p">:</span> <span class="s2">&quot;60deg&quot;</span>
+</pre></div>
+</div>
+<p>On top of this, it is foreseen that the instrument performance will not be
+reliable above 66 degrees as implicitly mentionned in A-PERF-0720
+(<em>Observable Sky: The system as a whole must be able to target any astrophysical
+object in the sky which has an elevation &gt;24 degrees</em>).</p>
+<p><em>Azimuth</em></p>
+<p>It is recommended to use the average azimuth (not a step function due to the North and South IRF).</p>
+</section>
+<section id="energy-thresholds">
+<h3>Energy thresholds<a class="headerlink" href="#energy-thresholds" title="Permalink to this heading"></a></h3>
+<p>Although events should be generated from the minimum allowed value for a given IRF, the analysis should restrict to a higher threshold, in order to avoid cutoff effects.</p>
+<p>Minimum <em>generated</em> energies are the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="mi">20</span><span class="n">deg</span><span class="p">:</span> <span class="n">E_gen</span> <span class="o">&gt;=</span> <span class="mf">12.6</span> <span class="n">GeV</span>
+<span class="mi">40</span><span class="n">deg</span><span class="p">:</span> <span class="n">E_gen</span> <span class="o">&gt;=</span> <span class="mf">26.4</span> <span class="n">GeV</span>
+<span class="mi">60</span><span class="n">deg</span><span class="p">:</span> <span class="n">E_gen</span> <span class="o">&gt;=</span> <span class="mf">105.3</span> <span class="n">GeV</span>
+</pre></div>
+</div>
+<p>Minimum <em>reconstructed</em> energies are the following (suggested values):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="mi">20</span><span class="n">deg</span><span class="p">:</span> <span class="n">E_grb</span> <span class="o">&gt;=</span> <span class="mi">30</span> <span class="n">GeV</span>
+<span class="mi">40</span><span class="n">deg</span><span class="p">:</span> <span class="n">E_grb</span> <span class="o">&gt;=</span> <span class="mi">40</span> <span class="n">GeV</span>
+<span class="mi">60</span><span class="n">deg</span><span class="p">:</span><span class="o">&gt;</span> <span class="n">E_grb</span> <span class="o">&gt;=</span> <span class="mi">110</span> <span class="n">GeV</span>
+</pre></div>
+</div>
+<p>This corresponds approximately to the generated energies to which one standard deviation has been added (the expected energy resolution at low energies is deltaE/E (68%) = 0.25.</p>
+<p>Note that the CTA performance plots have a cutoff of E&gt;20 GeV.
+Requirements expect the IRF to be reliable above 30 GeV.</p>
+</section>
+</section>
+<section id="irf-available-data">
+<h2>IRF available data<a class="headerlink" href="#irf-available-data" title="Permalink to this heading"></a></h2>
+<section id="official-public-files">
+<h3>Official public files<a class="headerlink" href="#official-public-files" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>The officla IRF, for the full array, can be found from here  :</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>prod3b-v2 :</dt><dd><p><a class="reference external" href="https://www.cta-observatory.org/science/cta-performance/">https://www.cta-observatory.org/science/cta-performance/</a>
+They have IRF for 20, 40 and 60 degrees, average azimuth</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>prod3b-v1, computed in 2017 :</dt><dd><p><a class="reference external" href="https://www.cta-observatory.org/science/cta-performance/cta-prod3b-v1/">https://www.cta-observatory.org/science/cta-performance/cta-prod3b-v1/</a>
+They have only IRF for 20 deg and 40 deg, average azimuth</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="cta-consortium-files">
+<h3>CTA consortium files<a class="headerlink" href="#cta-consortium-files" title="Permalink to this heading"></a></h3>
+<p>Found and described from there :
+<a class="reference external" href="https://forge.in2p3.fr/projects/cta_analysis-and-simulations/wiki/Prod3b_based_instrument_response_functions">https://forge.in2p3.fr/projects/cta_analysis-and-simulations/wiki/Prod3b_based_instrument_response_functions</a></p>
+<p>Direct download (20181203): <a class="reference external" href="https://forge.in2p3.fr/attachments/download/62074">https://forge.in2p3.fr/attachments/download/62074</a></p>
+<p>All IRF available for : 100s, 30m, 5h, 50h</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">North</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">FullArray</span><span class="p">,</span> <span class="n">LST</span><span class="p">,</span> <span class="n">MST</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span> <span class="n">TS_MST</span> <span class="p">:</span>
+                <span class="o">-</span> <span class="mi">20</span><span class="n">deg</span><span class="p">,</span> <span class="mi">40</span> <span class="n">deg</span><span class="p">,</span> <span class="mi">60</span> <span class="n">deg</span>
+                <span class="o">-</span> <span class="n">N</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">average</span>
+
+<span class="o">-</span> <span class="n">South</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">FullArray</span><span class="p">,</span> <span class="n">LST</span><span class="p">,</span> <span class="n">MST</span><span class="p">,</span> <span class="n">MSTSST</span><span class="p">,</span> <span class="n">SST</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span> <span class="n">TS_MST</span><span class="p">,</span> <span class="n">TS_SST</span>
+                <span class="o">-</span>  <span class="mi">20</span><span class="n">deg</span><span class="p">,</span> <span class="mi">40</span> <span class="n">deg</span><span class="p">,</span> <span class="mi">60</span> <span class="n">deg</span>
+                <span class="o">-</span> <span class="n">N</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">average</span>
+</pre></div>
+</div>
+</section>
+<section id="cta-consortium-older-files">
+<h3>CTA consortium older files<a class="headerlink" href="#cta-consortium-older-files" title="Permalink to this heading"></a></h3>
+<p>IRF older than prodv3b2 can be used. They essentially differ in the angular
+resolution at high energies. They include both full arrays, threshold arrays
+and LST-only IRFs. They cover 20 and 40 degrees but not 60 degrees.
+Some 20 degree IRF have 5x NSB (North and South) and for SST only 30x the nominal NSB.</p>
+<p>See here :
+<a class="reference external" href="https://forge.in2p3.fr/projects/cta_analysis-and-simulations/wiki/Prod3b_based_instrument_response_functions">https://forge.in2p3.fr/projects/cta_analysis-and-simulations/wiki/Prod3b_based_instrument_response_functions</a>
+And download there : <a class="reference external" href="https://forge.in2p3.fr/attachments/download/55554">https://forge.in2p3.fr/attachments/download/55554</a></p>
+<p>ALL have 20deg and 40deg IRF, with azimuth N,S,average (except Reco2, average only)</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>North:</dt><dd><ul>
+<li><p>FullArray, LST, MST : 20deg NSBx05, 20deg Reco2</p></li>
+<li><p>TS, TS_MST : 20 deg reco2</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>South:</dt><dd><ul>
+<li><p>FullArray : 20deg NSBX05 (average only), 20 deg Reco2, 50h only</p></li>
+<li><p>LST, MST : 20deg NSBx05 (average only)</p></li>
+<li><p>MSTSST, TS, TS_MST, TS_SST</p></li>
+<li><p>SST : 20deg NSBx05 and NSBx30 (average only)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="module-irf">
+<span id="irf-module"></span><h3>irf Module<a class="headerlink" href="#module-irf" title="Permalink to this heading"></a></h3>
+<p>Created on Thu Dec 12 09:01:41 2019</p>
+<p>&#64;author: Stolar</p>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/irf.IRF.html#irf.IRF" title="irf.IRF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IRF</span></code></a>([filename, irf, subarray, etrue, kzen, ...])</p></td>
+<td><p>This class handles the Instrument Response FFunction information and utilities</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/configuration.Configuration.html" class="btn btn-neutral float-left" title="Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/irf.IRF.html" class="btn btn-neutral float-right" title="IRF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

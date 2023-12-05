@@ -1,0 +1,6 @@
+plot_t_sigma
+============
+
+.. currentmodule:: analysis.population.times
+
+.. autofunction:: plot_t_sigma

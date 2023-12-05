@@ -1,0 +1,6 @@
+col_n
+=====
+
+.. currentmodule:: analysis.population.setup
+
+.. autodata:: col_n

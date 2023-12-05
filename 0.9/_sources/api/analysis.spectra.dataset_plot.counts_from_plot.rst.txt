@@ -1,0 +1,6 @@
+counts_from_plot
+================
+
+.. currentmodule:: analysis.spectra.dataset_plot
+
+.. autofunction:: counts_from_plot

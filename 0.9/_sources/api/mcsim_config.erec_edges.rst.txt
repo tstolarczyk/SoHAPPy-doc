@@ -1,0 +1,6 @@
+erec_edges
+==========
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: erec_edges

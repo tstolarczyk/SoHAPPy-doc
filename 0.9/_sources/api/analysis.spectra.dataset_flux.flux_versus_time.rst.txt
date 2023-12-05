@@ -1,0 +1,6 @@
+flux_versus_time
+================
+
+.. currentmodule:: analysis.spectra.dataset_flux
+
+.. autofunction:: flux_versus_time

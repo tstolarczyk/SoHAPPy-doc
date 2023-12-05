@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>skygen &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> SoHAPPy
+          </a>
+              <div class="version">
+                0.9
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">skygen</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for skygen</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module is used to generate visibilities of sources appearing at a</span>
+<span class="sd">certain rate during a given period. It can also generate random positions</span>
+<span class="sd">in the sky. Alternatively, positions and dates can be read from exiting files.</span>
+<span class="sd">It contains a :class:`Skies` class and a main function with the following</span>
+<span class="sd">usage:</span>
+
+<span class="sd">The parameters are initialised with the `Skies` constructor which is called</span>
+<span class="sd">from the generate_sky or sky_from_source function if randomly generated or</span>
+<span class="sd">read from exisiting data files respectively.</span>
+
+<span class="sd">Created on Tue Feb 21 13:16:50 2023</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">from</span> <span class="nn">yaml.loader</span> <span class="kn">import</span> <span class="n">SafeLoader</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span>   <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">from</span> <span class="nn">astropy.time</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">Angle</span><span class="p">,</span> <span class="n">SkyCoord</span>
+
+<span class="kn">from</span> <span class="nn">visibility</span> <span class="kn">import</span> <span class="n">Visibility</span>
+<span class="kn">import</span> <span class="nn">observatory</span> <span class="k">as</span> <span class="nn">obs</span>
+<span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">Configuration</span>
+
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">heading</span><span class="p">,</span> <span class="n">warning</span><span class="p">,</span> <span class="n">highlight</span><span class="p">,</span> <span class="n">failure</span>
+<span class="kn">from</span> <span class="nn">niceplot</span> <span class="kn">import</span> <span class="n">MyLabel</span><span class="p">,</span> <span class="n">draw_sphere</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Skies&quot;</span><span class="p">]</span>
+
+<span class="c1">###############################################################################</span>
+<div class="viewcode-block" id="Skies"><a class="viewcode-back" href="../production.html#skygen.Skies">[docs]</a><span class="k">class</span> <span class="nc">Skies</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In what follows, the terminology &quot;sky&quot; refers to positions and explosion</span>
+<span class="sd">    dates while visibility gives the source visibility from these parameters</span>
+<span class="sd">    under defined circumstances (e.g: minimal altitude, Moon ligth etc).</span>
+
+<span class="sd">    This class handles the parameters and function to generate visibilities</span>
+<span class="sd">    from a number of sources within a certain time period defined by 2 years</span>
+<span class="sd">    (from beginning of first year to the end of last year).</span>
+<span class="sd">    The output files are written in a `folder/visibility` subfolder where folder</span>
+<span class="sd">    as a fixed naming convention:</span>
+
+<span class="sd">        ``keyword_year1_Nyears_version``</span>
+
+<span class="sd">    * ``keyword`` is one of the dictionnary keyword of the `visibility.yaml`</span>
+<span class="sd">      file or any other keyword (line `forced` or `permanent`).</span>
+<span class="sd">    * ``year1`` is the first year;</span>
+<span class="sd">    * ``Nyears`` the number of years;</span>
+<span class="sd">    * ``version`` is a version tag to differentiate visibilities generated</span>
+<span class="sd">      from different seeds.</span>
+
+<span class="sd">    In this folder two kind of files can be created:</span>
+
+<span class="sd">    * `yaml` files containing the generated dates and positions. These files</span>
+<span class="sd">      starts with `DP` (for Dates and Position). They can be used to</span>
+<span class="sd">      generate other visibilities from the same dates and position.</span>
+<span class="sd">    * `json` file containing the visibility class content of all sources</span>
+<span class="sd">      in the identifier range.</span>
+
+<span class="sd">    Both files reproduce the name of the folder above with the source range</span>
+<span class="sd">    added (`id1` and `id2` is the source identifier range):</span>
+
+<span class="sd">    * Date and position files: ``DP_keyword_year1_Nyears_version_id1_id2.yaml``</span>
+<span class="sd">    * Visibility class dump: ``keyword_year1_Nyears_version_id1_id2.json``</span>
+
+<span class="sd">    To produce the visibility files for data with positon and dates defined,</span>
+<span class="sd">    use ``sky_from_source`` (with the possibility to change the dates).</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prfx</span>       <span class="o">=</span> <span class="s2">&quot;ev&quot;</span> <span class="c1"># Prefix before the id number</span>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.__init__"><a class="viewcode-back" href="../production.html#skygen.Skies.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">year1</span> <span class="o">=</span> <span class="mi">9999</span><span class="p">,</span> <span class="n">nyears</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                       <span class="n">first</span> <span class="o">=</span>    <span class="mi">1</span><span class="p">,</span> <span class="n">Nsrc</span>   <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                       <span class="n">version</span>    <span class="o">=</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+                       <span class="n">duration</span>   <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span>
+                       <span class="n">visibility</span> <span class="o">=</span> <span class="s2">&quot;strictmoonveto&quot;</span><span class="p">,</span>
+                       <span class="n">cfg_path</span>   <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">output</span>     <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;skygen_vis&quot;</span><span class="p">),</span>
+                       <span class="n">seed</span>       <span class="o">=</span> <span class="mi">2022</span><span class="p">,</span>
+                       <span class="n">newpos</span>     <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="n">newdate</span>    <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="n">debug</span>      <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create de default object from external parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        year1 : integer</span>
+<span class="sd">            First year. The default if 9999.</span>
+<span class="sd">        nyears : integer</span>
+<span class="sd">            Number of years. The default is 1.</span>
+<span class="sd">        first : integer</span>
+<span class="sd">            First source identifier. The default is 1.</span>
+<span class="sd">        Nsrc : integer</span>
+<span class="sd">            Number of sources. The default is 1.</span>
+<span class="sd">        version : string, optional</span>
+<span class="sd">            Visibility version tag, chosen by the user. The default is &quot;1&quot;.</span>
+<span class="sd">        duration : float, optional</span>
+<span class="sd">            Duration in days on which the visibility is computed. The default</span>
+<span class="sd">            is 3.0.</span>
+<span class="sd">        visibility : string, optional</span>
+<span class="sd">            A dictionnary entry to be found in `visibility.yaml`.</span>
+<span class="sd">            The default is `strictmoonveto`.</span>
+<span class="sd">        cfg_path : pathlib Path, optional</span>
+<span class="sd">            Configuration file name full path. The default is &#39;congif.yaml&#39;.</span>
+<span class="sd">        output : pathlib Path, optional</span>
+<span class="sd">            Output base folder. The default is `Path(&quot;./skygen_vis&quot;)`.</span>
+<span class="sd">        seed : integer, optional</span>
+<span class="sd">            Seed for random generator. The default is 2022.</span>
+<span class="sd">        newpos: boolean</span>
+<span class="sd">            If True, if the positions are read from source file, the positions</span>
+<span class="sd">            are re-generated isotropically on the sky.</span>
+<span class="sd">        newdate: boolean</span>
+<span class="sd">            If True, if the data are read from source file, the dates are</span>
+<span class="sd">            re-generated from the given source range.</span>
+<span class="sd">        debug : boolean, optional</span>
+<span class="sd">            If True, print out various information. The default is False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Initialise default parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dbg</span>     <span class="o">=</span> <span class="n">debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span>    <span class="o">=</span> <span class="n">seed</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id1</span>    <span class="o">=</span> <span class="n">first</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id2</span>    <span class="o">=</span> <span class="n">first</span> <span class="o">+</span> <span class="n">Nsrc</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Nsrc</span>   <span class="o">=</span> <span class="n">Nsrc</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">year1</span>  <span class="o">=</span> <span class="n">year1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">year2</span>  <span class="o">=</span> <span class="n">year1</span> <span class="o">+</span> <span class="n">nyears</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">newdate</span>  <span class="o">=</span> <span class="n">newdate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newpos</span>   <span class="o">=</span> <span class="n">newpos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">viskey</span>   <span class="o">=</span> <span class="n">visibility</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span>
+
+        <span class="c1"># Input parameters (backward compatibilty)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cfg_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cfg_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">def_conf</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span>   <span class="o">=</span> <span class="n">cfg_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">read_from_yaml</span><span class="p">(</span><span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+
+        <span class="c1"># Output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basedir</span>    <span class="o">=</span> <span class="n">output</span> <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;.&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Final command line</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmd_line</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># List of computed visibilities</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis_list</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.command_line"><a class="viewcode-back" href="../production.html#skygen.Skies.command_line">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">command_line</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Supersede default argument with the command line arguments and generate</span>
+<span class="sd">        the command line to be further used for Batch submission</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Skies instance</span>
+<span class="sd">            Instance filled with the command line argument values.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">import</span> <span class="nn">argparse</span>
+        <span class="n">inst</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span> <span class="c1"># Initialize default</span>
+
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Generate visibilities for SoHAPPy&quot;</span><span class="p">,</span>
+                                       <span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;---&quot;</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-y&#39;</span><span class="p">,</span> <span class="s1">&#39;--year1&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;First year&quot;</span><span class="p">,</span>
+                            <span class="n">default</span> <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">year1</span><span class="p">,</span>
+                            <span class="nb">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="s1">&#39;--nyears&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Number of years&quot;</span><span class="p">,</span>
+                            <span class="n">default</span> <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">year2</span> <span class="o">-</span> <span class="n">inst</span><span class="o">.</span><span class="n">year1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="nb">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;--first&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;First source identifier&quot;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">id1</span><span class="p">,</span>
+                            <span class="nb">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-N&#39;</span><span class="p">,</span> <span class="s1">&#39;--Nsrc&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Number of sources&quot;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">Nsrc</span><span class="p">,</span>
+                            <span class="nb">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-v&#39;</span><span class="p">,</span> <span class="s1">&#39;--version&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;version number&quot;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-D&#39;</span><span class="p">,</span> <span class="s1">&#39;--days&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Visibility range in days&quot;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">duration</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-V&#39;</span><span class="p">,</span> <span class="s1">&#39;--visibility&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Visibility keywords&quot;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">viskey</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;--config&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Configuration file name&quot;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+                                     <span class="k">if</span> <span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+                                     <span class="k">else</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data/config_ref.yaml&quot;</span><span class="p">))</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Output base folder (path)&quot;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">basedir</span><span class="p">)</span>
+                                     <span class="k">if</span> <span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">basedir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+                                     <span class="k">else</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;--seed&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span><span class="s2">&quot;Seed from random generator&quot;</span><span class="p">,</span>
+                            <span class="n">default</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+                            <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--debug&#39;</span><span class="p">,</span>
+                            <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;debug&#39;</span><span class="p">,</span>
+                            <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;Display processing details&quot;</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--nodebug&#39;</span><span class="p">,</span>
+                            <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;debug&#39;</span><span class="p">,</span>
+                            <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_false&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;Does not display processing details&quot;</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">newdate</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--trigger&#39;</span><span class="p">,</span>
+                            <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;trigger&#39;</span><span class="p">,</span>
+                            <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+                            <span class="n">help</span><span class="o">=</span> <span class="s2">&quot;(re)generate dates&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--notrigger&#39;</span><span class="p">,</span>
+                            <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;trigger&#39;</span><span class="p">,</span>
+                            <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_false&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;Do not generate dates if already existing&quot;</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">newpos</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--position&#39;</span><span class="p">,</span>
+                            <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;position&#39;</span><span class="p">,</span>
+                            <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;Generate new positions in the sky&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--noposition&#39;</span><span class="p">,</span>
+                            <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;position&#39;</span><span class="p">,</span>
+                            <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_false&#39;</span><span class="p">,</span>
+                            <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;Do not generate new sky positions if already existing&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Decode command line</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+        <span class="c1"># Fill the class instance</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">dbg</span>     <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">debug</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">version</span>
+
+        <span class="n">inst</span><span class="o">.</span><span class="n">seed</span>    <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">seed</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="n">inst</span><span class="o">.</span><span class="n">id1</span>    <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">first</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">id2</span>    <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">first</span> <span class="o">+</span> <span class="n">vals</span><span class="o">.</span><span class="n">Nsrc</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">Nsrc</span>   <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">Nsrc</span>
+
+        <span class="n">inst</span><span class="o">.</span><span class="n">year1</span>  <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">year1</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">year2</span>  <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">year1</span> <span class="o">+</span> <span class="n">vals</span><span class="o">.</span><span class="n">nyears</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="n">inst</span><span class="o">.</span><span class="n">newdate</span>  <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">trigger</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">newpos</span>   <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">viskey</span>   <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">visibility</span><span class="p">)</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">days</span>
+
+        <span class="c1"># Input parameters</span>
+        <span class="k">if</span> <span class="n">vals</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+            <span class="n">vals</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">config</span>
+
+        <span class="c1"># Output</span>
+        <span class="c1"># Note : The difference between resolve and absolute is that absolute()</span>
+        <span class="c1"># does not replace the symbolically linked (symlink) parts of the path,</span>
+        <span class="c1"># and it never raises FileNotFoundError . It does not modify the case either.</span>
+        <span class="k">if</span> <span class="n">vals</span><span class="o">.</span><span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">inst</span><span class="o">.</span><span class="n">basedir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
+            <span class="n">vals</span><span class="o">.</span><span class="n">output</span>   <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">basedir</span>
+
+        <span class="c1"># Generate command line</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">cmd_line</span> <span class="o">=</span> <span class="s1">&#39;python &quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span> <span class="o">+</span><span class="s1">&#39;&quot; &#39;</span>
+
+        <span class="c1"># It would be more logical to loop over the class content</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;trigger&quot;</span><span class="p">,</span><span class="s2">&quot;position&quot;</span><span class="p">,</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span><span class="s2">&quot;batch&quot;</span><span class="p">]:</span>
+                <span class="n">inst</span><span class="o">.</span><span class="n">cmd_line</span> <span class="o">+=</span> <span class="s2">&quot;--no&quot;</span><span class="o">+</span><span class="n">k</span><span class="o">+</span><span class="s2">&quot; &quot;</span>  <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">False</span> <span class="k">else</span> <span class="s2">&quot;--&quot;</span><span class="o">+</span><span class="n">k</span><span class="o">+</span><span class="s2">&quot; &quot;</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">]:</span>
+                <span class="n">inst</span><span class="o">.</span><span class="n">cmd_line</span> <span class="o">+=</span> <span class="s1">&#39;--&#39;</span><span class="o">+</span><span class="n">k</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="n">inst</span><span class="o">.</span><span class="n">cmd_line</span> <span class="o">+=</span> <span class="s2">&quot;--&quot;</span><span class="o">+</span><span class="n">k</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+
+        <span class="c1"># Note that dates are float in MJD and ra, dec float in degrees</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">ra</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">Nsrc</span><span class="p">)</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">dec</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">Nsrc</span><span class="p">)</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">dates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">Nsrc</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">inst</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.sky_from_source"><a class="viewcode-back" href="../production.html#skygen.Skies.sky_from_source">[docs]</a>    <span class="k">def</span> <span class="nf">sky_from_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the sky positions and dates from original source files when</span>
+<span class="sd">        this information exists.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Dates and positon from source files&quot;</span><span class="p">)</span>
+
+        <span class="c1"># retrieve data input folder</span>
+        <span class="k">if</span> <span class="s2">&quot;HAPPY_IN&quot;</span>  <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">infolder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HAPPY_IN&quot;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;The HAPPY_IN environment variable should be defined&quot;</span><span class="p">)</span>
+
+        <span class="n">found_position</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">found_trigger</span>  <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Get information from data files</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id2</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nsrc</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span><span class="n">item</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+            <span class="n">fname</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">infolder</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">prefix</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">suffix</span><span class="p">)</span>
+
+            <span class="k">try</span> <span class="p">:</span>
+
+                <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accessing </span><span class="si">{</span><span class="n">fname</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">hdul</span>   <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+                <span class="n">hdr</span>    <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+                <span class="n">keys_0</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+                <span class="k">if</span> <span class="s2">&quot;RA&quot;</span> <span class="ow">in</span> <span class="n">keys_0</span> <span class="ow">and</span> <span class="s2">&quot;DEC&quot;</span> <span class="ow">in</span> <span class="n">keys_0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;RA&#39;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;DEC&#39;</span><span class="p">]</span>
+                    <span class="n">found_position</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="k">if</span> <span class="s2">&quot;GRBJD&quot;</span> <span class="ow">in</span> <span class="n">keys_0</span><span class="p">:</span> <span class="c1"># Not in SHORTFITS</span>
+                    <span class="n">date</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;GRBJD&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;jd&quot;</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mjd</span>
+                    <span class="n">found_trigger</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="s2">&quot;GRBTIME&quot;</span> <span class="ow">in</span> <span class="n">keys_0</span><span class="p">:</span>
+                    <span class="n">date</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;GRBTIME&#39;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;jd&quot;</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mjd</span>
+                    <span class="n">found_trigger</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">date</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># MJD</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">failure</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; SKIPPING - File not found </span><span class="si">{</span><span class="n">fname</span><span class="si">:}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">date</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbg</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Found: &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="n">year1</span>  <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">),</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;mjd&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">year</span>
+        <span class="n">year2</span>  <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">),</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;mjd&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">year</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Year range in source files : &quot;</span><span class="p">,</span><span class="n">year1</span><span class="p">,</span><span class="s2">&quot; -&quot;</span><span class="p">,</span>
+              <span class="n">year2</span><span class="p">,</span> <span class="s2">&quot;(used for the output folder if dates kept)&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If requested, supersede the dates</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">newdate</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">found_trigger</span><span class="p">:</span>
+                <span class="n">highlight</span><span class="p">(</span><span class="s2">&quot; Regenerating dates&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">highlight</span><span class="p">(</span><span class="s2">&quot; Generating dates (absent from input files&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generate_dates</span><span class="p">()</span>
+
+        <span class="c1"># If requested, supersede the positions</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">newpos</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">found_position</span><span class="p">:</span>
+                <span class="n">highlight</span><span class="p">(</span><span class="s2">&quot; Regenerating positions&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">highlight</span><span class="p">(</span><span class="s2">&quot; Generating positions (absent from input files&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generate_positions</span><span class="p">()</span></div>
+
+    <span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.sky_from_yaml"><a class="viewcode-back" href="../production.html#skygen.Skies.sky_from_yaml">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">sky_from_yaml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">filename</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read dates and postions from an existing &quot;DP&quot; yaml file.</span>
+<span class="sd">        The dates are stored as mjd in the file and Time object in the</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : pathlib Path</span>
+<span class="sd">            Input file name.</span>
+<span class="sd">        version: integer</span>
+<span class="sd">            New version tag f needed</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Skies instance</span>
+<span class="sd">            New instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">heading</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Dates and position load from </span><span class="si">{</span><span class="n">filename</span><span class="o">.</span><span class="n">name</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">infile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span>  <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">SafeLoader</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;File created: &quot;</span><span class="p">,</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;created&quot;</span><span class="p">])</span>
+
+        <span class="n">year1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span>
+        <span class="n">year2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+
+        <span class="n">inst</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">year1</span> <span class="o">=</span> <span class="n">year1</span><span class="p">,</span>       <span class="n">Nyears</span> <span class="o">=</span> <span class="n">year2</span><span class="o">-</span><span class="n">year1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                   <span class="n">first</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;id1&quot;</span><span class="p">],</span> <span class="n">nsrc</span>   <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;nsrc&quot;</span><span class="p">],</span>
+                   <span class="n">version</span>     <span class="o">=</span> <span class="n">version</span><span class="p">,</span>
+                   <span class="n">duration</span>    <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;duration&quot;</span><span class="p">],</span>
+                   <span class="n">visibility</span>  <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;key&quot;</span><span class="p">],</span>
+                   <span class="n">output</span>      <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;basedir&quot;</span><span class="p">],</span>
+                   <span class="n">seed</span>        <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;seed&quot;</span><span class="p">],</span>
+                   <span class="n">debug</span>       <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">id1</span><span class="p">,</span> <span class="n">inst</span><span class="o">.</span><span class="n">id2</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">prfx</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="p">[</span><span class="n">inst</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">inst</span><span class="o">.</span><span class="n">ra</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">inst</span><span class="o">.</span><span class="n">dec</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">inst</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.generate_dates"><a class="viewcode-back" href="../production.html#skygen.Skies.generate_dates">[docs]</a>    <span class="k">def</span> <span class="nf">generate_dates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate dates in MJD from given year intervall, from January 1st of</span>
+<span class="sd">        the first year at midnight to December 31st of last year at 23:59:59</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tstart</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">year1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">mjd</span>
+        <span class="n">tstop</span>  <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">year2</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">59</span><span class="p">))</span><span class="o">.</span><span class="n">mjd</span>
+
+        <span class="n">days</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nsrc</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">tstop</span><span class="o">-</span><span class="n">tstart</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dates</span> <span class="o">=</span> <span class="n">tstart</span> <span class="o">+</span> <span class="n">days</span> <span class="c1"># MJD</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.generate_positions"><a class="viewcode-back" href="../production.html#skygen.Skies.generate_positions">[docs]</a>    <span class="k">def</span> <span class="nf">generate_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate random uniform (ra,dec) positons in the sky in degrees.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ra</span>  <span class="o">=</span> <span class="mi">360</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nsrc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nsrc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.generate_sky"><a class="viewcode-back" href="../production.html#skygen.Skies.generate_sky">[docs]</a>    <span class="k">def</span> <span class="nf">generate_sky</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate dates and position from the seed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Dates and positon - random&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_positions</span><span class="p">()</span> <span class="c1"># RA, DEC in degrees</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_dates</span><span class="p">()</span>     <span class="c1"># Dates</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.create_output_folder"><a class="viewcode-back" href="../production.html#skygen.Skies.create_output_folder">[docs]</a>    <span class="k">def</span> <span class="nf">create_output_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the folder containing the corresponding files</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Create output folder&quot;</span><span class="p">)</span>
+
+        <span class="n">prfx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span>   <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basedir</span><span class="p">,</span>
+                                 <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">data_dir</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">out_dir</span><span class="p">,</span>
+                                 <span class="n">prfx</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">basename</span> <span class="o">=</span> <span class="n">prfx</span><span class="o">+</span><span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id2</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">id1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basename</span> <span class="o">+=</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id2</span><span class="p">)</span>
+
+        <span class="c1"># Check if folder exists, otherwise create it</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Creating </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">Path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span><span class="p">,</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">:}</span><span class="s2">.py: Could not create </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">folder</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span><span class="si">:}</span><span class="s2"> Already exists&quot;</span><span class="p">)</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.create_vis"><a class="viewcode-back" href="../production.html#skygen.Skies.create_vis">[docs]</a>    <span class="k">def</span> <span class="nf">create_vis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paramfile</span><span class="o">=</span><span class="s2">&quot;visibility.yaml&quot;</span><span class="p">,</span> <span class="n">observatory</span><span class="o">=</span><span class="s2">&quot;CTA&quot;</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute visibilities, store in an array.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Creating visibilities&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check that dates and position have been generated</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="o">.</span><span class="n">all</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Dates and position are missing&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Get visibility paramters from default file</span>
+        <span class="n">param</span> <span class="o">=</span>  <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">Visibility</span><span class="o">.</span><span class="n">params_from_key</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">viskey</span><span class="p">,</span>
+                                                   <span class="n">parfile</span><span class="o">=</span><span class="n">paramfile</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">vislist</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Loop over items</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id2</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nsrc</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span><span class="n">item</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+            <span class="c1"># print(item, self.ra[i], self.dec[i], self.dates[i])</span>
+            <span class="n">radec</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s1">&#39;icrs&#39;</span><span class="p">)</span>
+            <span class="n">tvis1</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;mjd&quot;</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span>
+            <span class="n">tvis2</span> <span class="o">=</span> <span class="n">tvis1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span>
+
+            <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">]:</span>
+
+                <span class="n">vis</span> <span class="o">=</span> <span class="n">Visibility</span><span class="p">(</span><span class="n">pos</span>    <span class="o">=</span> <span class="n">radec</span><span class="p">,</span>
+                                 <span class="n">site</span>   <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="n">observatory</span><span class="p">][</span><span class="n">loc</span><span class="p">],</span>
+                                 <span class="n">window</span> <span class="o">=</span> <span class="p">[</span><span class="n">tvis1</span><span class="p">,</span> <span class="n">tvis2</span><span class="p">],</span>
+                                 <span class="n">name</span>   <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">loc</span><span class="p">,</span>
+                                 <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">vis</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="n">param</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbg</span><span class="p">:</span> <span class="n">vis</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+                <span class="n">vislist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vis</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - Done&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vislist</span><span class="p">)</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.sky_to_yaml"><a class="viewcode-back" href="../production.html#skygen.Skies.sky_to_yaml">[docs]</a>    <span class="k">def</span> <span class="nf">sky_to_yaml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dump dates and sky position into a yaml file for further use.</span>
+<span class="sd">        posiitons are stored as they are (float) whereas dates are stored as</span>
+<span class="sd">        modified Julian Days from the original Time object.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        filename: pathlib Path</span>
+<span class="sd">            output filename</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_output_folder</span><span class="p">()</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span><span class="p">,</span><span class="s2">&quot;DP_&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">basename</span><span class="o">+</span><span class="s2">&quot;.yaml&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+
+            <span class="n">heading</span><span class="p">(</span><span class="s2">&quot; Dumping generated dates and posiiton&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Output: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;created: </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;id1: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;nsrc: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">Nsrc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;seed: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;start: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">year1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;stop: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">year2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;config: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;config: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;basedir: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;key: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">viskey</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;duration: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;version: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="si">:</span><span class="s2">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id2</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+                <span class="n">date</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">dstr</span> <span class="o">=</span>  <span class="n">Time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;mjd&quot;</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isot</span>
+                <span class="n">ra</span>   <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">dec</span>  <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ev</span><span class="si">{</span><span class="n">item</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">date</span><span class="si">:</span><span class="s2">20.10f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ra</span><span class="si">:</span><span class="s2">20f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dec</span><span class="si">:</span><span class="s2">20f</span><span class="si">}</span><span class="s2"> # </span><span class="si">{</span><span class="n">dstr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+
+            <span class="n">out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done!&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">filename</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.prefix"><a class="viewcode-back" href="../production.html#skygen.Skies.prefix">[docs]</a>    <span class="k">def</span> <span class="nf">prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This create the prefix string of both yaml (DP) and json (visibility)</span>
+<span class="sd">        files.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        version : string, optional</span>
+<span class="sd">            A version tag from the user. The default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        string</span>
+<span class="sd">            The name (no extension) of the yaml and json files.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span>
+        <span class="k">if</span>  <span class="n">version</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;v&quot;</span><span class="o">+</span><span class="n">version</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">viskey</span><span class="o">+</span><span class="s2">&quot;_&quot;</span> \
+             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">year1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span> \
+             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">year2</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">year1</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span> \
+             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.vis2json"><a class="viewcode-back" href="../production.html#skygen.Skies.vis2json">[docs]</a>    <span class="k">def</span> <span class="nf">vis2json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dump the list of visibility instances to a json file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_output_folder</span><span class="p">()</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_folder</span><span class="p">,</span><span class="s2">&quot;VS_&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">basename</span><span class="o">+</span><span class="s2">&quot;.json&quot;</span><span class="p">)</span>
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot; Dumping generated visibilities &quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output:&quot;</span><span class="p">,</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_all</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">({</span><span class="n">v</span><span class="o">.</span><span class="n">name</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis_list</span><span class="p">},</span> <span class="n">f_all</span><span class="p">,</span>
+                       <span class="n">default</span><span class="o">=</span><span class="n">Visibility</span><span class="o">.</span><span class="n">object_to_serializable</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">f_all</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.plot_sky"><a class="viewcode-back" href="../production.html#skygen.Skies.plot_sky">[docs]</a>    <span class="k">def</span> <span class="nf">plot_sky</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot result of the generation of dates and positions</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        nbin : integer, optional</span>
+<span class="sd">            Number of bins in histograms. The default is 25.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Generated dates</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;mjd&quot;</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="s2">&quot;utc&quot;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nsrc</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">mjd</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dt</span><span class="p">]))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+        <span class="c1"># Generated posiitons - ra and dec</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;RA (°)&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Generated posiitons - dec versus ra</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;DEC (°)&quot;</span><span class="p">)</span>
+
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+        <span class="n">ax</span>  <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;aitoff&#39;</span><span class="p">)</span>
+        <span class="n">ax</span>  <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">ra</span>  <span class="o">=</span>  <span class="p">[</span><span class="n">Angle</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">wrap_at</span><span class="p">(</span><span class="mi">180</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="p">]</span>
+        <span class="n">dec</span> <span class="o">=</span>  <span class="p">[</span><span class="n">Angle</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">wrap_at</span><span class="p">(</span><span class="mi">180</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;ra (°)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;dec (°)&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Transform to cartesian coordinates</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">radius</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">radius</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ra</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">radius</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dec</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+
+        <span class="c1"># Check 2D projections</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span>  <span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                            <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">c1</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">radius</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span>
+
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">c2</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">radius</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span>
+
+        <span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">c3</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">radius</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+        <span class="n">ax3</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">c3</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="c1"># Generated posiitons - on the sphere</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+        <span class="n">draw_sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">0.99</span><span class="o">*</span><span class="n">radius</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">((</span><span class="n">z</span><span class="o">-</span><span class="nb">min</span><span class="p">(</span><span class="n">z</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">140</span><span class="p">)</span></div>
+
+    <span class="c1">#--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Skies.print"><a class="viewcode-back" href="../production.html#skygen.Skies.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print class contents with comments</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="mi">50</span><span class="o">*</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Generation number (version): &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Source identifiers from &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">id1</span><span class="p">,</span><span class="s2">&quot; to &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id2</span><span class="p">,</span><span class="s2">&quot; (&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Nsrc</span><span class="p">,</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Generated dates &quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - from               : &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">year1</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - to                 : &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">year2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - Duration (yr)      : &quot;</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">year2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">year1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Reading dates and positions from source files&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - Configuration file  : &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - New dates           : &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">newdate</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - New positions       : &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">newpos</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Visibility:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - Visibility keyword : &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">viskey</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  -            range   : &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - Output folder      : &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basedir</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Debugging : &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbg</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Command line:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd_line</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="mi">50</span><span class="o">*</span><span class="s2">&quot;-&quot;</span><span class="p">)</span></div></div>
+
+<span class="c1">###############################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="c1"># A standalone function to generate and visibility information from trigger</span>
+    <span class="c1"># times and sky position either generated randomly or obtained from data</span>
+    <span class="c1"># in source files.</span>
+
+    <span class="kn">import</span> <span class="nn">time</span>
+
+    <span class="c1"># If no command line, use examples - useful for debugging</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">==</span>  <span class="mi">0</span><span class="p">:</span>
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Running examples&quot;</span><span class="p">)</span>
+        <span class="c1"># Define command line arguments</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;skygen.py&quot;</span><span class="p">,</span> <span class="s2">&quot;-h&quot;</span><span class="p">]</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;skygen.py&quot;</span><span class="p">,</span> <span class="s2">&quot;-y&quot;</span><span class="p">,</span> <span class="s2">&quot;2004&quot;</span><span class="p">,</span> <span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span><span class="s2">&quot;8&quot;</span><span class="p">,</span> <span class="s2">&quot;-N&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span> <span class="s2">&quot;-V&quot;</span><span class="p">,</span> <span class="s2">&quot;nomoonveto&quot;</span><span class="p">]</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;J:\My Documents\CTA_Analysis\GRB paper\SoHAPPy\skygen.py&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;-N&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;.\data\config_ref.yaml&quot;</span><span class="p">]</span>
+
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;skygen.py&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;-N&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;data/config_ref.yaml&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;--notrigger&quot;</span><span class="p">,</span> <span class="s2">&quot;--debug&quot;</span><span class="p">]</span>
+        <span class="c1">### If no configuration file is given, generates ex-nihilo</span>
+        <span class="c1"># sys.argv = [&quot;skygen.py&quot;,</span>
+        <span class="c1">#         &quot;-f&quot;, &quot;1&quot;,</span>
+        <span class="c1">#         &quot;-N&quot;, &quot;5&quot;,</span>
+        <span class="c1">#         &quot;-y&quot;,&quot;2018&quot;,</span>
+        <span class="c1">#         &quot;-n&quot;,&quot;10&quot;,</span>
+        <span class="c1">#         &quot;-v&quot;, &quot;default&quot;,</span>
+        <span class="c1">#         &quot;--trigger&quot;,</span>
+        <span class="c1">#         &quot;--debug&quot;]</span>
+        <span class="c1"># sys.argv = [&quot;skygen.py&quot;,</span>
+        <span class="c1">#             &quot;--year1&quot;, &quot;2023&quot;, &quot;--nyears&quot;, &quot;10&quot;,</span>
+        <span class="c1">#             &quot;--first&quot;, &quot;1&quot;, &quot;--Nsrc&quot;, &quot;46&quot;,</span>
+        <span class="c1">#             &quot;--version&quot;, &quot;test&quot;,</span>
+        <span class="c1">#             &quot;--days&quot;, &quot;4&quot;,</span>
+        <span class="c1">#             &quot;--visibility&quot;, &quot;strictmoonveto&quot;,</span>
+        <span class="c1">#             &quot;--config&quot;,&quot;config-LongFinalTest-omega.yaml&quot;,</span>
+        <span class="c1">#             &quot;--output&quot;,&quot;skygen_vis&quot;,</span>
+        <span class="c1">#             &quot;--seed&quot;,&quot;2022&quot;,</span>
+        <span class="c1">#             &quot;--nodebug&quot;,</span>
+        <span class="c1">#             &quot;--trigger&quot;, &quot;--noposition&quot;]</span>
+
+    <span class="c1"># Extract command line arguments</span>
+    <span class="n">gvis</span> <span class="o">=</span> <span class="n">Skies</span><span class="o">.</span><span class="n">command_line</span><span class="p">()</span>
+    <span class="n">gvis</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+
+    <span class="c1"># Start the process</span>
+    <span class="n">start_pop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>   <span class="c1"># Start chronometer</span>
+
+    <span class="c1"># If not configutation file is given, the dates and positons are</span>
+    <span class="c1"># computed ex-nihilo</span>
+    <span class="k">if</span> <span class="n">gvis</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># Computed ex-nihilio</span>
+        <span class="n">gvis</span><span class="o">.</span><span class="n">generate_sky</span><span class="p">()</span> <span class="c1"># Generate positions and dates</span>
+
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># This is for backward compatibility only</span>
+        <span class="n">gvis</span><span class="o">.</span><span class="n">sky_from_source</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">gvis</span><span class="o">.</span><span class="n">sky_to_yaml</span><span class="p">()</span>
+    <span class="n">gvis</span><span class="o">.</span><span class="n">create_vis</span><span class="p">()</span>
+    <span class="n">gvis</span><span class="o">.</span><span class="n">vis2json</span><span class="p">()</span>
+
+    <span class="c1"># Stop chronometer</span>
+    <span class="n">end_pop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">end_pop</span><span class="o">-</span><span class="n">start_pop</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Duration      = </span><span class="si">{:8.2f}</span><span class="s2"> (s)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">elapsed</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  per source   = </span><span class="si">{:8.2f}</span><span class="s2"> (s)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="p">(</span><span class="n">elapsed</span><span class="p">)</span><span class="o">/</span><span class="n">gvis</span><span class="o">.</span><span class="n">Nsrc</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; ******* End of job - Total time = </span><span class="si">{:8.2f}</span><span class="s2"> min *****&quot;</span>
+                  <span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">end_pop</span><span class="o">-</span><span class="n">start_pop</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

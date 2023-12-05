@@ -1,0 +1,6 @@
+stacked_model
+=============
+
+.. currentmodule:: dataset_tools
+
+.. autofunction:: stacked_model

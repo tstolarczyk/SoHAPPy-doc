@@ -1,0 +1,6 @@
+t_str
+=====
+
+.. currentmodule:: niceprint
+
+.. autofunction:: t_str

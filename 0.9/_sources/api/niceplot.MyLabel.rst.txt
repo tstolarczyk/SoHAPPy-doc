@@ -1,0 +1,6 @@
+MyLabel
+=======
+
+.. currentmodule:: niceplot
+
+.. autofunction:: MyLabel
