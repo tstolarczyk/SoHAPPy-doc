@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
-      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css?v=7f9a90b1" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -21,7 +21,9 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="moonphase_plot" href="api/moon.moonphase_plot.html" />
+    <link rel="prev" title="Slice" href="api/obs_slice.Slice.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,52 +45,87 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Visibilities</a><ul>
-<li><a class="reference internal" href="#parameter-file">Parameter file</a></li>
-<li><a class="reference internal" href="#the-visibility-module">The <cite>visibility</cite> module</a><ul>
-<li><a class="reference internal" href="#visibility.Visibility"><code class="docutils literal notranslate"><span class="pre">Visibility</span></code></a><ul>
-<li><a class="reference internal" href="#visibility.Visibility.__init__"><code class="docutils literal notranslate"><span class="pre">Visibility.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.check"><code class="docutils literal notranslate"><span class="pre">Visibility.check()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.compute"><code class="docutils literal notranslate"><span class="pre">Visibility.compute()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.def_vis_dicts"><code class="docutils literal notranslate"><span class="pre">Visibility.def_vis_dicts</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.force_night"><code class="docutils literal notranslate"><span class="pre">Visibility.force_night()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.from_dict"><code class="docutils literal notranslate"><span class="pre">Visibility.from_dict()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.from_fits"><code class="docutils literal notranslate"><span class="pre">Visibility.from_fits()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.horizon"><code class="docutils literal notranslate"><span class="pre">Visibility.horizon()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.ignore"><code class="docutils literal notranslate"><span class="pre">Visibility.ignore</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.moon_alt_veto"><code class="docutils literal notranslate"><span class="pre">Visibility.moon_alt_veto()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.moon_halo"><code class="docutils literal notranslate"><span class="pre">Visibility.moon_halo()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.moon_halo_veto"><code class="docutils literal notranslate"><span class="pre">Visibility.moon_halo_veto()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.moonlight_veto"><code class="docutils literal notranslate"><span class="pre">Visibility.moonlight_veto()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.nights"><code class="docutils literal notranslate"><span class="pre">Visibility.nights()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.object_to_serializable"><code class="docutils literal notranslate"><span class="pre">Visibility.object_to_serializable()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.params_from_key"><code class="docutils literal notranslate"><span class="pre">Visibility.params_from_key()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.period_plot"><code class="docutils literal notranslate"><span class="pre">Visibility.period_plot()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.plot"><code class="docutils literal notranslate"><span class="pre">Visibility.plot()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.print"><code class="docutils literal notranslate"><span class="pre">Visibility.print()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.summary"><code class="docutils literal notranslate"><span class="pre">Visibility.summary()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.to_json"><code class="docutils literal notranslate"><span class="pre">Visibility.to_json()</span></code></a></li>
-<li><a class="reference internal" href="#visibility.Visibility.valid"><code class="docutils literal notranslate"><span class="pre">Visibility.valid()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Visibilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#parameter-file">Parameter file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-visibility-module">The <cite>visibility</cite> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#visibility.Visibility"><code class="docutils literal notranslate"><span class="pre">Visibility</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.__init__"><code class="docutils literal notranslate"><span class="pre">Visibility.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.check"><code class="docutils literal notranslate"><span class="pre">Visibility.check()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.compute"><code class="docutils literal notranslate"><span class="pre">Visibility.compute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.def_vis_dicts"><code class="docutils literal notranslate"><span class="pre">Visibility.def_vis_dicts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.force_night"><code class="docutils literal notranslate"><span class="pre">Visibility.force_night()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.from_dict"><code class="docutils literal notranslate"><span class="pre">Visibility.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.from_fits"><code class="docutils literal notranslate"><span class="pre">Visibility.from_fits()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.horizon"><code class="docutils literal notranslate"><span class="pre">Visibility.horizon()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.ignore"><code class="docutils literal notranslate"><span class="pre">Visibility.ignore</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.moon_alt_veto"><code class="docutils literal notranslate"><span class="pre">Visibility.moon_alt_veto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.moon_halo"><code class="docutils literal notranslate"><span class="pre">Visibility.moon_halo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.moon_halo_veto"><code class="docutils literal notranslate"><span class="pre">Visibility.moon_halo_veto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.moonlight_veto"><code class="docutils literal notranslate"><span class="pre">Visibility.moonlight_veto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.nights"><code class="docutils literal notranslate"><span class="pre">Visibility.nights()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.object_to_serializable"><code class="docutils literal notranslate"><span class="pre">Visibility.object_to_serializable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.params_from_key"><code class="docutils literal notranslate"><span class="pre">Visibility.params_from_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.period_plot"><code class="docutils literal notranslate"><span class="pre">Visibility.period_plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.plot"><code class="docutils literal notranslate"><span class="pre">Visibility.plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.print"><code class="docutils literal notranslate"><span class="pre">Visibility.print()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.summary"><code class="docutils literal notranslate"><span class="pre">Visibility.summary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.to_json"><code class="docutils literal notranslate"><span class="pre">Visibility.to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visibility.Visibility.valid"><code class="docutils literal notranslate"><span class="pre">Visibility.valid()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#the-moon-module">The <cite>moon</cite> module</a></li>
-<li><a class="reference internal" href="#module-moon">moon Module</a><ul>
-<li><a class="reference internal" href="#functions">Functions</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#the-observatory-module">The <cite>observatory</cite> module</a></li>
-<li><a class="reference internal" href="#module-observatory">observatory Module</a><ul>
-<li><a class="reference internal" href="#variables">Variables</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-moon-module">The <cite>moon</cite> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-moon">moon Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/moon.moonphase_plot.html">moonphase_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/moon.moon_alt_plot.html">moon_alt_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/moon.moonlight_plot.html">moonlight_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/moon.moon_dist_plot.html">moon_dist_plot</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-observatory-module">The <cite>observatory</cite> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-observatory">observatory Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#variables">Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/observatory.xyz.html">xyz</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation and Analysis of the detector response</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html#todo-list">Todo list</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -833,7 +870,10 @@ dump a dictionnary of visibilities.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/obs_slice.Slice.html" class="btn btn-neutral float-left" title="Slice" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/moon.moonphase_plot.html" class="btn btn-neutral float-right" title="moonphase_plot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

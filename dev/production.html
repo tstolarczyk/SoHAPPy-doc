@@ -21,7 +21,9 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="slurm_cmd" href="api/generator.slurm_cmd.html" />
+    <link rel="prev" title="Input file format" href="file_format.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,51 +45,61 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Running large simulations and analysis</a><ul>
-<li><a class="reference internal" href="#generating-visibilities">Generating visibilities</a><ul>
-<li><a class="reference internal" href="#generating-dates-positions-and-visibilities-ex-nihilio">Generating dates, positions and visibilities ex-nihilio</a></li>
-<li><a class="reference internal" href="#files-with-dates-and-positions-already-known">Files with dates and positions already known</a></li>
-<li><a class="reference internal" href="#the-skygen-module">The <cite>skygen</cite> module</a><ul>
-<li><a class="reference internal" href="#skygen.Skies"><code class="docutils literal notranslate"><span class="pre">Skies</span></code></a><ul>
-<li><a class="reference internal" href="#skygen.Skies.__init__"><code class="docutils literal notranslate"><span class="pre">Skies.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.command_line"><code class="docutils literal notranslate"><span class="pre">Skies.command_line()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.create_output_folder"><code class="docutils literal notranslate"><span class="pre">Skies.create_output_folder()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.create_vis"><code class="docutils literal notranslate"><span class="pre">Skies.create_vis()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.generate_dates"><code class="docutils literal notranslate"><span class="pre">Skies.generate_dates()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.generate_positions"><code class="docutils literal notranslate"><span class="pre">Skies.generate_positions()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.generate_sky"><code class="docutils literal notranslate"><span class="pre">Skies.generate_sky()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.plot_sky"><code class="docutils literal notranslate"><span class="pre">Skies.plot_sky()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.prefix"><code class="docutils literal notranslate"><span class="pre">Skies.prefix()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.print"><code class="docutils literal notranslate"><span class="pre">Skies.print()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.sky_from_source"><code class="docutils literal notranslate"><span class="pre">Skies.sky_from_source()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.sky_from_yaml"><code class="docutils literal notranslate"><span class="pre">Skies.sky_from_yaml()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.sky_to_yaml"><code class="docutils literal notranslate"><span class="pre">Skies.sky_to_yaml()</span></code></a></li>
-<li><a class="reference internal" href="#skygen.Skies.vis2json"><code class="docutils literal notranslate"><span class="pre">Skies.vis2json()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Running large simulations and analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#generating-visibilities">Generating visibilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#generating-dates-positions-and-visibilities-ex-nihilio">Generating dates, positions and visibilities ex-nihilio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#files-with-dates-and-positions-already-known">Files with dates and positions already known</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-skygen-module">The <cite>skygen</cite> module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#skygen.Skies"><code class="docutils literal notranslate"><span class="pre">Skies</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#preparing-batch-submissions">Preparing batch submissions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-generator-module">The <cite>generator</cite>  module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-generator">generator Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#beginning-to-end-example">Beginning-to-end example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#interactive-test">Interactive test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batch-test">Batch test</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a class="reference internal" href="#preparing-batch-submissions">Preparing batch submissions</a><ul>
-<li><a class="reference internal" href="#the-generator-module">The <cite>generator</cite>  module</a></li>
-<li><a class="reference internal" href="#module-generator">generator Module</a><ul>
-<li><a class="reference internal" href="#functions">Functions</a></li>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation and Analysis of the detector response</a></li>
 </ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#beginning-to-end-example">Beginning-to-end example</a><ul>
-<li><a class="reference internal" href="#interactive-test">Interactive test</a></li>
-<li><a class="reference internal" href="#batch-test">Batch test</a></li>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
 </ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html#todo-list">Todo list</a></li>
 </ul>
-</li>
-</ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -805,7 +817,10 @@ visibility and date-position files, once moved to the <cite>HAPPY_OUT</cite>. Th
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="file_format.html" class="btn btn-neutral float-left" title="Input file format" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/generator.slurm_cmd.html" class="btn btn-neutral float-right" title="slurm_cmd" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

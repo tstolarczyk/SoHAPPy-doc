@@ -21,7 +21,9 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="IRF" href="api/irf.IRF.html" />
+    <link rel="prev" title="Configuration" href="api/configuration.Configuration.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,33 +45,59 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Instrument response functions</a><ul>
-<li><a class="reference internal" href="#irf-data-file-organisation">IRF data file organisation</a><ul>
-<li><a class="reference internal" href="#prod5-v0-1">prod5 v0.1</a></li>
-<li><a class="reference internal" href="#prod3-v2">prod3 v2</a></li>
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Instrument response functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#irf-data-file-organisation">IRF data file organisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prod5-v0-1">prod5 v0.1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prod3-v2">prod3 v2</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#irf-validity-ranges">IRF validity ranges</a><ul>
-<li><a class="reference internal" href="#angular-interpolation">Angular “interpolation”</a></li>
-<li><a class="reference internal" href="#energy-thresholds">Energy thresholds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#irf-validity-ranges">IRF validity ranges</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#angular-interpolation">Angular “interpolation”</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#energy-thresholds">Energy thresholds</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#irf-available-data">IRF available data</a><ul>
-<li><a class="reference internal" href="#official-public-files">Official public files</a></li>
-<li><a class="reference internal" href="#cta-consortium-files">CTA consortium files</a></li>
-<li><a class="reference internal" href="#cta-consortium-older-files">CTA consortium older files</a></li>
-<li><a class="reference internal" href="#module-irf">irf Module</a><ul>
-<li><a class="reference internal" href="#classes">Classes</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#irf-available-data">IRF available data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#official-public-files">Official public files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cta-consortium-files">CTA consortium files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cta-consortium-older-files">CTA consortium older files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-irf">irf Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#classes">Classes</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation and Analysis of the detector response</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html#todo-list">Todo list</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -275,7 +303,10 @@ And download there : <a class="reference external" href="https://forge.in2p3.fr/
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/configuration.Configuration.html" class="btn btn-neutral float-left" title="Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/irf.IRF.html" class="btn btn-neutral float-right" title="IRF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

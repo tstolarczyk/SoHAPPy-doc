@@ -21,7 +21,9 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="generate_E_edges" href="api/mcsim_config.generate_E_edges.html" />
+    <link rel="prev" title="xyz" href="api/observatory.xyz.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,57 +45,43 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Simulation and Analysis of the detector response</a><ul>
-<li><a class="reference internal" href="#simulation-of-the-instrument-response">Simulation of the instrument response</a><ul>
-<li><a class="reference internal" href="#the-mcsim-module">The <cite>mcsim</cite> module</a><ul>
-<li><a class="reference internal" href="#mcsim.MonteCarlo"><code class="docutils literal notranslate"><span class="pre">MonteCarlo</span></code></a><ul>
-<li><a class="reference internal" href="#mcsim.MonteCarlo.__init__"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#mcsim.MonteCarlo.create_dataset_list"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.create_dataset_list()</span></code></a></li>
-<li><a class="reference internal" href="#mcsim.MonteCarlo.dump_slices"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.dump_slices()</span></code></a></li>
-<li><a class="reference internal" href="#mcsim.MonteCarlo.onoff_counts_along_time"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.onoff_counts_along_time()</span></code></a></li>
-<li><a class="reference internal" href="#mcsim.MonteCarlo.plot_onetrial"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.plot_onetrial()</span></code></a></li>
-<li><a class="reference internal" href="#mcsim.MonteCarlo.run"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.run()</span></code></a></li>
-<li><a class="reference internal" href="#mcsim.MonteCarlo.status"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.status()</span></code></a></li>
-<li><a class="reference internal" href="#mcsim.MonteCarlo.welcome"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.welcome()</span></code></a></li>
-<li><a class="reference internal" href="#mcsim.MonteCarlo.write"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.write()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Simulation and Analysis of the detector response</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simulation-of-the-instrument-response">Simulation of the instrument response</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-mcsim-module">The <cite>mcsim</cite> module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#mcsim.MonteCarlo"><code class="docutils literal notranslate"><span class="pre">MonteCarlo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-mcsim_config">mcsim_config Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#functions">Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#variables">Variables</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-mcsim_config">mcsim_config Module</a><ul>
-<li><a class="reference internal" href="#functions">Functions</a></li>
-<li><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#analysis-of-the-simulated-response">Analysis of the simulated response</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-analyze-module">The <cite>analyze</cite> module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#analyze.Analysis"><code class="docutils literal notranslate"><span class="pre">Analysis</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#analysis-of-the-simulated-response">Analysis of the simulated response</a><ul>
-<li><a class="reference internal" href="#the-analyze-module">The <cite>analyze</cite> module</a><ul>
-<li><a class="reference internal" href="#analyze.Analysis"><code class="docutils literal notranslate"><span class="pre">Analysis</span></code></a><ul>
-<li><a class="reference internal" href="#analyze.Analysis.__init__"><code class="docutils literal notranslate"><span class="pre">Analysis.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.dump_to_file"><code class="docutils literal notranslate"><span class="pre">Analysis.dump_to_file()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.fill"><code class="docutils literal notranslate"><span class="pre">Analysis.fill()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.ignore"><code class="docutils literal notranslate"><span class="pre">Analysis.ignore</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.mean_values"><code class="docutils literal notranslate"><span class="pre">Analysis.mean_values()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.plot_non_vs_noff"><code class="docutils literal notranslate"><span class="pre">Analysis.plot_non_vs_noff()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.plot_sigma_vs_time"><code class="docutils literal notranslate"><span class="pre">Analysis.plot_sigma_vs_time()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.plot_story"><code class="docutils literal notranslate"><span class="pre">Analysis.plot_story()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.print"><code class="docutils literal notranslate"><span class="pre">Analysis.print()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.run"><code class="docutils literal notranslate"><span class="pre">Analysis.run()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.show"><code class="docutils literal notranslate"><span class="pre">Analysis.show()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.summary"><code class="docutils literal notranslate"><span class="pre">Analysis.summary()</span></code></a></li>
-<li><a class="reference internal" href="#analyze.Analysis.write"><code class="docutils literal notranslate"><span class="pre">Analysis.write()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#dataset-tools">Dataset tools</a><ul>
-<li><a class="reference internal" href="#module-dataset_tools">dataset_tools Module</a><ul>
-<li><a class="reference internal" href="#id1">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dataset-tools">Dataset tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-dataset_tools">dataset_tools Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Functions</a></li>
 </ul>
 </li>
 </ul>
@@ -101,7 +89,21 @@
 </ul>
 </li>
 </ul>
-</div>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer.html#todo-list">Todo list</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -957,7 +959,10 @@ Compute and store :</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api/observatory.xyz.html" class="btn btn-neutral float-left" title="xyz" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/mcsim_config.generate_E_edges.html" class="btn btn-neutral float-right" title="generate_E_edges" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

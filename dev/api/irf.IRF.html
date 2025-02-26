@@ -21,7 +21,9 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Input file format" href="../file_format.html" />
+    <link rel="prev" title="Instrument response functions" href="../irf.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,27 +45,51 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">IRF</a><ul>
-<li><a class="reference internal" href="#irf.IRF"><code class="docutils literal notranslate"><span class="pre">IRF</span></code></a><ul>
-<li><a class="reference internal" href="#irf.IRF.dt_list"><code class="docutils literal notranslate"><span class="pre">IRF.dt_list</span></code></a></li>
-<li><a class="reference internal" href="#irf.IRF.dt_log_valid"><code class="docutils literal notranslate"><span class="pre">IRF.dt_log_valid</span></code></a></li>
-<li><a class="reference internal" href="#irf.IRF.dtl"><code class="docutils literal notranslate"><span class="pre">IRF.dtl</span></code></a></li>
-<li><a class="reference internal" href="#irf.IRF.egen_min"><code class="docutils literal notranslate"><span class="pre">IRF.egen_min</span></code></a></li>
-<li><a class="reference internal" href="#irf.IRF.etrue_max"><code class="docutils literal notranslate"><span class="pre">IRF.etrue_max</span></code></a></li>
-<li><a class="reference internal" href="#irf.IRF.nbin_per_decade"><code class="docutils literal notranslate"><span class="pre">IRF.nbin_per_decade</span></code></a></li>
-<li><a class="reference internal" href="#irf.IRF.zenith_list"><code class="docutils literal notranslate"><span class="pre">IRF.zenith_list</span></code></a></li>
-<li><a class="reference internal" href="#irf.IRF.zenith_valid"><code class="docutils literal notranslate"><span class="pre">IRF.zenith_valid</span></code></a></li>
-<li><a class="reference internal" href="#irf.IRF.find_best_keys"><code class="docutils literal notranslate"><span class="pre">IRF.find_best_keys()</span></code></a></li>
-<li><a class="reference internal" href="#irf.IRF.from_observation"><code class="docutils literal notranslate"><span class="pre">IRF.from_observation()</span></code></a></li>
-<li><a class="reference internal" href="#irf.IRF.print"><code class="docutils literal notranslate"><span class="pre">IRF.print()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../irf.html">Instrument response functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../irf.html#irf-data-file-organisation">IRF data file organisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../irf.html#irf-validity-ranges">IRF validity ranges</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../irf.html#irf-available-data">IRF available data</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../irf.html#official-public-files">Official public files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../irf.html#cta-consortium-files">CTA consortium files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../irf.html#cta-consortium-older-files">CTA consortium older files</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../irf.html#module-irf">irf Module</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../irf.html#classes">Classes</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis of the detector response</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../population_analysis.html">Population analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -78,6 +104,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../irf.html">Instrument response functions</a></li>
       <li class="breadcrumb-item active">IRF</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/api/irf.IRF.rst.txt" rel="nofollow"> View page source</a>
@@ -299,7 +326,10 @@ The default is False.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../irf.html" class="btn btn-neutral float-left" title="Instrument response functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../file_format.html" class="btn btn-neutral float-right" title="Input file format" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

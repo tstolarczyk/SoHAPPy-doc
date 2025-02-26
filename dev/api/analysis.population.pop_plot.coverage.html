@@ -21,7 +21,9 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="detection_level" href="analysis.population.sigmas.detection_level.html" />
+    <link rel="prev" title="distri" href="analysis.population.pop_plot.distri.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,14 +45,56 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">coverage</a><ul>
-<li><a class="reference internal" href="#analysis.population.pop_plot.coverage"><code class="docutils literal notranslate"><span class="pre">coverage()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">How to run it</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sohappy.html">How it works ?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../irf.html">Instrument response functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_format.html">Input file format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../production.html">Running large simulations and analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../grb.html">Astrophysical objects (GRB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time_slice.html">Time slices and slots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visibility.html">Visibilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../simulation.html">Simulation and Analysis of the detector response</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Analyzing the output files</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../population_analysis.html">Population analysis</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../population_analysis.html#introduction">Introduction</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../population_analysis.html#module-analysis.population.population">analysis.population.population Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../population_analysis.html#module-analysis.population.rate">analysis.population.rate Module</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../population_analysis.html#module-analysis.population.pop_plot">analysis.population.pop_plot Module</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../population_analysis.html#id1">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../population_analysis.html#module-analysis.population.sigmas">analysis.population.sigmas Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../population_analysis.html#module-analysis.population.times">analysis.population.times Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../population_analysis.html#module-analysis.population.skymaps">analysis.population.skymaps Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../population_analysis.html#module-analysis.population.universe">analysis.population.universe Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../population_analysis.html#module-analysis.population.compare_sets">analysis.population.compare_sets Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../population_analysis.html#module-analysis.population.compare_ebl_models">analysis.population.compare_ebl_models Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../population_analysis.html#module-analysis.population.explore_simulation_from_fits">analysis.population.explore_simulation_from_fits Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../population_analysis.html#module-analysis.population.explore_simulation_from_data">analysis.population.explore_simulation_from_data Module</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../spectral_analysis.html">Spectral analysis of an astrophysical source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html">Building the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer.html#todo-list">Todo list</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -65,6 +109,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../population_analysis.html">Population analysis</a></li>
       <li class="breadcrumb-item active">coverage</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/api/analysis.population.pop_plot.coverage.rst.txt" rel="nofollow"> View page source</a>
@@ -130,7 +175,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="analysis.population.pop_plot.distri.html" class="btn btn-neutral float-left" title="distri" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="analysis.population.sigmas.detection_level.html" class="btn btn-neutral float-right" title="detection_level" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
