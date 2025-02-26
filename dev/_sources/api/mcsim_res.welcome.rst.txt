@@ -1,6 +1,0 @@
-welcome
-=======
-
-.. currentmodule:: mcsim_res
-
-.. autofunction:: welcome

@@ -1,0 +1,179 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>extract_spectrum &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">extract_spectrum</a><ul>
+<li><a class="reference internal" href="#analysis.spectra.dataset_flux.extract_spectrum"><code class="docutils literal notranslate"><span class="pre">extract_spectrum()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">extract_spectrum</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/analysis.spectra.dataset_flux.extract_spectrum.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="extract-spectrum">
+<h1>extract_spectrum<a class="headerlink" href="#extract-spectrum" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="analysis.spectra.dataset_flux.extract_spectrum">
+<span class="sig-prename descclassname"><span class="pre">analysis.spectra.dataset_flux.</span></span><span class="sig-name descname"><span class="pre">extract_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elapsed=&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">s&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_unit='TeV-1</span> <span class="pre">cm-2</span> <span class="pre">s-1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_unit='TeV'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_style='bar'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color='tab:blue'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lw=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_model=0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_fit=0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_color='blue'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xscale='log'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yscale='log'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theory=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stacked=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_tag='cutoff'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_min=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_max=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_min=&lt;Quantity</span> <span class="pre">10.</span> <span class="pre">GeV&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_max=&lt;Quantity</span> <span class="pre">20.</span> <span class="pre">TeV&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_ref=&lt;Quantity</span> <span class="pre">1.</span> <span class="pre">TeV&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count_min=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug=False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/spectra/dataset_flux.html#extract_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.spectra.dataset_flux.extract_spectrum" title="Link to this definition"></a></dt>
+<dd><p>Extract the flux from the data in a Dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ds</strong><span class="classifier">Dataset</span></dt><dd><p>Current dataset.</p>
+</dd>
+<dt><strong>elapsed</strong><span class="classifier">astropy.Quantity, optional</span></dt><dd><p>Elapsed observation time. The default is 0*u.s.</p>
+</dd>
+<dt><strong>index</strong><span class="classifier">float, optional</span></dt><dd><p>Index for plotting E**-index*Flux. The default is 2.</p>
+</dd>
+<dt><strong>flux_unit</strong><span class="classifier">astropy.Quantity, optional</span></dt><dd><p>The flux unit. The default is “TeV-1 cm-2 s-1”.</p>
+</dd>
+<dt><strong>e_unit</strong><span class="classifier">astropy.unit, optional</span></dt><dd><p>Energy unit. The default is “TeV”.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">matplotlib.axes, optional</span></dt><dd><p>Current matplotlib axis. The default is None.</p>
+</dd>
+<dt><strong>model_style</strong><span class="classifier">String, optional</span></dt><dd><p>The model plot style, “bar” or “scatter”. The default is “bar”.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">String, optional</span></dt><dd><p>Flux point color. The default is “tab:blue”.</p>
+</dd>
+<dt><strong>lw</strong><span class="classifier">float, optional</span></dt><dd><p>Line width of the flux plot. The default is 2.</p>
+</dd>
+<dt><strong>alpha_model</strong><span class="classifier">float, optional</span></dt><dd><p>model transparency. The default is 0.2.</p>
+</dd>
+<dt><strong>alpha_fit</strong><span class="classifier">float, optional</span></dt><dd><p>Fit plot transparency. The default is 0.5.</p>
+</dd>
+<dt><strong>fit_color</strong><span class="classifier">String, optional</span></dt><dd><p>Fit plot color. The default is “blue”.</p>
+</dd>
+<dt><strong>xscale</strong><span class="classifier">String, optional</span></dt><dd><p>“log” or “linear”. The default is “log”.</p>
+</dd>
+<dt><strong>yscale</strong><span class="classifier">String, optional</span></dt><dd><p>‘“log” or “linear”. The default is “log”.</p>
+</dd>
+<dt><strong>theory</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, plot the theory if possible. The default is True.</p>
+</dd>
+<dt><strong>stacked</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, this is a stacked dataset (theory may be wrong).
+The default is False.</p>
+</dd>
+<dt><strong>fit_tag</strong><span class="classifier">String, optional</span></dt><dd><p>A tag giving the model to be fitted. The default is “cutoff”.</p>
+</dd>
+<dt><strong>tag</strong><span class="classifier">String, optional</span></dt><dd><p>A text tagging the label. The default is None.</p>
+</dd>
+<dt><strong>flux_min</strong><span class="classifier">float, optional</span></dt><dd><p>Minimal flux in unit of retrieved flux. The default is None.</p>
+</dd>
+<dt><strong>flux_max</strong><span class="classifier">float, optional</span></dt><dd><p>Maximal flux in unit of retrieved flux. The default is None.</p>
+</dd>
+<dt><strong>e_min</strong><span class="classifier">astropy.Quantity, optional</span></dt><dd><p>Minimum energy. The default is 10*u.GeV.</p>
+</dd>
+<dt><strong>e_max</strong><span class="classifier">astropy.Quantity, optional</span></dt><dd><p>Maximal energy. The default is 20*u.TeV.</p>
+</dd>
+<dt><strong>e_ref</strong><span class="classifier">astropy.Qauntity, optional</span></dt><dd><p>Reference energy for the fit model. The default is 1*u.TeV.</p>
+</dd>
+<dt><strong>count_min</strong><span class="classifier">float, optional</span></dt><dd><p>Count number below whihc the fit is not performed. The default is 10.</p>
+</dd>
+<dt><strong>debug</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, let’s talk a bit. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>(float, float)</dt><dd><p>The minimal and maximal flux values (used by dataset_plot.panels).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

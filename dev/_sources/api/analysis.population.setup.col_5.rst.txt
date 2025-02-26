@@ -1,6 +1,0 @@
-col_5
-=====
-
-.. currentmodule:: analysis.population.setup
-
-.. autodata:: col_5

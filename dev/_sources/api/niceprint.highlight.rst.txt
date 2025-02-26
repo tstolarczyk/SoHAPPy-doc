@@ -1,0 +1,6 @@
+highlight
+=========
+
+.. currentmodule:: niceprint
+
+.. autofunction:: highlight

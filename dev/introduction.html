@@ -1,315 +1,359 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Introduction &mdash; SoHAPPy 0.0 documentation</title>
-  
+  <title>Introduction &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=88ef157a"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="How it works ?" href="sohappy.html" />
-    <link rel="prev" title="SoHAPPy" href="index.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> SoHAPPy
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            SoHAPPy
           </a>
-
-          
-            
-            
-              <div class="version">
-                dev
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#repository-structure">Repository structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#launching-the-code">Launching the code</a></li>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#installation-dependencies">Installation, dependencies</a></li>
+<li><a class="reference internal" href="#repository-structure">Repository structure</a></li>
+<li><a class="reference internal" href="#input-and-output">Input and output</a><ul>
+<li><a class="reference internal" href="#input-folder">Input folder</a></li>
+<li><a class="reference internal" href="#output-folder">Output folder</a></li>
+<li><a class="reference internal" href="#required-data">Required data</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
+<li><a class="reference internal" href="#launching-the-code">Launching the code</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="montecarlo.html">Monte Carlo</a></li>
+</li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">Analyzing a single object</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html#dataset-plotting">Dataset plotting</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Dataset tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html#utilities">Utilities</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer.html">Todo list</a></li>
-</ul>
-
-            
-          
+</div>
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">SoHAPPy</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Introduction</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Introduction</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h1>
+<p>This paragraph gives the first indications to install and run <cite>SoHAPPy</cite>. See
+eselwhere how to <a class="reference external" href="production.html">run large batch productions</a> and perform
+a <a class="reference external" href="spectral_analysis.html">spectral analysis</a>.</p>
+<section id="installation-dependencies">
+<h2>Installation, dependencies<a class="headerlink" href="#installation-dependencies" title="Link to this heading"></a></h2>
+<p>It is suggested to install the code inside a dedicated environment based on
+<cite>gammapy</cite>. This version is compatible with the following dependencies:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt><a class="reference external" href="https://gammapy.org/">gammapy</a>: 1.2</dt><dd><p>Use <code class="code docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span> <span class="pre">-f</span> <span class="pre">'..gammapy-1.2-environment.yml'</span></code> to
+create a dedicated environement (the <cite>yaml</cite> file is found from the
+<cite>gammapy</cite> site).
+Activate the environment, pursue with further installations.</p>
+</dd>
+</dl>
+</li>
+<li><p><a class="reference external" href="https://pypi.org/project/astroplan/">astroplan</a> : version 0.10 or
+later.</p></li>
+<li><p><a class="reference external" href="https://seaborn.pydata.org/">seaborn</a> : version 0.12.2</p></li>
+</ul>
+</div></blockquote>
+<p>This documentation is produced with Sphinx.</p>
+<p>At this stage, check that the line command <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">SoHAPPy.py</span> <span class="pre">-h</span></code> gives
+the list of possible options. Note that this version is compatible with
+<cite>spyder 6</cite>. During the code analysis, <cite>pylint</cite> is used, and a <cite>.pylintrc</cite> file
+is provided.</p>
 <dl class="simple">
-<dt>The code uses the following external components and data:</dt><dd><ul class="simple">
-<li><p><a class="reference external" href="https://gammapy.org/">gammapy</a>: current supported version is 0.18.2</p></li>
-<li><p><a class="reference external" href="https://pypi.org/project/astroplan/">astroplan</a> : version 0.8</p></li>
-<li><p><a class="reference external" href="https://www.cta-observatory.org/cta-performance-prod3b-v2/">Official CTA Intrument response function</a> (IRF) files, organised in a particular subfolder structure (see <a class="reference internal" href="irf.html"><span class="doc">IRF</span></a>)</p></li>
-<li><p>input object files with a <a class="reference internal" href="file_format.html"><span class="doc">dedicated format</span></a>.</p></li>
+<dt>In order to get results two inputs are required:</dt><dd><ul class="simple">
+<li><p><strong>Instrument response functions</strong> (IRFs) for CTA (or alternative
+instruments if they are implemented). For CTA, the official response
+functions for the alpha configuration ar stored on
+<a class="reference external" href="https://zenodo.org/record/5499840#.YUya5WYzbUI">Zenodo for prod5</a>.
+In <cite>SoHAPPy</cite> the IRF files are in folders with a fixed specific
+organisation (see <a class="reference internal" href="irf.html"><span class="doc">IRF</span></a>)</p></li>
+<li><p><strong>Input object files</strong> with a <a class="reference internal" href="file_format.html"><span class="doc">dedicated format</span></a>.</p></li>
 </ul>
 </dd>
 </dl>
-</div>
-<div class="section" id="repository-structure">
-<h2>Repository structure<a class="headerlink" href="#repository-structure" title="Permalink to this headline">¶</a></h2>
-<dl class="simple">
-<dt>The SoHAPPy repository has 2 subfolders:</dt><dd><ul class="simple">
-<li><p><em>analysis</em>: contains notebooks and scripts to analyse the SoHAPPy outputs.</p></li>
-<li><p><em>docs</em>: contains the Sphinx information to generate the present documentation.</p></li>
+</section>
+<section id="repository-structure">
+<h2>Repository structure<a class="headerlink" href="#repository-structure" title="Link to this heading"></a></h2>
+<dl>
+<dt>The <cite>SoHAPPy</cite> repository has 3 subfolders:</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">analysis</span></code> : contains the notebooks and scripts to analyse the
+<cite>SoHAPPy</cite> outputs, with the following subfolders:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">population</span></code> to analyze the population files and get the detection
+rates;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spectra</span></code> to perform a spctral analysis of one Monte Carlo
+realization on one of the source in the population;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prompt</span></code> specific preliminary tools to analyze the prompt component.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs</span></code>: contains the <cite>Sphinx</cite> information to generate the present
+documentation (Version 4.5.0 was used for this document).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code>, contains the following subfolders:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">historical</span></code>: a list of <cite>yaml</cite> files containing parameters to
+generate GRB light curves from an analytical function;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">swift</span></code>: contains information on the Swift satellite latency time
+and in particular a distribution to generate realistic delays;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ebl</span></code>: this is a copy of the <cite>ebl</cite> subfolder of the
+<a class="reference external" href="https://github.com/gammapy/gammapy-extra">gammapy extras</a> and is
+necessary to have the <cite>gammapy</cite> models used in <cite>SoHAPPy</cite>. It also
+contains some additionnal EBL models for tests.</p></li>
+</ul>
+</div></blockquote>
+</li>
 </ul>
 </dd>
 </dl>
-<div class="line-block">
-<div class="line">The IRF and source files are expected to be obtained from specific folders.</div>
-<div class="line">The output consists in a few files packed together into a tar.gz archive. They are written in a specific output folder.</div>
+</section>
+<section id="input-and-output">
+<h2>Input and output<a class="headerlink" href="#input-and-output" title="Link to this heading"></a></h2>
+<p><cite>SoHAPPy</cite> requires to have an input base folder and an output base folder
+defined through environment variables:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">HAPPY_IN</span></code> defines the input base folder</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">HAPPY_OUT</span></code> defines the output base folder</p></li>
+</ul>
+<p>The variables are set as follows :</p>
+<ul class="simple">
+<li><p><cite>Windows powershell</cite> : <code class="code docutils literal notranslate"><span class="pre">$Env:HAPPY_IN</span> <span class="pre">=</span> <span class="pre">&quot;D:\\CTA\SoHAPPy\input&quot;</span></code></p></li>
+<li><p><cite>Interactive python</cite> : <code class="code docutils literal notranslate"><span class="pre">os.environ[&quot;HAPPY_IN&quot;]</span> <span class="pre">=</span> <span class="pre">&quot;D:\\CTA\SoHAPPy\input&quot;</span></code></p></li>
+<li><p><cite>bash shell</cite> : <code class="code docutils literal notranslate"><span class="pre">$</span> <span class="pre">export</span> <span class="pre">HAPPY_IN=&quot;/home/user/SoHAPPY/input&quot;</span></code></p></li>
+</ul>
+<section id="input-folder">
+<h3>Input folder<a class="headerlink" href="#input-folder" title="Link to this heading"></a></h3>
+<p>The input folder has to contain the following
+subfolders:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a folder handling the light curves and some subfolders with various
+subpopulation, e.g. <cite>lightcurves/pop_name</cite>. The name of the population
+folder <cite>pop_name</cite> is used in the output folder hierarchy (the last name
+in the path is used, see below).</p></li>
+<li><p>a folder with the IRFs. The IRF file repository is expected to be
+organised in a strict way as the folder structure is used internally
+by <cite>SoHAPPy</cite> to get the suitable IRFs file (see
+<a class="reference external" href="irf.html">Instrument response functions</a> for details)</p></li>
+</ul>
+</div></blockquote>
+<p>The graph below illustrates this organisation. For the light curves, none of
+the names nor the organisation are mandatory (They will be passed by the user
+in the configuration file or on the command line).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">|</span>  <span class="o">+</span><span class="nb">input</span>
+<span class="o">|</span>    <span class="o">+--</span> <span class="n">lightcurves</span>
+<span class="o">|</span>           <span class="o">+--</span> <span class="n">long_grb</span>
+<span class="o">|</span>           <span class="o">+--</span> <span class="n">special_grbs</span>
+<span class="o">|</span>           <span class="o">+--</span> <span class="n">other_grbs</span>
+<span class="o">|</span>    <span class="o">+--</span> <span class="n">irf</span>
+</pre></div>
 </div>
+</section>
+<section id="output-folder">
+<h3>Output folder<a class="headerlink" href="#output-folder" title="Link to this heading"></a></h3>
+<p>A <cite>SoHAPPy</cite> run output consists in 3 files:</p>
+<ul class="simple">
+<li><p>a log file, <strong>analysis.log</strong>, that keeps track of the processing;</p></li>
+<li><p>a result text file for the whole population, <strong>data.txt</strong>, which contains
+the results of the simulation and analysis. It is sometimes names as the
+<em>population file</em> in  contrast with the files used for the spectral analysis.</p></li>
+<li><p>a copy of the <strong>configuration file</strong> initially given (or the default) with
+some parameters changed through the command line (so that reusing this
+configuration file allows reproducing exactly the simulation/analysis).</p></li>
+</ul>
+<p>These three files are stored into a <cite>tar.gz</cite> archive. If the code is run more
+than once, then  the archive is copied and its name contains an information
+on the date at which it was duplicated (results are never automatically
+overwritten). The user can decide if both the files and the archive are kept,
+or only the archive. The output files(s) are stored in a subfolder created
+on-the-fly by <cite>SoHAPPy</cite>. The output folder position is free but its internal
+structure is generated by SoHAPPy.</p>
+<p>The output folder file structure follows this organisation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">|</span> <span class="o">+</span> <span class="n">output</span>
+<span class="o">|</span>         <span class="o">+--</span> <span class="n">pop_name_1</span>
+<span class="o">|</span>         <span class="o">|</span>            <span class="o">+--</span>  <span class="n">out_dir</span>
+<span class="o">|</span>         <span class="o">|</span>                       <span class="o">+--</span> <span class="n">vis_name</span>
+<span class="o">|</span>         <span class="o">|</span>                                  <span class="o">+---</span> <span class="n">vis_name_id1_id2</span>
+<span class="o">|</span>         <span class="o">|</span>                                  <span class="o">+---</span> <span class="n">vis_name_id2_id3</span>
+<span class="o">|</span>         <span class="o">|</span>                                  <span class="o">+---</span> <span class="n">vis_name_id3_id4</span>
+<span class="o">|</span>         <span class="o">|</span>                                  <span class="o">+...</span>
+<span class="o">|</span>         <span class="o">+--</span> <span class="n">pop_name_2</span>
+</pre></div>
 </div>
-<div class="section" id="launching-the-code">
-<h2>Launching the code<a class="headerlink" href="#launching-the-code" title="Permalink to this headline">¶</a></h2>
-<p>The steering parametres are obtained from the yaml configuration file (<cite>conf.yaml</cite> is used by default if it is present).
-Two example are given by default:
-* config_population.yaml, for a large population study, with minimal debugging output
-* config_singlesource.yaml, with the all processing messages and the infiviadual simulation saved on disk for further use.</p>
-<p>The most important parametres can be passed on the command line, in particular the configuration file name (they supersede parameters of the configuration fle).
-Type:
-<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">SoHAPPy.py</span> <span class="pre">-h</span></code>
-to have the list explicited.</p>
-<p>The processing of 1000 GRB files with one iteration per trial takes roughly 2
-hours on a I5 -16GB laptop, including the visibility computation.
-With 100 iterations the computing time is only slightly increased.</p>
-<p>Producing the visibility alone and writing it to disk takes 2hr.
-Running SoHAPPy with pre-computed visibilities takes 35 minutes to one hour (when no Moon veto)with one trial and 50 minutes with 100 trials.</p>
+<p><cite>output</cite> is the output base folder, <cite>pop_name_1</cite> is the population input
+folder stored in the input base folder. The folder name,`out_dir`, is chosen by
+the user and refer to his analysis (e.g. can be <cite>test_omega</cite> for results
+testing the <cite>omega</cite> configuration). <cite>vis_name</cite> refers to the assumption
+on the observation, including the minimal altitude for observation, the Moon
+light veto etc. A collection of possible names is found in the <cite>SoHAPPy</cite>
+<cite>visibility.yaml</cite> file (see <a class="reference external" href="visibility.html">Visibility</a>) where more
+visibility configurations can be added.</p>
+<p>The last folder name use again the visibility keyword <cite>vis_name</cite> and add the
+first and last source identifiers of the run. In case only one source is
+analysed the names has only the first identifier (<cite>vis_name_id0</cite>).</p>
+<p>Note that it is possible to run <cite>SoHAPPy</cite> on a limited number of sources and
+obtain for each of them additionnal output files to be used for a spectral
+analysis (save the simulation for this using the <code class="code docutils literal notranslate"><span class="pre">save_simu</span></code> keyword in
+the <a class="reference external" href="configuration.html">configuration file</a> ).</p>
+</section>
+<section id="required-data">
+<h3>Required data<a class="headerlink" href="#required-data" title="Link to this heading"></a></h3>
+<p>The path to get access to these data are given in the configuration file or
+on the command line. The necessary data files are the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>astrophysical object data files</strong>, one per source, containing the
+energy spectra along time slices.</p></li>
+<li><p>for each of these files, the <strong>position in ra-dec</strong> and the
+<strong>explosion time</strong> (referred often as the trigger time), generated
+independently from the <code class="xref py py-obj docutils literal notranslate"><span class="pre">skygen</span></code> application and
+stored in a <cite>yaml</cite> file (or a collection of <cite>yaml</cite> files). See the
+chapter on <a class="reference external" href="production.html">productions</a> for details). In some
+cases, this information can be inside the input astrophysical source
+data files.</p></li>
+<li><p>a <strong>visibility</strong> file giving the rise and set time for the Sun, the Moon
+and the source itself. This information can be generated  from the
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">skygen</span></code> application. See the chapter on
+<a class="reference external" href="production.html">productions</a> for details). In some cases this
+visibility is encoded in the astrophysical source files or is computed
+on-the-fly from a given keyword referenced in the <cite>visibility.yaml</cite>
+file (see <a class="reference external" href="visibility.html">visibilities</a> for details).</p></li>
+<li><p>The <strong>instrument response function</strong> set used (e.g. <cite>prod3</cite>, <cite>omega</cite>)
+and extra information on the array or subarry used, or specific flags
+used during the simulation and analysis (e.g. the slewing time)</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="launching-the-code">
+<h2>Launching the code<a class="headerlink" href="#launching-the-code" title="Link to this heading"></a></h2>
+<p>The steering parametres are obtained from the <cite>yaml</cite> configuration file.
+A file is provided with the releas, <cite>data/config_ref.yaml</cite> and is used by
+default.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">SoHAPPy.py</span></code> would simply run the code from the code folder
+with the <cite>data/config_ref.yaml</cite> parameters.</p></li>
+<li><p>Some of the paramters in the configuration file can be superseded on
+the command line. <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">SoHAPPy.py</span> <span class="pre">-h</span></code> gives the list of
+accessible parameters. Here is the output:</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">|</span> <span class="n">usage</span><span class="p">:</span> <span class="n">SoHAPPy</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">FIRST</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">N</span> <span class="n">NSRC</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">NITER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span>
+<span class="o">|</span>                   <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">INPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONFIG</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">V</span> <span class="n">VISIBILITY</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="n">DEBUG</span><span class="p">]</span>
+<span class="o">|</span>
+<span class="o">|</span> <span class="n">SoHAPPy</span> <span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">f</span> <span class="n">FIRST</span><span class="p">,</span> <span class="o">--</span><span class="n">first</span> <span class="n">FIRST</span>
+<span class="o">|</span>                       <span class="n">First</span> <span class="n">source</span> <span class="nb">id</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">N</span> <span class="n">NSRC</span><span class="p">,</span> <span class="o">--</span><span class="n">nsrc</span> <span class="n">NSRC</span>  <span class="n">Number</span> <span class="n">of</span> <span class="n">source</span> <span class="n">files</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">n</span> <span class="n">NITER</span><span class="p">,</span> <span class="o">--</span><span class="n">niter</span> <span class="n">NITER</span>
+<span class="o">|</span>                       <span class="n">Number</span> <span class="n">of</span> <span class="n">Monte</span> <span class="n">Carlo</span> <span class="n">iteration</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
+<span class="o">|</span>                       <span class="n">Output</span> <span class="n">subfolder</span> <span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">i</span> <span class="n">INPUT</span><span class="p">,</span> <span class="o">--</span><span class="nb">input</span> <span class="n">INPUT</span>
+<span class="o">|</span>                       <span class="n">Input</span> <span class="n">subfolder</span> <span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">c</span> <span class="n">CONFIG</span><span class="p">,</span> <span class="o">--</span><span class="n">config</span> <span class="n">CONFIG</span>
+<span class="o">|</span>                        <span class="n">Configuration</span> <span class="n">file</span> <span class="n">name</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">m</span> <span class="n">MAXNIGHT</span><span class="p">,</span> <span class="o">--</span><span class="n">maxnight</span> <span class="n">MAXNIGHT</span>
+<span class="o">|</span>                       <span class="n">Maximal</span> <span class="n">number</span> <span class="n">of</span> <span class="n">nights</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">s</span> <span class="n">SKIP</span><span class="p">,</span> <span class="o">--</span><span class="n">skip</span> <span class="n">SKIP</span>
+<span class="o">|</span>                       <span class="n">Number</span> <span class="n">of</span> <span class="n">nights</span> <span class="n">to</span> <span class="n">skip</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">V</span> <span class="n">VISIBILITY</span><span class="p">,</span> <span class="o">--</span><span class="n">visibility</span> <span class="n">VISIBILITY</span>
+<span class="o">|</span>                       <span class="n">Visibility</span> <span class="n">keyword</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">d</span> <span class="n">DEBUG</span><span class="p">,</span> <span class="o">--</span><span class="n">debug</span> <span class="n">DEBUG</span>
+<span class="o">|</span>                       <span class="n">Debugging</span> <span class="n">flag</span>
+</pre></div>
 </div>
-</div>
+<p>In particular the default configuration file name can be superseded :
+<code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">SoHAPPy.py</span> <span class="pre">-c</span> <span class="pre">myconfig.yaml</span></code> and parameters in <cite>myconfig.yaml</cite>
+can at their turn be superseded <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">SoHAPPy.py</span> <span class="pre">-c</span> <span class="pre">myconfig.yaml</span> <span class="pre">-N</span> <span class="pre">1</span></code></p>
+<p>For large productions, it is useful to run <cite>SoHAPPy</cite> on subsets.
+The parametesr accessible on the command line are intended for this purpose.
+The base input and output base folders are considered installation dependent
+whereas the subfolders can be changed to differentiate the runs.
+See more on <a class="reference external" href="production.html">productions and batch submissions</a></p>
+</section>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="sohappy.html" class="btn btn-neutral float-right" title="How it works ?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="index.html" class="btn btn-neutral float-left" title="SoHAPPy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Th. Stolarczyk.
-
-    </p>
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

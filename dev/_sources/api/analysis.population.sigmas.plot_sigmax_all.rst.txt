@@ -1,0 +1,6 @@
+plot_sigmax_all
+===============
+
+.. currentmodule:: analysis.population.sigmas
+
+.. autofunction:: plot_sigmax_all

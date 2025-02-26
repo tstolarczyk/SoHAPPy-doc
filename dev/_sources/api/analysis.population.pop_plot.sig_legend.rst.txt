@@ -1,6 +1,0 @@
-sig_legend
-==========
-
-.. currentmodule:: analysis.population.pop_plot
-
-.. autofunction:: sig_legend

@@ -1,0 +1,6 @@
+moon_dist_plot
+==============
+
+.. currentmodule:: moon
+
+.. autofunction:: moon_dist_plot

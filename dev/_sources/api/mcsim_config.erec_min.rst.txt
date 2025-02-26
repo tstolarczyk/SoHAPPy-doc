@@ -1,0 +1,6 @@
+erec_min
+========
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: erec_min

@@ -1,0 +1,6 @@
+check_datasets
+==============
+
+.. currentmodule:: dataset_tools
+
+.. autofunction:: check_datasets

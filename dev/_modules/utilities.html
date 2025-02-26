@@ -1,0 +1,459 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>utilities &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">utilities</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for utilities</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Fri Jan 11 14:41:11 2019</span>
+
+<span class="sd">A bucnh of utility functions used in `SoHAPPy`.</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">tarfile</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">astropy.time</span> <span class="kn">import</span> <span class="n">Time</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;log_and_flat_intervals&quot;</span><span class="p">,</span> <span class="s2">&quot;subset_ids&quot;</span><span class="p">,</span> <span class="s2">&quot;get_filename&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;file_from_tar&quot;</span><span class="p">,</span> <span class="s2">&quot;backup_file&quot;</span><span class="p">,</span> <span class="s2">&quot;Df&quot;</span><span class="p">,</span> <span class="s2">&quot;Dp&quot;</span><span class="p">]</span>
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="log_and_flat_intervals">
+<a class="viewcode-back" href="../api/utilities.log_and_flat_intervals.html#utilities.log_and_flat_intervals">[docs]</a>
+<span class="k">def</span> <span class="nf">log_and_flat_intervals</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">distmax</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xmin : float</span>
+<span class="sd">        Minimal value.</span>
+<span class="sd">    xmax : float</span>
+<span class="sd">        maximal value.</span>
+<span class="sd">    nbin : integer, optional</span>
+<span class="sd">        Initial number of bins. The default is 10.</span>
+<span class="sd">    distmax : float, optional</span>
+<span class="sd">        Limit in time interval length. The default is 0..</span>
+<span class="sd">    debug : boolean, optional</span>
+<span class="sd">        If True illustrate the process. The default is True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Numpy array</span>
+<span class="sd">        Final list.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># First generated nbin log-spaced intervals</span>
+    <span class="n">xsample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">nbin</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">distmax</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">xsample</span>
+
+    <span class="k">if</span> <span class="n">xmin</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Starting value shall be &gt;0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Original log-spaced intervals</span>
+    <span class="n">xsamp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xmin</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xmax</span><span class="p">),</span> <span class="n">nbin</span><span class="p">)</span>
+    <span class="n">dxsamp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">xsamp</span><span class="p">)</span>
+
+    <span class="c1"># Find intervals exceeding the maximal distance</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dxsamp</span> <span class="o">&gt;</span> <span class="n">distmax</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># From that value,generate flat spacing</span>
+    <span class="n">xflat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xsamp</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">distmax</span><span class="p">)</span>
+    <span class="c1"># Concatenate the two arrays</span>
+    <span class="n">xfinal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">xsamp</span><span class="p">[:</span><span class="n">idx</span><span class="p">],</span> <span class="n">xflat</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Setting intervals in [&quot;</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - number of bins        = &quot;</span><span class="p">,</span> <span class="n">nbin</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - max. allowed distance = &quot;</span><span class="p">,</span> <span class="n">distmax</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Distance is exceeded at index &quot;</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="s2">&quot; val= &quot;</span><span class="p">,</span> <span class="n">xsamp</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">xorig</span> <span class="o">=</span> <span class="n">xsamp</span><span class="p">[</span><span class="n">xsamp</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">xfinal</span><span class="p">)]</span>  <span class="c1"># Limit original sample</span>
+        <span class="n">xorig</span> <span class="o">=</span> <span class="n">xsamp</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; sample = &quot;</span><span class="p">,</span> <span class="n">xsamp</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; limited xorig = &quot;</span><span class="p">,</span> <span class="n">xorig</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; final = &quot;</span><span class="p">,</span> <span class="n">xfinal</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xfinal</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xfinal</span><span class="p">)),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Final&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xsamp</span><span class="p">[:</span><span class="n">idx</span><span class="p">],</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xsamp</span><span class="p">[:</span><span class="n">idx</span><span class="p">])),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">&quot;log seq.&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xflat</span><span class="p">,</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xflat</span><span class="p">)),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="s2">&quot;lin seq.&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">xsamp</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">axx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+        <span class="n">axx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xfinal</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">xfinal</span><span class="p">),</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                 <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Final intervals&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">axx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xorig</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">xorig</span><span class="p">),</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span>
+                 <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Initial intervals&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">axx</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">distmax</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Max. allowed&quot;</span><span class="p">)</span>
+        <span class="n">axx</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+        <span class="n">axx</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Interval spacing&quot;</span><span class="p">)</span>
+        <span class="n">axx</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+        <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+            <span class="n">lgd</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">lgd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">lgd</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">xfinal</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="subset_ids">
+<a class="viewcode-back" href="../api/utilities.subset_ids.html#utilities.subset_ids">[docs]</a>
+<span class="k">def</span> <span class="nf">subset_ids</span><span class="p">(</span><span class="n">istart</span><span class="p">,</span> <span class="n">nmax</span><span class="p">,</span> <span class="n">nsets</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a simple code defining `nsets` interval for a list of integer</span>
+<span class="sd">    starting at 1 up to `nmax`. If `nmax` is not divisible by `nsets`, the rest</span>
+<span class="sd">    gives and extra set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nmax : integer</span>
+<span class="sd">        Maximal nubmer.</span>
+<span class="sd">    nsets : integer</span>
+<span class="sd">        Number of sets.</span>
+<span class="sd">    debug : Boolean, optional</span>
+<span class="sd">        If True, verbosy. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dsets : list of List</span>
+<span class="sd">        The list of concsecutiveintervals.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">nsets</span> <span class="o">&gt;=</span> <span class="n">nmax</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">nmax</span><span class="p">]</span>
+
+    <span class="n">delta</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nmax</span><span class="o">/</span><span class="n">nsets</span><span class="p">)</span>  <span class="c1"># regular set size</span>
+    <span class="n">rest</span> <span class="o">=</span> <span class="n">nmax</span> <span class="o">%</span> <span class="n">nsets</span>  <span class="c1"># Last set size</span>
+
+    <span class="c1"># Define low and high values of the intervals</span>
+    <span class="n">ids_low</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nmax</span><span class="p">,</span> <span class="n">delta</span><span class="p">))</span>
+    <span class="n">ids_high</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">nmax</span><span class="o">+</span><span class="n">delta</span><span class="p">,</span> <span class="n">nmax</span><span class="p">),</span> <span class="n">delta</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids_high</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids_low</span><span class="p">):</span>
+        <span class="n">ids_high</span> <span class="o">+=</span> <span class="p">[</span><span class="n">nmax</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">ids_high</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nmax</span><span class="p">:</span>
+        <span class="n">ids_high</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">nmax</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;steps = &quot;</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="s2">&quot; uncovered = &quot;</span><span class="p">,</span> <span class="n">rest</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ids_low</span><span class="p">,</span> <span class="s2">&quot; -&gt; &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids_low</span><span class="p">),</span> <span class="s2">&quot; items&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ids_high</span><span class="p">,</span> <span class="s2">&quot; -&gt; &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids_high</span><span class="p">),</span> <span class="s2">&quot; items&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create interval list</span>
+    <span class="n">dsets</span> <span class="o">=</span> <span class="p">[[</span><span class="n">idl</span><span class="o">+</span><span class="n">istart</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">idh</span><span class="o">+</span><span class="n">istart</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+             <span class="k">for</span> <span class="p">(</span><span class="n">idl</span><span class="p">,</span> <span class="n">idh</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ids_low</span><span class="p">,</span> <span class="n">ids_high</span><span class="p">)]</span>
+
+    <span class="c1"># Check counts</span>
+    <span class="n">icount</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="p">:</span>
+        <span class="n">icount</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">icount</span> <span class="o">!=</span> <span class="n">nmax</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">dsets</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total entries = </span><span class="si">{</span><span class="n">icount</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dsets</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="get_filename">
+<a class="viewcode-back" href="../api/utilities.get_filename.html#utilities.get_filename">[docs]</a>
+<span class="k">def</span> <span class="nf">get_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if file was compressed and/or if it exists.</span>
+<span class="sd">    Returns exiting file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : Path</span>
+<span class="sd">        The current assumed file name.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    filename: Path</span>
+<span class="sd">    The name of the existing file</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Strangely path.is_file() does not give False but an error</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>  <span class="c1"># Current file does not exist</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.gz&quot;</span><span class="p">:</span>  <span class="c1"># If a gz file, try the non gz file</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># If this not a gz file, try the gz file</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="n">filename</span><span class="o">.</span><span class="n">suffix</span><span class="o">+</span><span class="s2">&quot;.gz&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>  <span class="c1"># Check that the new file exist</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;utilities.get_filename : </span><span class="si">{filename}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">filename</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="file_from_tar">
+<a class="viewcode-back" href="../api/utilities.file_from_tar.html#utilities.file_from_tar">[docs]</a>
+<span class="k">def</span> <span class="nf">file_from_tar</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tarname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract a given file from a tar file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    folder : string, optional</span>
+<span class="sd">        The folder to scan. The default is &quot;None&quot;.</span>
+<span class="sd">    tarname : string, optional</span>
+<span class="sd">        The archive name in case more than one in the folder.</span>
+<span class="sd">        The default is None.</span>
+<span class="sd">    target : string, optional</span>
+<span class="sd">        The file to be found in the archive, or a file name with the same</span>
+<span class="sd">        extension. The default is None.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    datafile: pointer to file</span>
+<span class="sd">        A pointer to a file in memory</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;file_from_tar: &quot;</span>
+
+    <span class="c1"># ## ------------------------</span>
+    <span class="c1"># ## Get archive file name</span>
+    <span class="c1"># ## ------------------------</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> Folder not found&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;f</span><span class="si">{tag}</span><span class="s2"> Specify a target in the archive&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">tarname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Find the archive in the folder</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.tar.gz&#39;</span><span class="p">)</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">p</span><span class="p">]</span>  <span class="c1"># if x.is_file()] &lt;- Crash when not connected</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> More than one .tar.gz file, specify a name&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tarname</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> found </span><span class="si">{</span><span class="n">tarname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ## ------------------------</span>
+    <span class="c1"># ## Open tar file, get members, check data.txt exists</span>
+    <span class="c1"># ## ------------------------</span>
+    <span class="n">tar</span> <span class="o">=</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">tarname</span><span class="p">,</span> <span class="s2">&quot;r:gz&quot;</span><span class="p">)</span>
+
+    <span class="c1"># If the target is not found explicitely, tires a file with same extension</span>
+    <span class="k">if</span> <span class="n">target</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">member</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">tar</span><span class="o">.</span><span class="n">getmembers</span><span class="p">()]:</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> No </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> in archive. Tries with extension&quot;</span><span class="p">)</span>
+
+        <span class="c1"># find members with correct extension</span>
+        <span class="n">extmatch</span> <span class="o">=</span> \
+            <span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">Path</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="n">Path</span><span class="p">(</span><span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+             <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">tar</span><span class="o">.</span><span class="n">getmembers</span><span class="p">()]</span>
+        <span class="n">extmatch</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">extmatch</span><span class="p">))</span>  <span class="c1"># Remove None</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extmatch</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> More than one file matching in archive &quot;</span>
+                     <span class="s2">&quot;(try largest?)&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">extmatch</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> No file matching extension in the archive&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">extmatch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> matches </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">extmatch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># At this stage, ether the target was found or deduced from the extension</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2"> A file matching </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> was found&quot;</span><span class="p">)</span>
+    <span class="n">datafile</span> <span class="o">=</span> <span class="n">tar</span><span class="o">.</span><span class="n">extractfile</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">datafile</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="backup_file">
+<a class="viewcode-back" href="../api/utilities.backup_file.html#utilities.backup_file">[docs]</a>
+<span class="k">def</span> <span class="nf">backup_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dbg</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Copy a file to a result folder.</span>
+<span class="sd">    If it already exists, make a backup with the date.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file : string</span>
+<span class="sd">        File name.</span>
+<span class="sd">    folder : String, optional</span>
+<span class="sd">        Output folder. The default is None.</span>
+<span class="sd">    dbg : Boolean, optional</span>
+<span class="sd">        If True, display messages. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Create result folder if not exisitng</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; *** Creating output folder &quot;</span><span class="p">,</span> <span class="n">folder</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+
+    <span class="n">output_file</span> <span class="o">=</span> <span class="n">folder</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="n">filename</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_file</span><span class="p">):</span>
+        <span class="n">nw</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">output_file</span> <span class="o">=</span> <span class="n">output_file</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> \
+                                  <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">nw</span><span class="o">.</span><span class="n">hour</span><span class="p">)</span> \
+                                  <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">nw</span><span class="o">.</span><span class="n">minute</span><span class="p">)</span> \
+                                  <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">nw</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
+
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dbg</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   ----&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="s2">&quot; copied to &quot;</span><span class="p">,</span> <span class="n">output_file</span><span class="p">())</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Df">
+<a class="viewcode-back" href="../api/utilities.Df.html#utilities.Df">[docs]</a>
+<span class="k">def</span> <span class="nf">Df</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a time in Julian day format if the argument is finite</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Time</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;mjd&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Dp">
+<a class="viewcode-back" href="../api/utilities.Dp.html#utilities.Dp">[docs]</a>
+<span class="k">def</span> <span class="nf">Dp</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a time in ISO format if the argument is an astropy</span>
+<span class="sd">    :class:`Time`, and if not returns the argument (unchanged).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">iso</span>
+    <span class="k">return</span> <span class="n">x</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

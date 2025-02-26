@@ -1,0 +1,6 @@
+moonphase_plot
+==============
+
+.. currentmodule:: moon
+
+.. autofunction:: moonphase_plot

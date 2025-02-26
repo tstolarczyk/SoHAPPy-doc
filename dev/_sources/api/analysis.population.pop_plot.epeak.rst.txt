@@ -1,6 +1,0 @@
-epeak
-=====
-
-.. currentmodule:: analysis.population.pop_plot
-
-.. autofunction:: epeak

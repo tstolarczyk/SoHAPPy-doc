@@ -1,0 +1,6 @@
+slurm_cmd
+=========
+
+.. currentmodule:: generator
+
+.. autofunction:: slurm_cmd

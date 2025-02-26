@@ -1,0 +1,6 @@
+rate_above_threshold
+====================
+
+.. currentmodule:: analysis.population.sigmas
+
+.. autofunction:: rate_above_threshold

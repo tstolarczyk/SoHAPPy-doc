@@ -1,0 +1,6 @@
+plot_high_sigma_all
+===================
+
+.. currentmodule:: analysis.population.sigmas
+
+.. autofunction:: plot_high_sigma_all

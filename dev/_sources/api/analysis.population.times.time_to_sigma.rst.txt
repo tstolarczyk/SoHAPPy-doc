@@ -1,0 +1,6 @@
+time_to_sigma
+=============
+
+.. currentmodule:: analysis.population.times
+
+.. autofunction:: time_to_sigma

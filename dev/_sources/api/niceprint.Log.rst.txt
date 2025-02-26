@@ -1,0 +1,29 @@
+Log
+===
+
+.. currentmodule:: niceprint
+
+.. autoclass:: Log
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Log.banner
+      ~Log.close
+      ~Log.failure
+      ~Log.highlight
+      ~Log.prt
+      ~Log.success
+      ~Log.warning
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: banner
+   .. automethod:: close
+   .. automethod:: failure
+   .. automethod:: highlight
+   .. automethod:: prt
+   .. automethod:: success
+   .. automethod:: warning

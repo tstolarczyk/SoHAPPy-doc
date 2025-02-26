@@ -1,0 +1,6 @@
+erec_spectral
+=============
+
+.. currentmodule:: mcsim_config
+
+.. autodata:: erec_spectral

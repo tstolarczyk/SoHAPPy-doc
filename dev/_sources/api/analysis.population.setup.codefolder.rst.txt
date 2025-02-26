@@ -1,6 +1,0 @@
-codefolder
-==========
-
-.. currentmodule:: analysis.population.setup
-
-.. autodata:: codefolder

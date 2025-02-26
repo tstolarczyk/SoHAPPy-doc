@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>analysis.population.rate &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analysis.population.rate</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for analysis.population.rate</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Tue Nov 15 12:26:59 2022</span>
+
+<span class="sd">Compute detection rates for various site-related population normalised to</span>
+<span class="sd">the data taking duration to get mean yearly rates above 3 and 5 standard</span>
+<span class="sd">deviations of detection significance.</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pop_io</span> <span class="kn">import</span> <span class="n">get_data</span>
+<span class="kn">from</span> <span class="nn">population</span> <span class="kn">import</span> <span class="n">Pop</span>
+
+<span class="n">CODE</span> <span class="o">=</span> <span class="s2">&quot;../../&quot;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CODE</span><span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;compute&quot;</span><span class="p">,</span> <span class="s2">&quot;separator&quot;</span><span class="p">,</span> <span class="s2">&quot;stat_mean&quot;</span><span class="p">,</span> <span class="s2">&quot;prt_mean&quot;</span><span class="p">,</span> <span class="s2">&quot;stat_line&quot;</span><span class="p">]</span>
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="compute">
+<a class="viewcode-back" href="../../../api/analysis.population.rate.compute.html#analysis.population.rate.compute">[docs]</a>
+<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">summary</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute and display the detection rates of the various subpopulations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pop : Pop instance</span>
+<span class="sd">        Data read from disk.</span>
+<span class="sd">    summary : boolean, optional</span>
+<span class="sd">        True for less information is printed. The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check that N only an S only tags exist</span>
+    <span class="n">suppinfo</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;N&quot;</span> <span class="ow">in</span> <span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;S&quot;</span> <span class="ow">in</span> <span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;B&quot;</span> <span class="ow">in</span> <span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">suppinfo</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot; North/South combinatory does not exist&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Header</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="mi">132</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">tag</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">tag</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Normalized to </span><span class="si">{</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="si">:}</span><span class="s2"> year&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">pop</span><span class="o">.</span><span class="n">nyears</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">print</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">132</span><span class="o">*</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Rate      : </span><span class="si">{</span><span class="s1">&#39;N&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;S&#39;</span><span class="si">:</span><span class="s2">&gt;19</span><span class="si">}</span><span class="s2">&quot;</span>
+          <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="s1">&#39;Nonly&#39;</span><span class="si">:</span><span class="s2">&gt;19</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Sonly&#39;</span><span class="si">:</span><span class="s2">&gt;19</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Both&#39;</span><span class="si">:</span><span class="s2">&gt;19</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Total&#39;</span><span class="si">:</span><span class="s2">&gt;19</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">summary</span><span class="p">:</span>
+        <span class="n">stat_line</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;Vis.&quot;</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="p">)</span>
+
+    <span class="c1"># # # Analysed</span>
+    <span class="c1"># poplist = [g[g.err == niter] for g in poplist]</span>
+    <span class="c1"># if not summary: stat_line(poplist,tag=&quot;Ana.&quot;,ny=nyears)</span>
+
+    <span class="c1"># 3 sigma mean detection</span>
+    <span class="n">stat_mean</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;3s&quot;</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="p">)</span>
+
+    <span class="c1"># 5 sigma mean detection</span>
+    <span class="n">stat_mean</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;5s&quot;</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="p">)</span>
+
+    <span class="c1"># 3 sigma 90%CL detected</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">summary</span><span class="p">:</span>
+        <span class="n">stat_line</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;3s 90%CL&quot;</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="p">)</span>
+
+    <span class="c1"># 5 sigma 90%CL detected</span>
+    <span class="n">stat_line</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;5s 90%CL&quot;</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="n">pop</span><span class="o">.</span><span class="n">nyears</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">132</span><span class="o">*</span><span class="s2">&quot;-&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="separator">
+<a class="viewcode-back" href="../../../api/analysis.population.rate.separator.html#analysis.population.rate.separator">[docs]</a>
+<span class="k">def</span> <span class="nf">separator</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Just a separator line.&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; ----------- </span><span class="si">{</span><span class="mi">18</span><span class="o">*</span><span class="s1">&#39;-&#39;</span><span class="si">:</span><span class="s2">&gt;19</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="mi">18</span><span class="o">*</span><span class="s1">&#39;-&#39;</span><span class="si">:</span><span class="s2">&gt;19</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="mi">18</span><span class="o">*</span><span class="s1">&#39;-&#39;</span><span class="si">:</span><span class="s2">&gt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="mi">18</span><span class="o">*</span><span class="s1">&#39;-&#39;</span><span class="si">:</span><span class="s2">&gt;19</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="mi">18</span><span class="o">*</span><span class="s1">&#39;-&#39;</span><span class="si">:</span><span class="s2">&gt;19</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="mi">18</span><span class="o">*</span><span class="s1">&#39;-&#39;</span><span class="si">:</span><span class="s2">&gt;19</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="stat_mean">
+<a class="viewcode-back" href="../../../api/analysis.population.rate.stat_mean.html#analysis.population.rate.stat_mean">[docs]</a>
+<span class="k">def</span> <span class="nf">stat_mean</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print mean detection above a given significance for a population set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    glist : population list</span>
+<span class="sd">        list of populations to be analysed.</span>
+<span class="sd">    tag : String, optional</span>
+<span class="sd">        &quot;3s&quot; or &quot;5s&quot; for 3 and 5 sigma respectively. The default is &quot;&quot;.</span>
+<span class="sd">    nyrs : integer, optional</span>
+<span class="sd">        Number of years, normalisation. The default is 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">separator</span><span class="p">()</span>
+    <span class="n">tag2</span> <span class="o">=</span> <span class="n">tag</span>
+    <span class="k">if</span> <span class="n">nyrs</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">prt_mean</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sig</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="n">tag2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">prt_mean</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="n">nyrs</span><span class="p">,</span> <span class="n">sig</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="prt_mean">
+<a class="viewcode-back" href="../../../api/analysis.population.rate.prt_mean.html#analysis.population.rate.prt_mean">[docs]</a>
+<span class="k">def</span> <span class="nf">prt_mean</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mean detection above a certain significance.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">nyrs</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="s1">&#39;yr-1&#39;</span><span class="si">:</span><span class="s2">&gt;9s</span><span class="si">}</span><span class="s2"> :&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">tag</span><span class="si">:</span><span class="s2">9s</span><span class="si">}</span><span class="s2"> :&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">glist</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_s</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_b</span><span class="p">,</span>
+             <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_b</span><span class="p">]]</span>
+
+    <span class="k">for</span> <span class="n">grb</span> <span class="ow">in</span> <span class="n">glist</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sig</span> <span class="o">==</span> <span class="s2">&quot;3s&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">d3s</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">grb</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">grb</span><span class="o">.</span><span class="n">d3s</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sig</span> <span class="o">==</span> <span class="s2">&quot;5s&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grb</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">d5s</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">grb</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">grb</span><span class="o">.</span><span class="n">d5s</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot; Should be &#39;3s&#39; or &#39;5s&#39;&quot;</span><span class="p">)</span>
+
+        <span class="n">nmean</span> <span class="o">=</span> <span class="n">var</span><span class="o">/</span><span class="n">pop</span><span class="o">.</span><span class="n">niter</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">nmean</span><span class="o">/</span><span class="n">nyrs</span><span class="si">:</span><span class="s2">9.1f</span><span class="si">}</span><span class="s2"> +- &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nmean</span><span class="p">)</span><span class="o">/</span><span class="n">nyrs</span><span class="si">:</span><span class="s2">6.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="stat_line">
+<a class="viewcode-back" href="../../../api/analysis.population.rate.stat_line.html#analysis.population.rate.stat_line">[docs]</a>
+<span class="k">def</span> <span class="nf">stat_line</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print statistics in various conditions.&quot;&quot;&quot;</span>
+    <span class="n">glist</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_s</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_b</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;3s&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">glist</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">d3s</span> <span class="o">&gt;=</span> <span class="n">pop</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">glist</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;5s&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">glist</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">d5s</span> <span class="o">&gt;=</span> <span class="n">pop</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">glist</span><span class="p">]</span>
+
+    <span class="n">glist</span> <span class="o">=</span> <span class="n">glist</span> <span class="o">+</span> <span class="p">[</span><span class="n">glist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="n">glist</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="n">glist</span><span class="p">[</span><span class="mi">4</span><span class="p">]]</span>
+
+    <span class="c1"># --------------------------------------------------------</span>
+    <span class="c1"># Stat line internal functions</span>
+    <span class="c1"># --------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">prt_line</span><span class="p">(</span><span class="n">nyrs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;dummy&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">nyrs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">tag</span><span class="si">:</span><span class="s2">9s</span><span class="si">}</span><span class="s2"> :&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="s1">&#39;yr-1&#39;</span><span class="si">:</span><span class="s2">&gt;9s</span><span class="si">}</span><span class="s2"> :&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">grb</span> <span class="ow">in</span> <span class="n">glist</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">grb</span><span class="p">)</span><span class="o">/</span><span class="n">nyrs</span><span class="si">:</span><span class="s2">9.1f</span><span class="si">}</span><span class="s2"> &quot;</span>
+                  <span class="sa">f</span><span class="s2">&quot;+- </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grb</span><span class="p">))</span><span class="o">/</span><span class="n">nyrs</span><span class="si">:</span><span class="s2">6.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># --------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">prt_vis_prompt</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="s1">&#39;@trig&#39;</span><span class="si">:</span><span class="s2">&gt;9s</span><span class="si">}</span><span class="s2"> :&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">grb</span> <span class="ow">in</span> <span class="n">glist</span><span class="p">:</span>
+            <span class="n">nvis</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grb</span><span class="p">[</span><span class="n">grb</span><span class="o">.</span><span class="n">prpt</span> <span class="o">==</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">ratio</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">nvis</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">grb</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">grb</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">nvis</span><span class="si">:</span><span class="s2">9d</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">ratio</span><span class="si">:</span><span class="s2">7.1f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="c1"># --------------------------------------------------------</span>
+
+    <span class="k">if</span> <span class="n">nyrs</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">separator</span><span class="p">()</span>
+        <span class="n">prt_line</span><span class="p">(</span><span class="n">nyrs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="n">prt_line</span><span class="p">(</span><span class="n">nyrs</span><span class="o">=</span><span class="n">nyrs</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="n">prt_vis_prompt</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">separator</span><span class="p">()</span>
+        <span class="n">prt_line</span><span class="p">(</span><span class="n">nyrs</span><span class="o">=</span><span class="n">nyrs</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">dump_alldata</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Writing data out&quot;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+
+<span class="c1"># #############################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="c1"># Use default as a demo</span>
+    <span class="c1"># papath = None</span>
+    <span class="n">parpath</span> <span class="o">=</span> <span class="s2">&quot;parameter_100k_ISM-max.yaml&quot;</span>
+    <span class="n">parpath</span> <span class="o">=</span> <span class="s2">&quot;parameter_100k_ISM.yaml&quot;</span>
+
+    <span class="n">nyears</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">parpath</span><span class="o">=</span><span class="n">parpath</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">Pop</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>  <span class="n">nyrs</span><span class="o">=</span><span class="n">nyears</span><span class="p">,</span> <span class="n">fpeakmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">pop</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+    <span class="n">compute</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">summary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Dump all data to a single file - this can be quite long!</span>
+    <span class="c1"># dump_alldata(pop, &quot;output_all_data100000.txt&quot;)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;...completed!&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+textcol
+=======
+
+.. currentmodule:: niceprint
+
+.. autofunction:: textcol

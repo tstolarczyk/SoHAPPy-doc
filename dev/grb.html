@@ -1,359 +1,829 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Astrophysical objects (GRB) &mdash; SoHAPPy 0.0 documentation</title>
-  
+  <title>Astrophysical objects (GRB) &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=88ef157a"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="GammaRayBurst" href="api/grb.GammaRayBurst.html" />
-    <link rel="prev" title="Input file format" href="file_format.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> SoHAPPy
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            SoHAPPy
           </a>
-
-          
-            
-            
-              <div class="version">
-                dev
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Astrophysical objects (GRB)</a><ul>
+<li><a class="reference internal" href="#the-grb-module">The <cite>grb</cite> module</a><ul>
+<li><a class="reference internal" href="#grb.GammaRayBurst"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst</span></code></a><ul>
+<li><a class="reference internal" href="#grb.GammaRayBurst.EBLabsorbed"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.EBLabsorbed()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.__init__"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.altaz"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.altaz()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.animated_spectra"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.animated_spectra()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.check_models_from_fits"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.check_models_from_fits()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.e_range"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.e_range</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.energy_and_time_2d"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.energy_and_time_2d()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.energy_over_timeslices"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.energy_over_timeslices()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.from_fits"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.from_fits()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.get_prompt"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.get_prompt()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.historical_from_yaml"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.historical_from_yaml()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.ignore"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.ignore</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.model_to_yaml"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.model_to_yaml()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.models_to_fits"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.models_to_fits()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.plot"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.plot()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.plot_altitude"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.plot_altitude()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.plot_energy_spectra"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.plot_energy_spectra()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.plot_flux"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.plot_flux()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.plot_time_spectra"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.plot_time_spectra()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.set_visibility"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.set_visibility()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.t_range"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.t_range</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.time_over_energyband"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.time_over_energyband()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.time_resolved_prompt"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.time_resolved_prompt()</span></code></a></li>
+<li><a class="reference internal" href="#grb.GammaRayBurst.write_to_bin"><code class="docutils literal notranslate"><span class="pre">GammaRayBurst.write_to_bin()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-ebl-module">The <cite>ebl</cite> module</a><ul>
+<li><a class="reference internal" href="#module-ebl">ebl Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
         </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sohappy.html">How it works ?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Astrophysical objects (GRB)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-grb">grb Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/grb.GammaRayBurst.html">GammaRayBurst</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/grb.GRBDummy.html">GRBDummy</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-grb_plot">grb_plot Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.energy_and_time_packed.html">energy_and_time_packed</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.spectra.html">spectra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.energy_over_timeslices.html">energy_over_timeslices</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.time_over_energyband.html">time_over_energyband</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.energy_and_time_2d.html">energy_and_time_2d</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.animated_spectra.html">animated_spectra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/grb_plot.visibility_plot.html">visibility_plot</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="montecarlo.html">Monte Carlo</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">Analyzing a single object</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html#dataset-plotting">Dataset plotting</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Dataset tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html#utilities">Utilities</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer.html">Todo list</a></li>
-</ul>
-
-            
-          
-        </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">SoHAPPy</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Astrophysical objects (GRB)</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Astrophysical objects (GRB)</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/grb.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
+             
+  <section id="astrophysical-objects-grb">
+<h1>Astrophysical objects (GRB)<a class="headerlink" href="#astrophysical-objects-grb" title="Link to this heading"></a></h1>
+<p>The input data files contain a series of flux measurements at certain energies
+for a series of time slices. The files also give the redshift,
+some physical information. In some cases it also contain a position in the sky,
+a default visibility over one night for a minimal altitude of 10 degrees (this visibility can be recomputed, see later). Alternatively the source spectrum can
+be described as energy and time powerlaws in an external <cite>yaml</cite> file that will
+be used to generate energy spectra and time slices.</p>
+<p>The source information is handled by the <a class="reference internal" href="#grb.GammaRayBurst" title="grb.GammaRayBurst"><code class="xref py py-class docutils literal notranslate"><span class="pre">grb.GammaRayBurst</span></code></a> class.
+Each instance carries a list in time of models with a default Spatial model
+(point-like source at the position given, <code class="xref py py-obj docutils literal notranslate"><span class="pre">PointSpatialModel</span></code>) and an
+energy spectrum stored as template models (<code class="xref py py-obj docutils literal notranslate"><span class="pre">TemplateSpectralModel</span></code>),
+which are interpolations of the initial flux points. If required an EBL
+absorption is applied at the redshift value given (usual case). Alternatively
+the initial file can contain already absorbed spectra (in that case the model
+as to be declared <cite>built-in</cite> in the configuration file).</p>
+<p>To each object are attached the visibilities at each site, thanks to the <a class="reference internal" href="#grb.GammaRayBurst.set_visibility" title="grb.GammaRayBurst.set_visibility"><code class="xref py py-func docutils literal notranslate"><span class="pre">grb.GammaRayBurst.set_visibility()</span></code></a> function. They are used to compute
+the time slot used for the simulation and analysis.</p>
+<section id="the-grb-module">
+<h2>The <cite>grb</cite> module<a class="headerlink" href="#the-grb-module" title="Link to this heading"></a></h2>
+<p>This module contains only the <a class="reference internal" href="#grb.GammaRayBurst" title="grb.GammaRayBurst"><code class="xref py py-class docutils literal notranslate"><span class="pre">grb.GammaRayBurst</span></code></a> class and a
+main function with examples.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="grb.GammaRayBurst">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">grb.</span></span><span class="sig-name descname"><span class="pre">GammaRayBurst</span></span><a class="reference internal" href="_modules/grb.html#GammaRayBurst"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst" title="Link to this definition"></a></dt>
+<dd><p>A class to store GRB properties.</p>
+<p>The GRB information is read from files.
+A GRB is composed of several parameters among which, a name, a redshift,
+a position in the sky, and measurement points in time at which
+an energy spectrum is given.</p>
+<p>Each energy spectrum is given as a series of flux measurements but is then
+stored as an interpolated spectrum* (i.e. the energy bin width has a modest
+importance).</p>
+<p>The GRB properties like <cite>z</cite> and <cite>Eiso</cite> connect the afterglow and prompt
+emissions together.</p>
+<p>The original energy bins can be limited by a maximal maximal energy
+(Limitation in time can be obtained from the visibility computation).</p>
+<p>The spectra are usually modified for an EBL absorption, or the absorbed
+flux is given in the file in some cases.</p>
+<p>The afterglow flux can be adjusted by a multiplicative factor for
+various tests.</p>
+<p>If requested, the associated prompt spectrum is read and added to the
+afterglow spectra to give the total contribution.</p>
+<p><strong>Note:</strong></p>
+<p>Following a question on the <cite>Slack gammapy</cite> channel on November
+27 <sup>th</sup> , and the answer by Axel Donath:</p>
+<p>The following statement later in the code gave an error
+(<code class="code docutils literal notranslate"><span class="pre">dlist_onoff</span></code> is a collection of <cite>Dataset</cite>)
+<code class="code docutils literal notranslate"><span class="pre">dlist_onoff.write(datapath,prefix=&quot;cls&quot;,overwrite=True)</span></code>
+gives:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">..</span>\\<span class="n">gammapy</span>\\<span class="n">modeling</span>\\<span class="n">models</span>\\<span class="n">spectral</span><span class="o">.</span><span class="n">py</span><span class="s2">&quot;,</span>
+<span class="n">line</span> <span class="mi">989</span><span class="p">,</span> <span class="ow">in</span> <span class="n">to_dict</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+<span class="ne">NotImplementedError</span><span class="p">:</span> <span class="nb">memoryview</span><span class="p">:</span> <span class="n">unsupported</span> <span class="nb">format</span> <span class="o">&gt;</span><span class="n">f</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This error comes from the fact that the energy list as to be
+explicitely passed as a float as done below: <code class="code docutils literal notranslate"><span class="pre">cls.Eval.astype(float)</span></code>
+(A <cite>Quantity</cite> is passed as requested but the underlying numpy
+dtype is not supported by <code class="code docutils literal notranslate"><span class="pre">energy.data.tolist()</span></code>)</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.EBLabsorbed">
+<span class="sig-name descname"><span class="pre">EBLabsorbed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tab</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.EBLabsorbed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.EBLabsorbed" title="Link to this definition"></a></dt>
+<dd><p>Return the EBL-absorbed model of the current instance.</p>
+<p>Absorption data are either obtained from the Gammapy datasets or from
+external proprietary files. Data are unchanged if the GRB has
+already attenuated spectra or if no absorption is considered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tab</strong><span class="classifier">Gammapy TemplateSpectralModel</span></dt><dd><p>A flux versus energy as an interpolated table.</p>
+</dd>
+<dt><strong>model</strong><span class="classifier">String</span></dt><dd><p>An EBL model name among those available.</p>
+</dd>
+<dt><strong>debug</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True let’s talk a bit. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>attflux</strong><span class="classifier">TemplateSpectralModel</span></dt><dd><p>An attenuated flux versus energy as an interpolated table.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize a default GRB.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.altaz">
+<span class="sig-name descname"><span class="pre">altaz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loc=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt=&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">s&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.altaz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.altaz" title="Link to this definition"></a></dt>
+<dd><p>Get altitude azimuth for the GRB at a given site at GRB time t (s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>location</strong><span class="classifier">string</span></dt><dd><p>Either <cite>North</cite> or <cite>South</cite>.</p>
+</dd>
+<dt><strong>dt</strong><span class="classifier">Quantity (time)</span></dt><dd><p>The time elapsed since the trigger time</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>altaz</strong><span class="classifier">astropy.coordinates.AltAz</span></dt><dd><p>The GRB poistion in the sky at the given time and site.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.animated_spectra">
+<span class="sig-name descname"><span class="pre">animated_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emin=&lt;Quantity</span> <span class="pre">20.</span> <span class="pre">GeV&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emax=&lt;Quantity</span> <span class="pre">10.</span> <span class="pre">TeV&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outdir='./out/'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.animated_spectra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.animated_spectra" title="Link to this definition"></a></dt>
+<dd><p>Create a gif animation of time slices. To be finalised.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>emin</strong><span class="classifier">Astropy quantity, optional</span></dt><dd><p>Minimal energy. The default is 0.02 * u.TeV.</p>
+</dd>
+<dt><strong>emax</strong><span class="classifier">Astropy quantity, optional</span></dt><dd><p>Maximal energy. The default is 10 * u.TeV.</p>
+</dd>
+<dt><strong>savefig</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, save the animation to a file. The default is False.</p>
+</dd>
+<dt><strong>outdir</strong><span class="classifier">string, optional</span></dt><dd><p>Output folder name. The default is ‘./out/’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="astrophysical-objects-grb">
-<h1>Astrophysical objects (GRB)<a class="headerlink" href="#astrophysical-objects-grb" title="Permalink to this headline">¶</a></h1>
-<p>The input files contain a series of flux measurement at certain energies for a series of time slices. This files also give the position, the redshift, some physical information and the default visibility over one night for a minimal altitude of 10 degrees (this visibility can be recomputed, see later).Alternatively the object can described as  energy and time powerlaws in extranl yaml file that will be used to generate energy spectra and time slices.</p>
-<p>The source information is handled by the <cite>~grb.GammaRayBurst</cite> class in the <code class="docutils literal notranslate"><span class="pre">grb.py</span></code> module.
-Each <code class="docutils literal notranslate"><span class="pre">GammaRayburst</span></code> object carries a list in time of <em>WRONG</em> <code class="docutils literal notranslate"><span class="pre">AbsorbedSpectralModel</span></code> models obtained from template models, which are interpolation of the initial flux points after applying a given EBL absorption.
-Alternatively the initial file can contain already absorbed spectra (in that case the model as to be declared “built-in” in ana_congif.py).</p>
-<p>To each object are attached the visibilities at each site (typically North and South for CTA). They are used to compute the time slot used for the simulmation and analysis.</p>
-<p>The grb_plot.py modules contains the fucntions displaying the grb charcateristics, including the visibility windows.</p>
-<div class="section" id="module-grb">
-<span id="grb-module"></span><h2>grb Module<a class="headerlink" href="#module-grb" title="Permalink to this headline">¶</a></h2>
-<p>This module contains the classes and tools to handle a GRB object, i.e.
-a collection of lightcurve bins for each of which is given an energy spectrum,
-and information on site location.</p>
-<p>Created on Tue Jan 22 11:41:34 2019</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.check_models_from_fits">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_models_from_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.check_models_from_fits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.check_models_from_fits" title="Link to this definition"></a></dt>
+<dd><p>To be checked and re-implemented or deleted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">string</span></dt><dd><p>Input file name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.e_range">
+<span class="sig-name descname"><span class="pre">e_range</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">10.</span> <span class="pre">GeV&gt;,</span> <span class="pre">&lt;Quantity</span> <span class="pre">100.</span> <span class="pre">TeV&gt;]</span></em><a class="headerlink" href="#grb.GammaRayBurst.e_range" title="Link to this definition"></a></dt>
+<dd><p>Default energy range for the energy spectra for yaml GRBs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.energy_and_time_2d">
+<span class="sig-name descname"><span class="pre">energy_and_time_2d</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.energy_and_time_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.energy_and_time_2d" title="Link to this definition"></a></dt>
+<dd><p>Two-dimensionnal plot of flux versus energy and time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.energy_over_timeslices">
+<span class="sig-name descname"><span class="pre">energy_over_timeslices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ncols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.energy_over_timeslices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.energy_over_timeslices" title="Link to this definition"></a></dt>
+<dd><p>Plot energy spectra along the time bins.</p>
+<p>The number of Time bin is variable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.from_fits">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elimit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tlimit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnify</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.from_fits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.from_fits" title="Link to this definition"></a></dt>
+<dd><p>Read the GRB data from a <cite>fits</cite> file.</p>
+<p>Fluxes are given for a series of (t,E) values
+So far no flux exists beyond the last point (no extrapolation).</p>
+<p>The spectrum is stored as a table, <code class="xref py py-obj docutils literal notranslate"><span class="pre">TemplateSpectralModel</span></code>, that
+takes as an input a series of flux values as a function of the energy.
+The model will return values interpolated in log-space with
+<code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.interpolate.interp1d()</span></code>, returning zero for energies
+outside of the limits of the provided energy array.</p>
+<p>In this function, the trigger time (time of the GRB explosion), is
+expected to come from the input file, with the possibility to add a
+constant time shift in days, or is set randomly over the default year.
+Alternatively, the dates can be overwritten by dates stored in
+an external file in the <cite>SoHAPPy.py</cite> main process using
+<a class="reference internal" href="#grb.GammaRayBurst.set_visibility" title="grb.GammaRayBurst.set_visibility"><code class="xref py py-func docutils literal notranslate"><span class="pre">grb.GammaRayBurst.set_visibility()</span></code></a> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>cls</strong><span class="classifier">GammaRayBurst class</span></dt><dd><p>GammaRayBurst class instance.</p>
+</dd>
+<dt><strong>file_name</strong><span class="classifier">Path</span></dt><dd><p>GRB input file name.</p>
+</dd>
+<dt><strong>prompt: Boolean</strong></dt><dd><p>If True, read information from the associated prompt component.</p>
+</dd>
+<dt><strong>ebl</strong><span class="classifier">String, optional</span></dt><dd><p>The EBL absorption model considered. If ebl is <cite>built-in</cite>, uses
+the absorbed specrum from the data if available. Can be <cite>None</cite>.</p>
+</dd>
+<dt><strong>elimit</strong><span class="classifier">Astropy Quantity</span></dt><dd><p>Upper limit to the energies (To reduce the data size).</p>
+</dd>
+<dt><strong>tlimit: Astropy Time Quantity</strong></dt><dd><p>Upper limit to the time sampling (To reduce the data size).</p>
+</dd>
+<dt><strong>dt: float, optionnal</strong></dt><dd><p>A number of Julian days to be added to the present source trigger
+time. The default is 0.0.</p>
+</dd>
+<dt><strong>magnify</strong><span class="classifier">float, optional</span></dt><dd><p>Flux multiplicative factor to the afterglow model flux for tests.
+Default is 1.</p>
+</dd>
+<dt><strong>debug: Boolean, optional</strong></dt><dd><p>Debugging flag. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>A GammaRayBurst instance.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.get_prompt">
+<span class="sig-name descname"><span class="pre">get_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.get_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.get_prompt" title="Link to this definition"></a></dt>
+<dd><p>Get the time averaged prompt component associated to the afterglow.</p>
+<p>The prompt spectra are produced so that they correspond to the values
+of the physical parameters from the population (Lorentz Factor,
+peak energy, photon flux, and redshift).
+A single set of spectra is given spanning over the <cite>T90</cite> GRB duration.
+The flux is an “average” prompt spectrum over <cite>T90</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>folder</strong><span class="classifier">String, optional</span></dt><dd><p>Where to find the prompt data below the ‘lightcurves/prompt’
+folder. The default is None.</p>
+</dd>
+<dt><strong>strict</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, requires that the density profile agrees between the
+prompt and the afterglow.</p>
+</dd>
+<dt><strong>debug</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, let’s talk a bit. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>List of Models</dt><dd><p>List of <cite>Gammapy</cite> models for the Prompt component.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.historical_from_yaml">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">historical_from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebl=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elimit=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tlimit=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnify=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtmax=&lt;Quantity</span> <span class="pre">0.5</span> <span class="pre">h&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nebin=25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.historical_from_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.historical_from_yaml" title="Link to this definition"></a></dt>
+<dd><p>Read the characteristics of a parameterised GRB from a <cite>yaml</cite> file.</p>
+<p>It is assumed that the energy and time decays are not correlated and
+follow two independent power laws.
+The function associates spectra to a list of time intervals
+in order to comply with the more general case in this class.
+Note that the spectra are considered to be from the afterglow only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>item</strong><span class="classifier">string</span></dt><dd><p>Source identifier related to the input yaml file</p>
+</dd>
+<dt><strong>ebl</strong><span class="classifier">String, optional</span></dt><dd><p>The EBL absorption model considered. If ebl is <cite>built-in</cite>, uses
+the absorbed specrum from the data if available. Can be <cite>None</cite>.</p>
+</dd>
+<dt><strong>magnify</strong><span class="classifier">float, optional</span></dt><dd><p>Flux multiplicative factor to the afterglow model flux for tests.</p>
+</dd>
+<dt><strong>elimit</strong><span class="classifier">Astropy Quantity</span></dt><dd><p>Upper limit to the energies (To reduce the data size).</p>
+</dd>
+<dt><strong>tlimit: Astropy Time Quantity</strong></dt><dd><p>Upper limit to the time sampling (To reduce the data size).</p>
+</dd>
+<dt><strong>dtmax</strong><span class="classifier">Astropy Quantity, optional</span></dt><dd><p>Time bin maximal length. The default is 0.5*u.h.</p>
+</dd>
+<dt><strong>debug: Boolean, optional</strong></dt><dd><p>Debugging flag. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>A <cite>GammaRayBurst</cite> instance.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.ignore">
+<span class="sig-name descname"><span class="pre">ignore</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'filename',</span> <span class="pre">'Eval',</span> <span class="pre">'tval',</span> <span class="pre">'tstart',</span> <span class="pre">'tstop',</span> <span class="pre">'fluxval',</span> <span class="pre">'spec_afterglow',</span> <span class="pre">'prompt',</span> <span class="pre">'id90',</span> <span class="pre">'E_prompt',</span> <span class="pre">'flux_prompt',</span> <span class="pre">'spec_prompt',</span> <span class="pre">'models',</span> <span class="pre">'vis']</span></em><a class="headerlink" href="#grb.GammaRayBurst.ignore" title="Link to this definition"></a></dt>
+<dd><p>Ignore these members when dumping the class out.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.model_to_yaml">
+<span class="sig-name descname"><span class="pre">model_to_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yaml'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.model_to_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.model_to_yaml" title="Link to this definition"></a></dt>
+<dd><p>Dump the time values for each energy specturm into a text file.</p>
+<p>Dump all spectra associated to the source into <cite>yaml</cite> files, tar and
+compresss the files, delete the originals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output</strong><span class="classifier">string, optional</span></dt><dd><p>Output folder name. The default is “yaml”.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.models_to_fits">
+<span class="sig-name descname"><span class="pre">models_to_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'model2fits'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.models_to_fits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.models_to_fits" title="Link to this definition"></a></dt>
+<dd><p>Generate data formatted as an input to the data challenge.</p>
+<p>Function created to provide input to the Data Challenge, 2023.
+Store the spectra as yaml records inside an astropy.table Table
+associated to the valid time interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output</strong><span class="classifier">string, optional</span></dt><dd><p>The output folder name. The default is “fits”.</p>
+</dd>
+<dt><strong>debug</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, say something. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>Path.</dt><dd><p>Output file Path.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e_unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'GeV'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1/</span> <span class="pre">(GeV</span> <span class="pre">cm2</span> <span class="pre">s)'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.plot" title="Link to this definition"></a></dt>
+<dd><p>Display a series of plot of the present instance.</p>
+<p>The figures can also be printed to a pdf file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pdf</strong><span class="classifier">PdfPages instance, optional</span></dt><dd><p>pdf output destination. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.plot_altitude">
+<span class="sig-name descname"><span class="pre">plot_altitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">times</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tshift=&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">s&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.plot_altitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.plot_altitude" title="Link to this definition"></a></dt>
+<dd><p>Plot the altitude of the GRB with a certain time shift.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>times</strong><span class="classifier">list of Astropy Time</span></dt><dd><p>list of times, defined elsewhere.</p>
+</dd>
+<dt><strong>site</strong><span class="classifier">string, optional</span></dt><dd><p>A string defining the site. The default is None.</p>
+</dd>
+<dt><strong>tshift</strong><span class="classifier">Astropy time, optional</span></dt><dd><p>A time shift for the plot. The default is 0*u.s.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Matplotlib Axes, optional</span></dt><dd><p>Current axis. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ax</strong><span class="classifier">Matplotlib Axes</span></dt><dd><p>Current axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.plot_energy_spectra">
+<span class="sig-name descname"><span class="pre">plot_energy_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_t_2disp=5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_min=&lt;Quantity</span> <span class="pre">1.</span> <span class="pre">GeV&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_index=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_unit='GeV'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_unit='1/</span> <span class="pre">(GeV</span> <span class="pre">cm2</span> <span class="pre">s)'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_min=&lt;Quantity</span> <span class="pre">1.e-20</span> <span class="pre">1</span> <span class="pre">/</span> <span class="pre">(GeV</span> <span class="pre">s</span> <span class="pre">cm2)&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.plot_energy_spectra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.plot_energy_spectra" title="Link to this definition"></a></dt>
+<dd><p>Energy spectra for various measurement points in time.</p>
+<p>Note: the plot methods handle the labels, should not be overwritten</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n_E_2disp</strong><span class="classifier">integer, optional</span></dt><dd><p>Number of curves to show in energy spectra. The default is 5.</p>
+</dd>
+<dt><strong>e_min</strong><span class="classifier">Quantity Energy, optional</span></dt><dd><p>Minimal energy in the plot. The default is 1*u.GeV.</p>
+</dd>
+<dt><strong>e_index</strong><span class="classifier">integer, optionnal</span></dt><dd><p>Flux is multiplied by Energy to e_index. The default is 2.</p>
+</dd>
+<dt><strong>e_unit</strong><span class="classifier">string, optional</span></dt><dd><p>Astropy unit for energies in the plot. The default is GeV.</p>
+</dd>
+<dt><strong>f_unit: string, optional</strong></dt><dd><p>Astropy units for flux. The default is “1/ (GeV cm2 s)”.</p>
+</dd>
+<dt><strong>f_min: Astropy Quantity, optional</strong></dt><dd><p>Minimal flux to be displayed. The default is
+1.e-20*u.Unit(“1/ (GeV cm2 s)”)</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">matplotlib axis, optional</span></dt><dd><p>Figure axis. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ax</strong><span class="classifier">matplotlib axes</span></dt><dd><p>Current axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.plot_flux">
+<span class="sig-name descname"><span class="pre">plot_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Eref=&lt;Quantity</span> <span class="pre">100.</span> <span class="pre">GeV&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tshift=&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">s&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.plot_flux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.plot_flux" title="Link to this definition"></a></dt>
+<dd><p>Plot the flux at the given energy, with a certain time shift.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tshift</strong><span class="classifier">Astropy time, optional</span></dt><dd><p>A time shift for the plot. The default is 0*u.s.</p>
+</dd>
+<dt><strong>Eref</strong><span class="classifier">Astropy Quantity, optional</span></dt><dd><p>The reference energy. The default is 100*u.GeV.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Matplotlib Axes, optional</span></dt><dd><p>Current axis. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ax</strong><span class="classifier">Matplotlib Axes</span></dt><dd><p>Current axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.plot_time_spectra">
+<span class="sig-name descname"><span class="pre">plot_time_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_E_2disp=6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_min=&lt;Quantity</span> <span class="pre">0.</span> <span class="pre">s&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_max=&lt;Quantity</span> <span class="pre">1.</span> <span class="pre">yr&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_min=&lt;Quantity</span> <span class="pre">10.</span> <span class="pre">GeV&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_max=&lt;Quantity</span> <span class="pre">10.</span> <span class="pre">TeV&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_index=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_unit='GeV'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_unit='1/</span> <span class="pre">(GeV</span> <span class="pre">cm2</span> <span class="pre">s)'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_min=&lt;Quantity</span> <span class="pre">1.e-20</span> <span class="pre">1</span> <span class="pre">/</span> <span class="pre">(GeV</span> <span class="pre">s</span> <span class="pre">cm2)&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.plot_time_spectra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.plot_time_spectra" title="Link to this definition"></a></dt>
+<dd><p>Plot a series of lightcurves for some energies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n_E_2disp</strong><span class="classifier">integer, optional</span></dt><dd><p>Number of energies to be sampled. The default is 6.</p>
+</dd>
+<dt><strong>e_min</strong><span class="classifier">Astropy Qauntity, optional</span></dt><dd><p>Minimum energy. The default is 10*u.GeV.</p>
+</dd>
+<dt><strong>e_max</strong><span class="classifier">Astropy Qauntity, optional</span></dt><dd><p>Maximal energy. The default is 10*u.TeV.</p>
+</dd>
+<dt><strong>e_unit</strong><span class="classifier">string, optional</span></dt><dd><p>Astropy unit for energies in the plot. The default is GeV.</p>
+</dd>
+<dt><strong>f_unit: string, optional</strong></dt><dd><p>Astropy units for flux. The default is “1/ (GeV cm2 s)”.</p>
+</dd>
+<dt><strong>f_min: Astropy Quantity, optional</strong></dt><dd><p>Minimal flux to be displayed. The default is
+1.e-20*u.Unit(“1/ (GeV cm2 s)”)</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Matplotlib Axes, optional</span></dt><dd><p>Current axis. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ax</strong><span class="classifier">matplotlib axes</span></dt><dd><p>Current axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.set_visibility">
+<span class="sig-name descname"><span class="pre">set_visibility</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observatory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CTAO'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_night</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.set_visibility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.set_visibility" title="Link to this definition"></a></dt>
+<dd><p>Attach a visibility to a GRB instance.</p>
+<p>Either recompute it if a keyword has been given and a dictionnary
+retrieved or read it from the specified folder or dictionnary.</p>
+<ul>
+<li><p>If a dictionnary is given, it can be:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><dl class="simple">
+<dt>From the <code class="xref py py-obj docutils literal notranslate"><span class="pre">visibility.yaml</span></code> file - the visibility is</dt><dd><p>computed on the fly.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Not from the <code class="xref py py-obj docutils literal notranslate"><span class="pre">visibility.yaml</span></code> file, the dictionnary</dt><dd><p>contains a computed visibility from a <cite>json</cite> file.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div></blockquote>
+</li>
+<li><p>The keyword is among those:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>built-in</strong>, the visibility is read from the fits file.</p></li>
+<li><p><strong>forced</strong>, the visibility is build assuming one infinite
+night.</p></li>
+<li><p><strong>permanent</strong>, the visibility is permanent, i.e. the night is
+infinite and the GRB is above the horizon. In that case it
+can be useful to force the zenith angle to be fixed at a
+certain value.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>item</strong><span class="classifier">TYPE</span></dt><dd><p>DESCRIPTION.</p>
+</dd>
+<dt><strong>loc</strong><span class="classifier">TYPE</span></dt><dd><p>DESCRIPTION.</p>
+</dd>
+<dt><strong>observatory</strong><span class="classifier">TYPE, optional</span></dt><dd><p>DESCRIPTION. The default is “CTAO”.</p>
+</dd>
+<dt><strong>tmin</strong><span class="classifier">TYPE, optional</span></dt><dd><p>DESCRIPTION. The default is None.</p>
+</dd>
+<dt><strong>tmax</strong><span class="classifier">TYPE, optional</span></dt><dd><p>DESCRIPTION. The default is None.</p>
+</dd>
+<dt><strong>info</strong><span class="classifier">TYPE, optional</span></dt><dd><p>DESCRIPTION. The default is None.</p>
+</dd>
+<dt><strong>n_night</strong><span class="classifier">TYPE, optional</span></dt><dd><p>DESCRIPTION. The default is None.</p>
+</dd>
+<dt><strong>n_skip</strong><span class="classifier">TYPE, optional</span></dt><dd><p>DESCRIPTION. The default is None.</p>
+</dd>
+<dt><strong>status</strong><span class="classifier">TYPE, optional</span></dt><dd><p>DESCRIPTION. The default is “”.</p>
+</dd>
+<dt><strong>dbg</strong><span class="classifier">TYPE, optional</span></dt><dd><p>DESCRIPTION. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.t_range">
+<span class="sig-name descname"><span class="pre">t_range</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;Quantity</span> <span class="pre">1.</span> <span class="pre">s&gt;,</span> <span class="pre">&lt;Quantity</span> <span class="pre">5.</span> <span class="pre">d&gt;]</span></em><a class="headerlink" href="#grb.GammaRayBurst.t_range" title="Link to this definition"></a></dt>
+<dd><p>Default time range (after trigger) for the lightcurve, for yaml GRBs</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.time_over_energyband">
+<span class="sig-name descname"><span class="pre">time_over_energyband</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ncols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.time_over_energyband"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.time_over_energyband" title="Link to this definition"></a></dt>
+<dd><p>Plot time spectra along the energy bins.</p>
+<p>The number of energy bins is fixed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ncols</strong><span class="classifier">integer, optional</span></dt><dd><p>Number of columns in the plot. The default is 5.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.time_resolved_prompt">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time_resolved_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">glowname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebl=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z=&lt;Quantity</span> <span class="pre">0.&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnify=1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.time_resolved_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.time_resolved_prompt" title="Link to this definition"></a></dt>
+<dd><p>Instantiate time-resolved spectra (test).</p>
+<p>It reads prompt data from a file and associate the prompt to the
+afterglow if requested (or keep the default from the constructor
+otherwise, with possibility to supersede the redshift and the flux
+multiplicative factor). It does not add the two spectra as this would
+require to work on the energy and time binnings that are different and
+this is not implemented yet.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">Path</span></dt><dd><p>Prompt file path.</p>
+</dd>
+<dt><strong>glowname</strong><span class="classifier">Path, optional</span></dt><dd><p>Afterglow file path. The default is None.</p>
+</dd>
+<dt><strong>ebl</strong><span class="classifier">string, optional</span></dt><dd><p>Name of the EBL model. The default is None.</p>
+</dd>
+<dt><strong>z</strong><span class="classifier">Quantity, optional</span></dt><dd><p>redshift. The default is 0*u.dimensionless_unscaled.</p>
+</dd>
+<dt><strong>magnify</strong><span class="classifier">float, optional</span></dt><dd><p>Multiplicative factor of the flux. The default is 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>GammaRayBurst</dt><dd><p>New instance.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="grb.GammaRayBurst.write_to_bin">
+<span class="sig-name descname"><span class="pre">write_to_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/grb.html#GammaRayBurst.write_to_bin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#grb.GammaRayBurst.write_to_bin" title="Link to this definition"></a></dt>
+<dd><p>Write current instance to a binary file for further reuse.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>folder</strong><span class="classifier">String</span></dt><dd><p>Folder name.</p>
+</dd>
+<dt><strong>debug</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, talks a bit. The default is True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="the-ebl-module">
+<h2>The <cite>ebl</cite> module<a class="headerlink" href="#the-ebl-module" title="Link to this heading"></a></h2>
+<section id="module-ebl">
+<span id="ebl-module"></span><h3>ebl Module<a class="headerlink" href="#module-ebl" title="Link to this heading"></a></h3>
+<p>Created on Thu Nov  4 15:24:21 2021</p>
+<p>This module contains the functions to decode and plot the EBL absorption model
+beyond waht exist in <cite>Gammapy</cite>, as well as a main function illustrating the
+use of these functions.</p>
 <p>&#64;author: Stolar</p>
-<div class="section" id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<section id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/grb.GammaRayBurst.html#grb.GammaRayBurst" title="grb.GammaRayBurst"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GammaRayBurst</span></code></a>([ebl_model, z])</p></td>
-<td><p>Class to store GRB properties</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/ebl.EBL_from_file.html#ebl.EBL_from_file" title="ebl.EBL_from_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBL_from_file</span></code></a>(filename[, debug])</p></td>
+<td><p>Read a specific EBL model from file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/grb.GRBDummy.html#grb.GRBDummy" title="grb.GRBDummy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GRBDummy</span></code></a>([tmin, tmax, nbin, beta])</p></td>
-<td><p>A list of obaservation times and an integrated flux at each point Useful for slice merging tests or prototype for e.g.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/ebl.EBL_plot.html#ebl.EBL_plot" title="ebl.EBL_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EBL_plot</span></code></a>(eblmodels[, redshifts, energies, ...])</p></td>
+<td><p>Plot various EBL model absortpion curve.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/ebl.plot_dominguez_2011.html#ebl.plot_dominguez_2011" title="ebl.plot_dominguez_2011"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_dominguez_2011</span></code></a>(redshifts, energies[, ...])</p></td>
+<td><p>Plot Dominqguez absorption curve.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/ebl.compare_EBL_models.html#ebl.compare_EBL_models" title="ebl.compare_EBL_models"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_EBL_models</span></code></a>(redshifts, energies[, ...])</p></td>
+<td><p>Compare all availbale EBL models.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section" id="module-grb_plot">
-<span id="grb-plot-module"></span><h2>grb_plot Module<a class="headerlink" href="#module-grb_plot" title="Permalink to this headline">¶</a></h2>
-<p>Created on Tue Jan 22 11:41:34 2019</p>
-<p>&#64;author: Stolar</p>
-<div class="section" id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/grb_plot.energy_and_time_packed.html#grb_plot.energy_and_time_packed" title="grb_plot.energy_and_time_packed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_and_time_packed</span></code></a>(grb)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/grb_plot.spectra.html#grb_plot.spectra" title="grb_plot.spectra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectra</span></code></a>(grb[, opt])</p></td>
-<td><p>Plot time evolution (lightcurve) and energy spectra</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/grb_plot.energy_over_timeslices.html#grb_plot.energy_over_timeslices" title="grb_plot.energy_over_timeslices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_over_timeslices</span></code></a>(grb)</p></td>
-<td><p>Plot E spectra along the time bins.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/grb_plot.time_over_energyband.html#grb_plot.time_over_energyband" title="grb_plot.time_over_energyband"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_over_energyband</span></code></a>(grb)</p></td>
-<td><p>Plot t spectra along the E bins - E bin number is fixed :-)</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/grb_plot.energy_and_time_2d.html#grb_plot.energy_and_time_2d" title="grb_plot.energy_and_time_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">energy_and_time_2d</span></code></a>(grb)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/grb_plot.animated_spectra.html#grb_plot.animated_spectra" title="grb_plot.animated_spectra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">animated_spectra</span></code></a>(grb[, emin, emax, savefig, ...])</p></td>
-<td><p>Create a gif animation of time slices,</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/grb_plot.visibility_plot.html#grb_plot.visibility_plot" title="grb_plot.visibility_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visibility_plot</span></code></a>(grb[, loc, moon, ax, ...])</p></td>
-<td><p>Plot the night, above-the-horizon and visibility periods, the altitude evolution with time as well as a lightcurve for a fixed reference energy.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="api/grb.GammaRayBurst.html" class="btn btn-neutral float-right" title="GammaRayBurst" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="file_format.html" class="btn btn-neutral float-left" title="Input file format" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Th. Stolarczyk.
-
-    </p>
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -1,6 +1,0 @@
-det_level
-=========
-
-.. currentmodule:: mcsim_config
-
-.. autodata:: det_level

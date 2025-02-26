@@ -1,6 +1,0 @@
-time_over_energyband
-====================
-
-.. currentmodule:: grb_plot
-
-.. autofunction:: time_over_energyband

@@ -1,0 +1,6 @@
+draw_contours
+=============
+
+.. currentmodule:: niceplot
+
+.. autofunction:: draw_contours

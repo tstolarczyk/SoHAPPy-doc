@@ -1,6 +1,0 @@
-animated_spectra
-================
-
-.. currentmodule:: grb_plot
-
-.. autofunction:: animated_spectra

@@ -1,6 +1,0 @@
-get_grb_fromfile
-================
-
-.. currentmodule:: SoHAPPy
-
-.. autofunction:: get_grb_fromfile

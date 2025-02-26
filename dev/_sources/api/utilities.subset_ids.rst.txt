@@ -1,0 +1,6 @@
+subset_ids
+==========
+
+.. currentmodule:: utilities
+
+.. autofunction:: subset_ids

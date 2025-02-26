@@ -1,0 +1,6 @@
+sigmx_after_delay
+=================
+
+.. currentmodule:: analysis.population.times
+
+.. autofunction:: sigmx_after_delay

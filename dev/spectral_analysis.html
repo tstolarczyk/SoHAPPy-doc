@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spectral analysis of an astrophysical source &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=88ef157a"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Spectral analysis of an astrophysical source</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#analysing-a-source-output-file">Analysing a source output file</a></li>
+<li><a class="reference internal" href="#avalaible-modules-and-functions">Avalaible modules and functions</a><ul>
+<li><a class="reference internal" href="#module-analysis.spectra.dataset_counts">analysis.spectra.dataset_counts Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-analysis.spectra.dataset_flux">analysis.spectra.dataset_flux Module</a><ul>
+<li><a class="reference internal" href="#id2">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#technical-modules">Technical modules</a><ul>
+<li><a class="reference internal" href="#module-analysis.spectra.dataset_plot">analysis.spectra.dataset_plot Module</a><ul>
+<li><a class="reference internal" href="#id3">Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-analysis.spectra.dataset_compare">analysis.spectra.dataset_compare Module</a><ul>
+<li><a class="reference internal" href="#id4">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#consideration-on-stacking-masking-and-associated-models">Consideration on stacking, masking and associated models</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Spectral analysis of an astrophysical source</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/spectral_analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="spectral-analysis-of-an-astrophysical-source">
+<h1>Spectral analysis of an astrophysical source<a class="headerlink" href="#spectral-analysis-of-an-astrophysical-source" title="Link to this heading"></a></h1>
+<p>Some tools exist to analyse the <cite>SoHAPPy</cite> outputs for a single source
+(or a few sources individually) stored as binary file(s).
+They can be found in the <cite>analysis/spectra</cite> subfolder.
+The <cite>spectral.py</cite> script shows an example on doing a full analysis of
+this kind of files.</p>
+<p>The binary file is simply a binary image of the <code class="xref py py-class docutils literal notranslate"><span class="pre">MonteCarlo</span></code> instance
+for that source. They are too large to be stored in the code repository, and
+could be replaced by the storage of the <cite>Gammapy dataset</cite> object with a lighter
+format in future versions.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>It is possible to run <cite>SoHAPPy</cite> on a limited number of sources and
+obtain for each of them additionnal output files to be used for a spectral
+analysis. The simulation can be saved using the <code class="code docutils literal notranslate"><span class="pre">save_simu</span></code> keyword in
+the <a class="reference external" href="configuration.html">configuration file</a> ).</p>
+<p>The following command line can be used (One source, starting at <cite>343</cite>) :</p>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">SoHAPPy.py</span> <span class="pre">-f</span> <span class="pre">343</span> <span class="pre">-N</span> <span class="pre">1</span> <span class="pre">--save</span></code></p>
+<p>and a list of sources can be given :</p>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">SoHAPPy.py</span> <span class="pre">-f</span> <span class="pre">343</span> <span class="pre">980</span> <span class="pre">465</span> <span class="pre">676</span> <span class="pre">785</span>&#160; <span class="pre">-N</span> <span class="pre">1</span> <span class="pre">--save</span></code></p>
+<p>Note that the number of Monte Carlo trials is automatically forced to one.</p>
+<p>The output file is a dump of the <cite>mcsim</cite> class for each of the considered site
+(usually <cite>North</cite>, <cite>South</cite> and <cite>Both</cite>) and is therefore strictly related to the
+<cite>SoHAPPy</cite> version that created it.
+It is stored in an output folder as defined in the
+<a class="reference external" href="introduction.html">introduction</a> chapter.</p>
+</section>
+<section id="analysing-a-source-output-file">
+<h2>Analysing a source output file<a class="headerlink" href="#analysing-a-source-output-file" title="Link to this heading"></a></h2>
+<p>The <cite>spectral.py</cite> script uses most of the tools available for analysing source
+files.
+It requires the input file to be defined through the <code class="code docutils literal notranslate"><span class="pre">INFILE</span></code> environment
+variable otherwise it will try to load the file used for the development (which
+is not distributed).
+The tuning was done with this development file, and each source requires
+specific analysis cuts and options. It is therefore recommended to develop the
+steps suited for each source in a <cite>jupyter notebook</cite>, using the functions
+demonstrated in the script, and the other ones in the provided modules.</p>
+<p>The philosophy of <cite>SoHAPPy</cite> is to analyse the data acquired along
+the observation time. For this reason, stacking the time slices can be useful.
+This can be done with the function:</p>
+<p><code class="code docutils literal notranslate"><span class="pre">dataset_tools.stacking</span></code></p>
+<p>It returns a <cite>datasets</cite> with an equal number of <cite>dataset</cite>, each of them being
+the sum of the initial preceding ones.
+Note that when the <cite>dataset`s in a `datasets</cite> are stacked, the energy masking
+is automatically applied, and the models applied to the stacked sets are all
+the model of the first set. This choice is not suitable to analyse slices with
+evoluting energy spectra as it is the case for GRBs. The stacking in <cite>Gammapy</cite>
+is primarily proposed to stack consecutive observations of a source with
+a unique assumption on its underlying physical model.</p>
+<p>On top of these considerations, the data are made of slices for each of which
+some information can be extracted (count numbers, mean fluxes, energy spectra).
+Some of slices can be unrealistically very short (like a few seconds).
+For that reason, it is possible to stack them into a minimal duration
+(e.g. 10 minutes). This is done with tthe fucntion:</p>
+<p><code class="code docutils literal notranslate"><span class="pre">dataset_tools.compactify</span></code></p>
+<p>See more on Stacking in <a class="reference internal" href="#stacking">Stacking</a>.</p>
+</section>
+<section id="avalaible-modules-and-functions">
+<h2>Avalaible modules and functions<a class="headerlink" href="#avalaible-modules-and-functions" title="Link to this heading"></a></h2>
+<p>Some of the tools used to process the <cite>datasets</cite> can be found in the
+<cite>dataset_tools.py</cite> module at the level of the <cite>SoHAPPy</cite> main sources (see
+<a class="reference internal" href="simulation.html"><span class="doc">simulation.rst</span></a>).
+The <cite>spectral.py</cite> script calls most of the available functions stored in the
+following modules:</p>
+<section id="module-analysis.spectra.dataset_counts">
+<span id="analysis-spectra-dataset-counts-module"></span><h3>analysis.spectra.dataset_counts Module<a class="headerlink" href="#module-analysis.spectra.dataset_counts" title="Link to this heading"></a></h3>
+<p>Created on Thu Dec 10 16:49:31 2020</p>
+<p>This modules gathers the fucntion to display and analyze the data in terms of
+counts and excess counts.</p>
+<p>&#64;author: Stolar</p>
+<section id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_counts.excess_counts.html#analysis.spectra.dataset_counts.excess_counts" title="analysis.spectra.dataset_counts.excess_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">excess_counts</span></code></a>(ds[, ax, stacked, model_bar, ...])</p></td>
+<td><p>This is a modified version of dataset plot_counts method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_counts.residuals.html#analysis.spectra.dataset_counts.residuals" title="analysis.spectra.dataset_counts.residuals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">residuals</span></code></a>(ds[, ax, elapsed, tag])</p></td>
+<td><p>Plot residuals - Just use the <cite>gammapy</cite> function, but embed it ib such a way that it can be used by the SoHAPPy <cite>panels</cite> function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_counts.excess_versus_time.html#analysis.spectra.dataset_counts.excess_versus_time" title="analysis.spectra.dataset_counts.excess_versus_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">excess_versus_time</span></code></a>(dsets[, rate, unmasked, ...])</p></td>
+<td><p>Plot both masked and unmasked count evolutions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_counts.stacked_versus_time.html#analysis.spectra.dataset_counts.stacked_versus_time" title="analysis.spectra.dataset_counts.stacked_versus_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stacked_versus_time</span></code></a>(dstacked[, dsets, rate, ...])</p></td>
+<td><p>DRAFT - Display stacked statictics and model statistics if original datasets is given (since model stacking is irrelevant).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_counts.excess_versus_E_and_time.html#analysis.spectra.dataset_counts.excess_versus_E_and_time" title="analysis.spectra.dataset_counts.excess_versus_E_and_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">excess_versus_E_and_time</span></code></a>(dsets)</p></td>
+<td><p>Excess versus E and time in 3D</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_counts.lightcurve.html#analysis.spectra.dataset_counts.lightcurve" title="analysis.spectra.dataset_counts.lightcurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lightcurve</span></code></a>(dsets[, date_ref, tmin, tmax, ...])</p></td>
+<td><p>Reproduce (generate) a lightcurve from a list of dataset with defined observation slices.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.spectra.dataset_flux">
+<span id="analysis-spectra-dataset-flux-module"></span><h3>analysis.spectra.dataset_flux Module<a class="headerlink" href="#module-analysis.spectra.dataset_flux" title="Link to this heading"></a></h3>
+<p>Created on Thu Dec 10 16:49:31 2020</p>
+<p>&#64;author: Stolar</p>
+<section id="id2">
+<h4>Functions<a class="headerlink" href="#id2" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_flux.extract_spectrum.html#analysis.spectra.dataset_flux.extract_spectrum" title="analysis.spectra.dataset_flux.extract_spectrum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_spectrum</span></code></a>(ds[, elapsed, index, ...])</p></td>
+<td><p>Extract the flux from the data in a Dataset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_flux.flux_versus_time.html#analysis.spectra.dataset_flux.flux_versus_time" title="analysis.spectra.dataset_flux.flux_versus_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flux_versus_time</span></code></a>(dsets[, ax, emin, emax, ...])</p></td>
+<td><p>Plot extracted flux versus time within the given energy range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_flux.fluxes_versus_time.html#analysis.spectra.dataset_flux.fluxes_versus_time" title="analysis.spectra.dataset_flux.fluxes_versus_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fluxes_versus_time</span></code></a>(dsets[, xscale, xsize, ...])</p></td>
+<td><p>Plot the extracted flux on a given energy range, for all available time slices.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="technical-modules">
+<h2>Technical modules<a class="headerlink" href="#technical-modules" title="Link to this heading"></a></h2>
+<p>These are base modules to handle the various physical objects.</p>
+<section id="module-analysis.spectra.dataset_plot">
+<span id="analysis-spectra-dataset-plot-module"></span><h3>analysis.spectra.dataset_plot Module<a class="headerlink" href="#module-analysis.spectra.dataset_plot" title="Link to this heading"></a></h3>
+<p>Created on Thu Dec 10 16:49:31 2020</p>
+<p>This module gather functions for plotting the <cite>dataset</cite> contents.</p>
+<p>&#64;author: Stolar</p>
+<section id="id3">
+<h4>Functions<a class="headerlink" href="#id3" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_plot.panels.html#analysis.spectra.dataset_plot.panels" title="analysis.spectra.dataset_plot.panels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">panels</span></code></a>(dsets[, func, nmaxcol, xsize, ysize, ...])</p></td>
+<td><p>Display the plots obtained from a function applied to each individual dataset in an optimised panel.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_plot.windows.html#analysis.spectra.dataset_plot.windows" title="analysis.spectra.dataset_plot.windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">windows</span></code></a>(dsets[, nbin, ysize, unit, plot])</p></td>
+<td><p>Roughly display the existing time wndows in the Dataset list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_plot.counts_from_plot.html#analysis.spectra.dataset_plot.counts_from_plot" title="analysis.spectra.dataset_plot.counts_from_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">counts_from_plot</span></code></a>(ax, dset[, plot_line])</p></td>
+<td><p>This a utility to get the counts form the plot and check the count_str displays the content of the dataset</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-analysis.spectra.dataset_compare">
+<span id="analysis-spectra-dataset-compare-module"></span><h3>analysis.spectra.dataset_compare Module<a class="headerlink" href="#module-analysis.spectra.dataset_compare" title="Link to this heading"></a></h3>
+<p>Created on Fri Dec  3 12:10:37 2021</p>
+<p>This module has functions to compare two dataset (It can be used to check the
+dataset stacking fucntions).</p>
+<p>This module has to be re-arranged and is not functionnal as it is!!!</p>
+<p>&#64;author: Stolar</p>
+<section id="id4">
+<h4>Functions<a class="headerlink" href="#id4" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/analysis.spectra.dataset_compare.comparison_plot.html#analysis.spectra.dataset_compare.comparison_plot" title="analysis.spectra.dataset_compare.comparison_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">comparison_plot</span></code></a>(GRB_id[, site, folder, ...])</p></td>
+<td><p>Plot counts and/or flux for several configurations (arrays).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="consideration-on-stacking-masking-and-associated-models">
+<span id="stacking"></span><h2>Consideration on stacking, masking and associated models<a class="headerlink" href="#consideration-on-stacking-masking-and-associated-models" title="Link to this heading"></a></h2>
+<p>A dataset, as defined in <cite>gammapy</cite> can carry models, in particular a spectral
+model, and a <cite>mask_safe</cite> that defines the energy region on which the dataset
+data are considered valid. It is in particular used during a fit and when
+several datasets are stacked together.</p>
+<p>The model attached to a dataset can be used to simulate the count content. It
+can also be used for fitting. A model can be an analytical expression like a
+powerlaw or a <cite>TemplateSpectraModel</cite> obtained from point measurements. In that
+case the model is an interpolation through the points.</p>
+<p>Not that fitting the data with a model different from the one used for
+simulation is possible. However the initial model should be saved beforehand,
+as shown:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model_init</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">models</span>
+<span class="n">model_fit</span> <span class="o">=</span> <span class="n">SkyModel</span><span class="p">(</span><span class="n">spectral_model</span><span class="o">=</span><span class="n">PowerLawSpectralModel</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">model_fit</span>
+<span class="n">Fit</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">model_init</span> <span class="c1"># Go back to initial model</span>
+</pre></div>
+</div>
+<p>The predcited counts in a dataset are computed using the model (and the IRF),
+which is a continous function, at the center of the bins of the reconstrcuted
+axis (although the model is defined upon true energies).
+When the mask is applied, the predicted counts in the masked bins are set to
+zero. The model is unchanged.</p>
+<p>Stacking is usually intended to group several observations of a same
+phenomemon. Each observation can have a different masking (e.g. varying
+energy thresholds), but all observations are intended to be interpreted from
+the same fit model.</p>
+<p>When simulatiing a source with a varying energy spectrum in time, this is the
+case with GRB simulations, each time slice carries its own spectral model (in
+the most general case a template spectral model).</p>
+<p>In Gammapy 0.18.2 the model in a stacked model <cite>dsstack</cite> obtained from two
+datasets <cite>ds1</cite> and <cite>ds2</cite> is the model attached to <cite>ds1</cite> (as it is supposed to
+be a fit model for a set of observations).</p>
+<p>However it is possible to compute an equivalent mean model as the sum of the
+original models weighted by the dataset livetime using a template spectral
+model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">flux1</span> <span class="o">=</span> <span class="n">ds1</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="p">(</span><span class="n">e_axis</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+<span class="n">dt1</span>   <span class="o">=</span> <span class="n">ds1</span><span class="o">.</span><span class="n">livetime</span>
+<span class="n">flux2</span> <span class="o">=</span> <span class="n">ds2</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="p">(</span><span class="n">e_axis</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+<span class="n">dt2</span>   <span class="o">=</span> <span class="n">ds2</span><span class="o">.</span><span class="n">livetime</span>
+
+<span class="n">flux_new</span>  <span class="o">=</span> <span class="p">(</span><span class="n">dt1</span><span class="o">*</span><span class="n">flux1</span> <span class="o">+</span> <span class="n">dt2</span><span class="o">*</span><span class="n">flux2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">dt1</span><span class="o">+</span><span class="n">dt2</span><span class="p">)</span>
+<span class="n">spec</span>      <span class="o">=</span> <span class="n">TemplateSpectralModel</span><span class="p">(</span><span class="n">energy</span> <span class="o">=</span> <span class="n">e_axis</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
+                         <span class="n">values</span> <span class="o">=</span> <span class="n">flux_org</span><span class="o">*</span><span class="n">mask_org</span><span class="p">,</span>
+                         <span class="n">norm</span>   <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span>
+                         <span class="n">interp_kwargs</span> <span class="o">=</span><span class="p">{</span><span class="s2">&quot;values_scale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">})</span>
+<span class="n">dsstack</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">SkyModel</span><span class="p">(</span><span class="n">spectral_model</span> <span class="o">=</span> <span class="n">spec</span><span class="p">,</span> <span class="n">name</span>  <span class="o">=</span> <span class="s2">&quot;Stack&quot;</span><span class="o">+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="n">ds1</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This works perfectly as long as the two datasets are defined on the same
+energy range, i.e. have the same <cite>mask_safe</cite> attribute. With this, the
+predicted counts, that are computed from the model, can still be compared to
+the generated counts in a simulation</p>
+<p>If the two datasets have NOT the same <cite>mask_safe</cite> attribute, one could set to
+zero the flux point in the definition of the template spectral model as
+follows. Note that this requires to define the model on the reconstructed
+energy axis (axis on whih the <cite>mask _safe</cite> is defined):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">e_axis</span> <span class="o">=</span> <span class="n">ds1</span><span class="o">.</span><span class="n">background</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># E reco sampling from the IRF</span>
+<span class="n">mask1</span> <span class="o">=</span> <span class="n">ds1</span><span class="o">.</span><span class="n">mask_safe</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">flux1</span> <span class="o">=</span> <span class="n">ds1</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spectral_model</span><span class="p">(</span><span class="n">e_axis</span><span class="o">.</span><span class="n">center</span><span class="p">)</span><span class="o">*</span><span class="n">mask1</span> <span class="c1"># masked bins at zero</span>
+<span class="n">dt1</span>   <span class="o">=</span> <span class="n">ds1</span><span class="o">.</span><span class="n">livetime</span>
+</pre></div>
+</div>
+<p>However the resulting interpolated spectrum can/will have edge effects that
+will not guarantee that the flux is stricly at zero. As a consequence it is
+not strictly possible to propagate a mean effective model when stackig two
+datasets.</p>
+<p>The solution to check that the simulated count numbers follow the original
+modelling is to cumulate by hand the predicted counts from the original
+individual datasets, this is how ot os implemented in <cite>SoHAPPy</cite>.</p>
+<p>#.. automodapi:: singlesource_analysis
+#   :include-all-objects:
+#   :no-inheritance-diagram:</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

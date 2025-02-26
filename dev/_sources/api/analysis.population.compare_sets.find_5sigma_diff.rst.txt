@@ -1,0 +1,6 @@
+find_5sigma_diff
+================
+
+.. currentmodule:: analysis.population.compare_sets
+
+.. autofunction:: find_5sigma_diff

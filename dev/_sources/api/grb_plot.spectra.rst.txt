@@ -1,6 +1,0 @@
-spectra
-=======
-
-.. currentmodule:: grb_plot
-
-.. autofunction:: spectra

@@ -1,6 +1,0 @@
-onetrial
-========
-
-.. currentmodule:: mcsim_plot
-
-.. autofunction:: onetrial

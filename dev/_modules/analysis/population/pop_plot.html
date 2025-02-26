@@ -1,496 +1,666 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>analysis.population.pop_plot &mdash; SoHAPPy 0.0 documentation</title>
-  
+  <title>analysis.population.pop_plot &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
 
   
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> SoHAPPy
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            SoHAPPy
           </a>
-
-          
-            
-            
-              <div class="version">
-                dev
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
         </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../sohappy.html">How it works ?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../irf.html">Instrument response functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../file_format.html">Input file format</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../grb.html">Astrophysical objects (GRB)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../time_slice.html">Time slices and slots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../visibility.html">Visibilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../montecarlo.html">Monte Carlo</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../population_analysis.html">Population analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../source_analysis.html">Analyzing a single object</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../source_analysis.html#dataset-plotting">Dataset plotting</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tools.html">Dataset tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tools.html#utilities">Utilities</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../developer.html">Todo list</a></li>
-</ul>
-
-            
-          
-        </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">SoHAPPy</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-        
-      <li>analysis.population.pop_plot</li>
-    
-    
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analysis.population.pop_plot</li>
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for analysis.population.pop_plot</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Created on Tue Jul 27 11:58:24 2021</span>
+<span class="sd">Created on Tue Jul 27 11:58:24 2021.</span>
+
+<span class="sd">Show distributions and population coverage as functions of `Eiso`, `Epeak`</span>
+<span class="sd">and the redshift `z`.</span>
 
 <span class="sd">@author: Stolar</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
-<span class="kn">from</span> <span class="nn">utilities</span> <span class="kn">import</span> <span class="n">MyLabel</span><span class="p">,</span> <span class="n">single_legend</span><span class="p">,</span> <span class="n">stamp</span>
-<span class="kn">from</span> <span class="nn">setup</span> <span class="kn">import</span> <span class="n">dtpop</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
-<span class="n">history</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;190114C&quot;</span><span class="p">:</span>
-                <span class="p">{</span><span class="s2">&quot;Observatory&quot;</span><span class="p">:</span> <span class="s2">&quot;MAGIC&quot;</span><span class="p">,</span>    
-                 <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mf">0.4245</span><span class="p">,</span> 
-                 <span class="s2">&quot;Eiso&quot;</span><span class="p">:</span> <span class="mf">3.00E+53</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span><span class="p">,</span> 
-                 <span class="s2">&quot;marker&quot;</span><span class="p">:</span><span class="s2">&quot;^&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;col&quot;</span><span class="p">:</span><span class="s2">&quot;black&quot;</span><span class="p">},</span>
-               
-           <span class="s2">&quot;201216C&quot;</span><span class="p">:</span>
-                <span class="p">{</span><span class="s2">&quot;Observatory&quot;</span><span class="p">:</span> <span class="s2">&quot;MAGIC&quot;</span><span class="p">,</span>    
-                 <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span> 
-                 <span class="s2">&quot;Eiso&quot;</span><span class="p">:</span> <span class="mf">5.00E+53</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span><span class="p">,</span> 
-                 <span class="s2">&quot;marker&quot;</span><span class="p">:</span><span class="s2">&quot;&gt;&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;col&quot;</span><span class="p">:</span><span class="s2">&quot;black&quot;</span><span class="p">},</span>               
-               
-           <span class="s2">&quot;180720B&quot;</span><span class="p">:</span>
-                <span class="p">{</span><span class="s2">&quot;Observatory&quot;</span><span class="p">:</span> <span class="s2">&quot;H.E.S.S.&quot;</span><span class="p">,</span> 
-                 <span class="s2">&quot;z&quot;</span><span class="p">:</span>  <span class="mf">0.654</span><span class="p">,</span> 
-                 <span class="s2">&quot;Eiso&quot;</span><span class="p">:</span> <span class="mf">6.00E+53</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span><span class="p">,</span> 
-                 <span class="s2">&quot;marker&quot;</span><span class="p">:</span><span class="s2">&quot;v&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;col&quot;</span><span class="p">:</span><span class="s2">&quot;red&quot;</span><span class="p">},</span>
-               
-           <span class="s2">&quot;190829A&quot;</span><span class="p">:</span>
-                <span class="p">{</span><span class="s2">&quot;Observatory&quot;</span><span class="p">:</span> <span class="s2">&quot;H.E.S.S.&quot;</span><span class="p">,</span> 
-                 <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mf">0.0785</span><span class="p">,</span> 
-                 <span class="s2">&quot;Eiso&quot;</span><span class="p">:</span> <span class="mf">2.00E+50</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span><span class="p">,</span> 
-                 <span class="s2">&quot;marker&quot;</span><span class="p">:</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;col&quot;</span><span class="p">:</span><span class="s2">&quot;red&quot;</span><span class="p">},</span>
-               
-           <span class="s2">&quot;080916C&quot;</span><span class="p">:</span>
-                <span class="p">{</span><span class="s2">&quot;Observatory&quot;</span><span class="p">:</span><span class="s2">&quot;Fermi/LAT&quot;</span><span class="p">,</span> 
-                 <span class="s2">&quot;z&quot;</span> <span class="p">:</span><span class="mf">4.3</span><span class="p">,</span>    
-                 <span class="s2">&quot;Eiso&quot;</span><span class="p">:</span> <span class="mf">8.80E+54</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span><span class="p">,</span> 
-                 <span class="s2">&quot;marker&quot;</span><span class="p">:</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;col&quot;</span><span class="p">:</span><span class="s2">&quot;tab:green&quot;</span><span class="p">},</span>
-           
-            <span class="s2">&quot;090902B&quot;</span><span class="p">:</span>
-                <span class="p">{</span><span class="s2">&quot;Observatory&quot;</span><span class="p">:</span><span class="s2">&quot;Fermi/LAT&quot;</span><span class="p">,</span> 
-                 <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mf">1.822</span><span class="p">,</span>  
-                 <span class="s2">&quot;Eiso&quot;</span><span class="p">:</span> <span class="mf">2.20E+52</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span><span class="p">,</span> 
-                 <span class="s2">&quot;marker&quot;</span><span class="p">:</span><span class="s2">&quot;*&quot;</span>  <span class="p">,</span>
-                 <span class="s2">&quot;col&quot;</span><span class="p">:</span><span class="s2">&quot;tab:green&quot;</span><span class="p">},</span>
-            
-            <span class="s2">&quot;130427A&quot;</span><span class="p">:</span>
-                <span class="p">{</span><span class="s2">&quot;Observatory&quot;</span><span class="p">:</span><span class="s2">&quot;Fermi/LAT&quot;</span><span class="p">,</span> 
-                 <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mf">0.34</span><span class="p">,</span>   
-                 <span class="s2">&quot;Eiso&quot;</span><span class="p">:</span> <span class="mf">9.60E+53</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span><span class="p">,</span> 
-                 <span class="s2">&quot;marker&quot;</span><span class="p">:</span><span class="s2">&quot;*&quot;</span> <span class="p">,</span>
-                 <span class="s2">&quot;col&quot;</span><span class="p">:</span><span class="s2">&quot;tab:green&quot;</span><span class="p">}</span>           
-          <span class="p">}</span>
-            
-    <span class="c1">###-----------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="plot_historical"><a class="viewcode-back" href="../../../api/analysis.population.pop_plot.plot_historical.html#analysis.population.pop_plot.plot_historical">[docs]</a><span class="k">def</span> <span class="nf">plot_historical</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ddict</span><span class="p">,</span> <span class="n">obs</span><span class="o">=</span><span class="p">[]):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Add z, Eiso from already detected GRBs </span>
+<span class="kn">from</span> <span class="nn">niceplot</span> <span class="kn">import</span> <span class="n">MyLabel</span><span class="p">,</span> <span class="n">single_legend</span><span class="p">,</span> <span class="n">stamp</span><span class="p">,</span> <span class="n">projected_scatter</span><span class="p">,</span> \
+                     <span class="n">col_size</span><span class="p">,</span> <span class="n">vals_legend</span><span class="p">,</span> <span class="n">lower_limit</span>
+<span class="kn">from</span> <span class="nn">historical</span> <span class="kn">import</span> <span class="n">plot_historical</span><span class="p">,</span> <span class="n">historical</span>
+<span class="kn">from</span> <span class="nn">population</span> <span class="kn">import</span> <span class="n">Pop</span>
+<span class="kn">from</span> <span class="nn">pop_io</span> <span class="kn">import</span> <span class="n">get_data</span>
+
+<span class="c1"># Bigger texts and labels</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">)</span>  <span class="c1"># poster, talk, notebook, paper</span>
+
+<span class="n">codefolder</span> <span class="o">=</span> <span class="s2">&quot;../../&quot;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">codefolder</span><span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;distri&quot;</span><span class="p">,</span> <span class="s2">&quot;coverage&quot;</span><span class="p">]</span>
+
+
+<span class="c1"># ##----------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">plot_generated</span><span class="p">(</span><span class="n">pop</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot charcteristics of the generated sources.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ax : matplotlib axis</span>
-<span class="sd">        Current axis</span>
-<span class="sd">    ddict : Dictionnay</span>
-<span class="sd">        A dcitionnary with predefined values </span>
-<span class="sd">    obs : String, optional</span>
-<span class="sd">        Observatories to be shown from the dictionnary. The default is [].</span>
+<span class="sd">    pop : pandas table</span>
+<span class="sd">        The population in hand.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    ax : matpotlib axis</span>
-<span class="sd">        Current axis</span>
+<span class="sd">    None.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>    
-           
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Use the North classified population to address the GRBs once</span>
+    <span class="n">gpop</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_n</span>
+
+    <span class="c1"># Define the plot framework</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">axh</span><span class="p">,</span> <span class="n">axv</span> <span class="o">=</span> <span class="n">projected_scatter</span><span class="p">()</span>
+
+    <span class="c1"># ## -------------</span>
+    <span class="c1"># ## Projections</span>
+    <span class="c1"># ## -------------</span>
+    <span class="n">nbin</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">axh</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">gpop</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">)</span>
+    <span class="n">axh</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+    <span class="n">axh</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+    <span class="n">axv</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">gpop</span><span class="o">.</span><span class="n">Eiso</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span>  <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">)</span>
+    <span class="n">axv</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+    <span class="n">axv</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ## -------------</span>
+    <span class="c1"># ## Population coverage</span>
+    <span class="c1"># ## -------------</span>
+
+    <span class="c1"># Scatter plot is nnot very effective for large populations</span>
+    <span class="c1"># ax.scatter(gpop.z, np.log10(gpop.Eiso), marker=&quot;.&quot;, color=&quot;grey&quot;)</span>
+
+    <span class="c1"># 2D histrogram with bin height in log scale</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">img</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="n">gpop</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">gpop</span><span class="o">.</span><span class="n">Eiso</span><span class="p">),</span>
+                             <span class="n">norm</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">LogNorm</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;PuBu&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="c1"># Put colorbar at the right of the projected axis</span>
+    <span class="c1"># cbar = fig.colorbar(img, ax=axv)</span>
+    <span class="c1"># cbar.set_label(&#39;Counts&#39;)</span>
+
+    <span class="c1"># Superimpose contrours</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]</span>
+    <span class="n">HH</span><span class="p">,</span> <span class="n">xe</span><span class="p">,</span> <span class="n">ye</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram2d</span><span class="p">(</span><span class="n">gpop</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">gpop</span><span class="o">.</span><span class="n">Eiso</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">HH</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="n">midpoints</span> <span class="o">=</span> <span class="p">(</span><span class="n">xe</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">xe</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">ye</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">ye</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">cntr</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="o">*</span><span class="n">midpoints</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">)</span>
+    <span class="n">clbl</span> <span class="o">=</span> <span class="n">cntr</span><span class="o">.</span><span class="n">clabel</span><span class="p">()</span>  <span class="c1"># Labels</span>
+
+    <span class="c1"># # Remove contours with &quot;0&quot; label as it is chaotic</span>
+    <span class="c1"># cntr.set_paths(cntr.get_paths()[1:])  # Remove last (chaotic) contour</span>
+
+    <span class="c1"># for ic, c in enumerate(clbl):</span>
+    <span class="c1">#     if c._text == &quot;0&quot;:</span>
+    <span class="c1">#         c.set_text(&quot;&quot;)</span>
+
+    <span class="c1"># Decorate</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Redshift z&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$log_</span><span class="si">{10}</span><span class="s2"> (E_</span><span class="si">{iso}</span><span class="s2"> (erg))$&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">axh</span><span class="p">,</span> <span class="n">axv</span>
+
+<span class="c1"># ##----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="distri">
+<a class="viewcode-back" href="../../../api/analysis.population.pop_plot.distri.html#analysis.population.pop_plot.distri">[docs]</a>
+<span class="k">def</span> <span class="nf">distri</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">grbs</span><span class="p">,</span>
+           <span class="n">var</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">var_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">var_log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+           <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">color2</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+           <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the given variable wrt to the reference population and the ratio.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pop : Pandas table</span>
+<span class="sd">        A population.</span>
+<span class="sd">    grbs : pandas table</span>
+<span class="sd">        A subselection of the population.</span>
+<span class="sd">    var : String, optional</span>
+<span class="sd">        A column name in the Pandas table. The default is &quot;z&quot;.</span>
+<span class="sd">    range : List, optional</span>
+<span class="sd">        The variable minimal and maximal values allowed in the plot.</span>
+<span class="sd">        The default is [0, 4].</span>
+<span class="sd">    var_log : Boolean, optional</span>
+<span class="sd">        Plot logarithm10 of the variable if true. The default is False.</span>
+<span class="sd">    var_name : String, optional</span>
+<span class="sd">        Explicit name of the plotted variable. The default is &quot;&quot;.</span>
+<span class="sd">    weight: float</span>
+<span class="sd">        A weight applied to th epopuelation data in case it would sum-up</span>
+<span class="sd">        several ones. The default is one.</span>
+<span class="sd">    tag: String, optional</span>
+<span class="sd">        Describes the data in the plot. The default is &quot;&quot;.</span>
+<span class="sd">    ax : matplotlib axes, optional</span>
+<span class="sd">        Current matplotlib axes. The default is None.</span>
+<span class="sd">    nbin : integer, optional</span>
+<span class="sd">        Number of bins in the histrogram. The default is 20.</span>
+<span class="sd">    color : string, optional</span>
+<span class="sd">        Selected subpopulation color. The default is &quot;tab:blue&quot;.</span>
+<span class="sd">    color2 : String, optional</span>
+<span class="sd">        Ratio curve color. The default is &quot;red&quot;.</span>
+<span class="sd">    **kwargs : dictionnary</span>
+<span class="sd">        matplotlib supplementary parameters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ax : matplotlib axis</span>
+<span class="sd">        Population distribution axis.</span>
+<span class="sd">    axx : matplotlib axis</span>
+<span class="sd">        Dsitribtution ratio secondary axis.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ax</span>
-    
-    <span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">ddict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">ddict</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Observatory&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">obs</span><span class="p">:</span>
-            <span class="c1">#print(target)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">],</span>
-                       <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Eiso&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
-                       <span class="n">marker</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;marker&quot;</span><span class="p">],</span>
-                       <span class="n">color</span>  <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;col&quot;</span><span class="p">],</span>
-                       <span class="n">label</span>  <span class="o">=</span> <span class="n">target</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ax</span></div>
 
-<span class="c1">###-----------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="redshift"><a class="viewcode-back" href="../../../api/analysis.population.pop_plot.redshift.html#analysis.population.pop_plot.redshift">[docs]</a><span class="k">def</span> <span class="nf">redshift</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">gref</span><span class="p">,</span> <span class="n">g0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-             <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">color2</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span><span class="p">,</span> 
-             <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zmax</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">det_level</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># If the variable name is not explcitely given, use the column name</span>
+    <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">var_name</span> <span class="o">=</span> <span class="n">var</span>
 
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ax</span>
+    <span class="c1"># Plot the reference GRB population</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">var_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">pop</span><span class="o">.</span><span class="n">ref</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">ref</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">var_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-    
-    <span class="k">if</span> <span class="n">reference</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="c1"># First plot the reference &quot;1000&quot; GRB population</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">gref</span><span class="o">.</span><span class="n">z</span><span class="o">&lt;=</span><span class="n">zmax</span><span class="p">)</span>
-    
-        <span class="n">ntot</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span>  <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">gref</span><span class="p">[(</span><span class="n">gref</span><span class="o">.</span><span class="n">z</span><span class="o">&lt;=</span><span class="n">zmax</span><span class="p">)]</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span> 
-                                 <span class="n">weights</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gref</span><span class="p">[(</span><span class="n">gref</span><span class="o">.</span><span class="n">z</span><span class="o">&lt;=</span><span class="n">zmax</span><span class="p">)]</span><span class="o">.</span><span class="n">z</span><span class="p">))</span><span class="o">*</span><span class="mi">10</span><span class="o">/</span><span class="n">dtpop</span><span class="p">,</span>
-                                 <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">var_log</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pop</span><span class="o">.</span><span class="n">ref</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">var</span><span class="p">]]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">bins</span> <span class="o">=</span> <span class="n">nbin</span>
-        <span class="n">ntot</span> <span class="o">=</span> <span class="mi">0</span>
-        
-    <span class="c1"># Plot the first sub-population - apply weight for summed sample</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">d5s</span><span class="o">&gt;</span><span class="n">det_level</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">z</span><span class="o">&lt;=</span><span class="n">zmax</span><span class="p">)</span>
-    <span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span>  <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">z</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">z</span><span class="p">))</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="mi">10</span><span class="o">/</span><span class="n">dtpop</span><span class="p">,</span>
-                          <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">z</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">tag</span><span class="p">),</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">ref</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">var</span><span class="p">]</span>
 
+    <span class="n">nref</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span>
+                            <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Plot the second sub-population  - apply weight for summed sample</span>
-    <span class="k">if</span> <span class="n">g0</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">g0</span><span class="o">.</span><span class="n">d5s</span><span class="o">&gt;</span><span class="n">det_level</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">g0</span><span class="o">.</span><span class="n">z</span><span class="o">&lt;=</span><span class="n">zmax</span><span class="p">)</span>
-        <span class="n">n0</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span>    <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">g0</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">z</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g0</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">z</span><span class="p">))</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="mi">10</span><span class="o">/</span><span class="n">dtpop</span><span class="p">,</span>
-                                 <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="o">*</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="c1"># Plot the requested population - can be weighted if the sum of several</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">var_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">grbs</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">grbs</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">var_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-    <span class="c1"># Decoration</span>
+    <span class="k">if</span> <span class="n">var_log</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">grbs</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">var</span><span class="p">]]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">grbs</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">var</span><span class="p">]</span>
+
+    <span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span>
+                         <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                         <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">tag</span><span class="p">),</span>
+                         <span class="n">weights</span><span class="o">=</span><span class="n">weight</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Redshift (z)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Plot raio</span>
-    <span class="n">ratio</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">xtot</span> <span class="k">if</span> <span class="n">xtot</span><span class="o">!=</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">xtot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">ntot</span><span class="p">)</span> <span class="p">]</span>
-    <span class="n">axx</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-    <span class="n">axx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="n">ratio</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ratio&quot;</span><span class="p">)</span>
+    <span class="c1"># Plot the ratio</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="o">/</span><span class="n">xtot</span> <span class="k">if</span> <span class="n">xtot</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">xtot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">nref</span><span class="p">)]</span>
+    <span class="n">axx</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+    <span class="n">axx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">ratio</span><span class="p">,</span>
+             <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ratio&quot;</span><span class="p">)</span>
+
     <span class="n">axx</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
     <span class="n">axx</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
-<span class="c1">#         if tag != &quot;Combined&quot;:</span>
 
     <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">axx</span></div>
-<span class="c1">###-----------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="eiso"><a class="viewcode-back" href="../../../api/analysis.population.pop_plot.eiso.html#analysis.population.pop_plot.eiso">[docs]</a><span class="k">def</span> <span class="nf">eiso</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">gref</span><span class="p">,</span> <span class="n">g0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">color2</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-         <span class="n">Eisomin</span><span class="o">=</span><span class="mf">5.5e50</span><span class="p">,</span> <span class="n">Eisomax</span><span class="o">=</span><span class="mf">5.5e55</span><span class="p">,</span>  <span class="n">det_level</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ax</span>
-
-    <span class="c1"># First plot the reference &quot;1000&quot; GRB population</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">gref</span><span class="o">.</span><span class="n">Eiso</span><span class="o">&lt;=</span><span class="n">Eisomax</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">gref</span><span class="o">.</span><span class="n">Eiso</span><span class="o">&gt;=</span><span class="n">Eisomin</span><span class="p">)</span>
-    <span class="n">ntot</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span>  <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">gref</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Eiso</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">gref</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Eiso</span><span class="p">)))</span><span class="o">*</span><span class="mi">10</span><span class="o">/</span><span class="n">dtpop</span><span class="p">,</span>
-                             <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Plot the first sub-population - apply weight for summed sample</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">d5s</span><span class="o">&gt;</span><span class="n">det_level</span><span class="p">)</span> 
-    <span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span>     <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Eiso</span><span class="p">),</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Eiso</span><span class="p">))</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="mi">10</span><span class="o">/</span><span class="n">dtpop</span><span class="p">,</span>
-                             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Eiso</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="n">tag</span><span class="p">),</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-    <span class="c1"># Plot the second sub-population  - apply weight for summed sample</span>
-    <span class="k">if</span> <span class="n">g0</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">g0</span><span class="o">.</span><span class="n">d5s</span><span class="o">&gt;</span><span class="n">det_level</span><span class="p">)</span> 
-        <span class="n">n0</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span>    <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">g0</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Eiso</span><span class="p">),</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g0</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Eiso</span><span class="p">))</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="mi">10</span><span class="o">/</span><span class="n">dtpop</span><span class="p">,</span>
-                                 <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="coverage">
+<a class="viewcode-back" href="../../../api/analysis.population.pop_plot.coverage.html#analysis.population.pop_plot.coverage">[docs]</a>
+<span class="k">def</span> <span class="nf">coverage</span><span class="p">(</span><span class="n">varx</span><span class="p">,</span> <span class="n">vary</span><span class="p">,</span>
+             <span class="n">ref</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">xrange</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">yrange</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+             <span class="n">lblx</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">lbly</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;dummy&quot;</span><span class="p">,</span>
+             <span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span>
+             <span class="n">nbin</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+             <span class="n">alpha_ref</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color_ref</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+             <span class="n">projs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot population coverage in two variable space.</span>
+
+<span class="sd">    Includes a plot for the reference pop.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    varx : String</span>
+<span class="sd">        Abscissa variable.</span>
+<span class="sd">    vary : String</span>
+<span class="sd">        ordinate variable.</span>
+<span class="sd">    ref : pandas dataframe, optional</span>
+<span class="sd">        Reference population. The default is None.</span>
+<span class="sd">    pop : pandas dataframe, optional</span>
+<span class="sd">        Studied population. The default is None.</span>
+<span class="sd">    mask : array of boolean, optional</span>
+<span class="sd">        mask applied to the studied population. The default is None.</span>
+<span class="sd">    xrange : list of two elements, optional</span>
+<span class="sd">        Abscissa limits. The default is [None,None].</span>
+<span class="sd">    yrange : List of two elemenst, optional</span>
+<span class="sd">        Ordinate limits. The default is [None, None].</span>
+<span class="sd">    lblx : string, optional</span>
+<span class="sd">        Abscissa label specific tag. The default is &quot;&quot;.</span>
+<span class="sd">    lbly : String, optional</span>
+<span class="sd">        ordinate label specific tag. The default is &quot;&quot;.</span>
+<span class="sd">    xscale : String, optional</span>
+<span class="sd">        Logarithmic or linear abscissa scale. The default is &quot;log&quot;.</span>
+<span class="sd">    yscale : String, optional</span>
+<span class="sd">        logarithmic or linear ordinate scale. The default is &quot;log&quot;.</span>
+<span class="sd">    title : String, optional</span>
+<span class="sd">        Plot title. The default is &quot;dummy&quot;.</span>
+<span class="sd">    nbin : integer, optional</span>
+<span class="sd">        Nimber of bins in projected histrograms. The default is 25.</span>
+<span class="sd">    alpha : float, optional</span>
+<span class="sd">        Studied population transparency. The default is 0.5.</span>
+<span class="sd">    alpha_ref : float, optional</span>
+<span class="sd">        reference population transparency. The default is 0.5.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">projs</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">axh</span><span class="p">,</span> <span class="n">axv</span> <span class="o">=</span> <span class="n">projected_scatter</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+    <span class="c1"># Create dummy mask if undefined</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="n">varx</span><span class="p">]</span> <span class="o">==</span> <span class="n">pop</span><span class="p">[</span><span class="n">varx</span><span class="p">])</span>
+
+    <span class="c1"># change TUple into list ofr assignments.</span>
+    <span class="c1"># Create dummy range limits if undefined</span>
+    <span class="n">xrange</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xrange</span><span class="p">)</span>
+    <span class="n">yrange</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">yrange</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">varx</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">varx</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">yrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">yrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">vary</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">yrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">yrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">vary</span><span class="p">])</span>
+
+    <span class="c1"># ## --------------------</span>
+    <span class="c1"># ## Central scatter plot</span>
+    <span class="c1"># ## --------------------</span>
+    <span class="c1"># reference population</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">varx</span><span class="p">])</span> <span class="k">if</span> <span class="n">xscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span> <span class="k">else</span> <span class="n">ref</span><span class="p">[</span><span class="n">varx</span><span class="p">],</span>
+               <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">vary</span><span class="p">])</span> <span class="k">if</span> <span class="n">yscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span> <span class="k">else</span> <span class="n">ref</span><span class="p">[</span><span class="n">vary</span><span class="p">],</span>
+               <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_ref</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha_ref</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;All&quot;</span><span class="p">)</span>
+
+    <span class="n">xdet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">varx</span><span class="p">])</span> <span class="k">if</span> <span class="n">xscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span> <span class="k">else</span> <span class="n">pop</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">varx</span><span class="p">]</span>
+    <span class="n">ydet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">vary</span><span class="p">])</span> <span class="k">if</span> <span class="n">yscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span> <span class="k">else</span> <span class="n">pop</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">vary</span><span class="p">]</span>
+
+    <span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span> <span class="o">=</span> <span class="n">col_size</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">sigmx</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xdet</span><span class="p">,</span> <span class="n">ydet</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+
+    <span class="n">plot_historical</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">historical</span><span class="p">(),</span> <span class="n">obs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;H.E.S.S&quot;</span><span class="p">])</span>
 
     <span class="c1"># Decoration</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$log_</span><span class="si">{10}</span><span class="s2"> \  E_</span><span class="si">{iso}</span><span class="s2">$&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
-    
-    <span class="c1"># Plot raio</span>
-    <span class="n">ratio</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">xtot</span> <span class="k">if</span> <span class="n">xtot</span><span class="o">!=</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">xtot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">ntot</span><span class="p">)</span> <span class="p">]</span>
-    <span class="n">axx</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-    <span class="n">axx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="n">ratio</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ratio&quot;</span><span class="p">)</span>
-    <span class="n">axx</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
-    <span class="n">axx</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
-<span class="c1">#         if tag != &quot;Combined&quot;:</span>
+    <span class="k">if</span> <span class="n">xscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">xmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$log_</span><span class="si">{10}</span><span class="s2"> \ $&quot;</span> <span class="o">+</span> <span class="n">lblx</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xmax</span><span class="o">=</span><span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">lblx</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">axx</span></div>
-<span class="c1">###-----------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="epeak"><a class="viewcode-back" href="../../../api/analysis.population.pop_plot.epeak.html#analysis.population.pop_plot.epeak">[docs]</a><span class="k">def</span> <span class="nf">epeak</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">gref</span><span class="p">,</span> <span class="n">g0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">color2</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-         <span class="n">Epeakmin</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">Epeakmax</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>  <span class="n">det_level</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">yscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">yrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">ymax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">yrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$log_</span><span class="si">{10}</span><span class="s2"> / $&quot;</span> <span class="o">+</span> <span class="n">lbly</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">yrange</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">lbly</span><span class="p">)</span>
 
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ax</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
 
-    <span class="c1"># First plot the reference &quot;1000&quot; GRB population</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">gref</span><span class="o">.</span><span class="n">Epeak</span><span class="o">&lt;=</span><span class="n">Epeakmax</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">gref</span><span class="o">.</span><span class="n">Epeak</span><span class="o">&gt;=</span><span class="n">Epeakmin</span><span class="p">)</span>
-    <span class="n">ntot</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span>  <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">gref</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Epeak</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">gref</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Epeak</span><span class="p">)))</span><span class="o">*</span><span class="mi">10</span><span class="o">/</span><span class="n">dtpop</span><span class="p">,</span>
-                             <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+    <span class="n">patches</span> <span class="o">=</span> <span class="n">vals_legend</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
 
-    <span class="c1"># Plot the first sub-population - apply weight for summed sample</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">d5s</span><span class="o">&gt;</span><span class="n">det_level</span><span class="p">)</span> 
-    <span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span>     <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Epeak</span><span class="p">),</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Epeak</span><span class="p">))</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="mi">10</span><span class="o">/</span><span class="n">dtpop</span><span class="p">,</span>
-                             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Epeak</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="n">tag</span><span class="p">),</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">projs</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\sigma_</span><span class="si">{max}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="n">handles</span><span class="o">=</span><span class="n">patches</span><span class="p">,</span>
+                   <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">[</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">],</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\sigma_</span><span class="si">{max}</span><span class="s2">$ - &quot;</span> <span class="o">+</span> <span class="n">title</span><span class="p">,</span> <span class="n">handles</span><span class="o">=</span><span class="n">patches</span><span class="p">,</span>
+                   <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">],</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">projs</span><span class="p">:</span>
+        <span class="c1"># ## --------------------</span>
+        <span class="c1"># ## horizontal data</span>
+        <span class="c1"># ## --------------------</span>
+        <span class="n">hist_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">varx</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">varx</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">xref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">hist_mask</span><span class="p">][</span><span class="n">varx</span><span class="p">])</span> <span class="k">if</span> <span class="n">xscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span> \
+            <span class="k">else</span> <span class="n">ref</span><span class="p">[</span><span class="n">hist_mask</span><span class="p">][</span><span class="n">varx</span><span class="p">]</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">axh</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">xref</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                              <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">varx</span><span class="p">])</span> <span class="k">if</span> <span class="n">xscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span> <span class="k">else</span> <span class="n">pop</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">varx</span><span class="p">]</span>
+        <span class="n">axh</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;purple&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">xscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span><span class="p">:</span>
+            <span class="n">axh</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                         <span class="n">xmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">axh</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="o">=</span><span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                         <span class="n">xmax</span><span class="o">=</span><span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">axh</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">tag</span><span class="o">+</span><span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="n">title</span><span class="p">)</span>
+        <span class="n">axh</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+        <span class="c1"># ## --------------------</span>
+        <span class="c1"># ## Vertical data</span>
+        <span class="c1"># ## --------------------</span>
+        <span class="n">hmask</span> <span class="o">=</span> <span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">vary</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">yrange</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">vary</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">yrange</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">yref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="n">hmask</span><span class="p">][</span><span class="n">vary</span><span class="p">])</span> <span class="k">if</span> <span class="n">yscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span> \
+            <span class="k">else</span> <span class="n">ref</span><span class="p">[</span><span class="n">hmask</span><span class="p">][</span><span class="n">vary</span><span class="p">]</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">axv</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">yref</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbin</span><span class="p">,</span>
+                              <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                              <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
+                              <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">yref</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;All&quot;</span><span class="p">))</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">vary</span><span class="p">])</span> <span class="k">if</span> <span class="n">yscale</span> <span class="o">==</span> <span class="s2">&quot;log&quot;</span> <span class="k">else</span> <span class="n">pop</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">vary</span><span class="p">]</span>
+        <span class="n">axv</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="s2">&quot;purple&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
+                 <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Detected&quot;</span><span class="p">))</span>
+        <span class="n">axv</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ax</span>  <span class="c1"># Central plot</span></div>
 
 
-    <span class="c1"># Plot the second sub-population  - apply weight for summed sample</span>
-    <span class="k">if</span> <span class="n">g0</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">g0</span><span class="o">.</span><span class="n">d5s</span><span class="o">&gt;</span><span class="n">det_level</span><span class="p">)</span> 
-        <span class="n">n0</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span>    <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">g0</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Epeak</span><span class="p">),</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">weights</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">g0</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">Epeak</span><span class="p">))</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="mi">10</span><span class="o">/</span><span class="n">dtpop</span><span class="p">,</span>
-                                 <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="c1"># Decoration</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$log_</span><span class="si">{10}</span><span class="s2"> \  E_</span><span class="si">{peak}</span><span class="s2"> (keV)$&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
-    
-    <span class="c1"># Plot raio</span>
-    <span class="n">ratio</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">xtot</span> <span class="k">if</span> <span class="n">xtot</span><span class="o">!=</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">xtot</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">ntot</span><span class="p">)</span> <span class="p">]</span>
-    <span class="n">axx</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
-    <span class="n">axx</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">bins</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="n">ratio</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color2</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ratio&quot;</span><span class="p">)</span>
-    <span class="n">axx</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
-    <span class="n">axx</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
-<span class="c1">#         if tag != &quot;Combined&quot;:</span>
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<span class="k">def</span> <span class="nf">pop_lower_limits</span><span class="p">(</span><span class="n">varx</span><span class="p">,</span> <span class="n">vary</span><span class="p">,</span> <span class="n">ref_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">fit_deg</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute lower limit in coverage for a reference population.</span>
 
-    <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">axx</span></div>
-<span class="c1">###-----------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="sig_plot_cumulative"><a class="viewcode-back" href="../../../api/analysis.population.pop_plot.sig_plot_cumulative.html#analysis.population.pop_plot.sig_plot_cumulative">[docs]</a><span class="k">def</span> <span class="nf">sig_plot_cumulative</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">nbins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    
-    <span class="k">if</span> <span class="n">mask</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> 
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
-    
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ax</span>
-    
-    <span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span><span class="n">bins</span><span class="o">=</span><span class="n">nbins</span><span class="p">,</span>
-                         <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                         <span class="n">cumulative</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">density</span><span class="o">=</span><span class="n">density</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    varx : String</span>
+<span class="sd">        Abscissa</span>
+<span class="sd">    vary : String</span>
+<span class="sd">        Ordinate</span>
+<span class="sd">    ref_file : pathlib Path, optional</span>
+<span class="sd">        A parameter file with the reference population. The default is None.</span>
+<span class="sd">    fit_deg : integer</span>
+<span class="sd">        the order of the polynomial fit.</span>
+<span class="sd">    plot : boolean, optional</span>
+<span class="sd">        DESCRIPTION. The default is True.</span>
 
-    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">107</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ref. delays&quot;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">600</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;10 min&quot;</span><span class="p">,</span>            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:green&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">3600</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;1 h&quot;</span><span class="p">,</span>              <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:orange&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">3600</span><span class="o">*</span><span class="mi">24</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;1 day&quot;</span><span class="p">,</span>         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
-    <span class="k">return</span> </div>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
 
-<span class="c1">###-----------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="col_size"><a class="viewcode-back" href="../../../api/analysis.population.pop_plot.col_size.html#analysis.population.pop_plot.col_size">[docs]</a><span class="k">def</span> <span class="nf">col_size</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">var_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cm</span>
-    <span class="c1"># Limit values in case they are not yet limited</span>
-    <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">var_min</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">var</span><span class="p">)))</span>
-    <span class="n">size</span>   <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-    <span class="k">return</span> <span class="n">color</span><span class="p">,</span> <span class="n">size</span></div>
-<span class="c1">###-----------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="sig_legend"><a class="viewcode-back" href="../../../api/analysis.population.pop_plot.sig_legend.html#analysis.population.pop_plot.sig_legend">[docs]</a><span class="k">def</span> <span class="nf">sig_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">siglist</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">5</span> <span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">siglist</span><span class="p">]</span>
-    <span class="c1"># symbol = Line2D(range(1), range(1), color=&quot;white&quot;, marker=&#39;o&#39;, markerfacecolor=&quot;red&quot;)</span>
-    <span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span> <span class="o">=</span> <span class="n">col_size</span><span class="p">(</span><span class="n">siglist</span><span class="p">)</span>
-    <span class="n">patches</span> <span class="o">=</span> <span class="p">[</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
-                         <span class="n">ms</span> <span class="o">=</span> <span class="mi">7</span><span class="o">+</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mi">50</span><span class="p">,</span> 
-                         <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                         <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> 
-                         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span> <span class="p">]</span>
-    <span class="c1"># ax.legend(title=&quot;$\sigma_{max}$&quot;,handles=patches,**kwargs)</span>
-    
-    <span class="k">return</span> <span class="n">patches</span></div>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ref_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ref_file</span> <span class="o">=</span> <span class="s2">&quot;../../data/samples/max_detection_parameter.yaml&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&gt; Prepare lower limit curve from reference: &quot;</span><span class="p">,</span> <span class="n">ref_file</span><span class="p">)</span>
+
+    <span class="n">nyears</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">parpath</span><span class="o">=</span><span class="n">ref_file</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ref_pop</span> <span class="o">=</span> <span class="n">Pop</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="n">nyears</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">ref_pop</span><span class="o">.</span><span class="n">g_tot</span><span class="p">[</span><span class="s2">&quot;d3s&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">x_det</span> <span class="o">=</span> <span class="n">ref_pop</span><span class="o">.</span><span class="n">g_tot</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">varx</span><span class="p">]</span>
+    <span class="n">y_det</span> <span class="o">=</span> <span class="n">ref_pop</span><span class="o">.</span><span class="n">g_tot</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">vary</span><span class="p">]</span>
+    <span class="n">logx</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">logy</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">logx</span><span class="p">:</span>
+        <span class="n">x_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x_det</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">logy</span><span class="p">:</span>
+        <span class="n">y_det</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">y_det</span><span class="p">)</span>
+
+    <span class="n">pfit</span> <span class="o">=</span> <span class="n">lower_limit</span><span class="p">(</span><span class="n">x_det</span><span class="p">,</span> <span class="n">y_det</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">fitdeg</span><span class="o">=</span><span class="n">fit_deg</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">nbins</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pfit</span>
+
+
+<span class="c1"># #############################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="c1"># Bigger texts and labels</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;talk&quot;</span><span class="p">)</span>  <span class="c1"># poster, talk, notebook, paper</span>
+
+    <span class="c1"># ---------------------------------------------</span>
+    <span class="c1"># Standard stricmoonveto demo dataset (1000 GRBs)</span>
+    <span class="c1"># ---------------------------------------------</span>
+    <span class="c1"># parpath = None</span>
+
+    <span class="c1"># ---------------------------------------------</span>
+    <span class="c1"># Max detection new sample(&gt;10000 GRBs)</span>
+    <span class="c1"># ---------------------------------------------</span>
+    <span class="c1"># parpath = &quot;max_detection_parameter_100k.yaml&quot;</span>
+
+    <span class="c1"># parpath = &quot;parameter.yaml&quot;  # Select a particular data set</span>
+    <span class="n">parpath</span> <span class="o">=</span> <span class="s2">&quot;parameter_100k_ISM.yaml&quot;</span>  <span class="c1"># Select a particular data set</span>
+
+    <span class="c1"># Read population</span>
+    <span class="n">nyears</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">parpath</span><span class="o">=</span><span class="n">parpath</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Read population - and compute population seen in N or S (x2 in number)</span>
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">Pop</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="n">nyears</span><span class="p">,</span> <span class="n">fpeakmin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Population seen in North or South (x2 in number)</span>
+    <span class="n">popNS</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="p">[(</span><span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span> <span class="s2">&quot;North&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span> <span class="s2">&quot;South&quot;</span><span class="p">)]</span>
+
+    <span class="c1"># ## ----------------------------------</span>
+    <span class="c1"># ## Plot one-dim variable coverage</span>
+    <span class="c1"># ## ----------------------------------</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+
+    <span class="c1"># Loop over the reference population and superimpose selected data</span>
+    <span class="k">for</span> <span class="n">icol</span><span class="p">,</span> <span class="n">grbs</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+                                       <span class="p">[</span><span class="n">popNS</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_tot</span><span class="p">],</span>
+                                       <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                                       <span class="p">[</span><span class="sa">r</span><span class="s2">&quot;North &amp; South 5$\sigma$&quot;</span><span class="p">,</span>
+                                        <span class="sa">r</span><span class="s2">&quot;Combined 5$\sigma$&quot;</span><span class="p">]):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">icol</span><span class="p">)</span>
+
+        <span class="c1"># Selection</span>
+        <span class="n">grbs</span> <span class="o">=</span> <span class="n">grbs</span><span class="p">[</span><span class="n">grbs</span><span class="o">.</span><span class="n">d5s</span> <span class="o">&gt;=</span> <span class="n">pop</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">]</span>
+
+        <span class="n">distri</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">grbs</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+               <span class="n">var_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">icol</span><span class="p">],</span>
+               <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;Redshift (z)&quot;</span><span class="p">,</span>
+               <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+
+        <span class="n">distri</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">grbs</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;Eiso&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+               <span class="n">var_range</span><span class="o">=</span><span class="p">[</span><span class="mf">5.5e50</span><span class="p">,</span> <span class="mf">5.5e55</span><span class="p">],</span> <span class="n">var_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">icol</span><span class="p">],</span>
+               <span class="n">var_name</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$log_</span><span class="si">{}</span><span class="s2">10 E_</span><span class="si">{iso}</span><span class="s2">$&quot;</span><span class="p">,</span>
+               <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+
+        <span class="n">distri</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">grbs</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="s2">&quot;Epeak&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+               <span class="n">var_range</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">],</span> <span class="n">var_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">icol</span><span class="p">],</span>
+               <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="c1"># ## ------------------------------------------</span>
+    <span class="c1"># ## Plot Eiso versus z coverage in 2-dim space</span>
+    <span class="c1"># ## -------------------------------------------</span>
+
+    <span class="n">poplist</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_s</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_tot</span><span class="p">]</span>
+    <span class="n">taglist</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">,</span> <span class="s2">&quot;Combined&quot;</span><span class="p">]</span>
+    <span class="n">masklist</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n</span><span class="o">.</span><span class="n">d5s</span> <span class="o">&gt;=</span> <span class="n">pop</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">,</span>
+                <span class="n">pop</span><span class="o">.</span><span class="n">g_s</span><span class="o">.</span><span class="n">d5s</span> <span class="o">&gt;=</span> <span class="n">pop</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">,</span>
+                <span class="n">pop</span><span class="o">.</span><span class="n">g_tot</span><span class="o">.</span><span class="n">d5s</span> <span class="o">&gt;=</span> <span class="n">pop</span><span class="o">.</span><span class="n">eff_lvl</span><span class="p">]</span>
+    <span class="c1"># masklist = [pop.g_n.d5s   &gt;= 0,</span>
+    <span class="c1">#             pop.g_s.d5s   &gt;= 0,</span>
+    <span class="c1">#             pop.g_tot.d5s &gt;= 0]</span>
+    <span class="k">if</span> <span class="n">pop</span><span class="o">.</span><span class="n">niter</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;Detected at $5\sigma$ - No count fluctuation&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">rf</span><span class="s2">&quot;Detected at $5\sigma - (</span><span class="si">{</span><span class="n">pop</span><span class="o">.</span><span class="n">eff_lvl</span><span class="si">:</span><span class="s2">2.0f</span><span class="si">}</span><span class="s2">\% \ C.L.)$&quot;</span>
+
+    <span class="n">varx</span> <span class="o">=</span> <span class="s2">&quot;z&quot;</span>
+    <span class="n">vary</span> <span class="o">=</span> <span class="s2">&quot;Eiso&quot;</span>
+    <span class="n">lblx</span> <span class="o">=</span> <span class="s2">&quot;Redshift $z$&quot;</span>
+    <span class="n">lbly</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$E_</span><span class="si">{iso}</span><span class="s2"> \ (erg)$&quot;</span>
+    <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+    <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e50</span><span class="p">,</span> <span class="mf">5e55</span><span class="p">]</span>
+    <span class="c1"># xrange = [None, None]</span>
+    <span class="c1"># yrange = [None, None]</span>
+
+    <span class="c1"># Prepare lower limits from the max. detection population</span>
+    <span class="n">pfit</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># pfit = pop_lower_limits(varx, vary, ref_file=&quot;parameter.yaml&quot;,</span>
+    <span class="c1">#                         fit_deg=4, nbins=100)</span>
+
+    <span class="c1"># # Plot coverage</span>
+    <span class="k">for</span> <span class="n">grbs</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">poplist</span><span class="p">,</span> <span class="n">masklist</span><span class="p">,</span> <span class="n">taglist</span><span class="p">):</span>
+
+        <span class="c1"># With projections</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">coverage</span><span class="p">(</span><span class="n">varx</span><span class="p">,</span> <span class="n">vary</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">pop</span><span class="o">.</span><span class="n">ref</span><span class="p">,</span> <span class="n">pop</span><span class="o">=</span><span class="n">grbs</span><span class="p">,</span>
+                      <span class="n">xrange</span><span class="o">=</span><span class="n">xrange</span><span class="p">,</span> <span class="n">yrange</span><span class="o">=</span><span class="n">yrange</span><span class="p">,</span>
+                      <span class="n">lblx</span><span class="o">=</span><span class="n">lblx</span><span class="p">,</span> <span class="n">lbly</span><span class="o">=</span><span class="n">lbly</span><span class="p">,</span>
+                      <span class="n">xscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+                      <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
+                      <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                      <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                      <span class="n">alpha_ref</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                      <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+
+        <span class="c1"># Plot lower limits from max detection</span>
+        <span class="k">if</span> <span class="n">pfit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xlim</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+            <span class="n">xsample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">20</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xsample</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">pfit</span><span class="p">,</span> <span class="n">xsample</span><span class="p">),</span>
+                    <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Identify the data set</span>
+        <span class="n">stamp</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">1.04</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">270</span><span class="p">)</span>
+
+    <span class="c1">#     # # Without projections</span>
+    <span class="c1">#     # ax = coverage(varx,vary,ref=pop.ref, pop=grbs,</span>
+    <span class="c1">#     #           xrange=xrange,yrange=yrange,</span>
+    <span class="c1">#     #           lblx = lblx, lbly = lbly,</span>
+    <span class="c1">#     #           xscale=&quot;linear&quot;,</span>
+    <span class="c1">#     #           mask=mask,</span>
+    <span class="c1">#     #           title=tag,</span>
+    <span class="c1">#     #           projs=False)</span>
+
+        <span class="n">stamp</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">(),</span> <span class="n">x</span><span class="o">=</span><span class="mf">1.04</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">270</span><span class="p">)</span>
+
+    <span class="c1"># ## ----------------------------------------------</span>
+    <span class="c1"># ## Plot Eiso versus Epeak coverage in 2-dim space</span>
+    <span class="c1"># ## ----------------------------------------------</span>
+    <span class="c1"># Eiso versus Epeak</span>
+    <span class="n">varx</span> <span class="o">=</span> <span class="s2">&quot;Fpeak&quot;</span>
+    <span class="n">vary</span> <span class="o">=</span> <span class="s2">&quot;Eiso&quot;</span>
+    <span class="n">lblx</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$F_</span><span class="si">{peak}</span><span class="s2"> \ (keV)$&quot;</span>
+    <span class="n">lbly</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$E_</span><span class="si">{iso}</span><span class="s2"> \ (erg)$&quot;</span>
+    <span class="n">xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">1e5</span><span class="p">]</span>
+    <span class="n">yrange</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e50</span><span class="p">,</span> <span class="mf">5e55</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">grbs</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">poplist</span><span class="p">,</span> <span class="n">masklist</span><span class="p">,</span> <span class="n">taglist</span><span class="p">):</span>
+
+        <span class="n">coverage</span><span class="p">(</span><span class="n">varx</span><span class="p">,</span> <span class="n">vary</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">pop</span><span class="o">.</span><span class="n">ref</span><span class="p">,</span> <span class="n">pop</span><span class="o">=</span><span class="n">grbs</span><span class="p">,</span>
+                 <span class="n">xrange</span><span class="o">=</span><span class="n">xrange</span><span class="p">,</span> <span class="n">yrange</span><span class="o">=</span><span class="n">yrange</span><span class="p">,</span>
+                 <span class="n">lblx</span><span class="o">=</span><span class="n">lblx</span><span class="p">,</span> <span class="n">lbly</span><span class="o">=</span><span class="n">lbly</span><span class="p">,</span>
+                 <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                 <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+        <span class="n">stamp</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">1.04</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">270</span><span class="p">)</span>
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Th. Stolarczyk.
-
-    </p>
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

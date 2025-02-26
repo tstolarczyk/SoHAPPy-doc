@@ -1,0 +1,6 @@
+coverage
+========
+
+.. currentmodule:: analysis.population.pop_plot
+
+.. autofunction:: coverage

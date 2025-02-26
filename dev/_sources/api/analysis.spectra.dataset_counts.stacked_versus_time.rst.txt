@@ -1,0 +1,6 @@
+stacked_versus_time
+===================
+
+.. currentmodule:: analysis.spectra.dataset_counts
+
+.. autofunction:: stacked_versus_time

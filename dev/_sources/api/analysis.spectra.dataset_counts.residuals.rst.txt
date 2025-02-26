@@ -1,0 +1,6 @@
+residuals
+=========
+
+.. currentmodule:: analysis.spectra.dataset_counts
+
+.. autofunction:: residuals

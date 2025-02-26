@@ -1,6 +1,0 @@
-colmx
-=====
-
-.. currentmodule:: mcsim_plot
-
-.. autodata:: colmx

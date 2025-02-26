@@ -1,0 +1,6 @@
+var_scatter
+===========
+
+.. currentmodule:: analysis.population.compare_sets
+
+.. autofunction:: var_scatter

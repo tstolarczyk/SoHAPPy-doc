@@ -1,6 +1,0 @@
-create_csv
-==========
-
-.. currentmodule:: analysis.population.init
-
-.. autofunction:: create_csv

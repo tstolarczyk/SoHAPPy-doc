@@ -1,6 +1,0 @@
-sigma_vs_time
-=============
-
-.. currentmodule:: mcsim_plot
-
-.. autofunction:: sigma_vs_time

@@ -1,0 +1,6 @@
+log_and_flat_intervals
+======================
+
+.. currentmodule:: utilities
+
+.. autofunction:: log_and_flat_intervals

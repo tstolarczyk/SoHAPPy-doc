@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mcsim_config &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mcsim_config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mcsim_config</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Feb  3 08:58:16 2020</span>
+
+<span class="sd">@author: Stolar</span>
+
+<span class="sd">This modules contains the parameters of the simulation handled</span>
+<span class="sd">by :file:`mcsim.py`.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;generate_E_edges&quot;</span><span class="p">,</span> <span class="s2">&quot;nLiMamin&quot;</span><span class="p">,</span> <span class="s2">&quot;on_size&quot;</span><span class="p">,</span> <span class="s2">&quot;offset&quot;</span><span class="p">,</span> <span class="s2">&quot;erec_sparse&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;erec_spectral&quot;</span><span class="p">,</span> <span class="s2">&quot;erec_min&quot;</span><span class="p">,</span> <span class="s2">&quot;erec_max&quot;</span><span class="p">]</span>
+
+<span class="n">nLiMamin</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Count number below which Li&amp;Ma cannot be trusted anymore</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">containment</span> <span class="o">=</span> <span class="mf">0.68</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Containment : the fraction of the background area corresponding to on/off</span>
+<span class="sd">regions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">on_size</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;FullArray&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span>
+           <span class="s2">&quot;4LSTs09MSTs&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span>
+           <span class="s2">&quot;LST&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span>
+           <span class="s2">&quot;MST&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span>
+           <span class="s2">&quot;14MSTs37SSTs&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span>
+           <span class="s2">&quot;4LSTs14MSTs40SSTs&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">}</span>  <span class="c1"># On region size, was 0.2</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The on (and off-) region radius</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">offset</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;FullArray&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span>
+          <span class="s2">&quot;4LSTs09MSTs&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span>
+          <span class="s2">&quot;LST&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span>
+          <span class="s2">&quot;MST&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span>
+          <span class="s2">&quot;14MSTs37SSTs&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">,</span>
+          <span class="s2">&quot;4LSTs14MSTs40SSTs&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">the on and off region distances to the center of the field of view</span>
+<span class="sd">(Should be greater than the on-size radius)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">erec_sparse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span>
+                          <span class="mi">1300</span><span class="p">,</span> <span class="mi">2400</span><span class="p">,</span> <span class="mi">4400</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="mi">15000</span><span class="p">])</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This spacing was generated by hand from the output of the function</span>
+<span class="sd">:func:`mcsim_config.generate_E_edges`. It ensures that the critical IRF</span>
+<span class="sd">thresholds are in the list for an efficient masking.</span>
+
+<span class="sd">Warning: an axis starting below the minimal generated energy creates problem</span>
+<span class="sd">in the background evaluation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">erec_spectral</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">30.</span><span class="p">,</span>   <span class="mf">40.</span><span class="p">,</span>   <span class="mf">50.</span><span class="p">,</span>   <span class="mf">60.</span><span class="p">,</span>   <span class="mf">80.</span><span class="p">,</span>  <span class="mf">110.</span><span class="p">,</span>  <span class="mf">160.</span><span class="p">,</span>
+                           <span class="mf">200.</span><span class="p">,</span>  <span class="mf">250.</span><span class="p">,</span>  <span class="mf">350.</span><span class="p">,</span>  <span class="mf">400.</span><span class="p">,</span>  <span class="mf">530.</span><span class="p">,</span>  <span class="mf">670.</span><span class="p">,</span>  <span class="mf">850.</span><span class="p">,</span>
+                           <span class="mf">1082.</span><span class="p">,</span> <span class="mf">1374.</span><span class="p">,</span> <span class="mf">1745.</span><span class="p">,</span> <span class="mf">2216.</span><span class="p">,</span> <span class="mf">2815.</span><span class="p">,</span> <span class="mf">3575.</span><span class="p">,</span> <span class="mf">4540.</span><span class="p">,</span>
+                           <span class="mf">5766.</span><span class="p">,</span> <span class="mf">7323.</span><span class="p">,</span> <span class="mf">9300.</span><span class="p">,</span> <span class="mf">11811.</span><span class="p">,</span>  <span class="mf">15000.</span><span class="p">])</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is a denser E-binning suitable for spectral analysis.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">erec_edges</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;FullArray&quot;</span><span class="p">:</span> <span class="n">erec_sparse</span><span class="p">,</span>  <span class="c1"># Omega</span>
+              <span class="s2">&quot;4LSTs09MSTs&quot;</span><span class="p">:</span> <span class="n">erec_sparse</span><span class="p">,</span>  <span class="c1"># Alpha</span>
+              <span class="s2">&quot;LST&quot;</span><span class="p">:</span> <span class="n">erec_sparse</span><span class="p">,</span>
+              <span class="s2">&quot;MST&quot;</span><span class="p">:</span> <span class="n">erec_sparse</span><span class="p">,</span>
+              <span class="s2">&quot;14MSTs37SSTs&quot;</span><span class="p">:</span> <span class="n">erec_sparse</span><span class="p">,</span>  <span class="c1"># Alpha</span>
+              <span class="s2">&quot;4LSTs14MSTs40SSTs&quot;</span><span class="p">:</span> <span class="n">erec_sparse</span>  <span class="c1"># Beta</span>
+              <span class="p">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The reconstructed energy bins for each subarray.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">safe_margin</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span>
+<span class="n">erec_min</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;FullArray&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;20deg&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                          <span class="s2">&quot;40deg&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                          <span class="s2">&quot;60deg&quot;</span><span class="p">:</span> <span class="mi">110</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span>
+                          <span class="p">},</span>
+            <span class="s2">&quot;4LSTs09MSTs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;20deg&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                            <span class="s2">&quot;40deg&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                            <span class="s2">&quot;60deg&quot;</span><span class="p">:</span> <span class="mi">110</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span>
+                            <span class="p">},</span>
+            <span class="s2">&quot;LST&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;20deg&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                    <span class="s2">&quot;40deg&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                    <span class="s2">&quot;60deg&quot;</span><span class="p">:</span> <span class="mi">110</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span>
+                    <span class="p">},</span>
+            <span class="s2">&quot;MST&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;20deg&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                    <span class="s2">&quot;40deg&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                    <span class="s2">&quot;60deg&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span>
+                    <span class="p">},</span>
+            <span class="s2">&quot;14MSTs37SSTs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;20deg&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                             <span class="s2">&quot;40deg&quot;</span><span class="p">:</span> <span class="mi">110</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                             <span class="s2">&quot;60deg&quot;</span><span class="p">:</span> <span class="mi">350</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span>
+                             <span class="p">},</span>
+            <span class="s2">&quot;4LSTs14MSTs40SSTs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;20deg&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                                  <span class="s2">&quot;40deg&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span><span class="p">,</span>
+                                  <span class="s2">&quot;60deg&quot;</span><span class="p">:</span> <span class="mi">110</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span> <span class="o">-</span> <span class="n">safe_margin</span>
+                                  <span class="p">}</span>
+            <span class="p">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The minimal reconstructed energies for each subarrays and IRF zenith angles.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">erec_max</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;20deg&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span> <span class="o">+</span> <span class="n">safe_margin</span><span class="p">,</span>
+            <span class="s2">&quot;40deg&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span> <span class="o">+</span> <span class="n">safe_margin</span><span class="p">,</span>
+            <span class="s2">&quot;60deg&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span> <span class="o">+</span> <span class="n">safe_margin</span><span class="p">}</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The maximal reconstructed energies for each IRF zenith angles.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="generate_E_edges">
+<a class="viewcode-back" href="../api/mcsim_config.generate_E_edges.html#mcsim_config.generate_E_edges">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_E_edges</span><span class="p">(</span><span class="n">E1</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">,</span> <span class="n">E2</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span><span class="p">,</span>
+                     <span class="n">subarray</span><span class="o">=</span><span class="s2">&quot;FullArray&quot;</span><span class="p">,</span> <span class="n">nperdecade</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate energy edges including the reconstructed energy thresholds.</span>
+<span class="sd">    Just copy the output to the code and rearrange the values to remove too</span>
+<span class="sd">    narrow bins.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    E1 : Quantity, optional</span>
+<span class="sd">        Lower bound. The default is 10*u.GeV.</span>
+<span class="sd">    E2 : Quantity, optional</span>
+<span class="sd">        Upper bound. The default is 100*u.TeV.</span>
+<span class="sd">    subarray: string</span>
+<span class="sd">        Subarray keyword. The default is &quot;FullArray&quot;</span>
+<span class="sd">    nperdecade : Integer, optional</span>
+<span class="sd">        Default number of bins per decade. The default is 4.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">unit_ref</span> <span class="o">=</span> <span class="n">E1</span><span class="o">.</span><span class="n">unit</span>
+    <span class="n">Emin</span> <span class="o">=</span> <span class="n">E1</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit_ref</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">Emax</span> <span class="o">=</span> <span class="n">E2</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit_ref</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="c1"># Compute the number of bins to be generated from the number of decades</span>
+    <span class="n">ndecade</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">Emax</span><span class="o">/</span><span class="n">Emin</span><span class="p">)</span>  <span class="c1"># Number of decades covered</span>
+
+    <span class="n">nbin</span> <span class="o">=</span> <span class="n">ndecade</span><span class="o">*</span><span class="n">nperdecade</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; ARRAY  : &quot;</span><span class="p">,</span> <span class="n">subarray</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total number of bins =&quot;</span><span class="p">,</span> <span class="n">nbin</span><span class="p">)</span>
+
+    <span class="n">e_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">Emin</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">Emax</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">nbin</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="n">unit_ref</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initial edging :&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e_edges</span><span class="p">)</span>
+
+    <span class="c1"># Add critical values to the array</span>
+    <span class="n">e_critical</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit_ref</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+                  <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">erec_min</span><span class="p">[</span><span class="n">subarray</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span><span class="o">*</span><span class="n">unit_ref</span>
+    <span class="n">e_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e_edges</span><span class="p">,</span> <span class="n">e_critical</span><span class="p">)</span>
+    <span class="n">e_critical</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit_ref</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+                  <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">erec_max</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span><span class="o">*</span><span class="n">unit_ref</span>
+    <span class="n">e_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e_edges</span><span class="p">,</span> <span class="n">e_critical</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final edging - indicative (copy this and rearrange if needed):&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e_edges</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final edging SORTED - indicative &quot;</span>
+          <span class="s2">&quot;(copy this and rearrange if needed):&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">e_edges</span><span class="p">))</span></div>
+
+
+
+<span class="c1">###############################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">generate_E_edges</span><span class="p">(</span><span class="n">E1</span><span class="o">=</span><span class="mi">30</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">,</span> <span class="n">E2</span><span class="o">=</span><span class="mi">15</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">TeV</span><span class="p">,</span> <span class="n">nperdecade</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

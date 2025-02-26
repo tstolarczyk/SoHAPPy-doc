@@ -1,0 +1,6 @@
+vals_legend
+===========
+
+.. currentmodule:: niceplot
+
+.. autofunction:: vals_legend

@@ -1,0 +1,6 @@
+backup_file
+===========
+
+.. currentmodule:: utilities
+
+.. autofunction:: backup_file

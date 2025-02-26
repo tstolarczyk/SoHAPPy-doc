@@ -1,0 +1,360 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>analysis.population.explore_simulation_from_fits &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analysis.population.explore_simulation_from_fits</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for analysis.population.explore_simulation_from_fits</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Tue Feb 11 17:12:17 2025.</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">from</span> <span class="nn">astropy.table</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">QTable</span>
+<span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="n">quantity_support</span>
+
+<span class="kn">from</span> <span class="nn">niceplot</span> <span class="kn">import</span> <span class="n">MyLabel</span>
+<span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">Configuration</span>
+
+
+<div class="viewcode-block" id="Fluxes">
+<a class="viewcode-back" href="../../../api/analysis.population.explore_simulation_from_fits.Fluxes.html#analysis.population.explore_simulation_from_fits.Fluxes">[docs]</a>
+<span class="k">class</span> <span class="nc">Fluxes</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Blabla.&quot;&quot;&quot;</span>
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Eval</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tval</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fluxes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Fpeaks</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Fluxes.from_fits">
+<a class="viewcode-back" href="../../../api/analysis.population.explore_simulation_from_fits.Fluxes.html#analysis.population.explore_simulation_from_fits.Fluxes.from_fits">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_fits</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filelist</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the times.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filelist : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tval : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        Eval : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        fluxval : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="n">Fluxes</span><span class="p">()</span>
+
+        <span class="n">ngrb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">filelist</span><span class="p">)</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">fluxes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fpeaks</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filelist</span><span class="p">):</span>
+
+            <span class="c1"># Read file, header and keys</span>
+            <span class="n">hdul</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">hdr</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span>
+            <span class="n">keys_0</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+            <span class="c1"># It can be long , give news from time to time</span>
+            <span class="k">if</span> <span class="n">first</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Processing items :&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">ngrb</span><span class="o">/</span><span class="mi">50</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ngrb</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+
+            <span class="c1"># Get the time and energy bins from the first file only</span>
+            <span class="c1"># It assumes that all data files have the same binning</span>
+            <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+
+                <span class="n">tval</span> <span class="o">=</span> <span class="n">QTable</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">[</span><span class="s2">&quot;TIMES (AFTERGLOW)&quot;</span><span class="p">])</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">tval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tval</span><span class="p">[</span><span class="n">tval</span><span class="o">.</span><span class="n">colnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>\
+                    <span class="o">*</span> <span class="n">tval</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span>
+
+                <span class="n">tab_key</span> <span class="o">=</span> <span class="s2">&quot;Energies (afterglow)&quot;</span>
+                <span class="n">col_key</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">[</span><span class="n">tab_key</span><span class="p">])</span><span class="o">.</span><span class="n">colnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">Eval</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">[</span><span class="n">tab_key</span><span class="p">])[</span><span class="n">col_key</span><span class="p">]</span><span class="o">.</span><span class="n">quantity</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">Eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Eval</span><span class="p">)</span><span class="o">*</span><span class="n">Eval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span>
+
+                <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># Peak flux - used for seclecting the data</span>
+            <span class="k">if</span> <span class="s2">&quot;PHFLUX&quot;</span> <span class="ow">in</span> <span class="n">keys_0</span><span class="p">:</span>
+                <span class="n">Fpeak</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;PHFLUX&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;cm-2.s-1&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;PHFX&quot;</span> <span class="ow">in</span> <span class="n">keys_0</span><span class="p">:</span>
+                <span class="n">Fpeak</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;PHFX&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;cm-2.s-1&quot;</span><span class="p">)</span>
+            <span class="n">fpeaks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Fpeak</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+            <span class="c1"># Afterglow flux</span>
+            <span class="n">flux</span> <span class="o">=</span> <span class="n">QTable</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">hdul</span><span class="p">[</span><span class="s2">&quot;SPECTRA (AFTERGLOW)&quot;</span><span class="p">])</span>
+            <span class="n">flux_unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">flux</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;UNITS&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">flux_unit</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;ph&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">flux_unit</span> <span class="o">=</span> <span class="n">flux_unit</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s2">&quot;ph&quot;</span><span class="p">)</span>  <span class="c1"># Removes ph</span>
+
+            <span class="c1"># Store the flux. Note the transposition</span>
+            <span class="n">itmax</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tval</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">jEmax</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Eval</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">fluxval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">itmax</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">jEmax</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">itmax</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">jEmax</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">fluxval</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">flux</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">fluxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fluxval</span><span class="p">)</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="n">fluxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fluxes</span><span class="p">)</span><span class="o">*</span><span class="n">flux_unit</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">Fpeaks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fpeaks</span><span class="p">)</span><span class="o">*</span><span class="n">Fpeak</span><span class="o">.</span><span class="n">unit</span>
+
+        <span class="k">return</span> <span class="bp">cls</span></div>
+
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Fluxes.FluxPeakTime">
+<a class="viewcode-back" href="../../../api/analysis.population.explore_simulation_from_fits.Fluxes.html#analysis.population.explore_simulation_from_fits.Fluxes.FluxPeakTime">[docs]</a>
+    <span class="k">def</span> <span class="nf">FluxPeakTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Eref</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the maximal flux in time at the reference energy.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Eref : Astropy Quantity, optional</span>
+<span class="sd">            Reference energy. The default is 100*u.GeV.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        idmax : integer</span>
+<span class="sd">            Time index of the maximal flux.</span>
+<span class="sd">        idxref : integer</span>
+<span class="sd">            Energy index of teh reference energy.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get energy closest to Eref</span>
+        <span class="n">idxref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Eval</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">Eref</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">Eref</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Closest energy (</span><span class="si">{</span><span class="n">Eref</span><span class="si">:}</span><span class="s2">) : idx=</span><span class="si">{</span><span class="n">idxref</span><span class="si">:}</span><span class="s2">, &quot;</span>
+                  <span class="sa">f</span><span class="s2">&quot;E=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">Eval</span><span class="p">[</span><span class="n">idxref</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># Loop over the stored flux</span>
+
+        <span class="n">flx_max</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">t_flx_max</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">flx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fluxes</span><span class="p">):</span>
+            <span class="c1"># Obtain time spectrum for that energy</span>
+            <span class="n">fluxref</span> <span class="o">=</span> <span class="n">flx</span><span class="p">[:,</span> <span class="n">idxref</span><span class="p">]</span>
+
+            <span class="c1"># Get the index of maximal flux</span>
+            <span class="n">idmax</span> <span class="o">=</span> <span class="n">fluxref</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>  <span class="c1"># Get time index of max value</span>
+
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Maximal flux </span><span class="si">{</span><span class="n">item</span><span class="si">:</span><span class="s2">5d</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">fluxref</span><span class="p">[</span><span class="n">idmax</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2e</span><span class="si">}</span><span class="s2"> &quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;@index </span><span class="si">{</span><span class="n">idmax</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> tmax=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="n">idmax</span><span class="p">]</span><span class="si">:</span><span class="s2">5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">flx_max</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fluxref</span><span class="p">[</span><span class="n">idmax</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">t_flx_max</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tval</span><span class="p">[</span><span class="n">idmax</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">flux_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">flx_max</span><span class="p">)</span><span class="o">*</span><span class="n">fluxref</span><span class="o">.</span><span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_flux_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t_flx_max</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tval</span><span class="o">.</span><span class="n">unit</span></div>
+
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Fluxes.dump_to_file">
+<a class="viewcode-back" href="../../../api/analysis.population.explore_simulation_from_fits.Fluxes.html#analysis.population.explore_simulation_from_fits.Fluxes.dump_to_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">dump_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dimp class instance to disk.&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Class instance was dumped to &quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Fluxes.read_from_disk">
+<a class="viewcode-back" href="../../../api/analysis.population.explore_simulation_from_fits.Fluxes.html#analysis.population.explore_simulation_from_fits.Fluxes.read_from_disk">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_from_disk</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read class instance from disk.&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">cls</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span></div>
+</div>
+
+
+
+<span class="c1">###############################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../../&quot;</span><span class="p">)</span>
+
+    <span class="n">outfilename</span> <span class="o">=</span> <span class="s2">&quot;explore_simulation_from_fits.bin&quot;</span>
+    <span class="n">save</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Bigger texts and labels</span>
+    <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;poster&quot;</span><span class="p">)</span>  <span class="c1"># poster, talk, notebook, paper</span>
+
+    <span class="k">if</span> <span class="n">save</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># Build a default Configuration to use the sourc_ids function</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;../../data/config_ref.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">]</span>
+        <span class="n">cf</span> <span class="o">=</span> <span class="n">Configuration</span><span class="o">.</span><span class="n">command_line</span><span class="p">()</span>
+
+        <span class="n">cf</span><span class="o">.</span><span class="n">ifirst</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">cf</span><span class="o">.</span><span class="n">nsrc</span> <span class="o">=</span> <span class="mi">10000</span>
+
+        <span class="n">filelist</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">source_ids</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HAPPY_IN&quot;</span><span class="p">])</span>
+        <span class="n">flxs</span> <span class="o">=</span> <span class="n">Fluxes</span><span class="o">.</span><span class="n">from_fits</span><span class="p">(</span><span class="n">filelist</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Constant number of bins: &quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Energies : &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">flxs</span><span class="o">.</span><span class="n">Eval</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Times    : &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">flxs</span><span class="o">.</span><span class="n">tval</span><span class="p">))</span>
+        <span class="n">flxs</span><span class="o">.</span><span class="n">dump_to_file</span><span class="p">(</span><span class="n">outfilename</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">flxs</span> <span class="o">=</span> <span class="n">Fluxes</span><span class="o">.</span><span class="n">read_from_disk</span><span class="p">(</span><span class="n">outfilename</span><span class="p">)</span>
+
+    <span class="c1"># Plot Fpeak distribution</span>
+    <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">flxs</span><span class="o">.</span><span class="n">Fpeaks</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;log 10 Fpeak (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">flxs</span><span class="o">.</span><span class="n">Fpeaks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get Maximal flux time and plot</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="n">energies</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">,</span> <span class="mi">500</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">GeV</span><span class="p">]</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">energies</span><span class="p">),</span>
+                             <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">energies</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Counts&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">Eref</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">energies</span><span class="p">,</span> <span class="n">axes</span><span class="p">):</span>
+        <span class="n">flxs</span><span class="o">.</span><span class="n">FluxPeakTime</span><span class="p">(</span><span class="n">Eref</span><span class="o">=</span><span class="n">Eref</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">flxs</span><span class="o">.</span><span class="n">t_flux_max</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+                                 <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">flxs</span><span class="o">.</span><span class="n">t_flux_max</span><span class="p">,</span>
+                                               <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">Eref</span><span class="p">)))</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">flxs</span><span class="o">.</span><span class="n">Fpeaks</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">flxs</span><span class="o">.</span><span class="n">t_flux_max</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">flxs</span><span class="o">.</span><span class="n">t_flux_max</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span>
+                                  <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$F_</span><span class="si">{peak}</span><span class="s2"> &gt; 1$&quot;</span><span class="p">))</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$log_</span><span class="si">{10}</span><span class="s2"> \ T_{ \phi_</span><span class="si">{max}</span><span class="s2"> }$ (&quot;</span>
+                          <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlabel</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>  <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;...completed&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

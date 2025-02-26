@@ -1,0 +1,6 @@
+excess_counts
+=============
+
+.. currentmodule:: analysis.spectra.dataset_counts
+
+.. autofunction:: excess_counts

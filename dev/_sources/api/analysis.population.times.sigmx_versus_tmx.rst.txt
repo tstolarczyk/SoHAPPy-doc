@@ -1,0 +1,6 @@
+sigmx_versus_tmx
+================
+
+.. currentmodule:: analysis.population.times
+
+.. autofunction:: sigmx_versus_tmx

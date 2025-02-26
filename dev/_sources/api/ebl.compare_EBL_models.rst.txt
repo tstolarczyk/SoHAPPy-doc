@@ -1,0 +1,6 @@
+compare_EBL_models
+==================
+
+.. currentmodule:: ebl
+
+.. autofunction:: compare_EBL_models

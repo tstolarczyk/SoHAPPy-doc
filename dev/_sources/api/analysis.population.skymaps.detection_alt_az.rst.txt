@@ -1,0 +1,6 @@
+detection_alt_az
+================
+
+.. currentmodule:: analysis.population.skymaps
+
+.. autofunction:: detection_alt_az

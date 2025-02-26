@@ -1,0 +1,6 @@
+stat_mean
+=========
+
+.. currentmodule:: analysis.population.rate
+
+.. autofunction:: stat_mean

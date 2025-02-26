@@ -1,0 +1,6 @@
+t_fmt
+=====
+
+.. currentmodule:: niceprint
+
+.. autofunction:: t_fmt

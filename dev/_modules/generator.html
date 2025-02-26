@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>generator &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">generator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for generator</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script generates command lines for interactive running and batch</span>
+<span class="sd">submissions of a series of simulation and analysis based on a large population.</span>
+<span class="sd">It is written to use the</span>
+<span class="sd">`slurm &lt;https://slurm.schedmd.com/documentation.html&gt;`_ batch system.</span>
+
+<span class="sd">Created on Mon Mar  6 09:29:47 2023</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">skygen</span> <span class="kn">import</span> <span class="n">Skies</span>
+<span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">Configuration</span>
+<span class="kn">from</span> <span class="nn">utilities</span> <span class="kn">import</span> <span class="n">subset_ids</span>
+<span class="kn">from</span> <span class="nn">niceprint</span> <span class="kn">import</span> <span class="n">heading</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;slurm_cmd&quot;</span><span class="p">,</span> <span class="s2">&quot;decode_command_line&quot;</span><span class="p">]</span>
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="slurm_cmd">
+<a class="viewcode-back" href="../api/generator.slurm_cmd.html#generator.slurm_cmd">[docs]</a>
+<span class="k">def</span> <span class="nf">slurm_cmd</span><span class="p">(</span><span class="n">job_cmd</span><span class="p">,</span>
+              <span class="n">nproc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+              <span class="n">mem_per_cpu</span><span class="o">=</span><span class="s2">&quot;2G&quot;</span><span class="p">,</span>
+              <span class="n">duration</span><span class="o">=</span><span class="s2">&quot;30:00:00&quot;</span><span class="p">,</span>
+              <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SoHAPPy&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate batch command.</span>
+
+<span class="sd">    Note: When run on Spyder, a 1000 source production occupy 1.6 Gb of memory</span>
+<span class="sd">    on a classical laptop, thus justifying the `mem_per_cpu` default value.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    job_cmd : string</span>
+<span class="sd">        The command to be submitted.</span>
+<span class="sd">    nproc : integer, optional</span>
+<span class="sd">        Number of processor per task (`srun` option). The default is 1.</span>
+<span class="sd">    mem_per_cpu : string, optional</span>
+<span class="sd">        Memory per cpu core. The default is &quot;1G&quot;.</span>
+<span class="sd">    duration : string, optional</span>
+<span class="sd">        Estimated duration (optimise the choice of the bach queue).</span>
+<span class="sd">        The default is &quot;10:00:00&quot; (10 hours).</span>
+<span class="sd">        Processing 300 GRBs in mode &quot;infinite nights&quot; requires 7h on the IRFU</span>
+<span class="sd">        Feynman cluster if the ligh curves are limited to 3 days.</span>
+<span class="sd">    name : string, optional</span>
+<span class="sd">        Job name, will appear using the `squeue` command (list of running</span>
+<span class="sd">        jobs). The default is &quot;SoHAPPy&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cmd : string</span>
+<span class="sd">        The `slurm` batch command.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;sbatch&quot;</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s2">&quot; -c &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">nproc</span><span class="p">)</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s2">&quot; --mem-per-cpu &quot;</span> <span class="o">+</span> <span class="n">mem_per_cpu</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s2">&quot; -t &quot;</span> <span class="o">+</span> <span class="n">duration</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s2">&quot; -J &quot;</span> <span class="o">+</span> <span class="n">name</span>
+    <span class="n">cmd</span> <span class="o">+=</span> <span class="s2">&quot; --wrap &#39;&quot;</span> <span class="o">+</span> <span class="n">job_cmd</span><span class="o">+</span><span class="s2">&quot;&#39;&quot;</span>
+
+    <span class="k">return</span> <span class="n">cmd</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="decode_command_line">
+<a class="viewcode-back" href="../api/generator.decode_command_line.html#generator.decode_command_line">[docs]</a>
+<span class="k">def</span> <span class="nf">decode_command_line</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decode the current command line.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    parser object</span>
+<span class="sd">        List of arguments in the command line.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Generate scripts&quot;</span><span class="p">,</span>
+                                     <span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;---&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-C&#39;</span><span class="p">,</span> <span class="s1">&#39;--Code&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Code to be run&quot;</span><span class="p">,</span>
+                        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-P&#39;</span><span class="p">,</span> <span class="s1">&#39;--Pop&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Population statistics&quot;</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-S&#39;</span><span class="p">,</span> <span class="s1">&#39;--Sets&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of sets&quot;</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-B&#39;</span><span class="p">,</span> <span class="s1">&#39;--Begin&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Starting identifier&quot;</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-j&#39;</span><span class="p">,</span> <span class="s1">&#39;--json&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Json file folder&quot;</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">batch</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--batch&#39;</span><span class="p">,</span>
+                        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;batch&#39;</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Create batch commands&quot;</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--nobatch&#39;</span><span class="p">,</span>
+                        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;batch&#39;</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_false&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Does not create batch commands&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_known_args</span><span class="p">()</span>  <span class="c1"># Separate known arguments from others</span></div>
+
+
+
+<span class="c1">###############################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="c1"># print(sys.argv)</span>
+
+    <span class="c1"># If no argument given, run an example - Used for tests</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">heading</span><span class="p">(</span><span class="s2">&quot;Execute examples&quot;</span><span class="p">)</span>
+        <span class="c1"># sys.argv=[&quot;&quot;, &quot;-C&quot;, r&quot;./skygen.py&quot;,</span>
+        <span class="c1">#               &quot;-V&quot;, &quot;strictmoonveto&quot;,</span>
+        <span class="c1">#               &quot;-P&quot;, &quot;10&quot;,</span>
+        <span class="c1">#               &quot;-S&quot;, &quot;2&quot;,</span>
+        <span class="c1">#               &quot;--nobatch&quot;,</span>
+        <span class="c1">#               &quot;-c&quot;, r&quot;data/config_ref.yaml&quot;]</span>
+        <span class="c1"># sys.argv = [&quot;&quot;, &quot;-C&quot;, &quot;SoHAPPy.py&quot;,</span>
+        <span class="c1">#             &quot;--config&quot;, &quot;MyConfigs/prod5_std/config_prod5_std.yaml&quot;,</span>
+        <span class="c1">#             &quot;-P&quot;, &quot;10000&quot;,</span>
+        <span class="c1">#             &quot;-S&quot;, &quot;5&quot;, &quot;--nobatch&quot;, &quot;-d&quot;, &quot;0&quot;]</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;-C&quot;</span><span class="p">,</span> <span class="s2">&quot;SoHAPPy.py&quot;</span><span class="p">,</span>
+                   <span class="c1">#&quot;--config&quot;, r&quot;MyConfigs/prod5_std/config_prod5_std.yaml&quot;,</span>
+                    <span class="s2">&quot;-P&quot;</span><span class="p">,</span> <span class="s2">&quot;2000&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;-S&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;--nobatch&quot;</span><span class="p">,</span> <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;--json&quot;</span><span class="p">,</span> <span class="s2">&quot;data/det3s/test_detected&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Get command line arguments and debrief</span>
+    <span class="n">args</span><span class="p">,</span> <span class="n">extra_args</span> <span class="o">=</span> <span class="n">decode_command_line</span><span class="p">()</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;--</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+    <span class="c1"># Debrief</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Equivalent command line:&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Arguments to be passed to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">Code</span><span class="si">:}</span><span class="s2"> : </span><span class="si">{</span><span class="n">extra_args</span><span class="si">:}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Prepare job slicing</span>
+    <span class="n">dsets</span> <span class="o">=</span> <span class="n">subset_ids</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">Begin</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">Pop</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">Sets</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Slicing:&quot;</span><span class="p">,</span> <span class="n">dsets</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Generated commands: &quot;</span><span class="p">)</span>
+
+    <span class="n">outname</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">Code</span><span class="p">)</span><span class="o">.</span><span class="n">stem</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span>\
+        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">Begin</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span>\
+        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">Pop</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span>\
+        <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">Sets</span><span class="p">)</span>
+
+    <span class="n">extname</span> <span class="o">=</span> <span class="s2">&quot;.ps1&quot;</span> <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Windows&quot;</span> <span class="k">else</span> <span class="s2">&quot;.sh&quot;</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">batch</span><span class="p">:</span>
+        <span class="n">fbatch</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;batch_&quot;</span><span class="o">+</span><span class="n">outname</span><span class="o">+</span><span class="n">extname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">finter</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;interactive_&quot;</span><span class="o">+</span><span class="n">outname</span><span class="o">+</span><span class="n">extname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Special action to transform the config filename into a resolved path name</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">()</span>
+    <span class="n">conf_file</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">def_conf</span>
+
+    <span class="k">if</span> <span class="s2">&quot;-c&quot;</span> <span class="ow">in</span> <span class="n">extra_args</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">extra_args</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;-c&quot;</span><span class="p">)</span>
+        <span class="n">conf_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">extra_args</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+        <span class="n">extra_args</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">conf_file</span>
+    <span class="k">elif</span> <span class="s2">&quot;--config&quot;</span> <span class="ow">in</span> <span class="n">extra_args</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">extra_args</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;--config&quot;</span><span class="p">)</span>
+        <span class="n">conf_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">extra_args</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+        <span class="n">extra_args</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">conf_file</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># get some information from the config file</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">read_from_yaml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">conf_file</span><span class="p">))</span>
+
+    <span class="c1"># Loop over sets</span>
+    <span class="k">for</span> <span class="p">[</span><span class="n">id1</span><span class="p">,</span> <span class="n">id2</span><span class="p">]</span> <span class="ow">in</span> <span class="n">dsets</span><span class="p">:</span>
+
+        <span class="c1"># Pass extra arguments to external code</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">Code</span><span class="p">]</span> <span class="o">+</span> <span class="n">extra_args</span> <span class="o">+</span> \
+                     <span class="p">[</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">id1</span><span class="p">),</span> <span class="s2">&quot;-N&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">id2</span> <span class="o">-</span> <span class="n">id1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># jname = str(Path(args.json+&quot;_&quot;+str(id1)+&quot;_&quot;+str(id2)).resolve())</span>
+            <span class="n">jname</span> <span class="o">=</span> <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">json</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span>
+                     <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">id1</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">dgt</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span>
+                     <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">id2</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">dgt</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span><span class="p">)</span>
+            <span class="n">jname</span> <span class="o">=</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">jname</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span><span class="o">+</span><span class="s2">&quot;&#39;&quot;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">Code</span><span class="p">]</span> <span class="o">+</span> <span class="n">extra_args</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="n">jname</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">Code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;skygen&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">sky</span> <span class="o">=</span> <span class="n">Skies</span><span class="o">.</span><span class="n">command_line</span><span class="p">()</span>
+            <span class="n">job_cmd</span> <span class="o">=</span> <span class="n">sky</span><span class="o">.</span><span class="n">cmd_line</span>
+
+        <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">Code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;SoHAPPy&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># If a json file prefix and folder are given, replace &#39;id1&#39;</span>
+            <span class="n">cf</span> <span class="o">=</span> <span class="n">Configuration</span><span class="o">.</span><span class="n">command_line</span><span class="p">()</span>
+            <span class="n">job_cmd</span> <span class="o">=</span> <span class="n">cf</span><span class="o">.</span><span class="n">cmd_line</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;generator.py : &quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">Code</span><span class="p">,</span> <span class="s2">&quot;Not handled&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create batch command if requested - display and write commands</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">batch</span><span class="p">:</span>
+            <span class="n">batch_cmd</span> <span class="o">=</span> <span class="n">slurm_cmd</span><span class="p">(</span><span class="n">job_cmd</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SoHAPPy&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &gt; &quot;</span><span class="p">,</span> <span class="n">batch_cmd</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">batch_cmd</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">fbatch</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &gt;&quot;</span><span class="p">,</span> <span class="n">job_cmd</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">job_cmd</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">finter</span><span class="p">)</span>
+
+    <span class="c1"># Close the script file</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">batch</span><span class="p">:</span>
+        <span class="n">fbatch</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">finter</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;... completed&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

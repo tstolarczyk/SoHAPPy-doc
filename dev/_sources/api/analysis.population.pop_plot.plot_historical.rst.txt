@@ -1,6 +1,0 @@
-plot_historical
-===============
-
-.. currentmodule:: analysis.population.pop_plot
-
-.. autofunction:: plot_historical

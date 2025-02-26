@@ -1,0 +1,6 @@
+Df
+==
+
+.. currentmodule:: utilities
+
+.. autofunction:: Df

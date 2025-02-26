@@ -1,0 +1,6 @@
+galactic_coverage
+=================
+
+.. currentmodule:: analysis.population.explore_simulation_from_data
+
+.. autofunction:: galactic_coverage

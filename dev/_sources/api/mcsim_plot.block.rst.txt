@@ -1,6 +1,0 @@
-block
-=====
-
-.. currentmodule:: mcsim_plot
-
-.. autodata:: block

@@ -1,0 +1,6 @@
+get_axis
+========
+
+.. currentmodule:: dataset_tools
+
+.. autofunction:: get_axis

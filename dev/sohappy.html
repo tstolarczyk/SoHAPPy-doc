@@ -1,364 +1,208 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>How it works ? &mdash; SoHAPPy 0.0 documentation</title>
-  
+  <title>How it works ? &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
 
   
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=88ef157a"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="main" href="api/SoHAPPy.main.html" />
-    <link rel="prev" title="Introduction" href="introduction.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> SoHAPPy
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            SoHAPPy
           </a>
-
-          
-            
-            
-              <div class="version">
-                dev
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">How it works ?</a><ul>
+<li><a class="reference internal" href="#module-SoHAPPy">SoHAPPy Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
         </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">How it works ?</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-SoHAPPy">SoHAPPy Module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/SoHAPPy.main.html">main</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/SoHAPPy.get_grb_fromfile.html">get_grb_fromfile</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/SoHAPPy.get_delay.html">get_delay</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="irf.html">Instrument response functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="file_format.html">Input file format</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Concepts and classes</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="grb.html">Astrophysical objects (GRB)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="time_slice.html">Time slices and slots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visibility.html">Visibilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="montecarlo.html">Monte Carlo</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Analysis</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="population_analysis.html">Population analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">Analyzing a single object</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source_analysis.html#dataset-plotting">Dataset plotting</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Tools</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Dataset tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html#utilities">Utilities</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">The developer corner</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer.html">Todo list</a></li>
-</ul>
-
-            
-          
-        </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">SoHAPPy</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>How it works ?</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">How it works ?</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/sohappy.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="how-it-works">
-<h1>How it works ?<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h1>
-<p>Here is an overview of the processes handled by the main function (in <cite>SoHAPPy.py</cite>):</p>
+             
+  <section id="how-it-works">
+<h1>How it works ?<a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h1>
+<p>Here is an overview of the processes handled by the main function
+(in <cite>SoHAPPy.py</cite> ):</p>
 <ul>
-<li><p>Read the steering parmaters from a <em>yaml</em> file (<cite>config.yaml</cite>) and/or the command line;</p></li>
-<li><p>Create the object list to be analysed, either a large number for a populations study or only a few for specific spectral analysis;</p></li>
-<li><p>Copy the configuration <em>yaml</em> file to the output folder and open the output files (log and population files) and make a copy of the configuraton file for further reference.</p></li>
-<li><dl>
-<dt>Loop over the object list:</dt><dd><ul>
-<li><p>Read the object information, create a <code class="xref py py-class docutils literal notranslate"><span class="pre">GammaRayBurst</span></code> object (see <a class="reference internal" href="api/grb.GammaRayBurst.html#grb.GammaRayBurst" title="grb.GammaRayBurst"><code class="xref py py-class docutils literal notranslate"><span class="pre">grb.GammaRayBurst</span></code></a>, a list of interpolated EBL absorbed spectra)</p></li>
-<li><p>Create an original time <code class="xref py py-class docutils literal notranslate"><span class="pre">Slot</span></code> with the original object time slices (<a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot" title="timeslot.Slot"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeslot.Slot</span></code></a> and <a class="reference internal" href="api/obs_slice.Slice.html#obs_slice.Slice" title="obs_slice.Slice"><code class="xref py py-class docutils literal notranslate"><span class="pre">obs_slice.Slice</span></code></a>)</p></li>
-<li><p>For each site (<em>North</em>, <em>South</em>) assign a visibility to the current object (see <a class="reference internal" href="api/visibility.Visibility.html#visibility.Visibility" title="visibility.Visibility"><code class="xref py py-class docutils literal notranslate"><span class="pre">visibility.Visibility</span></code></a>), either:</p>
+<li><p>Read the steering parameters from a <cite>yaml</cite> file (<cite>data/config_ref.yaml</cite> by
+default) and/or the command line (see <a class="reference external" href="configuration.html">configuration</a>).</p></li>
+<li><p>Create the specific output folder.</p></li>
+<li><p>Copy an updated version of the configuration <em>yaml</em>.</p></li>
+<li><p>Create the object list to be processed.</p></li>
+<li><p>Open the output files (log and population files).</p></li>
+<li><p>Create the object list to be analysed, either a large number for a
+populations study or only a few for specific spectral analysis.</p></li>
+<li><p>Decode the <a class="reference external" href="visibility.html">visibility</a> information returning either a
+python dictionnay or a keyword to be treated later.</p></li>
+<li><p>Loop over the object list:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>from the default given in the input file;</p></li>
-<li><p>computed on the fly from the start date;</p></li>
-<li><p>read from a previously computed visibilty on disk.</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>If requested save the <code class="xref py py-class docutils literal notranslate"><span class="pre">GammaRayBurst</span></code> instance on disk.</p></li>
-<li><p>Loop over the sites (<em>North</em>, <em>South</em>):</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">MonteCarlo</span></code> class instance (see <a class="reference internal" href="api/mcsim.MonteCarlo.html#mcsim.MonteCarlo" title="mcsim.MonteCarlo"><code class="xref py py-class docutils literal notranslate"><span class="pre">mcsim.MonteCarlo</span></code></a>)</p></li>
-<li><p>Copy the original <code class="xref py py-class docutils literal notranslate"><span class="pre">Slot</span></code> and modify the content to account for the computed visibility (<a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot.apply_visibility" title="timeslot.Slot.apply_visibility"><code class="xref py py-func docutils literal notranslate"><span class="pre">timeslot.Slot.apply_visibility()</span></code></a>;</p></li>
-<li><p>Associate a physical flux (<a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot.dress" title="timeslot.Slot.dress"><code class="xref py py-func docutils literal notranslate"><span class="pre">timeslot.Slot.dress()</span></code></a>) to each time slices of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Slot</span></code>.</p></li>
-<li><p>Run the simulationon the resulting dressed <code class="xref py py-class docutils literal notranslate"><span class="pre">Slot</span></code></p></li>
-<li><p>Display and store the results for the current object into the population file and/or the spectral analysis file.</p></li>
-<li><p>If requested store the simulation class instance on disk.</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>For objects visible on both sites, run a combined simulation:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">MonteCarlo</span></code> class instance (see <a class="reference internal" href="api/mcsim.MonteCarlo.html#mcsim.MonteCarlo" title="mcsim.MonteCarlo"><code class="xref py py-class docutils literal notranslate"><span class="pre">mcsim.MonteCarlo</span></code></a>)</p></li>
-<li><p>Copy the original <code class="xref py py-class docutils literal notranslate"><span class="pre">Slot</span></code> and modify the content to account for the computed visibilities;</p></li>
-<li><p>Associate a physical flux (<a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot.dress" title="timeslot.Slot.dress"><code class="xref py py-func docutils literal notranslate"><span class="pre">timeslot.Slot.dress()</span></code></a>) to each time slices of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Slot</span></code>.</p></li>
-<li><p>Run the simulationon the resulting dressed <code class="xref py py-class docutils literal notranslate"><span class="pre">Slot</span></code></p></li>
-<li><p>Display and store the results for the current object into the population file and/or the spectral analysis file.</p></li>
-<li><p>If requested store the simulation class instance on disk.</p></li>
-</ul>
-</div></blockquote>
-</li>
+<li><p>Read the object information, create a <a class="reference internal" href="grb.html#grb.GammaRayBurst" title="grb.GammaRayBurst"><code class="xref py py-class docutils literal notranslate"><span class="pre">grb.GammaRayBurst</span></code></a> object
+(a list of interpolated EBL absorbed spectra).</p></li>
+<li><p>Set and/or compute the visibility for that object for the all sites
+(see <a class="reference internal" href="visibility.html#visibility.Visibility" title="visibility.Visibility"><code class="xref py py-class docutils literal notranslate"><span class="pre">visibility.Visibility</span></code></a>).</p></li>
+<li><p>If requested save the <a class="reference internal" href="grb.html#grb.GammaRayBurst" title="grb.GammaRayBurst"><code class="xref py py-class docutils literal notranslate"><span class="pre">grb.GammaRayBurst</span></code></a> instance on disk.</p></li>
+<li><p>Get the delays on all sites from the slewing (CTA) and latency
+(external alert system) delays.</p></li>
+<li><p>Create an original time Slot with the original object time slices
+(<a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot" title="timeslot.Slot"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeslot.Slot</span></code></a> and <a class="reference internal" href="api/obs_slice.Slice.html#obs_slice.Slice" title="obs_slice.Slice"><code class="xref py py-class docutils literal notranslate"><span class="pre">obs_slice.Slice</span></code></a>, read more on
+time <a class="reference external" href="time_slice.html">slots and slices</a> ).</p></li>
+<li><p>Loop over the sites (<em>North</em>, <em>South</em>, <em>Both</em>), and proceed to the
+simulation of the CTA response and the analysis in term of detection.
+<strong>See below</strong>.</p></li>
 <li><p>Close the population and log file.</p></li>
+<li><p><cite>tar</cite> the output files in the output folder.</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 </ul>
-<div class="section" id="module-SoHAPPy">
-<span id="sohappy-module"></span><h2>SoHAPPy Module<a class="headerlink" href="#module-SoHAPPy" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>Create a GRB list to be analysed from the config file or the command line (<code class="xref py py-func docutils literal notranslate"><span class="pre">init()</span></code>)</p></li>
+<p>For each site and the combination of the two, the code simulates the response
+to the GRB as many times as required and analyse the results in term of
+detection siginificances. The final output is written in the so-called
+<cite>population file</cite>. Here are the steps
+(see more on <a class="reference external" href="simulation.html">simulation and analysis of the detector response</a>):</p>
+<ul>
+<li><p>Create a <a class="reference internal" href="simulation.html#mcsim.MonteCarlo" title="mcsim.MonteCarlo"><code class="xref py py-class docutils literal notranslate"><span class="pre">mcsim.MonteCarlo</span></code></a> class instance.</p></li>
+<li><p>Copy the original <a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot" title="timeslot.Slot"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeslot.Slot</span></code></a> and modify the content to account
+for the computed visibility (<a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot.apply_visibility" title="timeslot.Slot.apply_visibility"><code class="xref py py-func docutils literal notranslate"><span class="pre">timeslot.Slot.apply_visibility()</span></code></a> ).</p></li>
+<li><p>If the GRB is still visible on the current site:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Associate a physical flux (<a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot.dress" title="timeslot.Slot.dress"><code class="xref py py-func docutils literal notranslate"><span class="pre">timeslot.Slot.dress()</span></code></a>) to each time
+slices of the <a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot" title="timeslot.Slot"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeslot.Slot</span></code></a>.</p></li>
+<li><p>Create and initialize an analysis object (<a class="reference internal" href="simulation.html#analyze.Analysis" title="analyze.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">analyze.Analysis</span></code></a>)</p></li>
+<li><p>Run the simulation on the resulting dressed <a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot" title="timeslot.Slot"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeslot.Slot</span></code></a> and
+prepare the data to be analysed.</p></li>
+<li><p>If requested store the simulation class instance on disk.</p></li>
+<li><p>If the simulation is successful, analyse the resulting data.</p></li>
+<li><p>Dump the result of the analysis into the population file.</p></li>
 </ul>
-<p>seed= ‘random-seed’
-Advanced usage:
-In SoHappy.py, change warnings.filterwarnings(‘ignore’) into
-warnings.filterwarnings(‘error’) to have the code stopped in case of warning,
-and be able to identify its origin.
-The ‘ignore’ option is motivated by to warning in astropy (deprecation or
-too distant dates).</p>
-<div class="section" id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+</div></blockquote>
+</li>
+</ul>
+<section id="module-SoHAPPy">
+<span id="sohappy-module"></span><h2>SoHAPPy Module<a class="headerlink" href="#module-SoHAPPy" title="Link to this heading"></a></h2>
+<p>Create a source list to be simulated and analysed.</p>
+<p>Uses the parameters given in a configuration file, the command line, and files
+on disks.</p>
+<p>Notes for experts:</p>
+<ul>
+<li><p>Change <code class="code docutils literal notranslate"><span class="pre">warnings.filterwarnings('ignore')</span></code> into
+<code class="code docutils literal notranslate"><span class="pre">warnings.filterwarnings('error')</span></code> to have the code stopped in case of
+warning, and be able to identify its origin.</p></li>
+<li><p>The ‘ignore’ option is motivated by warnings issued by <cite>astropy</cite> for
+deprecation or too distant dates with respect to the running date.</p></li>
+<li><p>IERS data are not refreshed as it can take long in case of bad Internetor no
+connections at all. To refresh these data use:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For refreshing</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Refreshing IERS&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">astroplan</span> <span class="kn">import</span> <span class="n">download_IERS_A</span>
+<span class="n">download_IERS_A</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; -&gt;Done&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/SoHAPPy.main.html#SoHAPPy.main" title="SoHAPPy.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(argv)</p></td>
-<td><p><ol class="arabic simple">
-<li><p>Manage input/output</p></li>
-</ol>
-</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/SoHAPPy.get_grb_fromfile.html#SoHAPPy.get_grb_fromfile" title="SoHAPPy.get_grb_fromfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_grb_fromfile</span></code></a>(item[, config, grb_folder, log])</p></td>
-<td><p>Obtain data for the ith GRB file and create a GammaRayBurst instance.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/SoHAPPy.get_delay.html#SoHAPPy.get_delay" title="SoHAPPy.get_delay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_delay</span></code></a>(dtslew, fixslew, dtswift, fixswift)</p></td>
-<td><p>Compute the overall delay to be applied to the start of detection (satellite and telescope slewing), according to the user parameters.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/SoHAPPy.main.html#SoHAPPy.main" title="SoHAPPy.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>()</p></td>
+<td><p><cite>SoHAPPy</cite> main function.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="api/SoHAPPy.main.html" class="btn btn-neutral float-right" title="main" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Th. Stolarczyk.
-
-    </p>
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

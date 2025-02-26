@@ -1,6 +1,0 @@
-col3
-====
-
-.. currentmodule:: mcsim_plot
-
-.. autodata:: col3

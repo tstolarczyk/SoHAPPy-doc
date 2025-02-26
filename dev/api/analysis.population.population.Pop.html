@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pop &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Pop</a><ul>
+<li><a class="reference internal" href="#analysis.population.population.Pop"><code class="docutils literal notranslate"><span class="pre">Pop</span></code></a><ul>
+<li><a class="reference internal" href="#analysis.population.population.Pop.col_3"><code class="docutils literal notranslate"><span class="pre">Pop.col_3</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.col_5"><code class="docutils literal notranslate"><span class="pre">Pop.col_5</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.col_b"><code class="docutils literal notranslate"><span class="pre">Pop.col_b</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.col_n"><code class="docutils literal notranslate"><span class="pre">Pop.col_n</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.col_s"><code class="docutils literal notranslate"><span class="pre">Pop.col_s</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.add_combinatory"><code class="docutils literal notranslate"><span class="pre">Pop.add_combinatory()</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.add_combinatory_slow"><code class="docutils literal notranslate"><span class="pre">Pop.add_combinatory_slow()</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.debug_consistency"><code class="docutils literal notranslate"><span class="pre">Pop.debug_consistency()</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.detectable_prompt"><code class="docutils literal notranslate"><span class="pre">Pop.detectable_prompt()</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.detection_above_sigma"><code class="docutils literal notranslate"><span class="pre">Pop.detection_above_sigma()</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.inspect"><code class="docutils literal notranslate"><span class="pre">Pop.inspect()</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.negative_significance"><code class="docutils literal notranslate"><span class="pre">Pop.negative_significance()</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.print"><code class="docutils literal notranslate"><span class="pre">Pop.print()</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.sanity_check"><code class="docutils literal notranslate"><span class="pre">Pop.sanity_check()</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.slice_stat"><code class="docutils literal notranslate"><span class="pre">Pop.slice_stat()</span></code></a></li>
+<li><a class="reference internal" href="#analysis.population.population.Pop.trust_CL"><code class="docutils literal notranslate"><span class="pre">Pop.trust_CL()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Pop</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/analysis.population.population.Pop.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pop">
+<h1>Pop<a class="headerlink" href="#pop" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="analysis.population.population.Pop">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">analysis.population.population.</span></span><span class="sig-name descname"><span class="pre">Pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nyrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nmaxsrc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combinatory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fpeakmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Handle population data from csv files on disk.</p>
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#analysis.population.population.Pop.col_3" title="analysis.population.population.Pop.col_3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_3</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#analysis.population.population.Pop.col_5" title="analysis.population.population.Pop.col_5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_5</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#analysis.population.population.Pop.col_b" title="analysis.population.population.Pop.col_b"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_b</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#analysis.population.population.Pop.col_n" title="analysis.population.population.Pop.col_n"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_n</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#analysis.population.population.Pop.col_s" title="analysis.population.population.Pop.col_s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">col_s</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#analysis.population.population.Pop.add_combinatory" title="analysis.population.population.Pop.add_combinatory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_combinatory</span></code></a>(gn, gs)</p></td>
+<td><p>Add site combinatory, the efficient way.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#analysis.population.population.Pop.add_combinatory_slow" title="analysis.population.population.Pop.add_combinatory_slow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_combinatory_slow</span></code></a>()</p></td>
+<td><p>Add combinatory to data frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#analysis.population.population.Pop.debug_consistency" title="analysis.population.population.Pop.debug_consistency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">debug_consistency</span></code></a>()</p></td>
+<td><p>Debug if incnsistency in the site numbers.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#analysis.population.population.Pop.detectable_prompt" title="analysis.population.population.Pop.detectable_prompt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detectable_prompt</span></code></a>()</p></td>
+<td><p>Find potentially detectable prompts.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#analysis.population.population.Pop.detection_above_sigma" title="analysis.population.population.Pop.detection_above_sigma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detection_above_sigma</span></code></a>([sigma])</p></td>
+<td><p>Display information on source detected above 5 sigma at 90%CL.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#analysis.population.population.Pop.inspect" title="analysis.population.population.Pop.inspect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inspect</span></code></a>(filelist)</p></td>
+<td><p>Check of a file Path list content.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#analysis.population.population.Pop.negative_significance" title="analysis.population.population.Pop.negative_significance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">negative_significance</span></code></a>()</p></td>
+<td><p>Find negative significances.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#analysis.population.population.Pop.print" title="analysis.population.population.Pop.print"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print</span></code></a>()</p></td>
+<td><p>Printout the statistics of the class content.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#analysis.population.population.Pop.sanity_check" title="analysis.population.population.Pop.sanity_check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sanity_check</span></code></a>()</p></td>
+<td><p>Perform some sanity checks on the data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#analysis.population.population.Pop.slice_stat" title="analysis.population.population.Pop.slice_stat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slice_stat</span></code></a>(gname[, ax])</p></td>
+<td><p>Slice number distribution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#analysis.population.population.Pop.trust_CL" title="analysis.population.population.Pop.trust_CL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trust_CL</span></code></a>(gname[, sigma])</p></td>
+<td><p>Check confidence level from statistical arguments (to be revised).</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.col_3">
+<span class="sig-name descname"><span class="pre">col_3</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'tab:orange'</span></em><a class="headerlink" href="#analysis.population.population.Pop.col_3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.col_5">
+<span class="sig-name descname"><span class="pre">col_5</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'tab:green'</span></em><a class="headerlink" href="#analysis.population.population.Pop.col_5" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.col_b">
+<span class="sig-name descname"><span class="pre">col_b</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'tab:purple'</span></em><a class="headerlink" href="#analysis.population.population.Pop.col_b" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.col_n">
+<span class="sig-name descname"><span class="pre">col_n</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'tab:blue'</span></em><a class="headerlink" href="#analysis.population.population.Pop.col_n" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.col_s">
+<span class="sig-name descname"><span class="pre">col_s</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'tab:red'</span></em><a class="headerlink" href="#analysis.population.population.Pop.col_s" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.add_combinatory">
+<span class="sig-name descname"><span class="pre">add_combinatory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.add_combinatory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.add_combinatory" title="Link to this definition"></a></dt>
+<dd><p>Add site combinatory, the efficient way.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>gn</strong><span class="classifier">Pandas dataframe</span></dt><dd><p>Population seen in Norh.</p>
+</dd>
+<dt><strong>gs</strong><span class="classifier">Pandas dataframe</span></dt><dd><p>Population seen in South.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.add_combinatory_slow">
+<span class="sig-name descname"><span class="pre">add_combinatory_slow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.add_combinatory_slow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.add_combinatory_slow" title="Link to this definition"></a></dt>
+<dd><p>Add combinatory to data frame.</p>
+<p>This is an old version of the add_combinatory function whihc is
+horribly slow because of the explicit loop on the names.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.debug_consistency">
+<span class="sig-name descname"><span class="pre">debug_consistency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.debug_consistency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.debug_consistency" title="Link to this definition"></a></dt>
+<dd><p>Debug if incnsistency in the site numbers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.detectable_prompt">
+<span class="sig-name descname"><span class="pre">detectable_prompt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.detectable_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.detectable_prompt" title="Link to this definition"></a></dt>
+<dd><p>Find potentially detectable prompts.</p>
+<p>Based on t90, prpt, avalaible in the most recent file.
+Note that counting for both sites has no sense since the delays are
+different on the two sites (the first has the intrinsic delay whereas
+the other is most likely having no delay if the time delay between the
+visibilities of the two sites is larger than the first site delay).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.detection_above_sigma">
+<span class="sig-name descname"><span class="pre">detection_above_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.detection_above_sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.detection_above_sigma" title="Link to this definition"></a></dt>
+<dd><p>Display information on source detected above 5 sigma at 90%CL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>sigma</strong><span class="classifier">float, optional</span></dt><dd><p>Significance value. The default is 5.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.inspect">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inspect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filelist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.inspect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.inspect" title="Link to this definition"></a></dt>
+<dd><p>Check of a file Path list content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filelist</strong><span class="classifier">list</span></dt><dd><p>File list.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.negative_significance">
+<span class="sig-name descname"><span class="pre">negative_significance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.negative_significance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.negative_significance" title="Link to this definition"></a></dt>
+<dd><p>Find negative significances.</p>
+<p>The significance is returned by the WStatCountsStatistic function in
+gammapy, and has a sign which corresponds to the sign of the excess.
+As a consequence it can be negative. In case the simulation is done
+without fluctuation and one trial, the excess can not be negative,
+and all significances are zero (no excess count) or more.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.print" title="Link to this definition"></a></dt>
+<dd><p>Printout the statistics of the class content.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.sanity_check">
+<span class="sig-name descname"><span class="pre">sanity_check</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.sanity_check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.sanity_check" title="Link to this definition"></a></dt>
+<dd><p>Perform some sanity checks on the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.slice_stat">
+<span class="sig-name descname"><span class="pre">slice_stat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.slice_stat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.slice_stat" title="Link to this definition"></a></dt>
+<dd><p>Slice number distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>gname</strong><span class="classifier">string</span></dt><dd><p>Subpopulation name.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">Matplotlib axes, optional</span></dt><dd><p>Current plots axis. The default is None.</p>
+</dd>
+<dt><strong>**kwargs</strong><span class="classifier">Dictionnary</span></dt><dd><p>Extra arguments.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ax</strong><span class="classifier">Matplotlib axes</span></dt><dd><p>Current matplotlib axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analysis.population.population.Pop.trust_CL">
+<span class="sig-name descname"><span class="pre">trust_CL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/analysis/population/population.html#Pop.trust_CL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analysis.population.population.Pop.trust_CL" title="Link to this definition"></a></dt>
+<dd><p>Check confidence level from statistical arguments (to be revised).</p>
+<p>Since the detection is at 3/5 sigma,
+it is expected that as a mean, the background fluctuate at 3/5 sigma
+in a fraction of the time. This function try to check it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>gname</strong><span class="classifier">string</span></dt><dd><p>Subpopulation name.</p>
+</dd>
+<dt><strong>sigma</strong><span class="classifier">float, optional</span></dt><dd><p>Siginificance thresold value. The default is 3.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

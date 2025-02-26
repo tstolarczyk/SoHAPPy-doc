@@ -1,0 +1,6 @@
+pause
+=====
+
+.. currentmodule:: niceplot
+
+.. autofunction:: pause

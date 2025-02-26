@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>analysis.population.skymaps &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">analysis.population.skymaps</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for analysis.population.skymaps</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Wed Jan  4 16:04:07 2023.</span>
+
+<span class="sd">Show skymap coverage in ra-dec and in altitude-azimuth</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.lines</span> <span class="k">as</span> <span class="nn">mlines</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span> <span class="nn">astropy.visualization</span> <span class="kn">import</span> <span class="n">quantity_support</span>
+<span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">Angle</span>
+
+<span class="kn">from</span> <span class="nn">niceplot</span> <span class="kn">import</span> <span class="n">col_size</span><span class="p">,</span> <span class="n">stamp</span><span class="p">,</span> <span class="n">MyLabel</span><span class="p">,</span> <span class="n">single_legend</span>
+
+<span class="kn">from</span> <span class="nn">population</span> <span class="kn">import</span> <span class="n">Pop</span>
+<span class="kn">from</span> <span class="nn">pop_io</span> <span class="kn">import</span> <span class="n">get_data</span>
+
+<span class="n">codefolder</span> <span class="o">=</span> <span class="s2">&quot;../../&quot;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">codefolder</span><span class="p">)</span>
+
+<span class="c1"># Bigger texts and labels</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">)</span>  <span class="c1"># poster, talk, notebook, paper</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;radec&quot;</span><span class="p">,</span> <span class="s2">&quot;detection_alt_az&quot;</span><span class="p">]</span>
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="radec">
+<a class="viewcode-back" href="../../../api/analysis.population.skymaps.radec.html#analysis.population.skymaps.radec">[docs]</a>
+<span class="k">def</span> <span class="nf">radec</span><span class="p">(</span><span class="n">ginit</span><span class="p">,</span> <span class="n">gpop</span><span class="p">,</span>
+          <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+          <span class="n">title</span><span class="o">=</span><span class="s2">&quot;No title&quot;</span><span class="p">,</span>
+          <span class="n">label</span><span class="o">=</span><span class="s2">&quot;No label&quot;</span><span class="p">,</span>
+          <span class="n">scatter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+          <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the Ra-Dec distribution of a reference and a selected population.</span>
+
+<span class="sd">    Can be a scatter plot or a 2D hsitrogram. In the later case, the reference</span>
+<span class="sd">    popualtion is not plotted.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ginit : pandas dataframe</span>
+<span class="sd">        Reference popualtion.</span>
+<span class="sd">    gpop : pandas dataframe</span>
+<span class="sd">        Selected population.</span>
+<span class="sd">    ax : Matplolib axis, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+<span class="sd">    title : String, optional</span>
+<span class="sd">        Plot title. The default is &quot;No title&quot;.</span>
+<span class="sd">    label : String, optional</span>
+<span class="sd">        Sub-population label. The default is &quot;No label&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Detected population</span>
+    <span class="n">ra_d</span> <span class="o">=</span> <span class="p">[</span><span class="n">Angle</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">wrap_at</span><span class="p">(</span><span class="mi">180</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;radian&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gpop</span><span class="o">.</span><span class="n">ra</span><span class="p">]</span>
+    <span class="n">dec_d</span> <span class="o">=</span> <span class="p">[</span><span class="n">Angle</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">wrap_at</span><span class="p">(</span><span class="mi">180</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;radian&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+             <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gpop</span><span class="o">.</span><span class="n">dec</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">scatter</span><span class="p">:</span>
+        <span class="c1"># Reference population</span>
+        <span class="n">ra_o</span> <span class="o">=</span> <span class="p">[</span><span class="n">Angle</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">wrap_at</span><span class="p">(</span><span class="mi">180</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;radian&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ginit</span><span class="o">.</span><span class="n">ra</span><span class="p">]</span>
+        <span class="n">dec_o</span> <span class="o">=</span> <span class="p">[</span><span class="n">Angle</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">wrap_at</span><span class="p">(</span><span class="mi">180</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;radian&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+                 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ginit</span><span class="o">.</span><span class="n">dec</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="n">quantity_support</span><span class="p">():</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">ra_o</span><span class="p">,</span> <span class="n">dec_o</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                       <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;All&#39;</span><span class="p">)</span>
+
+            <span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span> <span class="o">=</span> <span class="n">col_size</span><span class="p">(</span><span class="n">gpop</span><span class="o">.</span><span class="n">sigmx</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">ra_d</span><span class="p">,</span> <span class="n">dec_d</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># create bin edges</span>
+        <span class="n">ra_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">dec_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># calculate 2D histogram, the shape of hist is (bin_number, bin_number)</span>
+        <span class="n">hist</span><span class="p">,</span> <span class="n">ra_edges</span><span class="p">,</span> <span class="n">dec_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram2d</span><span class="p">(</span>
+            <span class="n">ra_d</span><span class="p">,</span> <span class="n">dec_d</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="n">ra_edges</span><span class="p">,</span> <span class="n">dec_edges</span><span class="p">],</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">img</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolor</span><span class="p">(</span><span class="n">ra_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dec_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">hist</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;PuBu&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Using hist2d directly is simpler but lead to an error on trying to</span>
+        <span class="c1"># set limits and a recommandation to use cartopy</span>
+        <span class="c1"># _, _, _, img = ax.hist2d(ra_d, dec_d)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        <span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Counts&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;ra (°)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;dec (°)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+    <span class="n">stamp</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##-------------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="detection_alt_az">
+<a class="viewcode-back" href="../../../api/analysis.population.skymaps.detection_alt_az.html#analysis.population.skymaps.detection_alt_az">[docs]</a>
+<span class="k">def</span> <span class="nf">detection_alt_az</span><span class="p">(</span><span class="n">sub_pop</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scatter</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">start</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">track</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">arrow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the Alt-Az distribution of a population.</span>
+
+<span class="sd">    Can use a scatter plot or an historgram.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sub_pop : pandas dataframe</span>
+<span class="sd">        A given subpopulation.</span>
+<span class="sd">    tag : String, optional</span>
+<span class="sd">        Descriptor. The default is &quot;&quot;.</span>
+<span class="sd">    ax : matplotlib axis, optional</span>
+<span class="sd">        Current axis. The default is None.</span>
+<span class="sd">    start : Boolean, optional</span>
+<span class="sd">        If True display start position (scatter only). The default is False.</span>
+<span class="sd">    track : Boolean, optional</span>
+<span class="sd">        If True dispaly a line showing the source direction in the sky</span>
+<span class="sd">        (scatter only). The default is False.</span>
+<span class="sd">    arrow : Boolean, optional</span>
+<span class="sd">        If True add an arrow to th eline to shwo the direction.</span>
+<span class="sd">        The default is False.</span>
+<span class="sd">    **kwargs;</span>
+<span class="sd">        Additional parameters</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+    <span class="n">alt2</span> <span class="o">=</span> <span class="p">[</span><span class="n">Angle</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">wrap_at</span><span class="p">(</span><span class="mi">180</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;degree&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sub_pop</span><span class="o">.</span><span class="n">alt2</span><span class="p">]</span>
+    <span class="n">az2</span> <span class="o">=</span> <span class="p">[</span><span class="n">Angle</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">wrap_at</span><span class="p">(</span><span class="mi">180</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;degree&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+           <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sub_pop</span><span class="o">.</span><span class="n">az2</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">scatter</span><span class="p">:</span>  <span class="c1"># oNly if the number of point is not too large</span>
+        <span class="n">colors</span><span class="p">,</span> <span class="n">sizes</span> <span class="o">=</span> <span class="n">col_size</span><span class="p">(</span><span class="n">sub_pop</span><span class="o">.</span><span class="n">sigmx</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">az2</span><span class="p">,</span> <span class="n">alt2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span>
+                   <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">az2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">tag</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">start</span><span class="p">:</span>  <span class="c1"># Display starting altitude</span>
+            <span class="n">alt1</span> <span class="o">=</span> <span class="p">[</span><span class="n">Angle</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">wrap_at</span><span class="p">(</span><span class="mi">180</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;degree&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sub_pop</span><span class="o">.</span><span class="n">alt1</span><span class="p">]</span>
+            <span class="n">az1</span> <span class="o">=</span> <span class="p">[</span><span class="n">Angle</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">wrap_at</span><span class="p">(</span><span class="mi">180</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;degree&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+                   <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sub_pop</span><span class="o">.</span><span class="n">az1</span><span class="p">]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">az1</span><span class="p">,</span> <span class="n">alt1</span><span class="p">,</span>
+                       <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">sizes</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span>
+                       <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">az1</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">track</span><span class="p">:</span>  <span class="c1"># Display line between start and stop</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">az1</span><span class="p">)):</span>
+                <span class="n">lin</span> <span class="o">=</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">([</span><span class="n">az1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">az2</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
+                                    <span class="p">[</span><span class="n">alt1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alt2</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
+                                    <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                                    <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">lin</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">arrow</span><span class="p">:</span>  <span class="c1"># Add direction arrow</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">az1</span><span class="p">)):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">az2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alt2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                         <span class="n">length_includes_head</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">.05</span><span class="p">)</span>
+        <span class="n">single_legend</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_figure</span><span class="p">(),</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># For large populations</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">img</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist2d</span><span class="p">(</span><span class="n">az2</span><span class="p">,</span> <span class="n">alt2</span><span class="p">,</span>
+                                 <span class="n">label</span><span class="o">=</span><span class="n">MyLabel</span><span class="p">(</span><span class="n">az2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">tag</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        <span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Counts&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Azimuth (°)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Altitude (°)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="o">=-</span><span class="mi">180</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##############################################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="c1"># Bigger texts and labels</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s2">&quot;talk&quot;</span><span class="p">)</span>  <span class="c1"># poster, talk, notebook, paper</span>
+
+    <span class="c1"># nyears, files, tag = get_data(parpath=None, debug=True)</span>
+    <span class="n">nyears</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">parpath</span><span class="o">=</span><span class="s2">&quot;parameter.yaml&quot;</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">Pop</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">nyrs</span><span class="o">=</span><span class="n">nyears</span><span class="p">)</span>
+    <span class="n">popNS</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="p">[(</span><span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span> <span class="s2">&quot;North&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="o">.</span><span class="n">loca</span> <span class="o">==</span> <span class="s2">&quot;South&quot;</span><span class="p">)]</span>
+
+    <span class="c1"># Sky coverage - ra-dec</span>
+    <span class="n">taglist</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;North&quot;</span><span class="p">,</span> <span class="s2">&quot;South&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;North only&quot;</span><span class="p">,</span> <span class="s2">&quot;South only&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;Both&quot;</span><span class="p">,</span> <span class="s2">&quot;All&quot;</span><span class="p">]</span>
+    <span class="n">poplist</span> <span class="o">=</span> <span class="p">[</span><span class="n">pop</span><span class="o">.</span><span class="n">g_n</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_s</span><span class="p">,</span>
+               <span class="n">pop</span><span class="o">.</span><span class="n">g_n0</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_s0</span><span class="p">,</span>
+               <span class="n">pop</span><span class="o">.</span><span class="n">g_b</span><span class="p">,</span> <span class="n">pop</span><span class="o">.</span><span class="n">g_tot</span><span class="p">]</span>
+
+    <span class="c1"># Choose between histrogram and scatter plot depending on the pop. size</span>
+    <span class="n">scatter</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="o">.</span><span class="n">grb</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e4</span> <span class="k">else</span> <span class="kc">True</span>
+
+    <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">poplist</span><span class="p">,</span> <span class="n">taglist</span><span class="p">):</span>
+
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;aitoff&#39;</span><span class="p">)</span>
+        <span class="c1"># ax = fig.add_subplot(111, projection=&#39;mollweide&#39;)</span>
+
+        <span class="n">radec</span><span class="p">(</span><span class="n">popNS</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+              <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\sigma_</span><span class="si">{max}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">scatter</span><span class="o">=</span><span class="n">scatter</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="c1"># Sky coverage, altitude - azimuth</span>
+
+    <span class="c1"># fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2,</span>
+    <span class="c1">#                                figsize=(20, 10), sharey=True)</span>
+    <span class="c1"># detection_alt_az(pop.g_n, tag=&quot;North&quot;, ax=ax1, scatter=scatter, bins=100)</span>
+    <span class="c1"># detection_alt_az(pop.g_s, tag=&quot;South&quot;, ax=ax2, scatter=scatter, bins=100)</span>
+    <span class="c1"># plt.tight_layout()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

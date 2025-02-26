@@ -1,0 +1,6 @@
+file_from_tar
+=============
+
+.. currentmodule:: utilities
+
+.. autofunction:: file_from_tar

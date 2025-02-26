@@ -1,0 +1,6 @@
+sig_vs_time_errors
+==================
+
+.. currentmodule:: analysis.population.times
+
+.. autofunction:: sig_vs_time_errors

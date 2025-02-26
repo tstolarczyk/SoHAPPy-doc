@@ -1,6 +1,0 @@
-energy_over_timeslices
-======================
-
-.. currentmodule:: grb_plot
-
-.. autofunction:: energy_over_timeslices

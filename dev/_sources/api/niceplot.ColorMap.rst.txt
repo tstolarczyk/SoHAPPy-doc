@@ -1,0 +1,6 @@
+ColorMap
+========
+
+.. currentmodule:: niceplot
+
+.. autofunction:: ColorMap

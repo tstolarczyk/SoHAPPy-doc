@@ -1,0 +1,6 @@
+lightcurve
+==========
+
+.. currentmodule:: analysis.spectra.dataset_counts
+
+.. autofunction:: lightcurve

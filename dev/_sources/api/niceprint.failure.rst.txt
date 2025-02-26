@@ -1,0 +1,6 @@
+failure
+=======
+
+.. currentmodule:: niceprint
+
+.. autofunction:: failure

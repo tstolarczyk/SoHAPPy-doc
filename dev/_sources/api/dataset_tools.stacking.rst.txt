@@ -1,0 +1,6 @@
+stacking
+========
+
+.. currentmodule:: dataset_tools
+
+.. autofunction:: stacking

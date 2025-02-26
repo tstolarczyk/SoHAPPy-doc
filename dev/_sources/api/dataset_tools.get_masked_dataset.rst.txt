@@ -1,0 +1,6 @@
+get_masked_dataset
+==================
+
+.. currentmodule:: dataset_tools
+
+.. autofunction:: get_masked_dataset

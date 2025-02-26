@@ -1,0 +1,527 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>niceprint &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">niceprint</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for niceprint</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Oct 17 09:55:35 2022</span>
+
+<span class="sd">A bunch of functions to manipulate text information.</span>
+
+<span class="sd">@author: Stolar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;t_str&quot;</span><span class="p">,</span> <span class="s2">&quot;t_fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;heading&quot;</span><span class="p">,</span> <span class="s2">&quot;textcol&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;warning&quot;</span><span class="p">,</span> <span class="s2">&quot;failure&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="s2">&quot;highlight&quot;</span><span class="p">,</span> <span class="s2">&quot;banner&quot;</span><span class="p">,</span> <span class="s2">&quot;Log&quot;</span><span class="p">]</span>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="t_str">
+<a class="viewcode-back" href="../api/niceprint.t_str.html#niceprint.t_str">[docs]</a>
+<span class="k">def</span> <span class="nf">t_str</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">digit</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform a time quantity into a string (used for plot labels).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : astropy Time Quantity</span>
+<span class="sd">        Input time.</span>
+<span class="sd">    digit : integer</span>
+<span class="sd">        Significant digits to be printed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    String</span>
+<span class="sd">        The formatted and rounded time as a string.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="n">t_fmt</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">digit</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="t_fmt">
+<a class="viewcode-back" href="../api/niceprint.t_fmt.html#niceprint.t_fmt">[docs]</a>
+<span class="k">def</span> <span class="nf">t_fmt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">digit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A utility to have reasonable duration format displayed.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : astropy Time Quantity</span>
+<span class="sd">        A time or duration</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tobs : Quantity</span>
+<span class="sd">        A time with an adapted unit and rounding for plotting</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Get and format livetimes</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="o">*</span><span class="mi">3600</span><span class="o">*</span><span class="mi">24</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="o">*</span><span class="mi">3600</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="o">*</span><span class="mi">60</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">digit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">digit</span><span class="p">)</span><span class="o">*</span><span class="n">t</span><span class="o">.</span><span class="n">unit</span>
+
+    <span class="k">return</span> <span class="n">t</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="heading">
+<a class="viewcode-back" href="../api/niceprint.heading.html#niceprint.heading">[docs]</a>
+<span class="k">def</span> <span class="nf">heading</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">deco</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display a centered heading with 2 decorated lines above and below a title</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    title : String</span>
+<span class="sd">        Text to be displayed.</span>
+<span class="sd">    deco : String</span>
+<span class="sd">        Character to be repeated for decoration.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;+</span><span class="si">{</span><span class="mi">78</span><span class="o">*</span><span class="n">deco</span><span class="si">:</span><span class="s2">78s</span><span class="si">}</span><span class="s2">+&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;+</span><span class="si">{</span><span class="n">title</span><span class="si">:</span><span class="s2">^78s</span><span class="si">}</span><span class="s2">+&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;+</span><span class="si">{</span><span class="mi">78</span><span class="o">*</span><span class="n">deco</span><span class="si">:</span><span class="s2">78s</span><span class="si">}</span><span class="s2">+</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##----------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="textcol">
+<a class="viewcode-back" href="../api/niceprint.textcol.html#niceprint.textcol">[docs]</a>
+<span class="k">def</span> <span class="nf">textcol</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Change text color.</span>
+<span class="sd">    See:</span>
+
+<span class="sd">    * https://www.instructables.com/id/Printing-Colored-Text-in-Python-Without-Any-Module/</span>
+<span class="sd">    * Add color to text in python :</span>
+<span class="sd">      https://ozzmaker.com/add-colour-to-text-in-python/</span>
+
+<span class="sd">    To make some of your text more readable, you can use ANSI escape codes to</span>
+<span class="sd">    change the colour of the text output in your python program. A good use</span>
+<span class="sd">    case for this is to highlight errors.</span>
+<span class="sd">    The escape codes are entered right into the print statement.</span>
+
+<span class="sd">    This table shows some of the available formats:</span>
+
+<span class="sd">    .. code-block::</span>
+
+<span class="sd">        TEXT COLOR CODE TEXT STYLE CODE BACKGROUND COLOR CODE</span>
+<span class="sd">        Black 30 No effect 0 Black 40 Red 31 Bold 1 Red 41 Green 32 Underline</span>
+<span class="sd">        2 Green 42 Yellow 33 Negative1 3 Yellow 43 Blue 34 Negative2 5 Blue</span>
+<span class="sd">        44 Purple 35 Purple 45 Cyan 36 Cyan 46 White 37 White 47</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text : String</span>
+<span class="sd">        Text to be displayed.</span>
+<span class="sd">    t : String, optional</span>
+<span class="sd">        Text color. The default is &quot;black&quot;.</span>
+<span class="sd">    b : String, optional</span>
+<span class="sd">        Text background color. The default is &quot;white&quot;.</span>
+<span class="sd">    s : String, optional</span>
+<span class="sd">        Text style keyword. The default is None.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    String</span>
+<span class="sd">        Colored text.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">color</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;black&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;yellow&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;blue&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;purple&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;cyan&quot;</span><span class="p">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;white&quot;</span><span class="p">:</span> <span class="s2">&quot;7&quot;</span><span class="p">}</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;normal&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;bold&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;underline&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;negative1&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;negative2&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">}</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[&quot;</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">code</span> <span class="o">+</span> <span class="n">style</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">code</span> <span class="o">+</span> <span class="s2">&quot;3&quot;</span><span class="o">+</span><span class="n">color</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">code</span> <span class="o">+</span> <span class="s2">&quot;4&quot;</span><span class="o">+</span><span class="n">color</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">code</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;m&quot;</span>
+    <span class="n">endcode</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[m&quot;</span>
+
+    <span class="k">return</span> <span class="n">code</span><span class="o">+</span><span class="n">text</span><span class="o">+</span><span class="n">endcode</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="warning">
+<a class="viewcode-back" href="../api/niceprint.warning.html#niceprint.warning">[docs]</a>
+<span class="k">def</span> <span class="nf">warning</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display a warning message</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text : String</span>
+<span class="sd">        A text to be displayed.</span>
+<span class="sd">    **kwarg :</span>
+<span class="sd">        Extra arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">textcol</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="s2">&quot;purple&quot;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="failure">
+<a class="viewcode-back" href="../api/niceprint.failure.html#niceprint.failure">[docs]</a>
+<span class="k">def</span> <span class="nf">failure</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display a failure message</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text : String</span>
+<span class="sd">        A text to be displayed.</span>
+<span class="sd">    **kwarg :</span>
+<span class="sd">        Extra arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">textcol</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="success">
+<a class="viewcode-back" href="../api/niceprint.success.html#niceprint.success">[docs]</a>
+<span class="k">def</span> <span class="nf">success</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display a success message.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text : String</span>
+<span class="sd">        A text to be displayed.</span>
+<span class="sd">    **kwarg :</span>
+<span class="sd">        Extra arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">textcol</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="highlight">
+<a class="viewcode-back" href="../api/niceprint.highlight.html#niceprint.highlight">[docs]</a>
+<span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display a failure message</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text : String</span>
+<span class="sd">        A text to be displayed.</span>
+<span class="sd">    **kwarg :</span>
+<span class="sd">        Extra arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">textcol</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="banner">
+<a class="viewcode-back" href="../api/niceprint.banner.html#niceprint.banner">[docs]</a>
+<span class="k">def</span> <span class="nf">banner</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display a banner message</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text : String</span>
+<span class="sd">        A text to be displayed.</span>
+<span class="sd">    **kwarg :</span>
+<span class="sd">        Extra arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">textcol</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Log">
+<a class="viewcode-back" href="../api/niceprint.Log.html#niceprint.Log">[docs]</a>
+<span class="k">class</span> <span class="nc">Log</span><span class="p">():</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to manage a logbook information.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">talk</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the log book, with display either on Screen or in a log</span>
+<span class="sd">        file, or both</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        log_name : Path, optional</span>
+<span class="sd">            Log file path or name (String). The default is None.</span>
+<span class="sd">        talk : boolean, optional</span>
+<span class="sd">            If True, display on screen. The default is True.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Disable print out to file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">talk</span> <span class="o">=</span> <span class="n">talk</span>  <span class="c1"># Enbale/disable print out on screen</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_file</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">log_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="n">log_name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">log_name</span><span class="p">)</span>  <span class="c1"># In case this would not be a Path</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_name</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failure opening </span><span class="si">{</span><span class="n">log_name</span><span class="si">}</span><span class="s2">: locked?&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">log_name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;log information to file </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">talk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Minimal information displayed&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Information displayed on Screen&quot;</span><span class="p">)</span>
+
+        <span class="c1"># if not name.absolute().parent.exists(): # Check folder exists</span>
+        <span class="c1">#     name.absolute().parent.mkdir(parents=True, exist_ok=True)</span>
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Log.close">
+<a class="viewcode-back" href="../api/niceprint.Log.html#niceprint.Log.close">[docs]</a>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">delete</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No log file opened - cannot close&quot;</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Log.prt">
+<a class="viewcode-back" href="../api/niceprint.Log.html#niceprint.Log.prt">[docs]</a>
+    <span class="k">def</span> <span class="nf">prt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="nb">print</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">talk</span><span class="p">:</span>
+            <span class="n">func</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">func</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_file</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Log.warning">
+<a class="viewcode-back" href="../api/niceprint.Log.html#niceprint.Log.warning">[docs]</a>
+    <span class="k">def</span> <span class="nf">warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">talk</span><span class="p">:</span>
+            <span class="n">warning</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="c1"># print(textcol(text,t=&quot;purple&quot;,b=&quot;white&quot;,s=&quot;bold&quot;),**kwarg)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** WARNING *** &quot;</span><span class="o">+</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_file</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Log.failure">
+<a class="viewcode-back" href="../api/niceprint.Log.html#niceprint.Log.failure">[docs]</a>
+    <span class="k">def</span> <span class="nf">failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">talk</span><span class="p">:</span>
+            <span class="n">failure</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** FAILURE *** &quot;</span><span class="o">+</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_file</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Log.success">
+<a class="viewcode-back" href="../api/niceprint.Log.html#niceprint.Log.success">[docs]</a>
+    <span class="k">def</span> <span class="nf">success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">talk</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">textcol</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** SUCCESS *** &quot;</span><span class="o">+</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_file</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Log.highlight">
+<a class="viewcode-back" href="../api/niceprint.Log.html#niceprint.Log.highlight">[docs]</a>
+    <span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">talk</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">textcol</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*** LOOK ! *** &quot;</span><span class="o">+</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_file</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ##-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Log.banner">
+<a class="viewcode-back" href="../api/niceprint.Log.html#niceprint.Log.banner">[docs]</a>
+    <span class="k">def</span> <span class="nf">banner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">talk</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">textcol</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; **** &quot;</span> <span class="o">+</span> <span class="n">text</span> <span class="o">+</span> <span class="s2">&quot; *** &quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">log_file</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># ##---------------------------------------------------------------------------</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="n">Log</span><span class="p">()</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">failure</span><span class="p">(</span><span class="s2">&quot;test failure&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">failure</span><span class="p">(</span><span class="s2">&quot;test 2 failure&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

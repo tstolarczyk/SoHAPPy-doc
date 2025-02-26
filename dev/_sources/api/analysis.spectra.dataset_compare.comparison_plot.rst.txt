@@ -1,0 +1,6 @@
+comparison_plot
+===============
+
+.. currentmodule:: analysis.spectra.dataset_compare
+
+.. autofunction:: comparison_plot

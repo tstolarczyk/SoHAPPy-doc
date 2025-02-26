@@ -1,0 +1,985 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulation and Analysis of the detector response &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=88ef157a"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Simulation and Analysis of the detector response</a><ul>
+<li><a class="reference internal" href="#simulation-of-the-instrument-response">Simulation of the instrument response</a><ul>
+<li><a class="reference internal" href="#the-mcsim-module">The <cite>mcsim</cite> module</a><ul>
+<li><a class="reference internal" href="#mcsim.MonteCarlo"><code class="docutils literal notranslate"><span class="pre">MonteCarlo</span></code></a><ul>
+<li><a class="reference internal" href="#mcsim.MonteCarlo.__init__"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#mcsim.MonteCarlo.create_dataset_list"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.create_dataset_list()</span></code></a></li>
+<li><a class="reference internal" href="#mcsim.MonteCarlo.dump_slices"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.dump_slices()</span></code></a></li>
+<li><a class="reference internal" href="#mcsim.MonteCarlo.onoff_counts_along_time"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.onoff_counts_along_time()</span></code></a></li>
+<li><a class="reference internal" href="#mcsim.MonteCarlo.plot_onetrial"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.plot_onetrial()</span></code></a></li>
+<li><a class="reference internal" href="#mcsim.MonteCarlo.run"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.run()</span></code></a></li>
+<li><a class="reference internal" href="#mcsim.MonteCarlo.status"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.status()</span></code></a></li>
+<li><a class="reference internal" href="#mcsim.MonteCarlo.welcome"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.welcome()</span></code></a></li>
+<li><a class="reference internal" href="#mcsim.MonteCarlo.write"><code class="docutils literal notranslate"><span class="pre">MonteCarlo.write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-mcsim_config">mcsim_config Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#analysis-of-the-simulated-response">Analysis of the simulated response</a><ul>
+<li><a class="reference internal" href="#the-analyze-module">The <cite>analyze</cite> module</a><ul>
+<li><a class="reference internal" href="#analyze.Analysis"><code class="docutils literal notranslate"><span class="pre">Analysis</span></code></a><ul>
+<li><a class="reference internal" href="#analyze.Analysis.__init__"><code class="docutils literal notranslate"><span class="pre">Analysis.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.dump_to_file"><code class="docutils literal notranslate"><span class="pre">Analysis.dump_to_file()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.fill"><code class="docutils literal notranslate"><span class="pre">Analysis.fill()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.ignore"><code class="docutils literal notranslate"><span class="pre">Analysis.ignore</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.mean_values"><code class="docutils literal notranslate"><span class="pre">Analysis.mean_values()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.plot_non_vs_noff"><code class="docutils literal notranslate"><span class="pre">Analysis.plot_non_vs_noff()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.plot_sigma_vs_time"><code class="docutils literal notranslate"><span class="pre">Analysis.plot_sigma_vs_time()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.plot_story"><code class="docutils literal notranslate"><span class="pre">Analysis.plot_story()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.print"><code class="docutils literal notranslate"><span class="pre">Analysis.print()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.run"><code class="docutils literal notranslate"><span class="pre">Analysis.run()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.show"><code class="docutils literal notranslate"><span class="pre">Analysis.show()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.summary"><code class="docutils literal notranslate"><span class="pre">Analysis.summary()</span></code></a></li>
+<li><a class="reference internal" href="#analyze.Analysis.write"><code class="docutils literal notranslate"><span class="pre">Analysis.write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dataset-tools">Dataset tools</a><ul>
+<li><a class="reference internal" href="#module-dataset_tools">dataset_tools Module</a><ul>
+<li><a class="reference internal" href="#id1">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Simulation and Analysis of the detector response</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/simulation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="simulation-and-analysis-of-the-detector-response">
+<h1>Simulation and Analysis of the detector response<a class="headerlink" href="#simulation-and-analysis-of-the-detector-response" title="Link to this heading"></a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt><a class="reference internal" href="#simulation">Simulation</a> of the instrumentation response</dt><dd><ul>
+<li><p>The <a class="reference internal" href="#mcsim">mcsim</a> module</p></li>
+<li><p><a class="reference internal" href="#mcsim-config">mcsim_config</a> module</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><a class="reference internal" href="#analysis">Analysis</a> of the simulated response</dt><dd><ul>
+<li><p>The <a class="reference internal" href="#analyze">analyze</a> module</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>-<a class="reference internal" href="#dataset">Dataset</a> tools</p>
+</div></blockquote>
+<p>The simulation and analysis is based on a <cite>on-off</cite> method, where a background
+below a source is estimated from regions without signal with the
+same acceptance as the signal (and underneath background) region.
+In this method, all regions are placed a the same distance (radius) of the
+center of the field-of-view, assuming that the acceptance is indeed
+axi-symmetrical (see figure).
+This method works only for situation in which there is only
+one point-like source in the field-of-view (and not other sources to be
+avoided).</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_images/OnOff_method.png"><img alt="alternate text" src="_images/OnOff_method.png" style="width: 282.0px; height: 284.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Illustration of the on-off method</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><cite>SoHAPPy</cite> simulates the number of counts in the <cite>on-off</cite> regions within the
+field of view, and cumulate these counts along time, i.e. the slices of a time
+slot (respectivley handled by the <a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot" title="timeslot.Slot"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeslot.Slot</span></code></a> and <a class="reference internal" href="api/obs_slice.Slice.html#obs_slice.Slice" title="obs_slice.Slice"><code class="xref py py-class docutils literal notranslate"><span class="pre">obs_slice.Slice</span></code></a> classes).
+This is done using some <cite>gammapy</cite> objects (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Dataset</span></code>). It is repeated a
+certain number of times (the Monte Carlo trials). Each time the counts are
+fluctuated.</p>
+<p>The counts are passed to a <a class="reference internal" href="#analyze.Analysis" title="analyze.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">analyze.Analysis</span></code></a> instance to compute the running significances along slices, using the Li&amp;Ma formula. From these running
+significance the mean time for a 3 sigma and 5 sigma detection is obtained, as
+well as the mean time at which the significance is maximal, and
+the mean maximal significance.</p>
+<p>The output is stored inside a text file for each source studied. This file can
+then be analysed through dedicated <cite>SoHAPPy</cite> tools found in the <cite>analysis</cite>
+subfolder.</p>
+<section id="simulation-of-the-instrument-response">
+<span id="simulation"></span><h2>Simulation of the instrument response<a class="headerlink" href="#simulation-of-the-instrument-response" title="Link to this heading"></a></h2>
+<p>The Monte Carlo class (<a class="reference internal" href="#mcsim.MonteCarlo" title="mcsim.MonteCarlo"><code class="xref py py-class docutils literal notranslate"><span class="pre">mcsim.MonteCarlo</span></code></a> in <code class="xref py py-obj docutils literal notranslate"><span class="pre">mcsim.py</span></code>) is the
+deepest class of <cite>SoHAPPy</cite>. It runs simulations over a time slot and is
+associated to a site or several sites at once. The simulation uses
+parameters that have been determined independently and are store in the
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">mcsim_config.py</span></code> module.</p>
+<p>The counts are obtained from a python list of <cite>Gammapy</cite> <code class="xref py py-obj docutils literal notranslate"><span class="pre">dataset</span></code> (not a
+<cite>Gammapy</cite> <code class="xref py py-obj docutils literal notranslate"><span class="pre">datasets</span></code> object) obtained from each time slice, using the
+attached IRF, and that are fluctuated along the Monte Carlo trials.</p>
+<p>There are two main ways to use the <a class="reference internal" href="#mcsim.MonteCarlo.run" title="mcsim.MonteCarlo.run"><code class="xref py py-func docutils literal notranslate"><span class="pre">mcsim.MonteCarlo.run()</span></code></a> methods:</p>
+<ul class="simple">
+<li><p>Compute only once the number of signal and background for each time slice.
+This is in principle done without fluctuation and allows getting rapidly
+results on a large population. In particular the 5 sigma detected
+sub-population is fairly unbiased compared to the one obtained with many
+iterations since it usually concerns luminous objects with large number of
+signal events (however the number of background event can be small enough to
+marginally change the result. This can be checked more quantitavely).
+This kind of simulation can be saved to disk for further use and in
+particular spectral analysis (see <a class="reference external" href="spectral_analysis.html">here</a>);</p></li>
+<li><p>The normal use is to generated many trials -of the order of 100- fluctuating
+the signal and background at each time slice of the <a class="reference internal" href="api/timeslot.Slot.html#timeslot.Slot" title="timeslot.Slot"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeslot.Slot</span></code></a>,
+in order to address, in particular, objects for which the 5 sigma detection is
+not granted depending on the count fluctuations. This use is for studying the
+response of the instrument to populations.</p></li>
+</ul>
+<section id="the-mcsim-module">
+<span id="mcsim"></span><h3>The <cite>mcsim</cite> module<a class="headerlink" href="#the-mcsim-module" title="Link to this heading"></a></h3>
+<p>This module contains only the <code class="xref py py-class docutils literal notranslate"><span class="pre">mcsim.montecarlo</span></code> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mcsim.</span></span><span class="sig-name descname"><span class="pre">MonteCarlo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluctuate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nosignal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'random-seed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Unknown'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edense</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsim.html#MonteCarlo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo" title="Link to this definition"></a></dt>
+<dd><p>This class handles a GRB simulation either on one of the two
+sites, or simultaneously on the two sites.
+It makes an aperture photometry count simulation of a GRB (on-off method)
+along the GRB time slices.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">niter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluctuate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nosignal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'random-seed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Unknown'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edense</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsim.html#MonteCarlo.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize class members to default values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>niter</strong><span class="classifier">Integer, optional</span></dt><dd><p>Number of Monte carlo iterations. The default is 1.</p>
+</dd>
+<dt><strong>fluctuate</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If False, generate one simulation with no fluctuation.
+The default is True.</p>
+</dd>
+<dt><strong>nosignal: Boolean, optional</strong></dt><dd><p>If True force signal to stricly zero. Default is False.</p>
+</dd>
+<dt><strong>seed</strong><span class="classifier">String or integer, optional</span></dt><dd><p>The value of the seed to obtain the random state. Using a fix
+number will have as consequence to have, for all GRB, the same
+fluctuations generated along the trials.
+This can systematically bias the fraction of iterations reaching 3
+sigma in the first trials, and make the acceleration option
+inoperant. It is also very dangerous if the number of iteration
+is low. The default is ‘random-seed’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">String, optional</span></dt><dd><p>Name of the simulation (usually related to the GRB name and the
+site). The default is “Unknown”.</p>
+</dd>
+<dt><strong>dbg: integer</strong></dt><dd><p>Debugging flag. The default is O.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.create_dataset_list">
+<span class="sig-name descname"><span class="pre">create_dataset_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsim.html#MonteCarlo.create_dataset_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.create_dataset_list" title="Link to this definition"></a></dt>
+<dd><p>Create the <code class="xref py py-obj docutils literal notranslate"><span class="pre">dataset</span></code> list as a list of list to handle more than
+one irf per slice (GRB seen on both sites).</p>
+<p>The pointing is the center of the field of view, and it is the same for
+all time slices as it is considered that the GRB is constantly followed
+within the pre-computed visibililty window. The pointing is displaced
+compared to the GRB position by a distance <code class="code docutils literal notranslate"><span class="pre">mc.offset</span></code>, a value
+choosen to give enough space to have <code class="code docutils literal notranslate"><span class="pre">1/mcf.alpha</span></code> off-regions of
+radius <code class="code docutils literal notranslate"><span class="pre">mcf.on_size</span></code>, the detection area.</p>
+<p>The detection areas, on and off regions, have a size independent of
+the energy, but the effective area and background are mofified to take
+into account the PSF evolution with energy (see the <code class="xref py py-obj docutils literal notranslate"><span class="pre">irf.py</span></code>
+module).</p>
+<p>The set of <cite>dataset</cite> are defined with the same true and reconstructed
+enegy axes so that counts can be added bin per bin. Differences in
+thresholds due to different IRF are taken into account by masking some
+bins (the mask at a certain energy value cancel the whole bin it
+belongs to, see the <code class="xref py py-obj docutils literal notranslate"><span class="pre">irf.py</span></code> module for more explanations)</p>
+<ul>
+<li><dl>
+<dt>A word on masking</dt><dd><p>Direct masking is not made available to users in <cite>Gammapy 0.18.2</cite>.
+It is possible to mask on effective area criteria (minimum value),
+or data counts (<code class="xref py py-obj docutils literal notranslate"><span class="pre">counts.geom.energy_mask</span></code>).
+The direct masking on energy is made as shown below, as a result of
+discussions with Gammapy developpers on the Gammapy slack channel
+(Nov. 2:sup:nd, 2020).
+Note that the <code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_safe</span></code> is not considered in the printout or
+peek functions and has to be obtained by hand (Could be corrected
+in further versions): this is implemented in the
+<a class="reference internal" href="api/dataset_tools.check_dataset.html#dataset_tools.check_dataset" title="dataset_tools.check_dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">dataset_tools.check_dataset()</span></code></a>  function.</p>
+<p><em>Discussion on masking binning with A. Donath, dec. 3rd, 2020</em></p>
+<p><em>Applying a mask (Emin, Emax) is simply cancelling the data of the
+energy axis bins outside the mask. Even partially covered bins are
+lost (e.g. bins (E1,E2) with E1&lt;Emin&lt;E2 ).</em></p>
+<p><em>There could have been a partial recovery of the data (i.e. keeping
+the counts or flux between Emin and E2, but this is not
+what has been chosen.</em></p>
+<p><em>The influence of this becomes small if Energy bin sizes are small
+enough. However small bins size can give low statititics</em></p>
+<p><em>A. Donath says it is not a problem as long as the statitical
+computation is done properly : this is in fact approaching the
+unbinned likelihood case. Only for flux points computation, e.g.
+to get a significant point at high energies, bin should have enough
+statistics. This can be done since v0.18.2 using
+:obj:`SpectrumDatasetOnOff.resample_energy_axis()` to re-group the
+data before model fitting</em></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>A word on stacking</dt><dd><p>In order to be stacked, datasets should be based on the same
+energy axis, which is indeed implemented in SoHAPPy.
+Two observation have usually different IRfs, and in particular
+energy thresholds. The thresholds are take into account by masking,
+as mentionned above.
+Stacking in gammapy is intended to merge observations that were to
+large in data volue to be handled together, and or to sum-up
+consecutive observations of the same object. Stacking 2
+observations results in a longer observation with the same model,
+in particular the same spectral model, with an observation livetime
+being the sum of the two initial observation livetimes.
+It is not intended to sum-up two observations done at the same
+time, with the same livetime.
+As a consequence the gammapy stacking cannot be used to “merge”
+the simultaneous observations of two sites. This would result in a
+livetime larger than the simultaneous observations and would
+therefore shift the observation times in the consecutive time
+slices. There was a tentative to modify this in reducing the
+livetime ds_stacked.livetime /= 2, and multiplying the attached
+spectrum by 2 to keep the predicted count number coherent. But this
+causes problems later in the analysis.
+As a consequence, it is chosen to keep track of each observation
+identity, having a dataset for each time slice on a given site, and
+two datasets for slice in common on two sites (or more).
+The aperture photometry nalysis then simply adds-up the cont
+numbers from the two sites, whereas the spectrum extraction handles
+the situation outside the simulation code, in a separate notebook.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Saving datasets</dt><dd><p>The choice made here is to save the simulation to disk as a bin
+file which has the advantage to have all information saved.
+An alternative is to save the dataset list only.</p>
+<p><em>Discussion on the  slack channel with A. Donath (Nov. 27th, 2020)</em></p>
+<p><em>For writing datasets in the present use-case there is a bit
+more bookkeeping to do, so that you can read back the model and
+datasets correctly. Here is a minimal example:</em></p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gammapy.datasets</span> <span class="kn">import</span> <span class="n">SpectrumDatasetOnOff</span><span class="p">,</span> <span class="n">Datasets</span>
+<span class="kn">from</span> <span class="nn">gammapy.modeling.models</span> <span class="kn">import</span> <span class="n">PowerLawSpectralModel</span><span class="p">,</span> <span class="n">SkyModel</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;$GAMMAPY_DATA/joint-crab/spectra/hess/&quot;</span>
+
+<span class="n">obs_1</span> <span class="o">=</span> <span class="n">SpectrumDatasetOnOff</span>
+        <span class="o">.</span><span class="n">from_ogip_files</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;pha_obs23523.fits&quot;</span><span class="p">)</span>
+<span class="n">obs_2</span> <span class="o">=</span> <span class="n">SpectrumDatasetOnOff</span>
+        <span class="o">.</span><span class="n">from_ogip_files</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;pha_obs23592.fits&quot;</span><span class="p">)</span>
+
+<span class="n">model_1</span> <span class="o">=</span> <span class="n">SkyModel</span><span class="p">(</span><span class="n">PowerLawSpectralModel</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;model-1&quot;</span><span class="p">,</span>
+                   <span class="n">datasets_names</span><span class="o">=</span><span class="p">[</span><span class="n">obs_1</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+<span class="n">model_2</span> <span class="o">=</span> <span class="n">SkyModel</span><span class="p">(</span><span class="n">PowerLawSpectralModel</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;model-2&quot;</span><span class="p">,</span>
+                   <span class="n">datasets_names</span><span class="o">=</span><span class="p">[</span><span class="n">obs_2</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+<span class="n">obs_1</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">model_1</span><span class="p">]</span>
+<span class="n">obs_2</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">model_2</span><span class="p">]</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="n">Datasets</span><span class="p">([</span><span class="n">obs_1</span><span class="p">,</span> <span class="n">obs_2</span><span class="p">])</span>
+
+<span class="n">datasets</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>This was something that we started to refactor in v0.17 and are
+still improving. So you have the possibility to “assign” models to
+datasets in a declarative way using the dataset_names keyword.
+The resulting YAML file looks like:</em></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">-</span>   <span class="n">name</span><span class="p">:</span> <span class="n">model</span><span class="o">-</span><span class="mi">1</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">SkyModel</span>
+    <span class="n">spectral</span><span class="p">:</span>
+        <span class="nb">type</span><span class="p">:</span> <span class="n">PowerLawSpectralModel</span>
+        <span class="n">parameters</span><span class="p">:</span>
+        <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">min</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="nb">max</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+           <span class="n">frozen</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="mf">1.0e-12</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">cm</span><span class="o">-</span><span class="mi">2</span> <span class="n">s</span><span class="o">-</span><span class="mi">1</span> <span class="n">TeV</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+           <span class="nb">min</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="nb">max</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">frozen</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">reference</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">TeV</span><span class="p">,</span> <span class="nb">min</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+           <span class="nb">max</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">frozen</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">datasets_names</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;23523&#39;</span><span class="p">]</span>
+<span class="o">-</span>   <span class="n">name</span><span class="p">:</span> <span class="n">model</span><span class="o">-</span><span class="mi">2</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">SkyModel</span>
+    <span class="n">spectral</span><span class="p">:</span>
+        <span class="nb">type</span><span class="p">:</span> <span class="n">PowerLawSpectralModel</span>
+        <span class="n">parameters</span><span class="p">:</span>
+        <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+           <span class="nb">min</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="nb">max</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">frozen</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="mf">1.0e-12</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">cm</span><span class="o">-</span><span class="mi">2</span> <span class="n">s</span><span class="o">-</span><span class="mi">1</span> <span class="n">TeV</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+           <span class="nb">min</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="nb">max</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">frozen</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">reference</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">TeV</span><span class="p">,</span> <span class="nb">min</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+           <span class="nb">max</span><span class="p">:</span> <span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">frozen</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">datasets_names</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;23592&#39;</span><span class="p">]</span>
+<span class="n">covariance</span><span class="p">:</span> <span class="n">test</span><span class="o">/</span><span class="n">test_models_covariance</span><span class="o">.</span><span class="n">dat</span>
+</pre></div>
+</div>
+<p><em>So explicitly mentions for each model component the dataset it is
+assigned to. I think without defining dataset_names the information
+will not be present in the output YAML file and when reading back the
+data and model, the assignment is not correct anymore.
+We will add more documentation on this “global” model handling soon.</em></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dset_list</strong><span class="classifier">Numpy array of Dataset objects</span></dt><dd><p>A list of datasets (not a collection like a Datasets.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.dump_slices">
+<span class="sig-name descname"><span class="pre">dump_slices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsim.html#MonteCarlo.dump_slices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.dump_slices" title="Link to this definition"></a></dt>
+<dd><p>Print out the list of on and off counts and the corresponding
+Li &amp; Ma value. If <cite>non</cite> and <cite>off</cite> are less than a minimum value
+return a True status flag for further actions.</p>
+<p>This function can be used to dump all slices (just changing the
+<cite>nLiMamin</cite> value to a very large value)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>phase</strong><span class="classifier">String, optional</span></dt><dd><p>Select the phase among “open”, “close”, or by default writing.
+The default is None.</p>
+</dd>
+<dt><strong>**kwargs</strong><span class="classifier">TYPE</span></dt><dd><p>Extra arguments for each of the phases.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>Boolean</dt><dd><p>File status.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.onoff_counts_along_time">
+<span class="sig-name descname"><span class="pre">onoff_counts_along_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsim.html#MonteCarlo.onoff_counts_along_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.onoff_counts_along_time" title="Link to this definition"></a></dt>
+<dd><p>Compute on and off counts in the field of view for all slices.</p>
+<p>Use Gammapy functions and return the cumulated counts in time.
+The counts are summed-up over enegy from the <code class="xref py py-obj docutils literal notranslate"><span class="pre">SpectrumDataset</span></code>
+object list (The <code class="xref py py-obj docutils literal notranslate"><span class="pre">SpectrumDatasetOnOff</span></code> objects are not created).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>alpha</strong><span class="classifier">float</span></dt><dd><p>1 over the total number of on-off regions.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>non_vs_time</strong><span class="classifier">list of float</span></dt><dd><p>Cumulated counts along time slices.</p>
+</dd>
+<dt><strong>noff_vs_time</strong><span class="classifier">list of float</span></dt><dd><p>Cumulated off-counts along time slices.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.plot_onetrial">
+<span class="sig-name descname"><span class="pre">plot_onetrial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itrial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsim.html#MonteCarlo.plot_onetrial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.plot_onetrial" title="Link to this definition"></a></dt>
+<dd><p>Display information obtained after one Monte Carlo trial.
+To be updated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>itrial</strong><span class="classifier">integer</span></dt><dd><p>Monte Carlo trial counter</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ana</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dump_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsim.html#MonteCarlo.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.run" title="Link to this definition"></a></dt>
+<dd><p>Run simulations of the current grb for a given site.</p>
+<p>A simulation is based on a series of observations related to the GRB
+time slices (slot from class <code class="xref py py-class docutils literal notranslate"><span class="pre">Slot</span></code>).
+It computes the <cite>on</cite> and <cite>off</cite> counts and pass the information to the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Analysis</span></code> for analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>slot</strong><span class="classifier">Slot object</span></dt><dd><p>A colection of time slices to be analysed.</p>
+</dd>
+<dt><strong>ana</strong><span class="classifier">Analyze instance</span></dt><dd><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Analysis</span></code> instance</p>
+</dd>
+<dt><strong>boost</strong><span class="classifier">Boolen, optional</span></dt><dd><p>If True, skip simulations if the firsts are not detected.
+The default is True.</p>
+</dd>
+<dt><strong>dump_dir</strong><span class="classifier">String, optional</span></dt><dd><p>If defined, will dump information on problematic slices to a text
+file. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.status">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsim.html#MonteCarlo.status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.status" title="Link to this definition"></a></dt>
+<dd><p>Display the simulation status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>log</strong><span class="classifier">Log instance, optional</span></dt><dd><p>Pointer to the log file. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.welcome">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">welcome</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsim.html#MonteCarlo.welcome"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.welcome" title="Link to this definition"></a></dt>
+<dd><p>Welcome and informative messages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>subarray</strong><span class="classifier">dictionnary or string</span></dt><dd><p>Sub-array names or name.</p>
+</dd>
+<dt><strong>log</strong><span class="classifier">file, optional</span></dt><dd><p>pointer to log file. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcsim.MonteCarlo.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mcsim.html#MonteCarlo.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mcsim.MonteCarlo.write" title="Link to this definition"></a></dt>
+<dd><p>Save the present class to disk for further use in particular a
+spectral analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">string, optional</span></dt><dd><p>Output file name. The default is “None”.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mcsim_config">
+<span id="mcsim-config-module"></span><span id="mcsim-config"></span><h3>mcsim_config Module<a class="headerlink" href="#module-mcsim_config" title="Link to this heading"></a></h3>
+<p>Created on Mon Feb  3 08:58:16 2020</p>
+<p>&#64;author: Stolar</p>
+<p>This modules contains the parameters of the simulation handled
+by <code class="file docutils literal notranslate"><span class="pre">mcsim.py</span></code>.</p>
+<section id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/mcsim_config.generate_E_edges.html#mcsim_config.generate_E_edges" title="mcsim_config.generate_E_edges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_E_edges</span></code></a>([E1, E2, subarray, nperdecade])</p></td>
+<td><p>Generate energy edges including the reconstructed energy thresholds.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="variables">
+<h4>Variables<a class="headerlink" href="#variables" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/mcsim_config.nLiMamin.html#mcsim_config.nLiMamin" title="mcsim_config.nLiMamin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nLiMamin</span></code></a></p></td>
+<td><p>Count number below which Li&amp;Ma cannot be trusted anymore</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/mcsim_config.on_size.html#mcsim_config.on_size" title="mcsim_config.on_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">on_size</span></code></a></p></td>
+<td><p>The on (and off-) region radius</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/mcsim_config.offset.html#mcsim_config.offset" title="mcsim_config.offset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">offset</span></code></a></p></td>
+<td><p>the on and off region distances to the center of the field of view (Should be greater than the on-size radius)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/mcsim_config.erec_sparse.html#mcsim_config.erec_sparse" title="mcsim_config.erec_sparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">erec_sparse</span></code></a></p></td>
+<td><p>This spacing was generated by hand from the output of the function <a class="reference internal" href="api/mcsim_config.generate_E_edges.html#mcsim_config.generate_E_edges" title="mcsim_config.generate_E_edges"><code class="xref py py-func docutils literal notranslate"><span class="pre">mcsim_config.generate_E_edges()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/mcsim_config.erec_spectral.html#mcsim_config.erec_spectral" title="mcsim_config.erec_spectral"><code class="xref py py-obj docutils literal notranslate"><span class="pre">erec_spectral</span></code></a></p></td>
+<td><p>This is a denser E-binning suitable for spectral analysis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/mcsim_config.erec_min.html#mcsim_config.erec_min" title="mcsim_config.erec_min"><code class="xref py py-obj docutils literal notranslate"><span class="pre">erec_min</span></code></a></p></td>
+<td><p>The minimal reconstructed energies for each subarrays and IRF zenith angles.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/mcsim_config.erec_max.html#mcsim_config.erec_max" title="mcsim_config.erec_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">erec_max</span></code></a></p></td>
+<td><p>The maximal reconstructed energies for each IRF zenith angles.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="analysis-of-the-simulated-response">
+<span id="analysis"></span><h2>Analysis of the simulated response<a class="headerlink" href="#analysis-of-the-simulated-response" title="Link to this heading"></a></h2>
+<p>The functions of the <a class="reference internal" href="#analyze.Analysis" title="analyze.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">analyze.Analysis</span></code></a> class handle the list over time
+of the on and off-counts provided by the <a class="reference internal" href="#mcsim.MonteCarlo" title="mcsim.MonteCarlo"><code class="xref py py-class docutils literal notranslate"><span class="pre">mcsim.MonteCarlo</span></code></a> class. It
+gets from the Monte Carlo trials:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the list of maximum significances reached and the corresponding
+observation times and excess and background counts;</p></li>
+<li><p>the list of times at which 3 and 5 sigma were reached and the associated
+excess and background count numbers.</p></li>
+<li><p>a list of slices for which warning were issued for further debugging
+(not intended to the normal user).</p></li>
+</ul>
+</div></blockquote>
+<p>and from this it obtains the mean times at which 3 and 5 sigma detection were
+obatined as well as the mean time at which the significance was found maximal
+together with the maximal significance mean value.</p>
+<section id="the-analyze-module">
+<span id="analyze"></span><h3>The <cite>analyze</cite> module<a class="headerlink" href="#the-analyze-module" title="Link to this heading"></a></h3>
+<p>This module contains only the <a class="reference internal" href="#analyze.Analysis" title="analyze.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">analyze.Analysis</span></code></a> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="analyze.Analysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">analyze.</span></span><span class="sig-name descname"><span class="pre">Analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nstat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis" title="Link to this definition"></a></dt>
+<dd><p>Handle Monte Carlo, detection results and analysis outputs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nstat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.__init__" title="Link to this definition"></a></dt>
+<dd><p>Define the default instance.</p>
+<p>Note that the site can be obtained from the slot instance. But
+it is useful to attach a site to an analysis even if the slot
+(and therefore the slot site) is not defined.
+A subset of all member values are dumped to the output file as a table
+with columns having the member name (better to keep them short for the
+analysis). Some members are not written out (internal usage) and are
+defined in the ‘ignore’ list. Some members from external classes have
+to be dumped out : as the analysis instance can be created from a
+dummy empty slot, some default values are defined here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>slot</strong><span class="classifier">A Slot instance</span></dt><dd><p>The slot, a set of time slices, to be analyzed.</p>
+</dd>
+<dt><strong>nstat</strong><span class="classifier">integer, optional</span></dt><dd><p>The number of trials in the simulation. The default is None.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>The on to off ration number. The default is 0.</p>
+</dd>
+<dt><strong>cl</strong><span class="classifier">float, optional</span></dt><dd><p>The fraction of Monte Carlo trials that have lead to a detection
+at a certain (3 sigma) siginificance. The default is 0.</p>
+</dd>
+<dt><strong>loc</strong><span class="classifier">string, optional</span></dt><dd><p>The site considered for the analysis. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.dump_to_file">
+<span class="sig-name descname"><span class="pre">dump_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.dump_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.dump_to_file" title="Link to this definition"></a></dt>
+<dd><p>Dump the class content into a file with an appropriate format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pop</strong><span class="classifier">pointer to file</span></dt><dd><p>The output file.</p>
+</dd>
+<dt><strong>grb</strong><span class="classifier">GammaRayBurst instance</span></dt><dd><p>The current GRB.</p>
+</dd>
+<dt><strong>header</strong><span class="classifier">boolean, optional</span></dt><dd><p>If True, write the header to file before the grb data.
+The default is False. It shall be True for the first GRB to have a
+header on the first line of the file.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>Boolean</dt><dd><p>Return False to ensure that the header is not printed out twice.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.fill">
+<span class="sig-name descname"><span class="pre">fill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itrial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">non</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.fill"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.fill" title="Link to this definition"></a></dt>
+<dd><p>Fill arrays with information from one Monte Carlo iteration.</p>
+<p>Keep track of slice indices where a 3 sigma or 5 sigma detection
+occured, and where the max siginificance was reached and at which
+value.</p>
+<p>Also cumulate the sigma and sigma**2 values in each time slices in
+order to later compute the mean and standard deviation of the
+significance for each time slice.</p>
+<p>The siginificance is computed under the assmption of a measured
+background, i.e. with possble fluctuation.
+Note that WStatCountsStatistic returns a significance with the
+sign of the excess (negative excess give negative significance).
+If the count number is not fluctuated, the excess can only be
+positive since it is obtained from a physical flux. Excess at zero
+gives a significance at zeo.</p>
+<p>More on the various statistics <a class="reference external" href="https://docs.gammapy.org/0.17/stats/fit_statistics.html">onthis page</a> :</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>itrial: integer</strong></dt><dd><p>The Mone Carlo simulation current number of trials. Used to abort
+the simulation if 3s detection is not reachable.</p>
+</dd>
+<dt><strong>non</strong><span class="classifier">list of float</span></dt><dd><p>Cumulated count numbers in the signal plus background region along
+time slices.</p>
+</dd>
+<dt><strong>noff</strong><span class="classifier">list of float</span></dt><dd><p>Cumulated count numbers in the background regions along time
+slices.</p>
+</dd>
+<dt><strong>dbg</strong><span class="classifier">integer, optional</span></dt><dd><p>Debugging flag. The default is 0.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="analyze.Analysis.ignore">
+<span class="sig-name descname"><span class="pre">ignore</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['slot',</span> <span class="pre">'det_level',</span> <span class="pre">'alpha',</span> <span class="pre">'nstat',</span> <span class="pre">'id_smax_list',</span> <span class="pre">'smax_list',</span> <span class="pre">'nex_mx_list',</span> <span class="pre">'nb_mx_list',</span> <span class="pre">'id_3s_list',</span> <span class="pre">'nex_3s_list',</span> <span class="pre">'nb_3s_list',</span> <span class="pre">'id_5s_list',</span> <span class="pre">'nex_5s_list',</span> <span class="pre">'nb_5s_list',</span> <span class="pre">'sigma_mean',</span> <span class="pre">'sigma_std',</span> <span class="pre">'abort']</span></em><a class="headerlink" href="#analyze.Analysis.ignore" title="Link to this definition"></a></dt>
+<dd><p>Members of the class not to be dumped into the population file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.mean_values">
+<span class="sig-name descname"><span class="pre">mean_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idlist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.mean_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.mean_values" title="Link to this definition"></a></dt>
+<dd><p>Extract mean values and RMS from the index list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>idlist</strong><span class="classifier">list of indices</span></dt><dd><p>List of slice indices to be analysed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>t_det</strong><span class="classifier">Astropy Quantity</span></dt><dd><p>Detection time.</p>
+</dd>
+<dt><strong>e_t_det</strong><span class="classifier">Astropy Quantity</span></dt><dd><p>Error on detection time.</p>
+</dd>
+<dt><strong>alt_det</strong><span class="classifier">Astropy Angle</span></dt><dd><p>Altitude of detection.</p>
+</dd>
+<dt><strong>e_alt_det</strong><span class="classifier">Astropy Angle</span></dt><dd><p>Error on the altiude of detection.</p>
+</dd>
+<dt><strong>az_det</strong><span class="classifier">Astropy Angle</span></dt><dd><p>Azimut angle of the detection.</p>
+</dd>
+<dt><strong>e_az_det</strong><span class="classifier">Astropy Angle</span></dt><dd><p>Error on the azimut angle of detection.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.plot_non_vs_noff">
+<span class="sig-name descname"><span class="pre">plot_non_vs_noff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logscale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.plot_non_vs_noff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.plot_non_vs_noff" title="Link to this definition"></a></dt>
+<dd><p>Plot Non versus Noff from the background and excess counts.</p>
+<p>Draw the error bars from the variances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ax</strong><span class="classifier">Matplolib axes, optional</span></dt><dd><p>Current axis. The default is None.</p>
+</dd>
+<dt><strong>logscale</strong><span class="classifier">String, optional</span></dt><dd><p>If True, logarithmic scales. The default is True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>fig</strong><span class="classifier">Matplotlib figure</span></dt><dd><p>Current figure.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.plot_sigma_vs_time">
+<span class="sig-name descname"><span class="pre">plot_sigma_vs_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.plot_sigma_vs_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.plot_sigma_vs_time" title="Link to this definition"></a></dt>
+<dd><p>Display mean siginificance versus time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fig</strong><span class="classifier">matplolib figure</span></dt><dd><p>Current figure.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.plot_story">
+<span class="sig-name descname"><span class="pre">plot_story</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'VIS'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.plot_story"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.plot_story" title="Link to this definition"></a></dt>
+<dd><p>Show altitude versus time and points used for computation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.print" title="Link to this definition"></a></dt>
+<dd><p>Dump results.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.run" title="Link to this definition"></a></dt>
+<dd><p>Analyse data cumlulated by the <a class="reference internal" href="#analyze.Analysis.fill" title="analyze.Analysis.fill"><code class="xref py py-func docutils literal notranslate"><span class="pre">analyze.Analysis.fill()</span></code></a> function.</p>
+<p>Modify the current instance with new values.
+Compute and store :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Significance values for all slices in the trials;</p></li>
+<li><p>Maximum significance reached for the GRB;</p></li>
+<li><p>Time of maximum significance, number of excess and bckg. events;</p></li>
+<li><p>Time to reach 3 or 5 sigma, number of excess and bckg. events.</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.show" title="Link to this definition"></a></dt>
+<dd><p>Display analysis relevant plots.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.summary" title="Link to this definition"></a></dt>
+<dd><p>Print out a summary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="analyze.Analysis.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/analyze.html#Analysis.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#analyze.Analysis.write" title="Link to this definition"></a></dt>
+<dd><p>Save the present class to disk for further use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">string, optional</span></dt><dd><p>Output file name. The default is “None”.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="dataset-tools">
+<span id="dataset"></span><h2>Dataset tools<a class="headerlink" href="#dataset-tools" title="Link to this heading"></a></h2>
+<section id="module-dataset_tools">
+<span id="dataset-tools-module"></span><h3>dataset_tools Module<a class="headerlink" href="#module-dataset_tools" title="Link to this heading"></a></h3>
+<p>Created on Thu Dec  3 11:51:18 2020</p>
+<p>This modules contains the functions to manipulate the Gammapy <cite>dataset</cite> and
+<cite>datasets</cite> objects as used in <cite>SoHAPPy</cite>, both for the population analysis
+(see <a class="reference internal" href="population_analysis.html"><span class="doc">population_analysis.rst</span></a>) or the individual source spectra analysis
+(see <a class="reference internal" href="spectral_analysis.html"><span class="doc">spectral_analysis.rst</span></a>).</p>
+<p>&#64;author: Stolar</p>
+<section id="id1">
+<h4>Functions<a class="headerlink" href="#id1" title="Link to this heading"></a></h4>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/dataset_tools.generate_dataset.html#dataset_tools.generate_dataset" title="dataset_tools.generate_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_dataset</span></code></a>(Eflux, flux[, Erange, ...])</p></td>
+<td><p>Generate a dataset from a list of energies and flux points either as a SpectrumDataset or a SpectrumDatasetOnOff.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/dataset_tools.stacked_model.html#dataset_tools.stacked_model" title="dataset_tools.stacked_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stacked_model</span></code></a>(ds[, ds_stack, first, debug])</p></td>
+<td><p>This function is not finalised and should be checked.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/dataset_tools.compare_stacked_dataset.html#dataset_tools.compare_stacked_dataset" title="dataset_tools.compare_stacked_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_stacked_dataset</span></code></a>(dsets, dsets_stacked)</p></td>
+<td><p>Compare the stacked counts of a Dataset list with the counts of a stacked Dataset list (they should match).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/dataset_tools.stacking.html#dataset_tools.stacking" title="dataset_tools.stacking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stacking</span></code></a>(dsets[, tryflux, debug])</p></td>
+<td><p>Create a new dataset collection (Datasets) with (consecutively) stacked datasets.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/dataset_tools.get_masked_dataset.html#dataset_tools.get_masked_dataset" title="dataset_tools.get_masked_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_masked_dataset</span></code></a>(ds0)</p></td>
+<td><p>This is a trick to get a masked dataset from a dataset.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/dataset_tools.compactify.html#dataset_tools.compactify" title="dataset_tools.compactify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compactify</span></code></a>(dsets[, dtmin, debug])</p></td>
+<td><p>Returns a list of stacked Dataset having a minimal total duration from an original unstacked Dataset list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/dataset_tools.onoff_from_simulation.html#dataset_tools.onoff_from_simulation" title="dataset_tools.onoff_from_simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onoff_from_simulation</span></code></a>(mc[, random_state, ...])</p></td>
+<td><p>Transform the stored SpectrumDataset list in the MonteCarlo class of SoHAPPy into a list of Datasets of type SpectrumDatasetOnOff.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/dataset_tools.read_from_ogip.html#dataset_tools.read_from_ogip" title="dataset_tools.read_from_ogip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_from_ogip</span></code></a>([file])</p></td>
+<td><p><a class="reference external" href="https://heasarc.gsfc.nasa.gov/docs/heasarc/ofwg/docs/spectra/ogip_92_007.pdf">https://heasarc.gsfc.nasa.gov/docs/heasarc/ofwg/docs/spectra/ogip_92_007.pdf</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/dataset_tools.get_axis.html#dataset_tools.get_axis" title="dataset_tools.get_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_axis</span></code></a>(dsets[, tunit, Eunit])</p></td>
+<td><p>Returns the list of observing time and the reconstructed energy axis from a list od Dataset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/dataset_tools.check_dataset.html#dataset_tools.check_dataset" title="dataset_tools.check_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_dataset</span></code></a>(ds[, tag, e_unit, masked, ...])</p></td>
+<td><p>Printout some content of a dataset for verification purposes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/dataset_tools.check_datasets.html#dataset_tools.check_datasets" title="dataset_tools.check_datasets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_datasets</span></code></a>(dsets[, masked, deeper, header])</p></td>
+<td><p>Printout the content of a dataset collection (Datasets), based on the check_dataset function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/dataset_tools.sigmax.html#dataset_tools.sigmax" title="dataset_tools.sigmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sigmax</span></code></a>(dsets[, alpha, stacked])</p></td>
+<td><p>Compute the max significance from the cumulated counts in a fluctuated dataset.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

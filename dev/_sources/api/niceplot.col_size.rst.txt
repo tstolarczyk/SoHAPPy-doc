@@ -1,0 +1,6 @@
+col_size
+========
+
+.. currentmodule:: niceplot
+
+.. autofunction:: col_size

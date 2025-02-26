@@ -1,33 +1,86 @@
+===================
 Population analysis
 ===================
 
 Introduction
-------------
-The population is analysed from the devoted SoHAPPy output file (named `data.txt` by default).
+============
 
-The available tools consist in a few jupyter notebooks and python script files.
-The user is intended to indicate the SoHAPPy folder containing the population file in a file named parameter.yaml, with the variable "outfoler", like shown here:
-..  code-block::
+The population is analysed from the devoted `SoHAPPy` output files
+(named `data.txt` by default).
 
-	# outfolder : "../../../output/pop_vis24_moonlight/" 
-	outfolder : "../../../output/pop_vis24_fullmoonveto/" 
+The available tools consist in python script files with the most common
+analysis algorithms and plot facilities. The user is intended to indicate
+in the file `parameter.yaml` the `SoHAPPy` subfolder where the data can be
+found as well as the duration in years associated to the simulation. This
+duration is used to  normalize the detection rates.
 
-The execution of Jupyter notebook will then present various results as follows:
+..  code-block:: python
 
-- *OpenAndStat.iynb* :
+    duration:
+        - 44
+    outfolders:
+        - "long/alpha_prod5/pop_vis24_strictmoonveto-100iter"
+    tags:
+        - "Example"
 
-	* open a file and derive the 3 and 5 sigma detections rates. 
-	* Extract from the data a few characteristics and check that they are compatible with the parameters in the confguration file (delay after the GRB trigger, minimal allowed alitude for detection)
-	* Give the list of GRB detected more than 24 h after the Trigger.
+The subfolder can contain a data file, or a `tar.gz` archive containing it. The
+subfolder can also contain folders resulting from the batch processing of a
+series of subpopulation as described in `<production.rst>_` .
+In that case the data will be found in all folders and merged. This does mean
+that they have to come from the same unique population simulation.
 
-- Another one
-	* To be described
+The initial data file are readable text files. They are converted into a `.csv`
+file opened with `pandas`.
 
-.. automodapi:: analysis.population.init
+The input and output process is handled by the functions in ``pop_io.py``
+(see documentation below).
+
+The following scripts are available for the analysis:
+
+
+.. automodapi:: analysis.population.population
    :no-inheritance-diagram:
+   :include-all-objects:
+
+.. automodapi:: analysis.population.rate
+   :no-inheritance-diagram:
+   :include-all-objects:
 
 .. automodapi:: analysis.population.pop_plot
    :no-inheritance-diagram:
+   :include-all-objects:
 
-.. automodapi:: analysis.population.setup
+.. automodapi:: analysis.population.sigmas
    :no-inheritance-diagram:
+   :include-all-objects:
+
+.. automodapi:: analysis.population.times
+   :no-inheritance-diagram:
+   :include-all-objects:
+
+.. automodapi:: analysis.population.skymaps
+   :no-inheritance-diagram:
+   :include-all-objects:
+
+.. automodapi:: analysis.population.universe
+   :no-inheritance-diagram:
+   :include-all-objects:
+
+.. automodapi:: analysis.population.compare_sets
+   :no-inheritance-diagram:
+   :include-all-objects:
+
+.. automodapi:: analysis.population.compare_ebl_models
+   :no-inheritance-diagram:
+   :include-all-objects:
+
+.. automodapi:: analysis.population.explore_simulation_from_fits
+   :no-inheritance-diagram:
+   :include-all-objects:
+
+.. automodapi:: analysis.population.explore_simulation_from_data
+   :no-inheritance-diagram:
+   :include-all-objects:
+
+
+

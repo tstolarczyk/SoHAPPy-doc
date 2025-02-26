@@ -1,0 +1,23 @@
+Fluxes
+======
+
+.. currentmodule:: analysis.population.explore_simulation_from_fits
+
+.. autoclass:: Fluxes
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Fluxes.FluxPeakTime
+      ~Fluxes.dump_to_file
+      ~Fluxes.from_fits
+      ~Fluxes.read_from_disk
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: FluxPeakTime
+   .. automethod:: dump_to_file
+   .. automethod:: from_fits
+   .. automethod:: read_from_disk

@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration &mdash; SoHAPPy 0.9 beta documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=88ef157a"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SoHAPPy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Configuration</a><ul>
+<li><a class="reference internal" href="#configuration.Configuration"><code class="docutils literal notranslate"><span class="pre">Configuration</span></code></a><ul>
+<li><a class="reference internal" href="#configuration.Configuration.def_conf"><code class="docutils literal notranslate"><span class="pre">Configuration.def_conf</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.ignore"><code class="docutils literal notranslate"><span class="pre">Configuration.ignore</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.quantities"><code class="docutils literal notranslate"><span class="pre">Configuration.quantities</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.command_line"><code class="docutils literal notranslate"><span class="pre">Configuration.command_line()</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.create_output_folder"><code class="docutils literal notranslate"><span class="pre">Configuration.create_output_folder()</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.decode_visibility_keyword"><code class="docutils literal notranslate"><span class="pre">Configuration.decode_visibility_keyword()</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.find_and_read"><code class="docutils literal notranslate"><span class="pre">Configuration.find_and_read()</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.get_delay"><code class="docutils literal notranslate"><span class="pre">Configuration.get_delay()</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.print"><code class="docutils literal notranslate"><span class="pre">Configuration.print()</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.read_from_yaml"><code class="docutils literal notranslate"><span class="pre">Configuration.read_from_yaml()</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.source_ids"><code class="docutils literal notranslate"><span class="pre">Configuration.source_ids()</span></code></a></li>
+<li><a class="reference internal" href="#configuration.Configuration.write"><code class="docutils literal notranslate"><span class="pre">Configuration.write()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SoHAPPy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/configuration.Configuration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="configuration.Configuration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">configuration.</span></span><span class="sig-name descname"><span class="pre">Configuration</span></span><a class="reference internal" href="../_modules/configuration.html#Configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#configuration.Configuration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SoHAPPy steering parameters and input/output.</p>
+<p>This class handles all the external parameters required to run a simulation
+and the corresponding analysis. It also handles the tools to build the
+input and output folder names, and create the necessary output folders
+if they do not exist.</p>
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#configuration.Configuration.def_conf" title="configuration.Configuration.def_conf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">def_conf</span></code></a></p></td>
+<td><p>Default configuration file name</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#configuration.Configuration.ignore" title="configuration.Configuration.ignore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ignore</span></code></a></p></td>
+<td><p>Keyword to be ignored when dumping the Configuration class instance to a file on disk</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#configuration.Configuration.quantities" title="configuration.Configuration.quantities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantities</span></code></a></p></td>
+<td><p>Class members that should be handled as quantities and not strings</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#configuration.Configuration.command_line" title="configuration.Configuration.command_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">command_line</span></code></a>()</p></td>
+<td><p>Update an instance from the command line parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#configuration.Configuration.create_output_folder" title="configuration.Configuration.create_output_folder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_output_folder</span></code></a>(resfolder)</p></td>
+<td><p>Create the code outptut folder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#configuration.Configuration.decode_visibility_keyword" title="configuration.Configuration.decode_visibility_keyword"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decode_visibility_keyword</span></code></a>([folder])</p></td>
+<td><p>Decode the <cite>visibility</cite> keyword value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#configuration.Configuration.find_and_read" title="configuration.Configuration.find_and_read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_and_read</span></code></a>([name, debug])</p></td>
+<td><p>Read steering parameters from a file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#configuration.Configuration.get_delay" title="configuration.Configuration.get_delay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_delay</span></code></a>()</p></td>
+<td><p>Compute the overall delay to be applied to the start of detection.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#configuration.Configuration.print" title="configuration.Configuration.print"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print</span></code></a>([out])</p></td>
+<td><p>Print configuration class instance to screen and 'out' file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#configuration.Configuration.read_from_yaml" title="configuration.Configuration.read_from_yaml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_from_yaml</span></code></a>([filename, debug])</p></td>
+<td><p>Read the configuration data from a <cite>yaml</cite> file on disk.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#configuration.Configuration.source_ids" title="configuration.Configuration.source_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">source_ids</span></code></a>(infolder[, bunchsize, debug])</p></td>
+<td><p>Obtain the data file list from the input parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#configuration.Configuration.write" title="configuration.Configuration.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>([out_name])</p></td>
+<td><p>Write current configuration to a <cite>yaml</cite> file for further use.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="configuration.Configuration.def_conf">
+<span class="sig-name descname"><span class="pre">def_conf</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">WindowsPath('data/config_ref.yaml')</span></em><a class="headerlink" href="#configuration.Configuration.def_conf" title="Link to this definition"></a></dt>
+<dd><p>Default configuration file name</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="configuration.Configuration.ignore">
+<span class="sig-name descname"><span class="pre">ignore</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['filename',</span> <span class="pre">'dtslew',</span> <span class="pre">'arrays',</span> <span class="pre">'dbg']</span></em><a class="headerlink" href="#configuration.Configuration.ignore" title="Link to this definition"></a></dt>
+<dd><p>Keyword to be ignored when dumping the Configuration class instance to
+a file on disk</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="configuration.Configuration.quantities">
+<span class="sig-name descname"><span class="pre">quantities</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['dtslew_south',</span> <span class="pre">'dtslew_north',</span> <span class="pre">'dtswift']</span></em><a class="headerlink" href="#configuration.Configuration.quantities" title="Link to this definition"></a></dt>
+<dd><p>Class members that should be handled as quantities and not strings</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="configuration.Configuration.command_line">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">command_line</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/configuration.html#Configuration.command_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#configuration.Configuration.command_line" title="Link to this definition"></a></dt>
+<dd><p>Update an instance from the command line parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>debug</strong><span class="classifier">Boolean, optional</span></dt><dd><p>If True, talk a bit. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>Configuration object</dt><dd><p>Current instance.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="configuration.Configuration.create_output_folder">
+<span class="sig-name descname"><span class="pre">create_output_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resfolder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/configuration.html#Configuration.create_output_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#configuration.Configuration.create_output_folder" title="Link to this definition"></a></dt>
+<dd><p>Create the code outptut folder.</p>
+<p>The convention is that the output folder refers to the folder name
+containing the lightcurves, a subfolder refering to the visibility
+which will be used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>resfolder</strong><span class="classifier">String</span></dt><dd><p>Output file name</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>resdir</strong><span class="classifier">pathlib Path</span></dt><dd><p>output folder.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="configuration.Configuration.decode_visibility_keyword">
+<span class="sig-name descname"><span class="pre">decode_visibility_keyword</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/configuration.html#Configuration.decode_visibility_keyword"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#configuration.Configuration.decode_visibility_keyword" title="Link to this definition"></a></dt>
+<dd><p>Decode the <cite>visibility</cite> keyword value.</p>
+<p>Return an information
+to be handled at running time. The visibility keyword can be:</p>
+<ul>
+<li><p>a visibility folder that should contain a suitable visibility <cite>json</cite>
+file where all visibility instances of a data subset are stored.
+By definition the folder structure is the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>output</p></li>
+<li><p>population name</p></li>
+<li><p>a subfolder name as described in skygen,
+i.e <cite>keyword_year1_Nyears_version</cite></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><cite>forced</cite> to force a single infinite night</p></li>
+<li><p><cite>permanent</cite> to force a permanent visibility</p></li>
+<li><p><cite>built-in</cite> : will use the default visibility stored in the source
+files, if any (for backward compatibility).</p></li>
+<li><p>a keyword giving access to information in a <cite>yaml</cite> file, as a
+python dictionnary.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>debug</strong><span class="classifier">boolean, optional</span></dt><dd><p>If True, talk a bit. The default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>a visibility information</dt><dd><p>The information necessary to get the visibility at running time.
+Various type of information in a single variable. It can be a
+string or a dictionnary.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="configuration.Configuration.find_and_read">
+<span class="sig-name descname"><span class="pre">find_and_read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/configuration.html#Configuration.find_and_read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#configuration.Configuration.find_and_read" title="Link to this definition"></a></dt>
+<dd><p>Read steering parameters from a file.</p>
+<p>Check existence of the given configuration file name, and read data if
+it exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">None, String or Path</span></dt><dd><p>A tentative configuration file name.</p>
+</dd>
+<dt><strong>debug</strong><span class="classifier">boolean, optional</span></dt><dd><p>If True, talk a bit. The default is True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="configuration.Configuration.get_delay">
+<span class="sig-name descname"><span class="pre">get_delay</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/configuration.html#Configuration.get_delay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#configuration.Configuration.get_delay" title="Link to this definition"></a></dt>
+<dd><p>Compute the overall delay to be applied to the start of detection.</p>
+<p>Includes the satellite and telescope slewing, according to the user
+parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>delay</strong><span class="classifier">Quantity (time)</span></dt><dd><p>Delay before the detection can start.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="configuration.Configuration.print">
+<span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/configuration.html#Configuration.print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#configuration.Configuration.print" title="Link to this definition"></a></dt>
+<dd><p>Print configuration class instance to screen and ‘out’ file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">Log class instance</span></dt><dd><p>Logbook output.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="configuration.Configuration.read_from_yaml">
+<span class="sig-name descname"><span class="pre">read_from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/configuration.html#Configuration.read_from_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#configuration.Configuration.read_from_yaml" title="Link to this definition"></a></dt>
+<dd><p>Read the configuration data from a <cite>yaml</cite> file on disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">string, optional</span></dt><dd><p>Configuration file name. The default is None.</p>
+</dd>
+<dt><strong>debug</strong><span class="classifier">boolean, optional</span></dt><dd><p>If True, talk a bit. The default is True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="configuration.Configuration.source_ids">
+<span class="sig-name descname"><span class="pre">source_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infolder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bunchsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/configuration.html#Configuration.source_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#configuration.Configuration.source_ids" title="Link to this definition"></a></dt>
+<dd><p>Obtain the data file list from the input parameters.</p>
+<dl class="simple">
+<dt>In the configuration file, ‘first’ can be:</dt><dd><ul class="simple">
+<li><p>an integer, giving the file identifier (number) in a data set.
+The list is build up to ‘nsrc’ which is also given in the
+configuration file.</p></li>
+<li><p>a list of items, including integers and strings. The integers are
+the file identifiers in a data set, whereas the string refers
+to a GRB in the local ‘data/samples/historical’ folder.</p></li>
+<li><p>a json file absolute path containing the relative path file list
+with respect to the HAPPY_IN variable (The json files can be
+obtained for instance from the
+‘analysis/population/detectable.py’ module).</p></li>
+</ul>
+</dd>
+</dl>
+<p>When the given information is an integer, the file name is build from
+the ‘prefix’, ‘suffix’ and ‘data_dir’ information in the configuration
+file.
+The file is searched for in the ‘data_dir’ subfolder, first in
+subfolders corresponding to a larget set chunked in ‘bunchsize’
+subpopulation and then directly in that ‘data_dir’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>A list of filenames to be simulated and analysed.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="configuration.Configuration.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/configuration.html#Configuration.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#configuration.Configuration.write" title="Link to this definition"></a></dt>
+<dd><p>Write current configuration to a <cite>yaml</cite> file for further use.</p>
+<p>Note that this does not copy the possible comments of the original
+file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>out_name</strong><span class="classifier">string, optional</span></dt><dd><p>Configuration file name. The default is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Th. Stolarczyk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

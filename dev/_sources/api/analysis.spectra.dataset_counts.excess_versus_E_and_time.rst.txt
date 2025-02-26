@@ -1,0 +1,6 @@
+excess_versus_E_and_time
+========================
+
+.. currentmodule:: analysis.spectra.dataset_counts
+
+.. autofunction:: excess_versus_E_and_time

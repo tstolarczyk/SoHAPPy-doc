@@ -1,0 +1,6 @@
+delay_correlation_both_sites
+============================
+
+.. currentmodule:: analysis.population.times
+
+.. autofunction:: delay_correlation_both_sites
